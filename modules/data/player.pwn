@@ -18,6 +18,7 @@
 
 //------------------------------------------------------------------------------
 
+forward OnWeaponsLoad(playerid);
 forward OnAccountLoad(playerid);
 forward OnAccountCheck(playerid);
 forward OnAccountRegister(playerid);
@@ -29,10 +30,9 @@ enum e_player_adata
 {
     e_player_database_id,
     e_player_password[MAX_PLAYER_PASSWORD],
-    e_player_lastip[16],
     e_player_regdate,
-    e_player_lastlogin,
-    e_player_gender
+    e_player_lastip[16],
+    e_player_lastlogin
 }
 static gPlayerAccountData[MAX_PLAYERS][e_player_adata];
 
@@ -56,10 +56,21 @@ static gPlayerPositionData[MAX_PLAYERS][e_player_pdata];
 enum e_player_cdata
 {
     e_player_skin,
+    e_player_gender,
     Float:e_player_health,
     Float:e_player_armour
 }
 static gPlayerCharacterData[MAX_PLAYERS][e_player_cdata];
+
+//------------------------------------------------------------------------------
+
+// enumaration of player's weapon data
+enum e_player_wdata
+{
+    e_player_weapon[13],
+    e_player_ammo[13]
+}
+static gPlayerWeaponData[MAX_PLAYERS][e_player_wdata];
 
 //------------------------------------------------------------------------------
 
@@ -74,13 +85,6 @@ static E_PLAYER_STATES:gPlayerStates[MAX_PLAYERS];
 //------------------------------------------------------------------------------
 
 // Getters & Setters
-GetPlayerDatabaseID(playerid)
-    return gPlayerAccountData[playerid][e_player_database_id];
-
-SetPlayerDatabaseID(playerid, val)
-    gPlayerAccountData[playerid][e_player_database_id] = val;
-
-//------------------------------------------------------------------------------
 
 IsPlayerLogged(playerid)
 {
@@ -111,7 +115,6 @@ ResetPlayerData(playerid)
     gPlayerAccountData[playerid][e_player_database_id]  = 0;
     gPlayerAccountData[playerid][e_player_regdate]      = ct;
     gPlayerAccountData[playerid][e_player_lastlogin]    = ct;
-    gPlayerAccountData[playerid][e_player_gender]       = 0;
 
     gPlayerPositionData[playerid][e_player_x]           = 1449.01;
     gPlayerPositionData[playerid][e_player_y]           = -2287.10;
@@ -120,11 +123,13 @@ ResetPlayerData(playerid)
     gPlayerPositionData[playerid][e_player_int]         = 0;
     gPlayerPositionData[playerid][e_player_vw]          = 0;
 
+    gPlayerCharacterData[playerid][e_player_gender]     = 0;
     gPlayerCharacterData[playerid][e_player_skin]       = 299;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
 
-    SetPlayerLogged(playerid, false);
+    for (new i = 0; i < sizeof(gPlayerWeaponData[][]); i++)
+        gPlayerWeaponData[playerid][e_player_weapon][i] = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -133,8 +138,17 @@ LoadPlayerAccount(playerid)
 {
     new query[57 + MAX_PLAYER_NAME + 1], playerName[MAX_PLAYER_NAME + 1];
     GetPlayerName(playerid, playerName, sizeof(playerName));
-    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `players` WHERE `Username` = '%e' LIMIT 1", playerName);
+    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `players` WHERE `username` = '%e' LIMIT 1", playerName);
     mysql_tquery(mysql, query, "OnAccountLoad", "i", playerid);
+}
+
+//------------------------------------------------------------------------------
+
+LoadPlayerWeapons(playerid)
+{
+    new query[66];
+    mysql_format(mysql, query, sizeof(query), "SELECT weaponid, ammo FROM player_weapons WHERE userid = %d;", gPlayerAccountData[playerid][e_player_database_id]);
+    mysql_tquery(mysql, query, "OnWeaponsLoad", "i", playerid);
 }
 
 //------------------------------------------------------------------------------
@@ -152,11 +166,26 @@ SavePlayerAccount(playerid)
     GetPlayerHealth(playerid, health);
     GetPlayerArmour(playerid, armour);
 
+    new playerIP[16];
+    GetPlayerIp(playerid, playerIP, sizeof(playerIP));
+
+    // Account saving
     new query[250];
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `X`=%.2f, `Y`=%.2f, `Z`=%.2f, `A`=%.2f, `INTERIOR`=%d, `VIRTUALWORLD`=%d, `SKIN`=%d, `HEALTH`=%.2f, `ARMOUR`=%.2f WHERE `ID`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), health, armour, gPlayerAccountData[playerid][e_player_database_id]);
+	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `gender`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_gender], health, armour, playerIP, gettime(), gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_tquery(mysql, query);
+
+    // Weapon saving
+    new weaponid, ammo;
+    for(new i; i < 13; i++)
+    {
+    	GetPlayerWeaponData(playerid, i, weaponid, ammo);
+    	if(!weaponid)
+            continue;
+    	mysql_format(mysql, query, sizeof(query), "INSERT INTO player_weapons VALUES (%d, %d, %d) ON DUPLICATE KEY UPDATE ammo = %d;", gPlayerAccountData[playerid][e_player_database_id], weaponid, ammo, ammo);
+    	mysql_pquery(mysql, query);
+    }
     return 1;
 }
 
@@ -166,18 +195,9 @@ public OnAccountRegister(playerid)
 {
 	gPlayerAccountData[playerid][e_player_database_id] = cache_insert_id();
 
-    new Float:x = gPlayerPositionData[playerid][e_player_x];
-    new Float:y = gPlayerPositionData[playerid][e_player_y];
-    new Float:z = gPlayerPositionData[playerid][e_player_z];
-    new Float:a = gPlayerPositionData[playerid][e_player_a];
-    new i = gPlayerPositionData[playerid][e_player_int];
-    new v = gPlayerPositionData[playerid][e_player_vw];
-
-    new skinid  = gPlayerCharacterData[playerid][e_player_skin];
-
-    SetPlayerInterior(playerid, i);
-    SetPlayerVirtualWorld(playerid, v);
-    SetSpawnInfo(playerid, 255, skinid, x, y, z, a, 0, 0, 0, 0, 0, 0);
+    SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
+    SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
+    SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
     SpawnPlayer(playerid);
 
     new playerName[MAX_PLAYER_NAME];
@@ -188,36 +208,59 @@ public OnAccountRegister(playerid)
 
 //------------------------------------------------------------------------------
 
+public OnWeaponsLoad(playerid)
+{
+	new weaponid, ammo;
+	for(new i, j = cache_get_row_count(mysql); i < j; i++)
+	{
+	    weaponid 	= cache_get_row_int(i, 0, mysql);
+	    ammo    	= cache_get_row_int(i, 1, mysql);
+
+		if(!(0 <= weaponid <= 46))
+		{
+			printf("[info] Warning: OnWeaponsLoad - Unknown weaponid '%d'. Skipping.", weaponid);
+			continue;
+		}
+
+		GivePlayerWeapon(playerid, weaponid, ammo);
+	}
+	return;
+}
+
+//------------------------------------------------------------------------------
+
 public OnAccountLoad(playerid)
 {
 	new rows, fields;
 	cache_get_data(rows, fields, mysql);
 	if(rows > 0)
 	{
-        gPlayerPositionData[playerid][e_player_x]       = cache_get_field_content_float(0, "X", mysql);
-        gPlayerPositionData[playerid][e_player_y]       = cache_get_field_content_float(0, "Y", mysql);
-        gPlayerPositionData[playerid][e_player_z]       = cache_get_field_content_float(0, "Z", mysql);
-        gPlayerPositionData[playerid][e_player_a]       = cache_get_field_content_float(0, "A", mysql);
-        gPlayerPositionData[playerid][e_player_int]     = cache_get_field_content_int(0, "INTERIOR", mysql);
-        gPlayerPositionData[playerid][e_player_vw]      = cache_get_field_content_int(0, "VIRTUALWORLD", mysql);
+        // Loading...
+        cache_get_field_content(0, "ip", gPlayerAccountData[playerid][e_player_lastip], mysql, 16);
+        gPlayerAccountData[playerid][e_player_lastlogin] = cache_get_field_content_int(0, "last_login", mysql);
 
-        gPlayerCharacterData[playerid][e_player_health] = cache_get_field_content_float(0, "HEALTH", mysql);
-        gPlayerCharacterData[playerid][e_player_armour] = cache_get_field_content_float(0, "ARMOUR", mysql);
-        gPlayerCharacterData[playerid][e_player_skin]   = cache_get_field_content_int(0, "SKIN", mysql);
+        gPlayerPositionData[playerid][e_player_x]       = cache_get_field_content_float(0, "x", mysql);
+        gPlayerPositionData[playerid][e_player_y]       = cache_get_field_content_float(0, "y", mysql);
+        gPlayerPositionData[playerid][e_player_z]       = cache_get_field_content_float(0, "z", mysql);
+        gPlayerPositionData[playerid][e_player_a]       = cache_get_field_content_float(0, "a", mysql);
+        gPlayerPositionData[playerid][e_player_int]     = cache_get_field_content_int(0, "interior", mysql);
+        gPlayerPositionData[playerid][e_player_vw]      = cache_get_field_content_int(0, "virtual_world", mysql);
 
-        new Float:x = gPlayerPositionData[playerid][e_player_x];
-        new Float:y = gPlayerPositionData[playerid][e_player_y];
-        new Float:z = gPlayerPositionData[playerid][e_player_z];
-        new Float:a = gPlayerPositionData[playerid][e_player_a];
-        new i = gPlayerPositionData[playerid][e_player_int];
-        new v = gPlayerPositionData[playerid][e_player_vw];
+        gPlayerCharacterData[playerid][e_player_health] = cache_get_field_content_float(0, "health", mysql);
+        gPlayerCharacterData[playerid][e_player_armour] = cache_get_field_content_float(0, "armour", mysql);
+        gPlayerCharacterData[playerid][e_player_skin]   = cache_get_field_content_int(0, "skin", mysql);
+        gPlayerCharacterData[playerid][e_player_gender] = cache_get_field_content_int(0, "gender", mysql);
 
-        new skinid  = gPlayerCharacterData[playerid][e_player_skin];
-
-        SetPlayerInterior(playerid, i);
-        SetPlayerVirtualWorld(playerid, v);
-        SetSpawnInfo(playerid, 255, skinid, x, y, z, a, 0, 0, 0, 0, 0, 0);
+        // Setting...
+        SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
+        SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
+        SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
         SpawnPlayer(playerid);
+
+        SetPlayerHealth(playerid, gPlayerCharacterData[playerid][e_player_health]);
+        SetPlayerArmour(playerid, gPlayerCharacterData[playerid][e_player_armour]);
+
+        LoadPlayerWeapons(playerid);
 
         SetPlayerLogged(playerid, true);
     }
@@ -232,7 +275,7 @@ public OnAccountCheck(playerid)
 	cache_get_data(rows, fields, mysql);
 	if(rows > 0)
 	{
-		cache_get_field_content(0, "Password", gPlayerAccountData[playerid][e_player_password], mysql, MAX_PLAYER_PASSWORD);
+		cache_get_field_content(0, "password", gPlayerAccountData[playerid][e_player_password], mysql, MAX_PLAYER_PASSWORD);
 		gPlayerAccountData[playerid][e_player_database_id] = cache_get_field_content_int(0, "ID", mysql);
 
         inline Response(pid, dialogid, response, listitem, string:inputtext[])
@@ -277,7 +320,7 @@ public OnAccountCheck(playerid)
                 GetPlayerIp(playerid, playerIP, sizeof(playerIP));
 
                 new query[250];
-                mysql_format(mysql, query, sizeof(query), "INSERT INTO `players` (`Username`, `Password`, `IP`, `RegDate`, `X`, `Y`, `Z`, `A`, `INTERIOR`, `VIRTUALWORLD`) VALUES ('%e', '%e', '%s', %d, %.2f, %.2f, %.2f, %.2f, %d, %d)", playerName, inputtext, playerIP, gettime(), gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], gPlayerPositionData[playerid][e_player_int], gPlayerPositionData[playerid][e_player_vw]);
+                mysql_format(mysql, query, sizeof(query), "INSERT INTO `players` (`username`, `password`, `ip`, `regdate`, `x`, `y`, `z`, `a`, `interior`, `virtual_world`) VALUES ('%e', '%e', '%s', %d, %.2f, %.2f, %.2f, %.2f, %d, %d)", playerName, inputtext, playerIP, gettime(), gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], gPlayerPositionData[playerid][e_player_int], gPlayerPositionData[playerid][e_player_vw]);
             	mysql_tquery(mysql, query, "OnAccountRegister", "i", playerid);
             }
         }
@@ -297,7 +340,7 @@ hook OnPlayerRequestClass(playerid, classid)
     // Checks if the player account is registered
     new query[57 + MAX_PLAYER_NAME + 1], playerName[MAX_PLAYER_NAME + 1];
     GetPlayerName(playerid, playerName, sizeof(playerName));
-    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `players` WHERE `Username` = '%e' LIMIT 1", playerName);
+    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `players` WHERE `username` = '%e' LIMIT 1", playerName);
     mysql_tquery(mysql, query, "OnAccountCheck", "i", playerid);
     return 1;
 }
@@ -328,6 +371,7 @@ hook OnPlayerConnect(playerid)
 hook OnPlayerDisconnect(playerid, reason)
 {
     SavePlayerAccount(playerid);
+    SetPlayerLogged(playerid, false);
     return 1;
 }
 
@@ -336,11 +380,13 @@ hook OnPlayerDisconnect(playerid, reason)
 hook OnGameModeInit()
 {
     // Create player table if not exists
-    mysql_tquery(mysql,
+    mysql_pquery(mysql,
         "CREATE TABLE IF NOT EXISTS `players` (`ID` int(11) NOT NULL AUTO_INCREMENT,\
-        `Username` VARCHAR(25), `Password` VARCHAR(32), `IP` VARCHAR(16), `Email` VARCHAR(128),\
-        `X` FLOAT, `Y` FLOAT, `Z` FLOAT, `A` FLOAT, `INTERIOR` INT(11), `VIRTUALWORLD` INT(11), `HEALTH` FLOAT, `ARMOUR` FLOAT, `SKIN` INT(11),\
-        `LastLogin` INT(11), `RegDate` INT(11), `Gender` TINYINT(1), PRIMARY KEY (ID), KEY (ID))\
+        `username` VARCHAR(25), `password` VARCHAR(32), `ip` VARCHAR(16), `email` VARCHAR(128),\
+        `x` FLOAT, `y` FLOAT, `z` FLOAT, `a` FLOAT, `interior` INT(11), `virtual_world` INT(11),\
+        `health` FLOAT, `armour` FLOAT, `skin` INT(11),\
+        `last_login` INT(11), `regdate` INT(11), `gender` TINYINT(1), PRIMARY KEY (ID), KEY (ID))\
         ENGINE = InnoDB DEFAULT CHARSET = latin1 AUTO_INCREMENT = 1;");
+    mysql_pquery(mysql, "CREATE TABLE IF NOT EXISTS `pcrpg`.`player_weapons` ( `userid` INT UNSIGNED NOT NULL , `weaponid` TINYINT UNSIGNED NOT NULL , `ammo` INT UNSIGNED NOT NULL) ENGINE = InnoDB;");
     return 1;
 }
