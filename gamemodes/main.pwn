@@ -27,14 +27,24 @@
 
 //------------------------------------------------------------------------------
 
+#define MAX_PLAYER_PASSWORD		32
+
+//------------------------------------------------------------------------------
+
+#define COLOR_ERROR				0x9c2a2aff
+
+//------------------------------------------------------------------------------
+
 // Libraries
 #include <YSI\y_iterate>
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 #include <YSI\y_commands>
+#include <YSI\y_dialog>
 #include <streamer>
 #include <sscanf2>
 #include <a_mysql>
+#include <util>
 
 //------------------------------------------------------------------------------
 
@@ -42,17 +52,27 @@ hook OnGameModeInit()
 {
 	// Gamemode start message
 	printf("\n\n============================================================\n");
-	printf("Initializing %s %s.%s%s...\n", SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
+	printf("Initializing %s %s.%s%s...\n", SCRIPT_VERSION_NAME, SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
+
+	// Set the gamemode name to the current version
+	new rcon_command[32];
+	format(rcon_command, sizeof(rcon_command), "gamemodetext %s %s.%s%s", SCRIPT_VERSION_NAME, SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
+	SendRconCommand(rcon_command);
+	return 1;
 }
 
 //------------------------------------------------------------------------------
 
 // Modules
 
+/* Data */
+#include "../modules/data/connection.pwn"
+#include "../modules/data/player.pwn"
+
 //------------------------------------------------------------------------------
 
 main()
 {
-	printf("\n\n%s %s.%s%s initialiazed.\n");
+	printf("\n\n%s %s.%s%s initialiazed.\n", SCRIPT_VERSION_NAME, SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
 	printf("============================================================\n");
 }
