@@ -336,7 +336,7 @@ public OnAccountCheck(playerid)
         Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_PASSWORD, "Conta Registrada", info, "Registrar", "Sair");
         PlaySelectSound(playerid);
     }
-	SendClientMessage(playerid, COLOR_SUCCESS, "* Conectado com sucesso.");
+	SendClientMessage(playerid, COLOR_SUCCESS, "* Conectado.");
     return 1;
 }
 

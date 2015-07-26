@@ -32,6 +32,9 @@
 #define MAX_PICKUP_RANGE		40.0
 #define MAX_TEXT3D_RANGE		20.0
 
+#define HOSPITAL_TIME			180	// Seconds
+#define HOSPITAL_PRICE			500
+
 //------------------------------------------------------------------------------
 
 #define COLOR_ERROR				0xf14545ff
@@ -95,6 +98,7 @@ hook OnGameModeInit()
 #include "../modules/gameplay/8track.pwn"
 #include "../modules/gameplay/motocross.pwn"
 #include "../modules/gameplay/handshake.pwn"
+#include "../modules/gameplay/hospital.pwn"
 
 /* Player */
 #include "../modules/player/message.pwn"
@@ -102,6 +106,9 @@ hook OnGameModeInit()
 #include "../modules/player/chat.pwn"
 #include "../modules/player/commands.pwn"
 #include "../modules/player/deadbody.pwn"
+
+/* Objects */
+#include "../modules/objects/hospital.pwn"
 
 //------------------------------------------------------------------------------
 

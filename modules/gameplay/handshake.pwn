@@ -13,6 +13,8 @@
 *
 */
 
+//------------------------------------------------------------------------------
+
 #include <YSI\y_hooks>
 
 // ID of the players who is giving/getting handshake
