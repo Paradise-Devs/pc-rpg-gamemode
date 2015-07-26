@@ -346,6 +346,15 @@ stock convertTimestamp( timestamp, _form=0 )
 
 //------------------------------------------------------------------------------
 
+Float:GetPlayerDistanceFromPlayer(playerid, targetid)
+{
+	new Float:x, Float:y, Float:z;
+	GetPlayerPos(playerid, x, y, z);
+	return GetPlayerDistanceFromPoint(targetid, x, y, z);
+}
+
+//------------------------------------------------------------------------------
+
 GetXYInFrontOfPlayer(playerid, &Float:x, &Float:y, Float:distance)
 {	// Created by Y_Less
 

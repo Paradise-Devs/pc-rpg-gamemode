@@ -94,6 +94,7 @@ hook OnGameModeInit()
 /* Gameplay */
 #include "../modules/gameplay/8track.pwn"
 #include "../modules/gameplay/motocross.pwn"
+#include "../modules/gameplay/handshake.pwn"
 
 /* Player */
 #include "../modules/player/message.pwn"
