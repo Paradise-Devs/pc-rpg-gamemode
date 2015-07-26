@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 26, 2015 at 03:17 
+-- Generation Time: Jul 26, 2015 at 06:36 
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -28,17 +28,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `vehicles` (
   `ID` int(11) NOT NULL,
-  `vehicle_model` tinyint(4) DEFAULT NULL,
-  `vehicle_col1` int(11) DEFAULT NULL,
-  `vehicle_col2` int(11) DEFAULT NULL,
-  `vehicle_siren` tinyint(3) DEFAULT NULL,
-  `vehicle_x` float DEFAULT NULL,
-  `vehicle_y` float DEFAULT NULL,
-  `vehicle_z` float DEFAULT NULL,
-  `vehicle_a` float DEFAULT NULL,
-  `vehicle_fuel` float DEFAULT NULL,
-  `vehicle_health` float DEFAULT NULL,
-  `vehicle_faction` int(11) DEFAULT NULL
+  `vehicle_model` smallint(6) DEFAULT '400',
+  `vehicle_col1` int(11) DEFAULT '1',
+  `vehicle_col2` int(11) DEFAULT '1',
+  `vehicle_siren` tinyint(4) DEFAULT '0',
+  `vehicle_x` float DEFAULT '0',
+  `vehicle_y` float DEFAULT '0',
+  `vehicle_z` float DEFAULT '0',
+  `vehicle_a` float DEFAULT '0',
+  `vehicle_fuel` float DEFAULT '100',
+  `vehicle_health` float DEFAULT '1000',
+  `vehicle_faction` int(11) DEFAULT '0',
+  `vehicle_job` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

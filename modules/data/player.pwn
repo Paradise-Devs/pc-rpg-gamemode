@@ -178,8 +178,8 @@ SavePlayerAccount(playerid)
     // Account saving
     new query[275];
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `gender`=%d, `money`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), gPlayerAccountData[playerid][e_player_database_id]);
+	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_tquery(mysql, query);
 
     // Weapon saving
@@ -259,6 +259,7 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_money]  = cache_get_field_content_int(0, "money", mysql);
 
         // Setting...
+        SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
         SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
         SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
@@ -380,16 +381,5 @@ hook OnPlayerDisconnect(playerid, reason)
 {
     SavePlayerAccount(playerid);
     SetPlayerLogged(playerid, false);
-    return 1;
-}
-
-//------------------------------------------------------------------------------
-
-hook OnGameModeInit()
-{
-    // Create player table if not exists
-    print("Creating player tables if not exists.");
-    mysql_pquery(mysql, "CREATE TABLE IF NOT EXISTS `players` (`ID` int(11) NOT NULL AUTO_INCREMENT, `username` VARCHAR(25), `password` VARCHAR(32), `ip` VARCHAR(16), `email` VARCHAR(128), `x` FLOAT, `y` FLOAT, `z` FLOAT, `a` FLOAT, `interior` INT(11), `virtual_world` INT(11), `health` FLOAT, `armour` FLOAT, `skin` INT(11), `last_login` INT(11), `regdate` INT(11), `gender` TINYINT(1), PRIMARY KEY (ID), KEY (ID)) ENGINE = InnoDB DEFAULT CHARSET = latin1 AUTO_INCREMENT = 1;");
-    mysql_pquery(mysql, "CREATE TABLE IF NOT EXISTS `player_weapons` ( `userid` INT UNSIGNED NOT NULL , `weaponid` TINYINT UNSIGNED NOT NULL , `ammo` INT UNSIGNED NOT NULL) ENGINE = InnoDB;");
     return 1;
 }

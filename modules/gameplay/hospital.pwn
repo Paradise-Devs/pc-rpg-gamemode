@@ -25,6 +25,22 @@ static gPHdata[MAX_PLAYERS][e_ph_data];
 
 //------------------------------------------------------------------------------
 
+GetPlayerHospitalTime(playerid)
+    return gPHdata[playerid][e_ph_time];
+
+SetPlayerHospitalTime(playerid, value)
+    gPHdata[playerid][e_ph_time] = value;
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerConnect(playerid, reason)
+{
+    gPHdata[playerid][e_ph_time] = 0;
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 hook OnPlayerDeath(playerid, killerid, reason)
 {
     gPHdata[playerid][e_ph_time] = HOSPITAL_TIME;
@@ -52,7 +68,7 @@ hook OnPlayerSpawn(playerid)
 		SetPlayerFacingAngle(playerid, 0);
 		SetPlayerInterior(playerid, 3);
 
-		ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, 1, 0, 0, 1, 0);
+		ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, 1, 0, 0, 1, 0, 1);
 		PlayerPlaySound(playerid, 1076, 0.0, 0.0, 0.0);
 
         defer OnPlayerHospitalUpdate(playerid);
@@ -64,6 +80,9 @@ hook OnPlayerSpawn(playerid)
 
 timer OnPlayerHospitalUpdate[1000](playerid)
 {
+    if(!IsPlayerLogged(playerid))
+        return 1;
+
     if(gPHdata[playerid][e_ph_time] == 1)
     {
         SendClientMessage(playerid, COLOR_SUCCESS, "* Você se recuperou e o hospital cobrou pelos serviços.");
@@ -81,10 +100,14 @@ timer OnPlayerHospitalUpdate[1000](playerid)
     }
     else if(gPHdata[playerid][e_ph_time] > 0)
     {
+        if(GetPlayerAnimationIndex(playerid) != 390)
+			ApplyAnimation(playerid, "CRACK", "crckidle2", 4.1, 1, 0, 0, 1, 0);
+
         new output[134];
         format(output, sizeof(output), "~n~~n~~n~~n~~n~~n~~n~                                           ~r~Em coma...~n~                                          %02d:%02d", gPHdata[playerid][e_ph_time] / 60, gPHdata[playerid][e_ph_time] % 60);
         GameTextForPlayer(playerid, output, 1100, 3);
         gPHdata[playerid][e_ph_time]--;
         defer OnPlayerHospitalUpdate(playerid);
     }
+    return 1;
 }

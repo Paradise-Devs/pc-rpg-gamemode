@@ -137,7 +137,6 @@ public OnPlayerExitBuilding(playerid, building)
 
 hook OnGameModeInit()
 {
-    mysql_pquery(mysql, "CREATE TABLE IF NOT EXISTS `buildings` (`ID` int(11) NOT NULL AUTO_INCREMENT, `building_out_x` FLOAT, `building_out_y` FLOAT, `building_out_z` FLOAT, `building_out_a` FLOAT, `building_out_i` INT(11), `building_out_v` INT(11), `building_in_x` FLOAT, `building_in_y` FLOAT, `building_in_z` FLOAT, `building_in_a` FLOAT, `building_in_i` INT(11), `building_in_v` INT(11), `building_locked` TINYINT(1), PRIMARY KEY (ID), KEY (ID)) ENGINE = InnoDB DEFAULT CHARSET = latin1 AUTO_INCREMENT = 1;");
     mysql_pquery(mysql, "SELECT * FROM `buildings`", "OnBuildingLoad");
     return 1;
 }
