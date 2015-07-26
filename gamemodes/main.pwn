@@ -80,9 +80,6 @@ hook OnGameModeInit()
 
 // Modules
 
-/* Player */
-#include "../modules/player/message.pwn"
-
 /* Data */
 #include "../modules/data/connection.pwn"
 #include "../modules/data/building.pwn"
@@ -95,6 +92,10 @@ hook OnGameModeInit()
 /* Gameplay */
 #include "../modules/gameplay/8track.pwn"
 #include "../modules/gameplay/motocross.pwn"
+
+/* Player */
+#include "../modules/player/message.pwn"
+#include "../modules/player/chat.pwn"
 
 //------------------------------------------------------------------------------
 

@@ -70,6 +70,131 @@ timer OnVehicleStartEngine[2000](vehicleid, playerid)
 
 //------------------------------------------------------------------------------
 
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+	if(newkeys & KEY_ACTION)
+	{
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && !gIsPlayerStartingEngine[playerid])
+		{
+            new engine, lights, alarm, doors, bonnet, boot, objective, vehicleid;
+            vehicleid = GetPlayerVehicleID(playerid);
+            GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
+			if(engine == VEHICLE_PARAMS_OFF || engine == VEHICLE_PARAMS_UNSET)
+			{
+				SendClientActionMessage(playerid, 15.0, "gira a chave e tenta ligar o motor do veículo.");
+				gIsPlayerStartingEngine[playerid] = true;
+				defer OnVehicleStartEngine(vehicleid, playerid);
+			}
+		}
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:janela(playerid, params[], help)
+{
+    if(!IsPlayerInAnyVehicle(playerid))
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+    else
+    {
+        new driver, passenger, backleft, backright;
+        new vehicleid = GetPlayerVehicleID(playerid);
+        GetVehicleParamsCarWindows(vehicleid, driver, passenger, backleft, backright);
+
+        switch(GetPlayerVehicleSeat(playerid))
+        {
+            case 0:
+            {
+                if(driver == -1 || driver == 1)
+                {
+                    SendClientActionMessage(playerid, 15.0, "abre a janela do motorista.");
+                    SetVehicleParamsCarWindows(vehicleid, 0, passenger, backleft, backright);
+                }
+                else
+                {
+                    SendClientActionMessage(playerid, 15.0, "fecha a janela do motorista.");
+                    SetVehicleParamsCarWindows(vehicleid, 1, passenger, backleft, backright);
+                }
+            }
+            case 1:
+            {
+                if(passenger == -1 || passenger == 1)
+                {
+                    SendClientActionMessage(playerid, 15.0, "abre a janela do passageiro.");
+                    SetVehicleParamsCarWindows(vehicleid, driver, 0, backleft, backright);
+                }
+                else
+                {
+                    SendClientActionMessage(playerid, 15.0, "fecha a janela do passageiro.");
+                    SetVehicleParamsCarWindows(vehicleid, driver, 1, backleft, backright);
+                }
+            }
+            case 2:
+            {
+                if(backleft == -1 || backleft == 1)
+                {
+                    SendClientActionMessage(playerid, 15.0, "abre a janela do passageiro.");
+                    SetVehicleParamsCarWindows(vehicleid, driver, passenger, 0, backright);
+                }
+                else
+                {
+                    SendClientActionMessage(playerid, 15.0, "fecha a janela do passageiro.");
+                    SetVehicleParamsCarWindows(vehicleid, driver, passenger, 1, backright);
+                }
+            }
+            case 3:
+            {
+                if(backright == -1 || backright == 1)
+                {
+                    SendClientActionMessage(playerid, 15.0, "abre a janela do passageiro.");
+                    SetVehicleParamsCarWindows(vehicleid, driver, passenger, backleft, 0);
+                }
+                else
+                {
+                    SendClientActionMessage(playerid, 15.0, "fecha a janela do passageiro.");
+                    SetVehicleParamsCarWindows(vehicleid, driver, passenger, backleft, 1);
+                }
+            }
+            default:
+            {
+                SendClientMessage(playerid, COLOR_ERROR, "* Você não pode abrir essa janela.");
+            }
+        }
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:farol(playerid, params[], help)
+{
+    if(!IsPlayerInAnyVehicle(playerid))
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+    else if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não é o motorista.");
+    else
+    {
+        new engine, lights, alarm, doors, bonnet, boot, objective, vehicleid;
+        vehicleid = GetPlayerVehicleID(playerid);
+        GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
+
+        if(lights == VEHICLE_PARAMS_OFF || lights == VEHICLE_PARAMS_UNSET)
+        {
+            SendClientActionMessage(playerid, 15.0, "liga o farol do veículo.");
+            SetVehicleParamsEx(vehicleid, engine, VEHICLE_PARAMS_ON, alarm, doors, bonnet, boot, objective);
+        }
+        else
+        {
+            SendClientActionMessage(playerid, 15.0, "desliga o farol do veículo.");
+            SetVehicleParamsEx(vehicleid, engine, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
+        }
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 YCMD:motor(playerid, params[], help)
 {
     if(!IsPlayerInAnyVehicle(playerid))
@@ -86,7 +211,7 @@ YCMD:motor(playerid, params[], help)
 
         if(engine == VEHICLE_PARAMS_OFF || engine == VEHICLE_PARAMS_UNSET)
         {
-            SendClientActionMessage(playerid, 15.0, "tenta ligar o motor do veículo.");
+            SendClientActionMessage(playerid, 15.0, "gira a chave e tenta ligar o motor do veículo.");
             gIsPlayerStartingEngine[playerid] = true;
             defer OnVehicleStartEngine(vehicleid, playerid);
         }
