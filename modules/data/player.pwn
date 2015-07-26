@@ -180,10 +180,10 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[275];
+    new query[285];
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), gPlayerAccountData[playerid][e_player_database_id]);
+	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d, `achievements`=%d WHERE `id`=%d",
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), GetPlayerAchievements(playerid), gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_tquery(mysql, query);
 
     // Weapon saving
@@ -264,8 +264,10 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_gender]     = cache_get_field_content_int(0, "gender", mysql);
         gPlayerCharacterData[playerid][e_player_money]      = cache_get_field_content_int(0, "money", mysql);
 
-        // Setting...
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
+        SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
+
+        // Setting...
         SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
         SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
         SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);

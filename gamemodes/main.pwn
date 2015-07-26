@@ -48,6 +48,18 @@
 
 //------------------------------------------------------------------------------
 
+// Maximum 32 values per variable
+enum ACHIEVEMENT:(<<= 1)
+{
+	ACHIEVEMENT_BLOWJOB = 1,	// Given when a player gives a blowjob
+	ACHIEVEMENT_LOTTERY,		// Given when a player wins a lottery jackpot
+	ACHIEVEMENT_HOSPITAL,		// Given when a player goes to hospital
+	ACHIEVEMENT_SECQUEST,		// Given when a player completes a secundary quest
+	ACHIEVEMENT_SHOOTINGRANGE	// Given when a player completes ammunation without missing a single shot
+}
+
+//------------------------------------------------------------------------------
+
 // Libraries
 #include <YSI\y_iterate>
 #include <YSI\y_hooks>
@@ -105,6 +117,7 @@ hook OnGameModeInit()
 #include "../modules/gameplay/hospital.pwn"
 
 /* Player */
+#include "../modules/player/achievement.pwn"
 #include "../modules/player/message.pwn"
 #include "../modules/player/admin.pwn"
 #include "../modules/player/chat.pwn"
