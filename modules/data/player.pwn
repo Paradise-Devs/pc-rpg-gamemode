@@ -60,6 +60,7 @@ enum e_player_cdata
     e_player_money,
     e_player_faction,
     e_player_frank,
+    e_player_ticket,
     Float:e_player_health,
     Float:e_player_armour
 }
@@ -106,9 +107,15 @@ SetPlayerLogged(playerid, bool:status)
 
 //------------------------------------------------------------------------------
 
+GetPlayerLotteryTicket(playerid)
+    return gPlayerCharacterData[playerid][e_player_ticket];
+SetPlayerLotteryTicket(playerid, val)
+    gPlayerCharacterData[playerid][e_player_ticket] = val;
+
+//------------------------------------------------------------------------------
+
 GetPlayerCash(playerid)
     return gPlayerCharacterData[playerid][e_player_money];
-
 GivePlayerCash(playerid, value)
     gPlayerCharacterData[playerid][e_player_money] += value;
 
@@ -138,6 +145,7 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_skin]       = 299;
     gPlayerCharacterData[playerid][e_player_faction]    = 0;
     gPlayerCharacterData[playerid][e_player_frank]      = 0;
+    gPlayerCharacterData[playerid][e_player_ticket]     = 0;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
 
@@ -180,10 +188,10 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[285];
+    new query[310];
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d, `achievements`=%d WHERE `id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), GetPlayerAchievements(playerid), gPlayerAccountData[playerid][e_player_database_id]);
+	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d, `achievements`=%d, `ticket`=%d WHERE `id`=%d",
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket], gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_tquery(mysql, query);
 
     // Weapon saving

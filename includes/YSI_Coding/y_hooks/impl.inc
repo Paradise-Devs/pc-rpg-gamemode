@@ -6,26 +6,26 @@ Description:
 	Automatically hooks any callbacks with a very simple syntax.
 Legal:
 	Version: MPL 1.1
-	
-	The contents of this file are subject to the Mozilla Public License Version 
-	1.1 (the "License"); you may not use this file except in compliance with 
-	the License. You may obtain a copy of the License at 
+
+	The contents of this file are subject to the Mozilla Public License Version
+	1.1 (the "License"); you may not use this file except in compliance with
+	the License. You may obtain a copy of the License at
 	http://www.mozilla.org/MPL/
-	
+
 	Software distributed under the License is distributed on an "AS IS" basis,
 	WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
 	for the specific language governing rights and limitations under the
 	License.
-	
+
 	The Original Code is the SA:MP callback hooks include.
-	
+
 	The Initial Developer of the Original Code is Alex "Y_Less" Cole.
 	Portions created by the Initial Developer are Copyright (C) 2008
 	the Initial Developer. All Rights Reserved.
-	
+
 	Contributors:
 		ZeeX, koolk, JoeBullet/Google63, g_aSlice/Slice
-	
+
 	Thanks:
 		JoeBullet/Google63 - Handy arbitrary ASM jump code using SCTRL.
 		Peter, Cam - Support.
@@ -41,12 +41,12 @@ Legal:
 			for me to strive to better.
 		Pixels^ - Running XScripters where the idea was born.
 		Matite - Pestering me to release it and using it.
-	
+
 	Very special thanks to:
 		Thiadmer - PAWN, whose limits continue to amaze me!
 		Kye/Kalcor - SA:MP.
 		SA:MP Team past, present and future - SA:MP.
-	
+
 Version:
 	3.0
 Changelog:
@@ -77,16 +77,16 @@ Changelog:
 
 /*
 
-     ad88888ba                                              
-    d8"     "8b              ,d                             
-    Y8,                      88                             
-    `Y8aaaaa,    ,adPPYba, MM88MMM 88       88 8b,dPPYba,   
-      `"""""8b, a8P_____88   88    88       88 88P'    "8a  
-            `8b 8PP"""""""   88    88       88 88       d8  
-    Y8a     a8P "8b,   ,aa   88,   "8a,   ,a88 88b,   ,a8"  
-     "Y88888P"   `"Ybbd8"'   "Y888  `"YbbdP'Y8 88`YbbdP"'   
-                                               88           
-                                               88           
+     ad88888ba
+    d8"     "8b              ,d
+    Y8,                      88
+    `Y8aaaaa,    ,adPPYba, MM88MMM 88       88 8b,dPPYba,
+      `"""""8b, a8P_____88   88    88       88 88P'    "8a
+            `8b 8PP"""""""   88    88       88 88       d8
+    Y8a     a8P "8b,   ,aa   88,   "8a,   ,a88 88b,   ,a8"
+     "Y88888P"   `"Ybbd8"'   "Y888  `"YbbdP'Y8 88`YbbdP"'
+                                               88
+                                               88
 
 */
 
@@ -276,9 +276,9 @@ _Y_HOOKS_STATIC Hooks_IsolateName(string:name[])
 	Some includes, like "fixes.inc" and anti-cheats MUST come before all other
 	includes in order for everything to function correctly (at least fixes.inc
 	must).  This function looks for these definitions:
-	
+
 	    PRE_HOOK(FIXES)
-	
+
 	Which tell y_hooks that any "FIXES_" prefixed callbacks are part of one of
 	these chains.
 </remarks>
@@ -511,33 +511,33 @@ _Y_HOOKS_STATIC stock Hooks_GetStubEntry(stub)
 	found hook.  This means we already know of one hook, but to simplify the
 	code we get that one again here.  Above we only know the name not the
 	address.  Hence the "- 1" in "i = idx - 1" (to go back one function name).
-	
+
 	Our "namelen" variable already contains the full length of the first found
 	hook - this is the length of "name", plus N extra characters.  The following
 	are all valid, and may occur when orders are played with:
-		
+
 		@yH_OnX@
 		@yH_OnX@1
 		@yH_OnX@01
 		@yH_OnX@024
 		@yH_OnX@ZZZ
 		@yH_OnX@999@024
-		
+
 	If we want to get the EXACT space taken up by all these hook names we would
 	need to get the string of the name in this function then measure it.  There
 	is really no point in doing this - if we have a second we will always have
 	enough space for our new names.  Instead, we assume that they are all just
-		
+
 		@yH_OnX@
-		
+
 	And add on that minimum length accordingly (plus 1 for the NULL character).
-	
+
 	This length is used if the original callback doesn't exist but hooks do.  In
 	that case we need to add the callback to the AMX header, and there is a tiny
 	chance that the original name will be longer than one hook's name.  In that
 	case, having two or more hooks will (AFAIK) always ensure that we have
 	enough space to write the longer name.
-	
+
 	If there is only one hook, no original function, and the name of the hook is
 	shorter than the name of the original function then we have an issue and
 	will have to do something else instead.
@@ -616,45 +616,45 @@ _Y_HOOKS_STATIC stock Hooks_Collate(preloads[][E_PRE_HOOK], precount, name[32], 
 	new
 		namelen = strlen(name);
 	// For this function, note that:
-	//   
+	//
 	//   hook OnPlayerConnect(playerid)
-	//   
+	//
 	// Compiles as:
-	//   
+	//
 	//   public @yH_OnPlayerConnect@XXX(playerid)
-	//   
+	//
 	// Where "XXX" is some unique number (the exact value is irrelevant, it just
 	// means that multiple hooks of the same function have different names).
 	static
 		sName[64],
 		sHooks[128];
 	// Isolate the common prefix part:
-	//   
+	//
 	//   @yH_OnPlayerConnect@042
-	//   
+	//
 	// Becomes:
-	//   
+	//
 	//   @yH_OnPlayerConnect@
-	//   
+	//
 	// The numbers at the end are irrelevant, now we can just search for hooks
 	// of this exact callback.
 	name{strfind(name, "@", false, 4) + 1} = '\0',
 	// The above now becomes:
-	//   
+	//
 	//   OnPlayerConnect
-	//   
+	//
 	// This also handles cases such as:
-	//   
+	//
 	//   @yH_OnPlayerEnterRaceCheckpoint@162
-	//   
+	//
 	// Being invalid (too long), so instead converts the shortened:
-	//   
+	//
 	//   @yH_OnPlayerEnterRaceCP@162
-	//   
+	//
 	// To:
-	//   
+	//
 	//   OnPlayerEnterRaceCheckpoint
-	//   
+	//
 	// Thus expanding common name length reductions.
 	strunpack(sName, name),
 	Hooks_IsolateName(sName),
@@ -693,11 +693,11 @@ _Y_HOOKS_STATIC stock Hooks_Collate(preloads[][E_PRE_HOOK], precount, name[32], 
 _Y_HOOKS_STATIC Hooks_GenerateCode(name[64], hooks[], count, write, bool:hasprehooks)
 {
 	// We now have:
-	//  
+	//
 	//  1) All the hooks of this function.
 	//  2) The original function if it exists.
 	//  3) Special ALS chained functions if they exists.
-	//  
+	//
 	// This took huge chunks of complex code in the old version.  Now not so
 	// much!  I don't know if this code is faster (I suspect it is), but it is
 	// absolutely simpler!
@@ -737,14 +737,14 @@ _Y_HOOKS_STATIC Hooks_InvalidateName(entry)
 
 /*
 
-    88888888888                                        88                            88               ad88             
-    88                                           ,d    ""                            88              d8"               
-    88                                           88                                  88              88                
-    88aaaaa 88       88 8b,dPPYba,   ,adPPYba, MM88MMM 88  ,adPPYba,  8b,dPPYba,     88 8b,dPPYba, MM88MMM ,adPPYba,   
-    88""""" 88       88 88P'   `"8a a8"     ""   88    88 a8"     "8a 88P'   `"8a    88 88P'   `"8a  88   a8"     "8a  
-    88      88       88 88       88 8b           88    88 8b       d8 88       88    88 88       88  88   8b       d8  
-    88      "8a,   ,a88 88       88 "8a,   ,aa   88,   88 "8a,   ,a8" 88       88    88 88       88  88   "8a,   ,a8"  
-    88       `"YbbdP'Y8 88       88  `"Ybbd8"'   "Y888 88  `"YbbdP"'  88       88    88 88       88  88    `"YbbdP"'   
+    88888888888                                        88                            88               ad88
+    88                                           ,d    ""                            88              d8"
+    88                                           88                                  88              88
+    88aaaaa 88       88 8b,dPPYba,   ,adPPYba, MM88MMM 88  ,adPPYba,  8b,dPPYba,     88 8b,dPPYba, MM88MMM ,adPPYba,
+    88""""" 88       88 88P'   `"8a a8"     ""   88    88 a8"     "8a 88P'   `"8a    88 88P'   `"8a  88   a8"     "8a
+    88      88       88 88       88 8b           88    88 8b       d8 88       88    88 88       88  88   8b       d8
+    88      "8a,   ,a88 88       88 "8a,   ,aa   88,   88 "8a,   ,a8" 88       88    88 88       88  88   "8a,   ,a8"
+    88       `"YbbdP'Y8 88       88  `"Ybbd8"'   "Y888 88  `"YbbdP"'  88       88    88 88       88  88    `"YbbdP"'
 
 */
 
@@ -793,16 +793,16 @@ _Y_HOOKS_STATIC stock Hooks_GetDefaultReturn(name[64])
 
 /*
 
-      ,ad8888ba,                       88                                                
-     d8"'    `"8b                      88                                                
-    d8'                                88                                                
-    88             ,adPPYba,   ,adPPYb,88  ,adPPYba,  ,adPPYb,d8  ,adPPYba, 8b,dPPYba,   
-    88            a8"     "8a a8"    `Y88 a8P_____88 a8"    `Y88 a8P_____88 88P'   `"8a  
-    Y8,           8b       d8 8b       88 8PP""""""" 8b       88 8PP""""""" 88       88  
-     Y8a.    .a8P "8a,   ,a8" "8a,   ,d88 "8b,   ,aa "8a,   ,d88 "8b,   ,aa 88       88  
-      `"Y8888Y"'   `"YbbdP"'   `"8bbdP"Y8  `"Ybbd8"'  `"YbbdP"Y8  `"Ybbd8"' 88       88  
-                                                      aa,    ,88                         
-                                                       "Y8bbdP"                          
+      ,ad8888ba,                       88
+     d8"'    `"8b                      88
+    d8'                                88
+    88             ,adPPYba,   ,adPPYb,88  ,adPPYba,  ,adPPYb,d8  ,adPPYba, 8b,dPPYba,
+    88            a8"     "8a a8"    `Y88 a8P_____88 a8"    `Y88 a8P_____88 88P'   `"8a
+    Y8,           8b       d8 8b       88 8PP""""""" 8b       88 8PP""""""" 88       88
+     Y8a.    .a8P "8a,   ,a8" "8a,   ,d88 "8b,   ,aa "8a,   ,d88 "8b,   ,aa 88       88
+      `"Y8888Y"'   `"YbbdP"'   `"8bbdP"Y8  `"Ybbd8"'  `"YbbdP"Y8  `"Ybbd8"' 88       88
+                                                      aa,    ,88
+                                                       "Y8bbdP"
 
 */
 
@@ -829,13 +829,13 @@ _Y_HOOKS_STATIC Hooks_WriteFunction(const pointers[], const size, const ret = 1,
 	// Make sure the underlying system doesn't change without us.  Now supported
 	// natively.
 	CGen_UseCodeSpace(ctx);
-	
+
 	// Start of the function.
 	@emit PROC              // 1
-	
+
 	// Allocate space for our "ret" variable at "frm - 4".
 	if (multiple) @emit PUSH.C        ret // 3
-	
+
 	// Copy the stack to itself (MOVS).
 	// Allocate space.
 	@emit LOAD.S.alt    8   // 5
@@ -843,19 +843,19 @@ _Y_HOOKS_STATIC Hooks_WriteFunction(const pointers[], const size, const ret = 1,
 	@emit SUB               // 8
 	@emit SCTRL         4   // 10
 	@emit XCHG              // 11
-	
+
 	// The "MOVS" OpCode only takes a constant, not a variable, so we need to
 	// generate self-modifying code (just to be UBER meta)!  This code is
 	// generated AFTER the file is loaded so we bypass the data segment checks
 	// and can freely write wherever we want.
 	@emit STOR.pri      (CGen_GetCodeSpace() + (18 * 4) - (multiple ? 0 : 8)) // 13
-	
+
 	// Do the copying.  "alt" is already "STK", load the "FRM" offset.
 	@emit LCTRL         5   // 15
 	@emit ADD.C         12  // 17
 	// This is the instruction we want to modify...
 	@emit MOVS          0   // 19 (- 1)
-	
+
 	// Push the (fake) number of parameters.
 	@emit PUSH.C        -4
 	// Now loop over all our functions and insert "CALL" opcodes for them.
@@ -868,17 +868,17 @@ _Y_HOOKS_STATIC Hooks_WriteFunction(const pointers[], const size, const ret = 1,
 			if (skipable)
 			{
 				// =====================================
-				//  THIS SECTION IS CURRENTLY 10 CELLS. 
+				//  THIS SECTION IS CURRENTLY 10 CELLS.
 				// =====================================
 				// Note: Including the original call...
-				//  
+				//
 				//  if (func() < 0) break;
 				//  else ret = ret & func();
-				//  
+				//
 				@emit ZERO.alt      // 3
 				@emit JSLESS.rel    ((size - i) * (10 * 4) - (5 * 4)) // 5
 				// =========================
-				//  JUMP OVER THIS SECTION. 
+				//  JUMP OVER THIS SECTION.
 				// =========================
 			}
 			@emit LOAD.S.alt    -4   // 7
@@ -911,7 +911,7 @@ _Y_HOOKS_STATIC Hooks_WriteFunction(const pointers[], const size, const ret = 1,
 		// just discard everything we've written so far (reclaims the memory).
 		return 0;
 	}
-	
+
 	// This is the point the small "JUMP" above goes to.
 	@emit MOVE.alt
 	// Remove the whole stack then get the return value.
@@ -919,26 +919,26 @@ _Y_HOOKS_STATIC Hooks_WriteFunction(const pointers[], const size, const ret = 1,
 	@emit SCTRL         4
 	//@emit LOAD.S.pri    -4
 	@emit MOVE.pri
-	
+
 	// Return.
 	@emit RETN
-	
+
 	// Return the number of bytes written.
 	return ctx[AsmContext_buffer_offset];
 }
 
 /*
 
-     ad88888ba                                 88                          
-    d8"     "8b                          ,d    ""                          
-    Y8,                                  88                                
-    `Y8aaaaa,    ,adPPYba,  8b,dPPYba, MM88MMM 88 8b,dPPYba,   ,adPPYb,d8  
-      `"""""8b, a8"     "8a 88P'   "Y8   88    88 88P'   `"8a a8"    `Y88  
-            `8b 8b       d8 88           88    88 88       88 8b       88  
-    Y8a     a8P "8a,   ,a8" 88           88,   88 88       88 "8a,   ,d88  
-     "Y88888P"   `"YbbdP"'  88           "Y888 88 88       88  `"YbbdP"Y8  
-                                                               aa,    ,88  
-                                                                "Y8bbdP"   
+     ad88888ba                                 88
+    d8"     "8b                          ,d    ""
+    Y8,                                  88
+    `Y8aaaaa,    ,adPPYba,  8b,dPPYba, MM88MMM 88 8b,dPPYba,   ,adPPYb,d8
+      `"""""8b, a8"     "8a 88P'   "Y8   88    88 88P'   `"8a a8"    `Y88
+            `8b 8b       d8 88           88    88 88       88 8b       88
+    Y8a     a8P "8a,   ,a8" 88           88,   88 88       88 "8a,   ,d88
+     "Y88888P"   `"YbbdP"'  88           "Y888 88 88       88  `"YbbdP"Y8
+                                                               aa,    ,88
+                                                                "Y8bbdP"
 
 */
 
@@ -1156,4 +1156,3 @@ HOOK_FORWARD:HookChain_OnScriptInit();
 	#define _ALS_OnScriptInit
 #endif
 #define OnScriptInit(%0) HookChain_OnScriptInit(%0) <_ALS : _ALS_go>
-

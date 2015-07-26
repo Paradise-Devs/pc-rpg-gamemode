@@ -60,6 +60,14 @@ enum ACHIEVEMENT:(<<= 1)
 
 //------------------------------------------------------------------------------
 
+enum
+{
+	CHECKPOINT_NONE,
+	CHECKPOINT_LOTTERY
+}
+
+//------------------------------------------------------------------------------
+
 // Libraries
 #include <YSI\y_iterate>
 #include <YSI\y_hooks>
@@ -115,6 +123,7 @@ hook OnGameModeInit()
 #include "../modules/gameplay/handshake.pwn"
 #include "../modules/gameplay/blowjob.pwn"
 #include "../modules/gameplay/hospital.pwn"
+#include "../modules/gameplay/lottery.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"

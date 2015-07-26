@@ -87,6 +87,7 @@ timer OnPlayerHospitalUpdate[1000](playerid)
     {
         SendClientMessage(playerid, COLOR_SUCCESS, "* Você se recuperou e o hospital cobrou pelos serviços.");
         GivePlayerCash(playerid, -HOSPITAL_PRICE);
+        gPHdata[playerid][e_ph_time] = 0;
 
     	SetCameraBehindPlayer(playerid);
     	SetPlayerPos(playerid, 1177.4866,-1323.9749,14.0731);
