@@ -79,7 +79,7 @@ public OnBuildingLoad()
         gBuildingData[i][e_building_in_pkp_id] = CreateDynamicPickup(19902, 1, gBuildingData[i][e_building_in_x], gBuildingData[i][e_building_in_y], gBuildingData[i][e_building_in_z], gBuildingData[i][e_building_in_v], gBuildingData[i][e_building_in_i]);
         gCreatedBuildings++;
 	}
-    printf("%d buildings loaded succesful.", gCreatedBuildings);
+    printf("Number of buildings loaded: %d", gCreatedBuildings);
 }
 
 //------------------------------------------------------------------------------

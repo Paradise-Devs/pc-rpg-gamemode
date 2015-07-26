@@ -29,12 +29,15 @@
 
 #define MAX_PLAYER_PASSWORD		32
 #define MAX_BUILDINGS			32
+#define MAX_PICKUP_RANGE		40.0
+#define MAX_TEXT3D_RANGE		20.0
 
 //------------------------------------------------------------------------------
 
 #define COLOR_ERROR				0xf14545ff
 #define COLOR_SUCCESS			0x88aa62FF
 #define COLOR_INFO				0xA9C4E4FF
+#define COLOR_ACTION			0xDA70D6FF
 
 //------------------------------------------------------------------------------
 
@@ -77,11 +80,21 @@ hook OnGameModeInit()
 
 // Modules
 
+/* Player */
+#include "../modules/player/message.pwn"
+
 /* Data */
 #include "../modules/data/connection.pwn"
 #include "../modules/data/building.pwn"
 #include "../modules/data/vehicle.pwn"
 #include "../modules/data/player.pwn"
+
+/* Vehicle */
+#include "../modules/vehicle/control.pwn"
+
+/* Gameplay */
+#include "../modules/gameplay/8track.pwn"
+#include "../modules/gameplay/motocross.pwn"
 
 //------------------------------------------------------------------------------
 

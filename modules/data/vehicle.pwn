@@ -50,6 +50,11 @@ static gCreatedVehicles;
 
 //------------------------------------------------------------------------------
 
+Float:GetVehicleFuel(vehicleid)
+    return gVehicleData[vehicleid][e_vehicle_fuel];
+
+//------------------------------------------------------------------------------
+
 public OnVehicleLoad()
 {
     for(new i, j = cache_get_row_count(mysql); i < j; i++)
@@ -72,7 +77,7 @@ public OnVehicleLoad()
         gVehicleData[i][e_vehicle_id]        = CreateVehicle(gVehicleData[i][e_vehicle_model], gVehicleData[i][e_vehicle_x], gVehicleData[i][e_vehicle_y], gVehicleData[i][e_vehicle_z], gVehicleData[i][e_vehicle_a], gVehicleData[i][e_vehicle_color_1], gVehicleData[i][e_vehicle_color_2], -1, gVehicleData[i][e_vehicle_siren]);
         gCreatedVehicles++;
 	}
-    printf("%d vehicles loaded succesful.", gCreatedVehicles);
+    printf("Number of vehicles loaded: %d", gCreatedVehicles);
 }
 
 //------------------------------------------------------------------------------
