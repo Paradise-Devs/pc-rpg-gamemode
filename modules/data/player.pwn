@@ -58,6 +58,8 @@ enum e_player_cdata
     e_player_skin,
     e_player_gender,
     e_player_money,
+    e_player_faction,
+    e_player_frank,
     Float:e_player_health,
     Float:e_player_armour
 }
@@ -134,6 +136,8 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_gender]     = 0;
     gPlayerCharacterData[playerid][e_player_money]      = 350;
     gPlayerCharacterData[playerid][e_player_skin]       = 299;
+    gPlayerCharacterData[playerid][e_player_faction]    = 0;
+    gPlayerCharacterData[playerid][e_player_frank]      = 0;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
 
@@ -178,8 +182,8 @@ SavePlayerAccount(playerid)
     // Account saving
     new query[275];
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), gPlayerAccountData[playerid][e_player_database_id]);
+	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_tquery(mysql, query);
 
     // Weapon saving
@@ -245,18 +249,20 @@ public OnAccountLoad(playerid)
         GetPlayerIp(playerid, gPlayerAccountData[playerid][e_player_ip], 16);
         gPlayerAccountData[playerid][e_player_lastlogin] = cache_get_field_content_int(0, "last_login", mysql);
 
-        gPlayerPositionData[playerid][e_player_x]       = cache_get_field_content_float(0, "x", mysql);
-        gPlayerPositionData[playerid][e_player_y]       = cache_get_field_content_float(0, "y", mysql);
-        gPlayerPositionData[playerid][e_player_z]       = cache_get_field_content_float(0, "z", mysql);
-        gPlayerPositionData[playerid][e_player_a]       = cache_get_field_content_float(0, "a", mysql);
-        gPlayerPositionData[playerid][e_player_int]     = cache_get_field_content_int(0, "interior", mysql);
-        gPlayerPositionData[playerid][e_player_vw]      = cache_get_field_content_int(0, "virtual_world", mysql);
+        gPlayerPositionData[playerid][e_player_x]           = cache_get_field_content_float(0, "x", mysql);
+        gPlayerPositionData[playerid][e_player_y]           = cache_get_field_content_float(0, "y", mysql);
+        gPlayerPositionData[playerid][e_player_z]           = cache_get_field_content_float(0, "z", mysql);
+        gPlayerPositionData[playerid][e_player_a]           = cache_get_field_content_float(0, "a", mysql);
+        gPlayerPositionData[playerid][e_player_int]         = cache_get_field_content_int(0, "interior", mysql);
+        gPlayerPositionData[playerid][e_player_vw]          = cache_get_field_content_int(0, "virtual_world", mysql);
 
-        gPlayerCharacterData[playerid][e_player_health] = cache_get_field_content_float(0, "health", mysql);
-        gPlayerCharacterData[playerid][e_player_armour] = cache_get_field_content_float(0, "armour", mysql);
-        gPlayerCharacterData[playerid][e_player_skin]   = cache_get_field_content_int(0, "skin", mysql);
-        gPlayerCharacterData[playerid][e_player_gender] = cache_get_field_content_int(0, "gender", mysql);
-        gPlayerCharacterData[playerid][e_player_money]  = cache_get_field_content_int(0, "money", mysql);
+        gPlayerCharacterData[playerid][e_player_health]     = cache_get_field_content_float(0, "health", mysql);
+        gPlayerCharacterData[playerid][e_player_armour]     = cache_get_field_content_float(0, "armour", mysql);
+        gPlayerCharacterData[playerid][e_player_faction]    = cache_get_field_content_int(0, "faction", mysql);
+        gPlayerCharacterData[playerid][e_player_frank]      = cache_get_field_content_int(0, "faction_rank", mysql);
+        gPlayerCharacterData[playerid][e_player_skin]       = cache_get_field_content_int(0, "skin", mysql);
+        gPlayerCharacterData[playerid][e_player_gender]     = cache_get_field_content_int(0, "gender", mysql);
+        gPlayerCharacterData[playerid][e_player_money]      = cache_get_field_content_int(0, "money", mysql);
 
         // Setting...
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));

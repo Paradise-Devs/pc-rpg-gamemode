@@ -111,9 +111,42 @@ YCMD:gritar(playerid, params[], help)
 			params[i] = toupper(params[i]);
 		}
 	}
-    
+
 	new message[156];
 	format(message, sizeof(message), "%s grita: %s!!", GetPlayerNamef(playerid), params);
 	SendClientLocalMessage(playerid, COLOR_WHITE, 40.0, message);
 	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+/*
+        Error & Return type
+
+    COMMAND_ZERO_RET      = 0 , // The command returned 0.
+    COMMAND_OK            = 1 , // Called corectly.
+    COMMAND_UNDEFINED     = 2 , // Command doesn't exist.
+    COMMAND_DENIED        = 3 , // Can't use the command.
+    COMMAND_HIDDEN        = 4 , // Can't use the command don't let them know it exists.
+    COMMAND_NO_PLAYER     = 6 , // Used by a player who shouldn't exist.
+    COMMAND_DISABLED      = 7 , // All commands are disabled for this player.
+    COMMAND_BAD_PREFIX    = 8 , // Used "/" instead of "#", or something similar.
+    COMMAND_INVALID_INPUT = 10, // Didn't type "/something".
+*/
+
+public e_COMMAND_ERRORS:OnPlayerCommandReceived(playerid, cmdtext[], e_COMMAND_ERRORS:success)
+{
+	if(!IsPlayerLogged(playerid))
+	{
+		SendClientMessage(playerid, COLOR_ERROR, "* Você precisa estar logado para usar algum comando.");
+		return COMMAND_DENIED;
+	}
+	else if(GetPlayerHospitalTime(playerid) > 0)
+	{
+		SendClientMessage(playerid, COLOR_ERROR, "* Você está em coma.");
+		return COMMAND_DENIED;
+	}
+	else if(success != COMMAND_OK)
+		SendClientMessage(playerid, COLOR_ERROR, "* Este comando não existe. Utilize /cmds ou /comandos para uma lista com todos os comandos.");
+    return COMMAND_OK;
 }

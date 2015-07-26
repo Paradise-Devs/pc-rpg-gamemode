@@ -102,7 +102,7 @@ YCMD:apertarmao(playerid, params[], help)
         }
         new info[93 + MAX_PLAYER_NAME];
 		format(info, sizeof(info), "{ffffff}Você ofereceu um aperto de mão à {CEE6ED}%s{ffffff}, aguarde ele aceitar ou recusar.", GetPlayerNamef(targetid));
-        Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_PASSWORD, "Aperto de mão", info, "Cancelar", "");
+        Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_MSGBOX, "Aperto de mão", info, "Cancelar", "");
         PlaySelectSound(playerid);
 
         inline Response2(pid, dialogid, response, listitem, string:inputtext[])
@@ -192,7 +192,7 @@ YCMD:apertarmao(playerid, params[], help)
             return 1;
         }
 		format(info, sizeof(info), "{CEE6ED}%s{ffffff} está te oferecendo um aperto de mão.", GetPlayerNamef(playerid));
-        Dialog_ShowCallback(targetid, using inline Response2, DIALOG_STYLE_PASSWORD, "Aperto de mão", info, "Cancelar", "");
+        Dialog_ShowCallback(targetid, using inline Response2, DIALOG_STYLE_MSGBOX, "Aperto de mão", info, "Cancelar", "");
         PlaySelectSound(playerid);
 
 		g_p_hshake[playerid] = targetid;

@@ -101,6 +101,7 @@ hook OnGameModeInit()
 #include "../modules/gameplay/8track.pwn"
 #include "../modules/gameplay/motocross.pwn"
 #include "../modules/gameplay/handshake.pwn"
+#include "../modules/gameplay/blowjob.pwn"
 #include "../modules/gameplay/hospital.pwn"
 
 /* Player */

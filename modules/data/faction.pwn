@@ -1,12 +1,12 @@
 /*******************************************************************************
-* FILENAME :        modules/data/building.pwn
+* FILENAME :        modules/data/faction.pwn
 *
 * DESCRIPTION :
-*       Saves and Loads building data.
+*       Saves and Loads faction data.
 *
 * NOTES :
-*       This file should only contain information about building's data.
-*       This is not intended to handle player entrances, extis and such.
+*       This file should only contain information about faction's data.
+*       This is not intended to handle player commands, etc.
 *
 *       Copyright Paradise Devs 2015.  All rights reserved.
 *
