@@ -100,6 +100,7 @@ hook OnGameModeInit()
 #include "../modules/player/admin.pwn"
 #include "../modules/player/chat.pwn"
 #include "../modules/player/commands.pwn"
+#include "../modules/player/deadbody.pwn"
 
 //------------------------------------------------------------------------------
 

@@ -104,6 +104,14 @@ SetPlayerLogged(playerid, bool:status)
 
 //------------------------------------------------------------------------------
 
+GetPlayerCash(playerid)
+    return gPlayerCharacterData[playerid][e_player_money];
+
+GivePlayerCash(playerid, value)
+    gPlayerCharacterData[playerid][e_player_money] += value;
+
+//------------------------------------------------------------------------------
+
 ResetPlayerData(playerid)
 {
     // Current Time
