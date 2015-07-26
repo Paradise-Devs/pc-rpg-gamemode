@@ -17,8 +17,6 @@
 // Required to be at the top
 #include <a_samp>
 
-#undef MAX_PLAYERS
-
 //------------------------------------------------------------------------------
 
 // Script versioning
@@ -29,13 +27,14 @@
 
 //------------------------------------------------------------------------------
 
-#define MAX_PLAYERS				101
 #define MAX_PLAYER_PASSWORD		32
 #define MAX_BUILDINGS			32
 
 //------------------------------------------------------------------------------
 
 #define COLOR_ERROR				0xf14545ff
+#define COLOR_SUCCESS			0x88aa62FF
+#define COLOR_INFO				0xA9C4E4FF
 
 //------------------------------------------------------------------------------
 
@@ -81,6 +80,7 @@ hook OnGameModeInit()
 /* Data */
 #include "../modules/data/connection.pwn"
 #include "../modules/data/building.pwn"
+#include "../modules/data/vehicle.pwn"
 #include "../modules/data/player.pwn"
 
 //------------------------------------------------------------------------------

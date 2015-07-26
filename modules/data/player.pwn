@@ -283,7 +283,7 @@ public OnAccountCheck(playerid)
             else if(!strcmp(gPlayerAccountData[playerid][e_player_password], inputtext) && !isnull(gPlayerAccountData[playerid][e_player_password]) && !isnull(inputtext))
             {
                 ClearPlayerScreen(playerid);
-                SendClientMessage(playerid, 0x88aa62FF, "Conectado com sucesso!");
+                SendClientMessage(playerid, COLOR_SUCCESS, "Conectado com sucesso!");
                 PlayerPlaySound(playerid,1058,0.0,0.0,0.0);
                 LoadPlayerAccount(playerid);
             }
@@ -308,7 +308,7 @@ public OnAccountCheck(playerid)
                 PlayErrorSound(playerid);
             else
             {
-                SendClientMessage(playerid, 0x88aa62FF, "* Registrado com sucesso!");
+                SendClientMessage(playerid, COLOR_SUCCESS, "* Registrado com sucesso!");
                 PlayerPlaySound(playerid,1058,0.0,0.0,0.0);
                 SetPlayerLogged(playerid, true);
 
@@ -326,7 +326,7 @@ public OnAccountCheck(playerid)
         Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_PASSWORD, "Conta Registrada", info, "Registrar", "Sair");
         PlaySelectSound(playerid);
     }
-	SendClientMessage(playerid, 0x88aa62FF, "* Conectado com sucesso.");
+	SendClientMessage(playerid, COLOR_SUCCESS, "* Conectado com sucesso.");
     return 1;
 }
 
@@ -358,7 +358,8 @@ hook OnPlayerRequestSpawn(playerid)
 
 hook OnPlayerConnect(playerid)
 {
-    SendClientMessage(playerid, 0xA9C4E4FF, "* Conectando ao banco de dados, por favor aguarde...");
+    ClearPlayerScreen(playerid);
+    SendClientMessage(playerid, COLOR_INFO, "* Conectando ao banco de dados, por favor aguarde...");
     ResetPlayerData(playerid);
     return 1;
 }
