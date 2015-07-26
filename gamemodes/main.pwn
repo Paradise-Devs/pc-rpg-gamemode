@@ -17,6 +17,8 @@
 // Required to be at the top
 #include <a_samp>
 
+#undef MAX_PLAYERS
+
 //------------------------------------------------------------------------------
 
 // Script versioning
@@ -27,11 +29,13 @@
 
 //------------------------------------------------------------------------------
 
+#define MAX_PLAYERS				101
 #define MAX_PLAYER_PASSWORD		32
+#define MAX_BUILDINGS			32
 
 //------------------------------------------------------------------------------
 
-#define COLOR_ERROR				0x9c2a2aff
+#define COLOR_ERROR				0xf14545ff
 
 //------------------------------------------------------------------------------
 
@@ -58,6 +62,15 @@ hook OnGameModeInit()
 	new rcon_command[32];
 	format(rcon_command, sizeof(rcon_command), "gamemodetext %s %s.%s%s", SCRIPT_VERSION_NAME, SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
 	SendRconCommand(rcon_command);
+
+	// Gamemode settings
+	ShowNameTags(1);
+	UsePlayerPedAnims();
+	DisableInteriorEnterExits();
+	SetNameTagDrawDistance(40.0);
+	EnableStuntBonusForAll(false);
+	ManualVehicleEngineAndLights();
+	ShowPlayerMarkers(PLAYER_MARKERS_MODE_OFF);
 	return 1;
 }
 
@@ -67,6 +80,7 @@ hook OnGameModeInit()
 
 /* Data */
 #include "../modules/data/connection.pwn"
+#include "../modules/data/building.pwn"
 #include "../modules/data/player.pwn"
 
 //------------------------------------------------------------------------------
