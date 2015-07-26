@@ -31,7 +31,7 @@ enum e_player_adata
     e_player_database_id,
     e_player_password[MAX_PLAYER_PASSWORD],
     e_player_regdate,
-    e_player_lastip[16],
+    e_player_ip[16],
     e_player_lastlogin
 }
 static gPlayerAccountData[MAX_PLAYERS][e_player_adata];
@@ -166,14 +166,11 @@ SavePlayerAccount(playerid)
     GetPlayerHealth(playerid, health);
     GetPlayerArmour(playerid, armour);
 
-    new playerIP[16];
-    GetPlayerIp(playerid, playerIP, sizeof(playerIP));
-
     // Account saving
     new query[250];
 	mysql_format(mysql, query, sizeof(query),
 	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `gender`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_gender], health, armour, playerIP, gettime(), gPlayerAccountData[playerid][e_player_database_id]);
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_gender], health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_tquery(mysql, query);
 
     // Weapon saving
@@ -236,7 +233,7 @@ public OnAccountLoad(playerid)
 	if(rows > 0)
 	{
         // Loading...
-        cache_get_field_content(0, "ip", gPlayerAccountData[playerid][e_player_lastip], mysql, 16);
+        GetPlayerIp(playerid, gPlayerAccountData[playerid][e_player_ip], 16);
         gPlayerAccountData[playerid][e_player_lastlogin] = cache_get_field_content_int(0, "last_login", mysql);
 
         gPlayerPositionData[playerid][e_player_x]       = cache_get_field_content_float(0, "x", mysql);
@@ -380,13 +377,8 @@ hook OnPlayerDisconnect(playerid, reason)
 hook OnGameModeInit()
 {
     // Create player table if not exists
-    mysql_pquery(mysql,
-        "CREATE TABLE IF NOT EXISTS `players` (`ID` int(11) NOT NULL AUTO_INCREMENT,\
-        `username` VARCHAR(25), `password` VARCHAR(32), `ip` VARCHAR(16), `email` VARCHAR(128),\
-        `x` FLOAT, `y` FLOAT, `z` FLOAT, `a` FLOAT, `interior` INT(11), `virtual_world` INT(11),\
-        `health` FLOAT, `armour` FLOAT, `skin` INT(11),\
-        `last_login` INT(11), `regdate` INT(11), `gender` TINYINT(1), PRIMARY KEY (ID), KEY (ID))\
-        ENGINE = InnoDB DEFAULT CHARSET = latin1 AUTO_INCREMENT = 1;");
-    mysql_pquery(mysql, "CREATE TABLE IF NOT EXISTS `pcrpg`.`player_weapons` ( `userid` INT UNSIGNED NOT NULL , `weaponid` TINYINT UNSIGNED NOT NULL , `ammo` INT UNSIGNED NOT NULL) ENGINE = InnoDB;");
+    print("Creating player tables if not exists.");
+    mysql_pquery(mysql, "CREATE TABLE IF NOT EXISTS `players` (`ID` int(11) NOT NULL AUTO_INCREMENT, `username` VARCHAR(25), `password` VARCHAR(32), `ip` VARCHAR(16), `email` VARCHAR(128), `x` FLOAT, `y` FLOAT, `z` FLOAT, `a` FLOAT, `interior` INT(11), `virtual_world` INT(11), `health` FLOAT, `armour` FLOAT, `skin` INT(11), `last_login` INT(11), `regdate` INT(11), `gender` TINYINT(1), PRIMARY KEY (ID), KEY (ID)) ENGINE = InnoDB DEFAULT CHARSET = latin1 AUTO_INCREMENT = 1;");
+    mysql_pquery(mysql, "CREATE TABLE IF NOT EXISTS `player_weapons` ( `userid` INT UNSIGNED NOT NULL , `weaponid` TINYINT UNSIGNED NOT NULL , `ammo` INT UNSIGNED NOT NULL) ENGINE = InnoDB;");
     return 1;
 }
