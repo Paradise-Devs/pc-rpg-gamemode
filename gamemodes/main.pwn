@@ -35,6 +35,8 @@
 #define HOSPITAL_TIME			180	// Seconds
 #define HOSPITAL_PRICE			500
 
+#define MAX_FACTIONS			32
+
 //------------------------------------------------------------------------------
 
 #define COLOR_ERROR				0xf14545ff
@@ -89,6 +91,7 @@ hook OnGameModeInit()
 #include "../modules/data/connection.pwn"
 #include "../modules/data/building.pwn"
 #include "../modules/data/vehicle.pwn"
+#include "../modules/data/faction.pwn"
 #include "../modules/data/player.pwn"
 
 /* Vehicle */
