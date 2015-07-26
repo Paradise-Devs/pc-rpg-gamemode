@@ -57,6 +57,7 @@ enum e_player_cdata
 {
     e_player_skin,
     e_player_gender,
+    e_player_money,
     Float:e_player_health,
     Float:e_player_armour
 }
@@ -101,7 +102,6 @@ SetPlayerLogged(playerid, bool:status)
         gPlayerStates[playerid] |= E_PLAYER_STATE_LOGGED;
 }
 
-
 //------------------------------------------------------------------------------
 
 ResetPlayerData(playerid)
@@ -124,6 +124,7 @@ ResetPlayerData(playerid)
     gPlayerPositionData[playerid][e_player_vw]          = 0;
 
     gPlayerCharacterData[playerid][e_player_gender]     = 0;
+    gPlayerCharacterData[playerid][e_player_money]      = 350;
     gPlayerCharacterData[playerid][e_player_skin]       = 299;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
@@ -167,10 +168,10 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[250];
+    new query[275];
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `gender`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_gender], health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), gPlayerAccountData[playerid][e_player_database_id]);
+	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `skin`=%d, `gender`=%d, `money`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d WHERE `id`=%d",
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_tquery(mysql, query);
 
     // Weapon saving
@@ -247,6 +248,7 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_armour] = cache_get_field_content_float(0, "armour", mysql);
         gPlayerCharacterData[playerid][e_player_skin]   = cache_get_field_content_int(0, "skin", mysql);
         gPlayerCharacterData[playerid][e_player_gender] = cache_get_field_content_int(0, "gender", mysql);
+        gPlayerCharacterData[playerid][e_player_money]  = cache_get_field_content_int(0, "money", mysql);
 
         // Setting...
         SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
@@ -284,7 +286,7 @@ public OnAccountCheck(playerid)
             {
                 ClearPlayerScreen(playerid);
                 SendClientMessage(playerid, COLOR_SUCCESS, "Conectado com sucesso!");
-                PlayerPlaySound(playerid,1058,0.0,0.0,0.0);
+                PlayConfirmSound(playerid);
                 LoadPlayerAccount(playerid);
             }
             else
@@ -309,7 +311,7 @@ public OnAccountCheck(playerid)
             else
             {
                 SendClientMessage(playerid, COLOR_SUCCESS, "* Registrado com sucesso!");
-                PlayerPlaySound(playerid,1058,0.0,0.0,0.0);
+                PlayConfirmSound(playerid);
                 SetPlayerLogged(playerid, true);
 
                 new playerIP[16], playerName[MAX_PLAYER_NAME];

@@ -38,6 +38,8 @@
 #define COLOR_SUCCESS			0x88aa62FF
 #define COLOR_INFO				0xA9C4E4FF
 #define COLOR_ACTION			0xDA70D6FF
+#define COLOR_WHITE				0xFFFFFFFF
+#define COLOR_YELLOW			0xFFFF00FF
 
 //------------------------------------------------------------------------------
 
@@ -95,7 +97,9 @@ hook OnGameModeInit()
 
 /* Player */
 #include "../modules/player/message.pwn"
+#include "../modules/player/admin.pwn"
 #include "../modules/player/chat.pwn"
+#include "../modules/player/commands.pwn"
 
 //------------------------------------------------------------------------------
 

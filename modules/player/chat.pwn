@@ -30,21 +30,21 @@ hook OnPlayerText(playerid, text[])
         {
             new message[172];
             format(message, 172, "%s diz: %s", GetPlayerNamef(playerid), text);
-            SendMultiMessage(i, 0xC6C6C6FF, message);
+            SendClientMessage(i, 0xC6C6C6FF, message);
         }
 
         else if(dist > 5 && dist <= 10)
         {
             new message[172];
             format(message, 172, "%s diz: %s", GetPlayerNamef(playerid), text);
-            SendMultiMessage(i, 0xB6B6B6FF, message);
+            SendClientMessage(i, 0xB6B6B6FF, message);
         }
 
         else if(dist > 10 && dist <= 20)
         {
             new message[172];
             format(message, 172, "%s diz: %s", GetPlayerNamef(playerid), text);
-            SendMultiMessage(i, 0xA3A3A3FF, message);
+            SendClientMessage(i, 0xA3A3A3FF, message);
         }
     }
     return -1;

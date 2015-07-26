@@ -53,6 +53,9 @@ static gCreatedVehicles;
 Float:GetVehicleFuel(vehicleid)
     return gVehicleData[vehicleid][e_vehicle_fuel];
 
+SetVehicleFuel(vehicleid, Float:value)
+    gVehicleData[vehicleid][e_vehicle_fuel] = value;
+
 //------------------------------------------------------------------------------
 
 public OnVehicleLoad()
