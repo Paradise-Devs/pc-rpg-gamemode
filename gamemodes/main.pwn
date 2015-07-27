@@ -58,7 +58,6 @@
 #include <YSI\y_commands>
 #include <YSI\y_dialog>
 #include <util>
-#include <pause>
 
 //------------------------------------------------------------------------------
 
@@ -106,6 +105,7 @@ hook OnGameModeInit()
 /* Game */
 #include "../modules/game/mapicons.pwn"
 #include "../modules/game/automsg.pwn"
+#include "../modules/game/pause.pwn"
 
 /* Gameplay */
 #include "../modules/gameplay/8track.pwn"
