@@ -112,6 +112,11 @@ SetPlayerLotteryTicket(playerid, val)
 
 //------------------------------------------------------------------------------
 
+GetPlayerFactionID(playerid)
+    return gPlayerCharacterData[playerid][e_player_faction];
+
+//------------------------------------------------------------------------------
+
 GetPlayerCash(playerid)
     return gPlayerCharacterData[playerid][e_player_money];
 GivePlayerCash(playerid, value)

@@ -51,6 +51,22 @@ static gCreatedFaction;
 
 //------------------------------------------------------------------------------
 
+GetFactionName(factionid)
+{
+    new factionName[MAX_FACTION_NAME];
+    if(factionid < 0 || factionid > MAX_FACTIONS-1)
+        printf("[ERROR] GetFactionName tried to access invalid factionid. Factionid: %d", factionid);
+    else
+    {
+        format(factionName, sizeof(factionName), "%s", gFactionData[factionid][e_faction_name]);
+        return factionName;
+    }
+    factionName = "desconhecida";
+    return factionName;
+}
+
+//------------------------------------------------------------------------------
+
 public OnFactionLoad()
 {
     for(new i, j = cache_get_row_count(mysql); i < j; i++)

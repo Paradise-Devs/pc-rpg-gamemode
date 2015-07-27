@@ -57,6 +57,11 @@ SetVehicleFuel(vehicleid, Float:value)
 
 //------------------------------------------------------------------------------
 
+GetVehicleFactionID(vehicleid)
+    return gVehicleData[vehicleid][e_vehicle_factionid];
+
+//------------------------------------------------------------------------------
+
 public OnVehicleLoad()
 {
     for(new i, j = cache_get_row_count(mysql); i < j; i++)
