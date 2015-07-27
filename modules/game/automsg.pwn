@@ -45,8 +45,8 @@ task SendServerMessages[INTERVAL_BETWEEN_SERVER_MESSAGES]()
 
 		if(gMessageIndex > sizeof(advertises_array)-1)
 			gMessageIndex = 0;
-        gMessageIndex++;
 
 		SendClientMessage(i, 0xa5f413ff, advertises_array[gMessageIndex]);
+        gMessageIndex++;
     }
 }
