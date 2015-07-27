@@ -22,6 +22,10 @@ forward OnPlayerExitBuilding(playerid, building);
 
 //------------------------------------------------------------------------------
 
+#define INTERVAL_BETWEEN_PICKUP_UPDATES 750
+
+//------------------------------------------------------------------------------
+
 // enumaration of building's data
 enum e_building_data
 {
@@ -50,6 +54,7 @@ enum e_building_data
 }
 static gBuildingData[MAX_BUILDINGS][e_building_data];
 static gCreatedBuildings;
+static gPLEtickcount[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
@@ -84,6 +89,9 @@ public OnBuildingLoad()
 
 hook OnPlayerPickUpDynPickup(playerid, pickupid)
 {
+    if(gPLEtickcount[playerid] > tickcount())
+        return 1;
+
     for (new i = 0; i < gCreatedBuildings; i++)
     {
         if(pickupid == gBuildingData[i][e_building_out_pkp_id])
@@ -95,6 +103,7 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
                 SetPlayerPos(playerid, gBuildingData[i][e_building_in_x], gBuildingData[i][e_building_in_y], gBuildingData[i][e_building_in_z]);
                 SetPlayerFacingAngle(playerid, gBuildingData[i][e_building_in_a]);
                 SetCameraBehindPlayer(playerid);
+                gPLEtickcount[playerid] = tickcount() + INTERVAL_BETWEEN_PICKUP_UPDATES;
             }
         }
         else if(pickupid == gBuildingData[i][e_building_in_pkp_id])
@@ -106,6 +115,7 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
                 SetPlayerPos(playerid, gBuildingData[i][e_building_out_x], gBuildingData[i][e_building_out_y], gBuildingData[i][e_building_out_z]);
                 SetPlayerFacingAngle(playerid, gBuildingData[i][e_building_out_a]);
                 SetCameraBehindPlayer(playerid);
+                gPLEtickcount[playerid] = tickcount() + INTERVAL_BETWEEN_PICKUP_UPDATES;
             }
         }
     }
