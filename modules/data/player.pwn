@@ -337,6 +337,9 @@ public OnAccountCheck(playerid)
             else if(strlen(inputtext) < 6)
                 Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Conta Registrada->Senha muito curta", "Senha muito curta!\n\nSua senha precisa de pelo menos 6 characteres.\nTente novamente:", "Registrar", "Sair"),
                 PlayErrorSound(playerid);
+            else if(strlen(inputtext) > MAX_PLAYER_PASSWORD-1)
+                Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Conta Registrada->Senha muito longa", "Senha muito longa!\n\nSua senha pode no máximo ter 30 characteres.\nTente novamente:", "Registrar", "Sair"),
+                PlayErrorSound(playerid);
             else
             {
                 SendClientMessage(playerid, COLOR_SUCCESS, "* Registrado com sucesso!");
