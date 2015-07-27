@@ -219,7 +219,7 @@ public OnAccountRegister(playerid)
     SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
     SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
     SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
-    SpawnPlayer(playerid);
+    ShowTutorialForPlayer(playerid);
 
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, sizeof(playerName));

@@ -101,6 +101,7 @@ hook OnGameModeInit()
 #include "../modules/def/checkpoint.pwn"
 #include "../modules/def/achievement.pwn"
 #include "../modules/def/ranks.pwn"
+#include "../modules/def/buttons.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
@@ -125,6 +126,7 @@ hook OnGameModeInit()
 #include "../modules/gameplay/blowjob.pwn"
 #include "../modules/gameplay/hospital.pwn"
 #include "../modules/gameplay/lottery.pwn"
+#include "../modules/gameplay/tutorial.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
