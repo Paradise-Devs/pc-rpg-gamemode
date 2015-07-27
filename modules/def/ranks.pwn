@@ -57,19 +57,19 @@ stock GetPlayerRankColor(playerid)
 {
     new rankColor = 0xFFFFFFFF;
     if(GetPlayerHighestRank(playerid) == PLAYER_RANK_DEVELOPER)
-        rankColor = 0x35a700ff;
+        rankColor = COLOR_RANK_DEVELOPER;
     else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_ADMIN)
-        rankColor = 0x00AEFFFF;
+        rankColor = COLOR_RANK_ADMIN;
     else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_SUPERVISOR)
-        rankColor = 0x009CE5FF;
+        rankColor = COLOR_RANK_SUPERVISOR;
     else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_MODERATOR)
-        rankColor = 0x008BCCFF;
+        rankColor = COLOR_RANK_MODERATOR;
     else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_BETATESTER)
-        rankColor = 0x992A2AFF;
+        rankColor = COLOR_RANK_BETATESER;
     else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_DESIGNER)
-        rankColor = 0xe48200ff;
+        rankColor = COLOR_RANK_DESIGNER;
     else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_BACKUP)
-        rankColor = 0xCE8500FF;
+        rankColor = COLOR_RANK_BACKUP;
     return rankColor;
 }
 

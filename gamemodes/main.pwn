@@ -47,7 +47,14 @@
 #define COLOR_YELLOW			0xFFFF00FF
 #define COLOR_SPECIAL			0xa5f413ff
 
-#define COLOR_RANK_DEVELOPER	
+#define COLOR_RANK_DEVELOPER	0x35a700ff
+#define COLOR_RANK_ADMIN		0x00AEFFFF
+#define COLOR_RANK_SUPERVISOR	0x009CE5FF
+#define COLOR_RANK_MODERATOR	0x008BCCFF
+#define COLOR_RANK_MODERATOR	0x008BCCFF
+#define COLOR_RANK_BETATESER	0x992A2AFF
+#define COLOR_RANK_DESIGNER		0xe48200ff
+#define COLOR_RANK_BACKUP		0xCE8500FF
 
 //------------------------------------------------------------------------------
 
