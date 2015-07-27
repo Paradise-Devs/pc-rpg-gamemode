@@ -28,6 +28,7 @@
 #define MAX_BUILDINGS			32
 #define MAX_PICKUP_RANGE		40.0
 #define MAX_TEXT3D_RANGE		20.0
+#define MAX_MAPICON_RANGE		150.0
 
 #define HOSPITAL_TIME			180	// Seconds
 #define HOSPITAL_PRICE			500
@@ -97,6 +98,9 @@ hook OnGameModeInit()
 
 /* Vehicle */
 #include "../modules/vehicle/control.pwn"
+
+/* Game */
+#include "../modules/game/mapicons.pwn"
 
 /* Gameplay */
 #include "../modules/gameplay/8track.pwn"
