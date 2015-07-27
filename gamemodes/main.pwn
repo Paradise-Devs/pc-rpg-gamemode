@@ -120,6 +120,7 @@ hook OnGameModeInit()
 #include "../modules/game/mapicons.pwn"
 #include "../modules/game/automsg.pwn"
 #include "../modules/game/pause.pwn"
+#include "../modules/game/clock.pwn"
 
 /* Gameplay */
 #include "../modules/gameplay/8track.pwn"
