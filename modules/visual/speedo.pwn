@@ -169,7 +169,7 @@ stock ShowPlayerSpeedo(playerid, vehicleid)
 		Speedo[playerid][10] = CreatePlayerTextDraw(playerid, 522.699951, 384.648437, "km/h");
 		PlayerTextDrawLetterSize(playerid, Speedo[playerid][10], 0.113333, 0.791111);
 		PlayerTextDrawAlignment(playerid, Speedo[playerid][10], 1);
-		PlayerTextDrawColor(playerid, Speedo[playerid][10], -2139062017);
+		PlayerTextDrawColor(playerid, Speedo[playerid][10], -1);
 		PlayerTextDrawSetShadow(playerid, Speedo[playerid][10], 0);
 		PlayerTextDrawSetOutline(playerid, Speedo[playerid][10], 0);
 		PlayerTextDrawBackgroundColor(playerid, Speedo[playerid][10], 255);
@@ -537,7 +537,7 @@ ptask UpdatePlayerSpeedo[100](playerid)
 	PlayerTextDrawSetString(playerid, Speedo[playerid][30],sHealth);
 
 	new sGas[9];
-	format(sGas, sizeof(sGas), "%d%%", GetVehicleFuel(vehicleid));
+	format(sGas, sizeof(sGas), "%.0f%%", GetVehicleFuel(vehicleid));
 	PlayerTextDrawSetString(playerid, Speedo[playerid][18], sGas);
 
 	new sSpeed[9];

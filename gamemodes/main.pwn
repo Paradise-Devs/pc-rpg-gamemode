@@ -147,6 +147,7 @@ hook OnGameModeInit()
 
 /* Objects */
 #include "../modules/objects/hospital.pwn"
+#include "../modules/objects/airport.pwn"
 
 //------------------------------------------------------------------------------
 
