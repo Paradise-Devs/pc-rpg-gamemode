@@ -51,6 +51,27 @@ YCMD:b(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
+YCMD:admins(playerid, params[], help)
+{
+	new count = 0, string[64];
+	SendClientMessage(playerid, COLOR_SPECIAL, "- Membros da moderação online -");
+	foreach(new i: Player)
+	{
+		if(GetPlayerHighestRank(i) >= PLAYER_RANK_MODERATOR)
+		{
+			format(string, sizeof string, "{FFFFFF}[{%06x}%s{FFFFFF}] %s", GetPlayerRankColor(i) >>> 8, GetPlayerRankName(i, true), GetPlayerNamef(i));
+			SendClientMessage(playerid, -1, string);
+			count++;
+		}
+	}
+
+	if(count == 0)
+		SendClientMessage(playerid, COLOR_ERROR, "* Nenhum membro da moderação online.");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
 YCMD:ajuda(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_SUCCESS, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

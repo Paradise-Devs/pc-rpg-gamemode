@@ -17,6 +17,25 @@
 
 hook OnPlayerText(playerid, text[])
 {
+    if(!IsPlayerLogged(playerid))
+    {
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não está logado.");
+        return -1;
+    }
+    else if(GetPlayerHospitalTime(playerid) > 0)
+    {
+        SendClientMessage(playerid, COLOR_ERROR, "* Você está em coma.");
+        return -1;
+    }
+    else if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_BETATESTER && strfind(text, "@", true) == 0 && strlen(text) > 1)
+	{
+		strdel(text, 0, 1);
+		new message[200];
+		format(message, 200, "@ [{%06x}%s{ededed}] %s: {e3e3e3}%s", GetPlayerRankColor(playerid) >>> 8, GetPlayerRankName(playerid, true), GetPlayerNamef(playerid), text);
+		SendAdminMessage(PLAYER_RANK_BETATESTER, 0xedededff, message);
+		return -1;
+	}
+
     new	Float:x, Float:y, Float:z;
     GetPlayerPos(playerid, x, y, z);
     SetPlayerChatBubble(playerid, text, 0xFFFFFFFF, 20.0, 5000);

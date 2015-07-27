@@ -45,6 +45,9 @@
 #define COLOR_ACTION			0xDA70D6FF
 #define COLOR_WHITE				0xFFFFFFFF
 #define COLOR_YELLOW			0xFFFF00FF
+#define COLOR_SPECIAL			0xa5f413ff
+
+#define COLOR_RANK_DEVELOPER	
 
 //------------------------------------------------------------------------------
 
@@ -90,6 +93,7 @@ hook OnGameModeInit()
 /* Defs */
 #include "../modules/def/checkpoint.pwn"
 #include "../modules/def/achievement.pwn"
+#include "../modules/def/ranks.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
@@ -118,10 +122,13 @@ hook OnGameModeInit()
 /* Player */
 #include "../modules/player/achievement.pwn"
 #include "../modules/player/message.pwn"
-#include "../modules/player/admin.pwn"
 #include "../modules/player/chat.pwn"
 #include "../modules/player/commands.pwn"
 #include "../modules/player/deadbody.pwn"
+
+/* Admin */
+#include "../modules/admin/commands.pwn"
+#include "../modules/admin/funcs.pwn"
 
 /* Objects */
 #include "../modules/objects/hospital.pwn"

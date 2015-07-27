@@ -122,7 +122,7 @@ YCMD:roubar(playerid, params[], help)
     SendClientMessage(playerid, 0xffffffff, output);
     SendClientMessage(targetid, 0xffffffff, "* {a5f413}Roubaram{ffffff} o seu dinheiro enquanto você estava desmaido.");
 
-    GivePlayerCash(targetid, -GetPlayerCash(targetid));
     GivePlayerCash(playerid, GetPlayerCash(targetid));
+    GivePlayerCash(targetid, -GetPlayerCash(targetid));
 	return 1;
 }
