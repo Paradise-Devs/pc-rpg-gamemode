@@ -16,6 +16,16 @@
 
 //------------------------------------------------------------------------------
 
+hook OnGameModeInit()
+{
+	Command_AddAltNamed("gritar",		"g");
+	Command_AddAltNamed("sussurrar",	"s");
+	Command_AddAltNamed("comandos",		"cmds");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
 YCMD:do(playerid, params[], help)
 {
 	if(isnull(params))
@@ -51,15 +61,39 @@ YCMD:b(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
+YCMD:id(playerid, params[], help)
+{
+	new targetid;
+	if(sscanf(params, "u", targetid))
+		return SendClientMessage(playerid, COLOR_INFO, "* /id [jogador]");
+
+    new output[40];
+	format(output, sizeof(output), "* %s(ID: %i)", GetPlayerNamef(targetid), targetid);
+	SendClientMessage(playerid, 0xAFAFAFAF, output);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:comandos(playerid, params[], help)
+{
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, 0xffffffff, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /janela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
 YCMD:admins(playerid, params[], help)
 {
 	new count = 0, string[64];
-	SendClientMessage(playerid, COLOR_SPECIAL, "- Membros da moderação online -");
+	SendClientMessage(playerid, COLOR_TITLE, "- Membros da moderação online -");
 	foreach(new i: Player)
 	{
 		if(GetPlayerHighestRank(i) >= PLAYER_RANK_MODERATOR)
 		{
-			format(string, sizeof string, "{FFFFFF}[{%06x}%s{FFFFFF}] %s", GetPlayerRankColor(i) >>> 8, GetPlayerRankName(i, true), GetPlayerNamef(i));
+			format(string, sizeof string, "* {FFFFFF}[{%06x}%s{FFFFFF}] %s(ID: %i)", GetPlayerRankColor(i) >>> 8, GetPlayerRankName(i, true), GetPlayerNamef(i), i);
 			SendClientMessage(playerid, -1, string);
 			count++;
 		}
@@ -74,15 +108,15 @@ YCMD:admins(playerid, params[], help)
 
 YCMD:ajuda(playerid, params[], help)
 {
-	SendClientMessage(playerid, COLOR_SUCCESS, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	SendClientMessage(playerid, COLOR_WHITE, "* Para uma lista com os comandos disponíveis digite {88aa62}/comandos{ffffff} ou {88aa62}/cmds{ffffff}.");
-	SendClientMessage(playerid, COLOR_WHITE, "* Grande parte dos {88aa62}itens{ffffff} a venda se encontram em {88aa62}lojas 24-7{ffffff}.");
-	SendClientMessage(playerid, COLOR_WHITE, "* Um {88aa62}GPS{ffffff} irá te ajudar a localizar os locais importantes através do comando {88aa62}/gps{ffffff}.");
-	SendClientMessage(playerid, COLOR_WHITE, "* {88aa62}Telefones{ffffff} são vendidos nas operadoras de celular apresentadas por um {88aa62}T{ffffff} em seu radar.");
-	SendClientMessage(playerid, COLOR_WHITE, "* {88aa62}Anúncios{ffffff} enviados por empresas de publicidade {88aa62}são 50%% mais baratos{ffffff}.");
-	SendClientMessage(playerid, COLOR_WHITE, "* Para mais informações visite nosso site e fórum em {88aa62}www.pc-rpg.com.br{ffffff}.");
-	SendClientMessage(playerid, COLOR_WHITE, "* Caso ainda tenha dúvidas chame um {88aa62}administrador{ffffff} com {88aa62}/relatorio{ffffff}.");
-	SendClientMessage(playerid, COLOR_SUCCESS, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_WHITE, "* Para uma lista com os comandos disponíveis digite {a5f413}/comandos{ffffff} ou {a5f413}/cmds{ffffff}.");
+	SendClientMessage(playerid, COLOR_WHITE, "* Grande parte dos {a5f413}itens{ffffff} a venda se encontram em {a5f413}lojas 24-7{ffffff}.");
+	SendClientMessage(playerid, COLOR_WHITE, "* Um {a5f413}GPS{ffffff} irá te ajudar a localizar os locais importantes através do comando {a5f413}/gps{ffffff}.");
+	SendClientMessage(playerid, COLOR_WHITE, "* {a5f413}Telefones{ffffff} são vendidos nas operadoras de celular apresentadas por um {a5f413}T{ffffff} em seu radar.");
+	SendClientMessage(playerid, COLOR_WHITE, "* {a5f413}Anúncios{ffffff} enviados por empresas de publicidade {a5f413}são 50%% mais baratos{ffffff}.");
+	SendClientMessage(playerid, COLOR_WHITE, "* Para mais informações visite nosso site e fórum em {a5f413}www.pc-rpg.com.br{ffffff}.");
+	SendClientMessage(playerid, COLOR_WHITE, "* Caso ainda tenha dúvidas chame um {a5f413}administrador{ffffff} com {a5f413}/relatorio{ffffff}.");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
 
@@ -92,7 +126,7 @@ YCMD:sussurrar(playerid, params[], help)
 {
 	new targetid, message[128];
 	if(sscanf(params, "us[128]", targetid, message))
-		return SendClientMessage(playerid, COLOR_INFO, "* /sussurrar [playerid] [mensagem]");
+		return SendClientMessage(playerid, COLOR_INFO, "* /(s)ussurrar [playerid] [mensagem]");
 
 	if(!IsPlayerLogged(targetid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
@@ -121,7 +155,7 @@ YCMD:sussurrar(playerid, params[], help)
 YCMD:gritar(playerid, params[], help)
 {
 	if(isnull(params))
-		return SendClientMessage(playerid, COLOR_INFO, "* /gritar [mensagem]");
+		return SendClientMessage(playerid, COLOR_INFO, "* /(g)ritar [mensagem]");
 
 	for(new i, l = strlen( params ); i != l; i++)
 	{

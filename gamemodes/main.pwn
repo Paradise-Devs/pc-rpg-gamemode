@@ -18,8 +18,8 @@
 
 // Script versioning
 #define SCRIPT_VERSION_MAJOR	"0"
-#define SCRIPT_VERSION_MINOR	"1"
-#define SCRIPT_VERSION_PATCH	".9"
+#define SCRIPT_VERSION_MINOR	"2"
+#define SCRIPT_VERSION_PATCH	""
 #define SCRIPT_VERSION_NAME		"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -45,6 +45,7 @@
 #define COLOR_ACTION			0xDA70D6FF
 #define COLOR_WHITE				0xFFFFFFFF
 #define COLOR_YELLOW			0xFFFF00FF
+#define COLOR_TITLE				0xa5f413ff
 #define COLOR_SPECIAL			0xa5f413ff
 
 #define COLOR_RANK_DEVELOPER	0x35a700ff
@@ -68,6 +69,7 @@
 #include <YSI\y_commands>
 #include <YSI\y_dialog>
 #include <util>
+#include <vcolor>
 
 //------------------------------------------------------------------------------
 
@@ -127,6 +129,7 @@ hook OnGameModeInit()
 #include "../modules/gameplay/hospital.pwn"
 #include "../modules/gameplay/lottery.pwn"
 #include "../modules/gameplay/tutorial.pwn"
+#include "../modules/gameplay/weather.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
@@ -138,6 +141,9 @@ hook OnGameModeInit()
 /* Admin */
 #include "../modules/admin/commands.pwn"
 #include "../modules/admin/funcs.pwn"
+
+/* Visual */
+#include "../modules/visual/speedo.pwn"
 
 /* Objects */
 #include "../modules/objects/hospital.pwn"

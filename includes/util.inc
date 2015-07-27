@@ -299,6 +299,30 @@ GetVehicleModelIDFromName(vname[])
 
 //------------------------------------------------------------------------------
 
+stock GetVehicleName(vehicleid)
+{
+    new vehiclename[32] = "Nenhum";
+    if(!GetVehicleModel(vehicleid))
+        return vehiclename;
+    format(vehiclename, sizeof(vehiclename), aVehicleNames[GetVehicleModel(vehicleid) - 400]);
+    return vehiclename;
+}
+
+//------------------------------------------------------------------------------
+
+stock Float:GetPlayerSpeed(playerid)
+{// Using Gamer_Z and MP2 calculations (https://github.com/grasmanek94/GPB/blob/master/Speeds/AccurateGTASpeed.inc)
+	new Float:VelocityX, Float:VelocityY, Float:VelocityZ;
+	if(IsPlayerInAnyVehicle(playerid))
+		GetVehicleVelocity(GetPlayerVehicleID(playerid), VelocityX, VelocityY, VelocityZ);
+	else
+		GetPlayerVelocity(playerid, VelocityX, VelocityY, VelocityZ);
+
+	return (VelocityX*VelocityX+VelocityY*VelocityY+VelocityZ*VelocityZ)*(427833329/2935682);// old 5871364
+}
+
+//------------------------------------------------------------------------------
+
 // Convert UNIX time to human readable time
 stock convertTimestamp( timestamp, _form=0 )
 {

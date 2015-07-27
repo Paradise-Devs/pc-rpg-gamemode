@@ -119,8 +119,20 @@ GetPlayerFactionID(playerid)
 
 GetPlayerCash(playerid)
     return gPlayerCharacterData[playerid][e_player_money];
+
 GivePlayerCash(playerid, value)
+{
+    ResetPlayerMoney(playerid);
     gPlayerCharacterData[playerid][e_player_money] += value;
+    GivePlayerMoney(playerid, gPlayerCharacterData[playerid][e_player_money]);
+}
+
+SetPlayerCash(playerid, value)
+{
+    ResetPlayerMoney(playerid);
+    gPlayerCharacterData[playerid][e_player_money] = value;
+    GivePlayerMoney(playerid, gPlayerCharacterData[playerid][e_player_money]);
+}
 
 //------------------------------------------------------------------------------
 
@@ -374,6 +386,13 @@ hook OnPlayerRequestClass(playerid, classid)
     mysql_format(mysql, query, sizeof(query),"SELECT * FROM `players` WHERE `username` = '%e' LIMIT 1", playerName);
     mysql_tquery(mysql, query, "OnAccountCheck", "i", playerid);
     return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerSpawn(playerid)
+{
+    SetPlayerCash(playerid, gPlayerCharacterData[playerid][e_player_money]);
 }
 
 //------------------------------------------------------------------------------
