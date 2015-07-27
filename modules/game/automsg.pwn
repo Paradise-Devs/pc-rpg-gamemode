@@ -43,7 +43,7 @@ task SendServerMessages[INTERVAL_BETWEEN_SERVER_MESSAGES]()
         if(!IsPlayerLogged(i) || IsPlayerPaused(i))
             continue;
 
-		if(gMessageIndex > sizeof(advertises_array))
+		if(gMessageIndex > sizeof(advertises_array)-1)
 			gMessageIndex = 0;
         gMessageIndex++;
 
