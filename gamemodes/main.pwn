@@ -35,6 +35,8 @@
 
 #define MAX_FACTIONS			32
 
+#define INTERVAL_BETWEEN_SERVER_MESSAGES	900000 // ms
+
 //------------------------------------------------------------------------------
 
 #define COLOR_ERROR				0xf14545ff
@@ -56,6 +58,7 @@
 #include <YSI\y_commands>
 #include <YSI\y_dialog>
 #include <util>
+#include <pause>
 
 //------------------------------------------------------------------------------
 
@@ -102,6 +105,7 @@ hook OnGameModeInit()
 
 /* Game */
 #include "../modules/game/mapicons.pwn"
+#include "../modules/game/automsg.pwn"
 
 /* Gameplay */
 #include "../modules/gameplay/8track.pwn"
