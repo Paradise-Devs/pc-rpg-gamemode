@@ -178,7 +178,6 @@ hook OnGameModeInit()
 
 hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
 {
-	printf("AOAIS");
     if(checkpointid == gCheckpointid)
     {
         if(GetPlayerLotteryTicket(playerid) != 0)
@@ -186,6 +185,9 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
             SendClientMessage(playerid, COLOR_ERROR, "* Você já possui um bilhete.");
             return -1;
         }
+
+		SetPlayerCameraPos(playerid, 822.3589, 3.0130, 1004.6008);
+		SetPlayerCameraLookAt(playerid, 821.3605, 3.0032, 1004.6359, CAMERA_MOVE);
 
         new info[90];
         inline Response(pid, dialogid, response, listitem, string:inputtext[])

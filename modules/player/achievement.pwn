@@ -1,3 +1,15 @@
+/*******************************************************************************
+* FILENAME :        modules/data/achievement.pwn
+*
+* DESCRIPTION :
+*       Handles all achievements.
+*
+* NOTES :
+*       -
+*
+*       Copyright Paradise Devs 2015.  All rights reserved.
+*
+*/
 //------------------------------------------------------------------------------
 
 #include <YSI\y_hooks>

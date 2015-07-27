@@ -9,8 +9,6 @@
 *
 *       Copyright Paradise Devs 2015.  All rights reserved.
 *
-* AUTHOR :    Larceny           START DATE :    07 Jul 15
-*
 */
 
 //------------------------------------------------------------------------------

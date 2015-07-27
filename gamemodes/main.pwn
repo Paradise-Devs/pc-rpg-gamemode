@@ -17,9 +17,9 @@
 //------------------------------------------------------------------------------
 
 // Script versioning
-#define SCRIPT_VERSION_MAJOR	"2"
-#define SCRIPT_VERSION_MINOR	"0"
-#define SCRIPT_VERSION_PATCH	""
+#define SCRIPT_VERSION_MAJOR	"0"
+#define SCRIPT_VERSION_MINOR	"1"
+#define SCRIPT_VERSION_PATCH	".9"
 #define SCRIPT_VERSION_NAME		"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -46,14 +46,14 @@
 //------------------------------------------------------------------------------
 
 // Libraries
+#include <streamer>
+#include <sscanf2>
+#include <a_mysql>
 #include <YSI\y_iterate>
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 #include <YSI\y_commands>
 #include <YSI\y_dialog>
-#include <streamer>
-#include <sscanf2>
-#include <a_mysql>
 #include <util>
 
 //------------------------------------------------------------------------------
