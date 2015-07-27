@@ -38,15 +38,14 @@ static advertises_array[][] =
 
 task SendServerMessages[INTERVAL_BETWEEN_SERVER_MESSAGES]()
 {
+	if(gMessageIndex > sizeof(advertises_array)-1)
+		gMessageIndex = 0;
     foreach(new i: Player)
     {
         if(!IsPlayerLogged(i) || IsPlayerPaused(i))
             continue;
 
-		if(gMessageIndex > sizeof(advertises_array)-1)
-			gMessageIndex = 0;
-
 		SendClientMessage(i, 0xa5f413ff, advertises_array[gMessageIndex]);
-        gMessageIndex++;
     }
+	gMessageIndex++;
 }
