@@ -157,7 +157,7 @@ HOOK_RET:OnRconCommand()
 #define @_yH%0\32;%1(%2) @_yH%0%1(%2)
 
 // Create the default replacements.
-DEFINE_HOOK_REPLACEMENT(Checkpoint, CP );
+//DEFINE_HOOK_REPLACEMENT(Checkpoint, CP );
 DEFINE_HOOK_REPLACEMENT(Container , Cnt);
 DEFINE_HOOK_REPLACEMENT(Inventory , Inv);
 DEFINE_HOOK_REPLACEMENT(Dynamic   , Dyn);

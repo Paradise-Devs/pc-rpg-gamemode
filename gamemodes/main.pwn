@@ -146,6 +146,9 @@ hook OnGameModeInit()
 /* Visual */
 #include "../modules/visual/speedo.pwn"
 
+/* NPCs */
+#include "../modules/npcs/actors.pwn"
+
 /* Objects */
 #include "../modules/objects/hospital.pwn"
 #include "../modules/objects/airport.pwn"

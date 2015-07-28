@@ -310,6 +310,9 @@ UpdateJackpotOnDatabase()
 
 YCMD:lotto(playerid, params[], help)
 {
+	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
 	new time;
 	if(sscanf(params, "i", time))
 		SendClientMessage(playerid, COLOR_INFO, "* /lotto <tempo>");
