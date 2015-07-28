@@ -228,6 +228,7 @@ public OnAccountRegister(playerid)
 {
 	gPlayerAccountData[playerid][e_player_database_id] = cache_insert_id();
 
+    SetPlayerColor(playerid, 0xFFFFFFFF);
     SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
     SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
     SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
@@ -299,6 +300,7 @@ public OnAccountLoad(playerid)
 
         SetPlayerHealth(playerid, gPlayerCharacterData[playerid][e_player_health]);
         SetPlayerArmour(playerid, gPlayerCharacterData[playerid][e_player_armour]);
+        SetPlayerColor(playerid, 0xFFFFFFFF);
 
         LoadPlayerWeapons(playerid);
 
@@ -411,6 +413,7 @@ hook OnPlayerRequestSpawn(playerid)
 
 hook OnPlayerConnect(playerid)
 {
+    SetPlayerColor(playerid, 0xacacacff);
     ClearPlayerScreen(playerid);
     SendClientMessage(playerid, COLOR_INFO, "* Conectando ao banco de dados, por favor aguarde...");
     ResetPlayerData(playerid);

@@ -121,6 +121,7 @@ hook OnGameModeInit()
 #include "../modules/game/automsg.pwn"
 #include "../modules/game/pause.pwn"
 #include "../modules/game/clock.pwn"
+#include "../modules/game/preloadanim.pwn"
 
 /* Gameplay */
 #include "../modules/gameplay/8track.pwn"
