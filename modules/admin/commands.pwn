@@ -11,6 +11,108 @@
 *
 */
 
+//------------------------------------------------------------------------------
+
+YCMD:acmds(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Admin Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_MODERATOR) SendClientMessage(playerid, 0xffffffff, "* /ir - /puxar - /flip - /reparar");
+	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN) SendClientMessage(playerid, 0xecececff, "* /criarcar - /setmoney");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Admin Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+/***
+ *
+ *     #    #  ####  #####  ###### #####    ##   #####  ####  #####
+ *     ##  ## #    # #    # #      #    #  #  #    #   #    # #    #
+ *     # ## # #    # #    # #####  #    # #    #   #   #    # #    #
+ *     #    # #    # #    # #      #####  ######   #   #    # #####
+ *     #    # #    # #    # #      #   #  #    #   #   #    # #   #
+ *     #    #  ####  #####  ###### #    # #    #   #    ####  #    #
+ *
+ */
+
+ YCMD:ir(playerid, params[], help)
+ {
+ 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+ 	new targetid;
+ 	if(sscanf(params, "u", targetid))
+ 		return SendClientMessage(playerid, COLOR_INFO, "* /ir [playerid]");
+
+ 	else if(!IsPlayerLogged(targetid))
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+ 	else if(targetid == playerid)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode ir até você mesmo.");
+
+ 	new Float:x, Float:y, Float:z;
+    GetPlayerPos(targetid, x, y, z);
+    SetPlayerPos(playerid, x, y, z);
+
+    new output[50];
+    format(output, sizeof(output), "* %s veio até você.", GetPlayerNamef(playerid));
+    SendClientMessage(targetid, COLOR_ADMIN_ACTION, output);
+    format(output, sizeof(output), "* Você foi até %s.", GetPlayerNamef(targetid));
+    SendClientMessage(playerid, COLOR_ADMIN_ACTION, output);
+ 	return 1;
+ }
+
+//------------------------------------------------------------------------------
+
+ YCMD:puxar(playerid, params[], help)
+ {
+ 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+ 	new targetid;
+ 	if(sscanf(params, "u", targetid))
+ 		return SendClientMessage(playerid, COLOR_INFO, "* /puxar [playerid]");
+
+ 	else if(!IsPlayerLogged(targetid))
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+ 	else if(targetid == playerid)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode puxar você mesmo.");
+
+ 	new Float:x, Float:y, Float:z;
+    GetPlayerPos(playerid, x, y, z);
+    SetPlayerPos(targetid, x, y, z);
+
+    new output[50];
+    format(output, sizeof(output), "* %s puxou você.", GetPlayerNamef(playerid));
+    SendClientMessage(targetid, COLOR_ADMIN_ACTION, output);
+    format(output, sizeof(output), "* Você puxou %s.", GetPlayerNamef(targetid));
+    SendClientMessage(playerid, COLOR_ADMIN_ACTION, output);
+ 	return 1;
+ }
+
+//------------------------------------------------------------------------------
+
+ YCMD:flip(playerid, params[], help)
+ {
+ 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    else if(!IsPlayerInAnyVehicle(playerid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+
+    new Float:a, vehicleid = GetPlayerVehicleID(playerid);
+    GetVehicleZAngle(vehicleid, a);
+    SetVehicleZAngle(vehicleid, a);
+    SendClientMessage(playerid, COLOR_ADMIN_ACTION, "* Você flipou seu veículo.");
+ 	return 1;
+ }
+
+//------------------------------------------------------------------------------
+
 /***
  *
  *       ##   #####  #    # # #    # #  ####  ##### #####    ##   #####  ####  #####
@@ -57,6 +159,34 @@ YCMD:criarcar(playerid, params[], help)
 	SendClientMessage(playerid, COLOR_SUCCESS, iString);
     return 1;
 }
+
+//------------------------------------------------------------------------------
+
+YCMD:setmoney(playerid, params[], help)
+{
+   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+   new targetid, value;
+   if(sscanf(params, "ui", targetid, value))
+       return SendClientMessage(playerid, COLOR_INFO, "* /setmoney [playerid] [dinheiro]");
+
+   else if(!IsPlayerLogged(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+   SetPlayerCash(playerid, value);
+
+   new output[80];
+   if(playerid != targetid) {
+       format(output, sizeof(output), "* %s alterou seu dinheiro para $%s.", GetPlayerNamef(playerid), formatnumber(value));
+       SendClientMessage(targetid, COLOR_ADMIN_ACTION, output);
+   }
+   format(output, sizeof(output), "* Você alterou o dinheiro de %s para $%s.", GetPlayerNamef(targetid), formatnumber(value));
+   SendClientMessage(playerid, COLOR_ADMIN_ACTION, output);
+   return 1;
+}
+
+//------------------------------------------------------------------------------
 
 /***
  *

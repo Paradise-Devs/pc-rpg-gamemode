@@ -118,7 +118,7 @@ YCMD:roubar(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Este cadaver não tem dinheiro.");
 
     new output[111];
-    format(output, sizeof(output), "* Você roubou {a5f413}$%i{ffffff} do cadaver de {a5f413}%s{ffffff}.", GetPlayerCash(targetid), GetPlayerNamef(targetid));
+    format(output, sizeof(output), "* Você roubou {a5f413}$%s{ffffff} do cadaver de {a5f413}%s{ffffff}.", formatnumber(GetPlayerCash(targetid)), GetPlayerNamef(targetid));
     SendClientMessage(playerid, 0xffffffff, output);
     SendClientMessage(targetid, 0xffffffff, "* {a5f413}Roubaram{ffffff} o seu dinheiro enquanto você estava desmaido.");
 

@@ -56,9 +56,9 @@ timer OnLotteryUpdates[60000]()
 
 			new message[82 + 20];
 			if(g_lotteryAdvertisement > 1)
-				format(message, sizeof(message), "* Faltam apenas {008282}%d{B0E0E6} minutos para o sorteio de {008282}$%d{B0E0E6}.", g_lotteryAdvertisement, g_lotteryJackpot);
+				format(message, sizeof(message), "* Faltam apenas {008282}%d{B0E0E6} minutos para o sorteio de {008282}$%s{B0E0E6}.", g_lotteryAdvertisement, formatnumber(g_lotteryJackpot));
 			else
-				format(message, sizeof(message), "* Falta apenas {008282}%d{B0E0E6} minuto para o sorteio de {008282}$%d{B0E0E6}.", g_lotteryAdvertisement, g_lotteryJackpot);
+				format(message, sizeof(message), "* Falta apenas {008282}%d{B0E0E6} minuto para o sorteio de {008282}$%s{B0E0E6}.", g_lotteryAdvertisement, formatnumber(g_lotteryJackpot));
 			SendClientMessage(i, 0xB0E0E6FF, " ");
 			SendClientMessage(i, 0x008282FF, "* Lóterica.");
 			SendClientMessage(i, 0xB0E0E6FF, message);
@@ -95,9 +95,9 @@ timer OnLotteryUpdates[60000]()
 		{
 			new message[56 + 15];
 			if(amountOfWinners == 1)
-				format(message, sizeof(message), "* O vencedor da bolada de {008282}$%d{B0E0E6} foi:", g_lotteryJackpot);
+				format(message, sizeof(message), "* O vencedor da bolada de {008282}$%s{B0E0E6} foi:", formatnumber(g_lotteryJackpot));
 			else
-				format(message, sizeof(message), "* Os vencedores da bolada de {008282}$%d{B0E0E6} foram:", g_lotteryJackpot);
+				format(message, sizeof(message), "* Os vencedores da bolada de {008282}$%s{B0E0E6} foram:", formatnumber(g_lotteryJackpot));
 
 			foreach(new i: Player)
 			{
@@ -143,7 +143,7 @@ timer OnLotteryUpdates[60000]()
 					continue;
 
 				new message[86 + 15];
-				format(message, sizeof(message), "* {008282}Não{B0E0E6} houve vencedores. A bolada foi acumulada em {008282}$%d{B0E0E6}.", g_lotteryJackpot);
+				format(message, sizeof(message), "* {008282}Não{B0E0E6} houve vencedores. A bolada foi acumulada em {008282}$%s{B0E0E6}.", formatnumber(g_lotteryJackpot));
 				SendClientMessage(i, 0xB0E0E6FF, message);
 				SetPlayerLotteryTicket(i, 0);
 			}

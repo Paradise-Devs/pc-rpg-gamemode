@@ -47,6 +47,7 @@
 #define COLOR_YELLOW			0xFFFF00FF
 #define COLOR_TITLE				0xa5f413ff
 #define COLOR_SPECIAL			0xa5f413ff
+#define COLOR_ADMIN_ACTION		0x7dcfb6ff
 
 #define COLOR_RANK_DEVELOPER	0x35a700ff
 #define COLOR_RANK_ADMIN		0x00AEFFFF
@@ -68,6 +69,7 @@
 #include <YSI\y_timers>
 #include <YSI\y_commands>
 #include <YSI\y_dialog>
+#include <fnumb>
 #include <util>
 #include <vcolor>
 
