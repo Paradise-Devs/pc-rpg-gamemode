@@ -19,7 +19,7 @@ YCMD:acmds(playerid, params[], help)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Admin Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_MODERATOR) SendClientMessage(playerid, 0xffffffff, "* /ir - /puxar - /flip - /reparar");
+	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_MODERATOR) SendClientMessage(playerid, 0xffffffff, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv");
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN) SendClientMessage(playerid, 0xecececff, "* /criarcar - /setmoney");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Admin Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
@@ -115,6 +115,54 @@ YCMD:acmds(playerid, params[], help)
     GetVehicleZAngle(vehicleid, a);
     SetVehicleZAngle(vehicleid, a);
     SendClientMessage(playerid, COLOR_ADMIN_ACTION, "* Você flipou seu veículo.");
+ 	return 1;
+ }
+
+//------------------------------------------------------------------------------
+
+ YCMD:ls(playerid, params[], help)
+ {
+ 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+        SetPlayerPos(playerid, 1540.3774, -1675.6068, 13.5505);
+    else
+        SetVehiclePos(GetPlayerVehicleID(playerid), 1540.3774, -1675.6068, 13.5505);
+    SetPlayerInterior(playerid, 0);
+    SetPlayerVirtualWorld(playerid, 0);
+ 	return 1;
+ }
+
+//------------------------------------------------------------------------------
+
+ YCMD:sf(playerid, params[], help)
+ {
+ 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+        SetPlayerPos(playerid, -1816.0549, 590.1733, 35.1641);
+    else
+        SetVehiclePos(GetPlayerVehicleID(playerid), -1816.0549, 590.1733, 35.1641);
+    SetPlayerInterior(playerid, 0);
+    SetPlayerVirtualWorld(playerid, 0);
+ 	return 1;
+ }
+
+//------------------------------------------------------------------------------
+
+ YCMD:lv(playerid, params[], help)
+ {
+ 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+        SetPlayerPos(playerid, 2023.5212, 1341.9235, 10.82035);
+    else
+        SetVehiclePos(GetPlayerVehicleID(playerid), 2023.5212, 1341.9235, 10.8203);
+    SetPlayerInterior(playerid, 0);
+    SetPlayerVirtualWorld(playerid, 0);
  	return 1;
  }
 
