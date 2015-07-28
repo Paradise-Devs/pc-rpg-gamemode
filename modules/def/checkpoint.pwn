@@ -12,8 +12,33 @@
 
 //------------------------------------------------------------------------------
 
-enum
+#include <YSI\y_hooks>
+
+//------------------------------------------------------------------------------
+
+enum CHECKPOINT
 {
 	CHECKPOINT_NONE,
-	CHECKPOINT_LOTTERY
+	CHECKPOINT_PILOT
 }
+static CHECKPOINT:gPlayerCurrentCP[MAX_PLAYERS];
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+	gPlayerCurrentCP[playerid] = CHECKPOINT_NONE;
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+CHECKPOINT:GetPlayerCPID(playerid)
+	return gPlayerCurrentCP[playerid];
+
+//------------------------------------------------------------------------------
+
+SetPlayerCPID(playerid, CHECKPOINT:id)
+	gPlayerCurrentCP[playerid] = id;
+
+//------------------------------------------------------------------------------

@@ -123,11 +123,20 @@ GetPlayerFactionID(playerid)
 Job:GetPlayerJobID(playerid)
     return gPlayerCharacterData[playerid][e_player_jobid];
 
+GetPlayerJobXP(playerid)
+    return gPlayerCharacterData[playerid][e_player_jobxp];
+
+SetPlayerJobXP(playerid, val)
+    gPlayerCharacterData[playerid][e_player_jobxp] = val;
+
 SetPlayerJobID(playerid, Job:id)
     gPlayerCharacterData[playerid][e_player_jobid] = id;
 
 GetPlayerJobLV(playerid)
     return gPlayerCharacterData[playerid][e_player_joblv];
+
+SetPlayerJobLV(playerid, val)
+    gPlayerCharacterData[playerid][e_player_joblv] = val;
 
 //------------------------------------------------------------------------------
 

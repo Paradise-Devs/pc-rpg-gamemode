@@ -156,12 +156,12 @@ hook OnGameModeInit()
 /* NPCs */
 #include "../modules/npcs/actors.pwn"
 
+/* Jobs */
+#include "../modules/job/pilot.pwn"
+
 /* Objects */
 #include "../modules/objects/hospital.pwn"
 #include "../modules/objects/airport.pwn"
-
-/* Jobs */
-#include "../modules/job/pilot.pwn"
 
 //------------------------------------------------------------------------------
 
