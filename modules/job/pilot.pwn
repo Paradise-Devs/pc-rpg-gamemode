@@ -202,9 +202,12 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
         {
             if(gPlayerPlane[playerid] != INVALID_VEHICLE_ID)
             {
+                new f = gPlayerCF[playerid];
                 SendClientMessage(playerid, COLOR_ERROR, "* Você detonou o avião.");
-                SendClientMessage(playerid, COLOR_SUB_TITLE, "* Foram descontados $20.000 pelos reparos.");
-                GivePlayerCash(playerid, -20000);
+                new output[50];
+                format(output, sizeof(output), "* Foram descontados $%s pelos reparos.", formatnumber(gPilotServices[f][0][0] * 2));
+                SendClientMessage(playerid, COLOR_SUB_TITLE, output);
+                GivePlayerCash(playerid, -(gPilotServices[f][0][0] * 2));
 
                 DisablePlayerRaceCheckpoint(playerid);
 
