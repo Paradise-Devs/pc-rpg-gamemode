@@ -42,6 +42,7 @@ enum e_vehicle_data
     // ids
     e_vehicle_factionid,
     e_vehicle_jobid,
+    e_vehicle_locked,
     e_vehicle_id
 }
 static gVehicleData[MAX_VEHICLES][e_vehicle_data];
@@ -81,8 +82,10 @@ public OnVehicleLoad()
 
         gVehicleData[i][e_vehicle_factionid]   = cache_get_row_int(i, 11, mysql);
         gVehicleData[i][e_vehicle_jobid]       = cache_get_row_int(i, 12, mysql);
+        gVehicleData[i][e_vehicle_locked]      = cache_get_row_int(i, 13, mysql);
 
         gVehicleData[i][e_vehicle_id]        = CreateVehicle(gVehicleData[i][e_vehicle_model], gVehicleData[i][e_vehicle_x], gVehicleData[i][e_vehicle_y], gVehicleData[i][e_vehicle_z], gVehicleData[i][e_vehicle_a], gVehicleData[i][e_vehicle_color_1], gVehicleData[i][e_vehicle_color_2], -1, gVehicleData[i][e_vehicle_siren]);
+        if(gVehicleData[i][e_vehicle_locked]) SetVehicleParamsEx(gVehicleData[i][e_vehicle_id], VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_ON, VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF);
         gCreatedVehicles++;
 	}
     printf("Number of vehicles loaded: %d", gCreatedVehicles);
