@@ -46,7 +46,7 @@ timer OnVehicleStartEngine[2000](vehicleid, playerid)
 
     new Float:health;
     GetVehicleHealth(vehicleid, health);
-    if(health < 350.0)
+    if(health <= 250.0)
         SendActionMessage(playerid, 15.0, "Motor danificado.");
     else if(GetVehicleFuel(vehicleid) <= 0.0)
         SendActionMessage(playerid, 15.0, "Sem combustível.");
