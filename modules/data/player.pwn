@@ -59,6 +59,9 @@ enum e_player_cdata
     e_player_faction,
     e_player_frank,
     e_player_ticket,
+    Job:e_player_jobid,
+    e_player_jobxp,
+    e_player_joblv,
     Float:e_player_health,
     Float:e_player_armour
 }
@@ -117,6 +120,17 @@ GetPlayerFactionID(playerid)
 
 //------------------------------------------------------------------------------
 
+Job:GetPlayerJobID(playerid)
+    return gPlayerCharacterData[playerid][e_player_jobid];
+
+SetPlayerJobID(playerid, Job:id)
+    gPlayerCharacterData[playerid][e_player_jobid] = id;
+
+GetPlayerJobLV(playerid)
+    return gPlayerCharacterData[playerid][e_player_joblv];
+
+//------------------------------------------------------------------------------
+
 GetPlayerCash(playerid)
     return gPlayerCharacterData[playerid][e_player_money];
 
@@ -161,6 +175,9 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_faction]    = 0;
     gPlayerCharacterData[playerid][e_player_frank]      = 0;
     gPlayerCharacterData[playerid][e_player_ticket]     = 0;
+    gPlayerCharacterData[playerid][e_player_jobid]      = INVALID_JOB_ID;
+    gPlayerCharacterData[playerid][e_player_jobxp]      = 0;
+    gPlayerCharacterData[playerid][e_player_joblv]      = 1;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
 
@@ -203,11 +220,13 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[330];
+    new query[380];
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d, `achievements`=%d, `ticket`=%d WHERE `id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerRankVar(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money], GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket], gPlayerAccountData[playerid][e_player_database_id]);
-	mysql_tquery(mysql, query);
+	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d, `achievements`=%d, `ticket`=%d, `jobid`=%d, `jobxp`=%d, `joblv`=%d WHERE `id`=%d",
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerRankVar(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money],
+    GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket], _:gPlayerCharacterData[playerid][e_player_jobid], gPlayerCharacterData[playerid][e_player_jobxp], gPlayerCharacterData[playerid][e_player_joblv],
+    gPlayerAccountData[playerid][e_player_database_id]);
+	mysql_pquery(mysql, query);
 
     // Weapon saving
     new weaponid, ammo;
@@ -287,6 +306,10 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_skin]       = cache_get_field_content_int(0, "skin", mysql);
         gPlayerCharacterData[playerid][e_player_gender]     = cache_get_field_content_int(0, "gender", mysql);
         gPlayerCharacterData[playerid][e_player_money]      = cache_get_field_content_int(0, "money", mysql);
+        gPlayerCharacterData[playerid][e_player_ticket]     = cache_get_field_content_int(0, "ticket", mysql);
+        gPlayerCharacterData[playerid][e_player_jobid]      = Job:cache_get_field_content_int(0, "jobid", mysql);
+        gPlayerCharacterData[playerid][e_player_jobxp]      = cache_get_field_content_int(0, "jobxp", mysql);
+        gPlayerCharacterData[playerid][e_player_joblv]      = cache_get_field_content_int(0, "joblv", mysql);
 
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
@@ -311,18 +334,12 @@ public OnAccountLoad(playerid)
 
 //------------------------------------------------------------------------------
 
-public OnAccountCheck(playerid)
+hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
-	new rows, fields;
-	cache_get_data(rows, fields, mysql);
-	if(rows > 0)
-	{
-		cache_get_field_content(0, "password", gPlayerAccountData[playerid][e_player_password], mysql, MAX_PLAYER_PASSWORD);
-		gPlayerAccountData[playerid][e_player_database_id] = cache_get_field_content_int(0, "ID", mysql);
-
-        inline Response(pid, dialogid, response, listitem, string:inputtext[])
+    switch(dialogid)
+    {
+        case DIALOG_LOGIN:
         {
-            #pragma unused pid, dialogid, listitem
             if(!response)
                 Kick(playerid);
             else if(!strcmp(gPlayerAccountData[playerid][e_player_password], inputtext) && !isnull(gPlayerAccountData[playerid][e_player_password]) && !isnull(inputtext))
@@ -333,26 +350,19 @@ public OnAccountCheck(playerid)
                 LoadPlayerAccount(playerid);
             }
             else
-                Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Conta Registrada->Senha Incorreta", "Senha incorreta!\nTente novamente:", "Conectar", "Sair"),
+                ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_INPUT, "Conta Registrada->Senha Incorreta", "Senha incorreta!\nTente novamente:", "Conectar", "Sair"),
                 PlayErrorSound(playerid);
+            return -2;
         }
-        new info[130];
-        format(info, sizeof(info), "Bem-vindo de volta %s!\n\nSua conta já está registrada em nosso banco de dados.\nDigite sua senha para se conectar.", GetPlayerFirstName(playerid));
-        Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_PASSWORD, "Conta Registrada", info, "Conectar", "Sair");
-        PlaySelectSound(playerid);
-	}
-    else
-    {
-        inline Response(pid, dialogid, response, listitem, string:inputtext[])
+        case DIALOG_REGISTER:
         {
-            #pragma unused pid, dialogid, listitem
             if(!response)
                 Kick(playerid);
             else if(strlen(inputtext) < 6)
-                Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Conta Registrada->Senha muito curta", "Senha muito curta!\n\nSua senha precisa de pelo menos 6 characteres.\nTente novamente:", "Registrar", "Sair"),
+                ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Conta Registrada->Senha muito curta", "Senha muito curta!\n\nSua senha precisa de pelo menos 6 characteres.\nTente novamente:", "Registrar", "Sair"),
                 PlayErrorSound(playerid);
             else if(strlen(inputtext) > MAX_PLAYER_PASSWORD-1)
-                Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Conta Registrada->Senha muito longa", "Senha muito longa!\n\nSua senha pode no máximo ter 30 characteres.\nTente novamente:", "Registrar", "Sair"),
+                ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Conta Registrada->Senha muito longa", "Senha muito longa!\n\nSua senha pode no máximo ter 30 characteres.\nTente novamente:", "Registrar", "Sair"),
                 PlayErrorSound(playerid);
             else
             {
@@ -368,10 +378,33 @@ public OnAccountCheck(playerid)
                 mysql_format(mysql, query, sizeof(query), "INSERT INTO `players` (`username`, `password`, `ip`, `regdate`, `x`, `y`, `z`, `a`, `interior`, `virtual_world`) VALUES ('%e', '%e', '%s', %d, %.2f, %.2f, %.2f, %.2f, %d, %d)", playerName, inputtext, playerIP, gettime(), gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], gPlayerPositionData[playerid][e_player_int], gPlayerPositionData[playerid][e_player_vw]);
             	mysql_tquery(mysql, query, "OnAccountRegister", "i", playerid);
             }
+            return -2;
         }
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+public OnAccountCheck(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		cache_get_field_content(0, "password", gPlayerAccountData[playerid][e_player_password], mysql, MAX_PLAYER_PASSWORD);
+		gPlayerAccountData[playerid][e_player_database_id] = cache_get_field_content_int(0, "ID", mysql);
+
+        new info[130];
+        format(info, sizeof(info), "Bem-vindo de volta %s!\n\nSua conta já está registrada em nosso banco de dados.\nDigite sua senha para se conectar.", GetPlayerFirstName(playerid));
+        ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "Conta Registrada", info, "Conectar", "Sair");
+        PlaySelectSound(playerid);
+	}
+    else
+    {
         new info[130];
         format(info, sizeof(info), "Bem-vindo %s!\n\nSua conta não está registrada em nosso banco de dados.\nDigite sua senha para se registrar.", GetPlayerFirstName(playerid));
-        Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_PASSWORD, "Conta Registrada", info, "Registrar", "Sair");
+        ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Conta Registrada", info, "Registrar", "Sair");
         PlaySelectSound(playerid);
     }
 	SendClientMessage(playerid, COLOR_SUCCESS, "* Conectado.");

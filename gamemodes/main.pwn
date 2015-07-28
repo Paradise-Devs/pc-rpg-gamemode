@@ -48,6 +48,7 @@
 #define COLOR_TITLE				0xa5f413ff
 #define COLOR_SPECIAL			0xa5f413ff
 #define COLOR_ADMIN_ACTION		0x7dcfb6ff
+#define COLOR_SUB_TITLE			0xe6e6e6ff
 
 #define COLOR_RANK_DEVELOPER	0x35a700ff
 #define COLOR_RANK_ADMIN		0x00AEFFFF
@@ -68,7 +69,6 @@
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 #include <YSI\y_commands>
-#include <YSI\y_dialog>
 #include <fnumb>
 #include <util>
 #include <vcolor>
@@ -106,6 +106,8 @@ hook OnGameModeInit()
 #include "../modules/def/achievement.pwn"
 #include "../modules/def/ranks.pwn"
 #include "../modules/def/buttons.pwn"
+#include "../modules/def/job.pwn"
+#include "../modules/def/dialogs.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
@@ -118,6 +120,7 @@ hook OnGameModeInit()
 #include "../modules/vehicle/control.pwn"
 #include "../modules/vehicle/reserve.pwn"
 #include "../modules/vehicle/school.pwn"
+#include "../modules/vehicle/status.pwn"
 
 /* Game */
 #include "../modules/game/mapicons.pwn"
@@ -156,6 +159,9 @@ hook OnGameModeInit()
 /* Objects */
 #include "../modules/objects/hospital.pwn"
 #include "../modules/objects/airport.pwn"
+
+/* Jobs */
+#include "../modules/job/pilot.pwn"
 
 //------------------------------------------------------------------------------
 

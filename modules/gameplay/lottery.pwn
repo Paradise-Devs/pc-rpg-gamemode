@@ -176,24 +176,13 @@ hook OnGameModeInit()
 
 //------------------------------------------------------------------------------
 
-hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
+hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
-    if(checkpointid == gCheckpointid)
+    switch(dialogid)
     {
-        if(GetPlayerLotteryTicket(playerid) != 0)
+        case DIALOG_LOTTERY:
         {
-            SendClientMessage(playerid, COLOR_ERROR, "* Você já possui um bilhete.");
-            return -1;
-        }
-
-		SetPlayerCameraPos(playerid, 822.3589, 3.0130, 1004.6008);
-		SetPlayerCameraLookAt(playerid, 821.3605, 3.0032, 1004.6359, CAMERA_MOVE);
-
-        new info[90];
-        inline Response(pid, dialogid, response, listitem, string:inputtext[])
-        {
-            #pragma unused pid, dialogid, listitem
-            if(!response)
+			if(!response)
 			{
 				SetCameraBehindPlayer(playerid);
                 PlayCancelSound(playerid);
@@ -204,19 +193,19 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
                 {
                     PlayErrorSound(playerid);
                     SendClientMessage(playerid, COLOR_ERROR, "* Utilize apenas números.");
-                    Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Lotérica", info, "Comprar", "Cancelar");
+                    SetCameraBehindPlayer(playerid);
                 }
                 else if(LOTTERY_TICKET_PRICE > GetPlayerCash(playerid))
                 {
                     PlayErrorSound(playerid);
                     SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
-                    Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Lotérica", info, "Comprar", "Cancelar");
+                    SetCameraBehindPlayer(playerid);
                 }
                 else if(strval(inputtext) < 1 || strval(inputtext) > MAX_LOTTERY_VALUE)
                 {
                     PlayErrorSound(playerid);
                     SendClientMessage(playerid, COLOR_ERROR, "* Valor inválido.");
-                    Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Lotérica", info, "Comprar", "Cancelar");
+                    SetCameraBehindPlayer(playerid);
                 }
                 else
                 {
@@ -233,9 +222,30 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
     				UpdateJackpotOnDatabase();
                 }
             }
+			return -2;
+		}
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
+{
+    if(checkpointid == gCheckpointid)
+    {
+        if(GetPlayerLotteryTicket(playerid) != 0)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Você já possui um bilhete.");
+            return -1;
         }
+
+		SetPlayerCameraPos(playerid, 822.3589, 3.0130, 1004.6008);
+		SetPlayerCameraLookAt(playerid, 821.3605, 3.0032, 1004.6359, CAMERA_MOVE);
+
+        new info[90];
 		format(info, sizeof(info), "Digite o número do bilhete que deseja comprar.\n\nPossibilidades: 1 ~ %d\nPreço: $%i.", MAX_LOTTERY_VALUE, LOTTERY_TICKET_PRICE);
-        Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Lotérica", info, "Comprar", "Cancelar");
+		ShowPlayerDialog(playerid, DIALOG_LOTTERY, DIALOG_STYLE_INPUT, "Lotérica", info, "Comprar", "Cancelar");
         PlaySelectSound(playerid);
         return -2;
     }

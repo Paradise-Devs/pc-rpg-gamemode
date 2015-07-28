@@ -232,6 +232,79 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 //------------------------------------------------------------------------------
 
 /*
+	Called when a player clicks on a dialog
+		playerid - ID of the player
+		dialogid - ID of the dialog
+		response - If clicked button 0 or button 1
+		listitem - If used DIALOG_STYLE_INPUT_LIST
+		inputtext - If used DIALOG_STYLE_INPUT_TEXT
+*/
+
+hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
+{
+	switch(dialogid)
+	{
+		case DIALOG_BLOWJOB_OFFER:
+		{
+			// ID of the player who was receiving the proposal of blowjob
+			new targetid = GetPlayerBlowJobReceiverID(playerid);
+
+			SendClientMessage(playerid, 0xBFBEBEFF, "* Você cancelou a oferta de boquete.");
+			SendClientMessage(targetid, 0xBFBEBEFF, "* O jogador cancelou a oferta de boquete.");
+
+			// Closes the player dialog
+			ShowPlayerDialog(targetid,-1, 0, " ", " ", " ", " ");
+			ResetPlayerBlowJobData(playerid);
+		}
+		case DIALOG_BLOWJOB_ACCEPT:
+		{
+			// ID of the player who was giving the proposal of blowjob
+			new targetid = GetPlayerBlowJobOffererID(playerid);
+
+			// Closes the player dialog
+			ShowPlayerDialog(targetid,-1, 0, " ", " ", " ", " ");
+			if(!response)
+			{
+				SendClientMessage(playerid, 0xBFBEBEFF, "* Você cancelou a oferta de boquete.");
+				SendClientMessage(targetid, 0xBFBEBEFF, "* O jogador cancelou a oferta de boquete.");
+				ResetPlayerBlowJobData(targetid);
+			}
+			else
+			{
+				if(GetPlayerDistanceFromPlayer(playerid, targetid) > 1.0)
+				{
+					SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo ao jogador.");
+					SendClientMessage(targetid, COLOR_ERROR, "* Você não está próximo ao jogador.");
+					ResetPlayerBlowJobData(targetid);
+					return -2;
+				}
+
+				new Float:a;
+				GetPlayerFacingAngle(playerid, a);
+
+				a += 180.0;
+				if(a > 359.0)
+					a -= 359.0;
+
+				SetPlayerFacingAngle(targetid, a);
+
+				SendClientMessage(playerid, 0xFFFFFFFF, "* Você aceitou a oferta de boquete, pressione {A171B8}F{ffffff} para sair.");
+				SendClientMessage(targetid, 0xFFFFFFFF, "* O jogador aceitou a oferta de boquete, pressione {A171B8}F{ffffff} para sair.");
+
+				SetPlayerBlowJobGiver(playerid, targetid);
+				ApplyAnimation(playerid, "BLOWJOBZ", "BJ_STAND_START_P", 4.1, 0, 0, 0, 1, 0, 1);
+				ApplyAnimation(targetid, "BLOWJOBZ", "BJ_STAND_START_W", 4.1, 0, 0, 0, 1, 0, 1);
+				defer OnBlowJobStart(targetid);
+			}
+			return -2;
+		}
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+/*
 	Called when a player connects to the server
 		playerid - ID of the player
 */
@@ -253,15 +326,7 @@ timer OnBlowJobStart[1250](playerid)
 	GameTextForPlayer(playerid, "~n~~n~~n~~w~Aperte ~y~ ~k~~PED_SPRINT~ ~w~para chupar", 6000, 5);
 }
 
-/***
- *     ######   #######  ##     ## ##     ##    ###    ##    ## ########   ######
- *    ##    ## ##     ## ###   ### ###   ###   ## ##   ###   ## ##     ## ##    ##
- *    ##       ##     ## #### #### #### ####  ##   ##  ####  ## ##     ## ##
- *    ##       ##     ## ## ### ## ## ### ## ##     ## ## ## ## ##     ##  ######
- *    ##       ##     ## ##     ## ##     ## ######### ##  #### ##     ##       ##
- *    ##    ## ##     ## ##     ## ##     ## ##     ## ##   ### ##     ## ##    ##
- *     ######   #######  ##     ## ##     ## ##     ## ##    ## ########   ######
- ***/
+//------------------------------------------------------------------------------
 
 /*
 	offers a blowjob to a player
@@ -281,7 +346,7 @@ YCMD:oferecerboquete(playerid, params[], help)
 	else if(sscanf(params, "u", targetid))
 		SendClientMessage(playerid, COLOR_INFO, "* /oferecerboquete [playerid]");
 	else if(playerid == targetid)
-		SendClientMessage(playerid, COLOR_ERROR, "* Você não pode fazer um boquete em Você.");
+		SendClientMessage(playerid, COLOR_ERROR, "* Você não pode fazer um boquete em você.");
 	else if(GetPlayerDistanceFromPlayer(playerid, targetid) > 1.0)
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo ao jogador.");
 	else if(IsPlayerInAnyVehicle(targetid))
@@ -298,64 +363,12 @@ YCMD:oferecerboquete(playerid, params[], help)
 	{
 		SetPlayerBlowJobReceiver(playerid, targetid);
 
-        inline Response(pid, dialogid, response, listitem, string:inputtext[])
-        {
-            #pragma unused pid, dialogid, listitem, response, inputtext
-			SendClientMessage(playerid, 0xBFBEBEFF, "* Você cancelou a oferta de boquete.");
-			SendClientMessage(targetid, 0xBFBEBEFF, "* O jogador cancelou a oferta de boquete.");
+		new info[84 + MAX_PLAYER_NAME];
+		format(info, sizeof(info), "{ffffff}Você ofereceu um boquete à {CEE6ED}%s{ffffff}, aguarde ele aceitar ou recusar.", GetPlayerNamef(targetid));
+		ShowPlayerDialog(playerid, DIALOG_BLOWJOB_OFFER, DIALOG_STYLE_MSGBOX, "Boquete", info, "Cancelar", "");
 
-			// Closes the player dialog
-			Dialog_Hide(targetid);
-			ResetPlayerBlowJobData(playerid);
-            return 1;
-        }
-        new info[93 + MAX_PLAYER_NAME];
-		format(info, sizeof(info), "{ffffff}Você ofereceu um boquete à {A171B8}}%s{ffffff}, aguarde ele aceitar ou recusar.", GetPlayerNamef(targetid));
-        Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_MSGBOX, "Boquete", info, "Cancelar", "");
-        PlaySelectSound(playerid);
-
-        inline Response2(pid, dialogid, response, listitem, string:inputtext[])
-        {
-            #pragma unused pid, dialogid, listitem, response, inputtext
-            Dialog_Hide(playerid);
-            if(!response)
-			{
-				SendClientMessage(targetid, 0xBFBEBEFF, "* Você cancelou a oferta de boquete.");
-				SendClientMessage(playerid, 0xBFBEBEFF, "* O jogador cancelou a oferta de boquete.");
-				ResetPlayerBlowJobData(playerid);
-			}
-			else
-			{
-				if(GetPlayerDistanceFromPlayer(playerid, targetid) > 1.0)
-				{
-					SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo ao jogador.");
-					SendClientMessage(targetid, COLOR_ERROR, "* Você não está próximo ao jogador.");
-					ResetPlayerBlowJobData(playerid);
-					return -2;
-				}
-
-				new Float:a;
-				GetPlayerFacingAngle(playerid, a);
-
-				a += 180.0;
-				if(a > 359.0)
-					a -= 359.0;
-
-				SetPlayerFacingAngle(targetid, a);
-
-				SendClientMessage(targetid, 0xFFFFFFFF, "* Você aceitou a oferta de boquete, pressione {A171B8}F{ffffff} para sair.");
-				SendClientMessage(playerid, 0xFFFFFFFF, "* O jogador aceitou a oferta de boquete, pressione {A171B8}F{ffffff} para sair.");
-
-				SetPlayerBlowJobGiver(targetid, playerid);
-				ApplyAnimation(targetid, "BLOWJOBZ", "BJ_STAND_START_P", 4.1, 0, 0, 0, 1, 0, 1);
-				ApplyAnimation(playerid, "BLOWJOBZ", "BJ_STAND_START_W", 4.1, 0, 0, 0, 1, 0, 1);
-				defer OnBlowJobStart(playerid);
-            }
-            return 1;
-        }
-        format(info, sizeof(info), "{A171B8}}%s{ffffff} está te oferecendo um boquete.", GetPlayerNamef(playerid));
-        Dialog_ShowCallback(targetid, using inline Response2, DIALOG_STYLE_MSGBOX, "Boquete", info, "Cancelar", "");
-        PlaySelectSound(targetid);
+		format(info, sizeof(info), "{CEE6ED}%s{ffffff} está te oferecendo um boquete.", GetPlayerNamef(playerid));
+		ShowPlayerDialog(targetid, DIALOG_BLOWJOB_ACCEPT, DIALOG_STYLE_MSGBOX, "Boquete", info, "Aceitar", "Recusar");
 	}
 	return 1;
 }
