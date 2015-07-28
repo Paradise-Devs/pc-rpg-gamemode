@@ -200,7 +200,7 @@ timer RaceCountdownTrack[1000]()
 
 //------------------------------------------------------------------------------
 
-hook OnPlayerEnterRaceCP(playerid)
+hook OnPlayerEnterRaceCPT(playerid)
 {
 	if(IsPlayerIn8Track(playerid) && gPState[playerid] == TRACK_STATE_RACING)
 	{

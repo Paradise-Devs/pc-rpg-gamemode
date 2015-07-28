@@ -207,7 +207,7 @@ timer RaceCountdownCross[1000]()
 
 //------------------------------------------------------------------------------
 
-hook OnPlayerEnterRaceCP(playerid)
+hook OnPlayerEnterRaceCPT(playerid)
 {
 	if(IsPlayerInMotocross(playerid) && gPState[playerid] == CROSS_STATE_RACING)
 	{
