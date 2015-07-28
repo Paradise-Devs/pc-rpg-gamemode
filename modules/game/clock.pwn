@@ -15,21 +15,50 @@
 
 //------------------------------------------------------------------------------
 
-static gCurrentHour = 07;
-static gCurrentMinute = 00;
+new gCurrentHour = 07;
+new gCurrentMinute = 00;
+new Text:gClockTD;
+new bool:gplClockLoaded[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
-hook OnPlayerConnect(playerid)
+hook OnPlayerDisconnect(playerid, reason)
 {
-    SetPlayerTime(playerid, gCurrentHour, gCurrentMinute);
-    TogglePlayerClock(playerid, true);
+    gplClockLoaded[playerid] = false;
     return 1;
 }
 
 //------------------------------------------------------------------------------
 
-task UpdateServerClock[60000]()
+hook OnPlayerSpawn(playerid)
+{
+    if(!gplClockLoaded[playerid])
+    {
+        TextDrawShowForPlayer(playerid, gClockTD);
+        gplClockLoaded[playerid] = true;
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnGameModeInit()
+{
+    gClockTD = TextDrawCreate(545.000000, 20.000000, "07:00");
+    TextDrawBackgroundColor(gClockTD, 255);
+    TextDrawFont(gClockTD, 3);
+    TextDrawLetterSize(gClockTD, 0.6, 2.0);
+    TextDrawColor(gClockTD, 0xc3c3c3ff);
+    TextDrawBoxColor(gClockTD, 0x000000ff);
+    TextDrawSetOutline(gClockTD, 2);
+    TextDrawSetShadow(gClockTD, 0);
+    TextDrawSetProportional(gClockTD, 1);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+task UpdateServerClock[5000]()
 {
     gCurrentMinute++;
     if(gCurrentMinute > 59)
@@ -39,4 +68,11 @@ task UpdateServerClock[60000]()
         if(gCurrentHour > 23)
             gCurrentHour = 0;
     }
+
+    new sCT[12];
+    format(sCT, sizeof(sCT), "%02d:%02d", gCurrentHour, gCurrentMinute);
+    TextDrawSetString(gClockTD, sCT);
+
+    foreach(new i: Player)
+        SetPlayerTime(i, gCurrentHour, gCurrentMinute);
 }
