@@ -42,6 +42,20 @@ hook OnPlayerSpawn(playerid)
 
 //------------------------------------------------------------------------------
 
+ShowPlayerClock(playerid)
+{
+    TextDrawShowForPlayer(playerid, gClockTD);
+}
+
+//------------------------------------------------------------------------------
+
+HidePlayerClock(playerid)
+{
+    TextDrawHideForPlayer(playerid, gClockTD);
+}
+
+//------------------------------------------------------------------------------
+
 hook OnGameModeInit()
 {
     gClockTD = TextDrawCreate(545.000000, 20.000000, "07:00");

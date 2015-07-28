@@ -229,12 +229,12 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[380];
+    new query[390];
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d, `achievements`=%d, `ticket`=%d, `jobid`=%d, `jobxp`=%d, `joblv`=%d WHERE `id`=%d",
+	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d, `achievements`=%d, `ticket`=%d, `jobid`=%d, `jobxp`=%d, `joblv`=%d, `ftime`=%d WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerRankVar(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money],
     GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket], _:gPlayerCharacterData[playerid][e_player_jobid], gPlayerCharacterData[playerid][e_player_jobxp], gPlayerCharacterData[playerid][e_player_joblv],
-    gPlayerAccountData[playerid][e_player_database_id]);
+    GetPlayerFirstTimeVar(playerid), gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_pquery(mysql, query);
 
     // Weapon saving
@@ -323,6 +323,7 @@ public OnAccountLoad(playerid)
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
         SetPlayerRankVar(playerid, cache_get_field_content_int(0, "rank", mysql));
+        SetPlayerFirstTimeVar(playerid, cache_get_field_content_int(0, "ftime", mysql));
 
         // Setting...
         SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);

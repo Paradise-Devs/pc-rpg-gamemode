@@ -131,6 +131,8 @@ public OnPlayerEnterBuilding(playerid, building)
         SendClientMessage(playerid, COLOR_ERROR, "* Porta trancada.");
         return 0;
     }
+    else if(building == 25)
+        return OnPlayerEnterDrivingSchool(playerid);
     return 1;
 }
 

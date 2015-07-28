@@ -108,6 +108,7 @@ hook OnGameModeInit()
 #include "../modules/def/buttons.pwn"
 #include "../modules/def/job.pwn"
 #include "../modules/def/dialogs.pwn"
+#include "../modules/def/ftime.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
@@ -119,7 +120,7 @@ hook OnGameModeInit()
 /* Vehicle */
 #include "../modules/vehicle/control.pwn"
 #include "../modules/vehicle/reserve.pwn"
-#include "../modules/vehicle/school.pwn"
+#include "../modules/vehicle/dschool.pwn"
 #include "../modules/vehicle/status.pwn"
 
 /* Game */
