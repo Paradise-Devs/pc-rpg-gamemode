@@ -55,7 +55,11 @@ YCMD:acmds(playerid, params[], help)
 
  	new Float:x, Float:y, Float:z;
     GetPlayerPos(targetid, x, y, z);
-    SetPlayerPos(playerid, x, y, z);
+
+    if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+        SetPlayerPos(playerid, x, y, z);
+    else
+        SetVehiclePos(GetPlayerVehicleID(playerid), x, y, z);
 
     new output[50];
     format(output, sizeof(output), "* %s veio até você.", GetPlayerNamef(playerid));
@@ -84,7 +88,10 @@ YCMD:acmds(playerid, params[], help)
 
  	new Float:x, Float:y, Float:z;
     GetPlayerPos(playerid, x, y, z);
-    SetPlayerPos(targetid, x, y, z);
+    if(GetPlayerState(targetid) != PLAYER_STATE_DRIVER)
+        SetPlayerPos(targetid, x, y, z);
+    else
+        SetVehiclePos(GetPlayerVehicleID(targetid), x, y, z);
 
     new output[50];
     format(output, sizeof(output), "* %s puxou você.", GetPlayerNamef(playerid));

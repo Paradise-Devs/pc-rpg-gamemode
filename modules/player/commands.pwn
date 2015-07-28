@@ -18,6 +18,7 @@
 
 hook OnGameModeInit()
 {
+	Command_AddAltNamed("janela",		"j");
 	Command_AddAltNamed("gritar",		"g");
 	Command_AddAltNamed("sussurrar",	"s");
 	Command_AddAltNamed("comandos",		"cmds");
@@ -78,7 +79,7 @@ YCMD:id(playerid, params[], help)
 YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	SendClientMessage(playerid, 0xffffffff, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /janela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
+	SendClientMessage(playerid, 0xffffffff, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }

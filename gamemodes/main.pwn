@@ -117,6 +117,7 @@ hook OnGameModeInit()
 /* Vehicle */
 #include "../modules/vehicle/control.pwn"
 #include "../modules/vehicle/reserve.pwn"
+#include "../modules/vehicle/school.pwn"
 
 /* Game */
 #include "../modules/game/mapicons.pwn"
