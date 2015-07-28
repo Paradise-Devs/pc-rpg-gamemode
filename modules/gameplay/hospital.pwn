@@ -53,7 +53,6 @@ hook OnPlayerSpawn(playerid)
     {
         SendClientMessage(playerid, COLOR_INFO, "* Você está se recuperando, aguarde...");
 
-        SetPlayerVirtualWorld(playerid, 1);
         new Float:gMedicSpawns[3][3] =
 		{
 			{348.9868,165.0690,1014.6947},
@@ -63,8 +62,10 @@ hook OnPlayerSpawn(playerid)
 
 		new rand = random(sizeof(gMedicSpawns));
 		SetPlayerPos(playerid, gMedicSpawns[rand][0], gMedicSpawns[rand][1], gMedicSpawns[rand][2]);
+        SetPlayerVirtualWorld(playerid, 1);
 		SetPlayerFacingAngle(playerid, 0);
 		SetPlayerInterior(playerid, 3);
+        SetPlayerHealth(playerid, 25.0);
 
 		ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, 1, 0, 0, 1, 0, 1);
 		PlayerPlaySound(playerid, 1076, 0.0, 0.0, 0.0);
