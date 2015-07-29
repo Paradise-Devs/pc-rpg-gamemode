@@ -69,6 +69,7 @@
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 #include <YSI\y_commands>
+#include <YSI\y_va>
 #include <fnumb>
 #include <util>
 #include <vcolor>
