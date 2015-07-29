@@ -167,10 +167,9 @@ SendPlayerSuccessMessage(playerid, const message[], va_args<>)
 	return 1;
 }
 
-
 //------------------------------------------------------------------------------
 
-SendAdminActionMessage(playerid, const message[], va_args<>)
+SendAdminActionMessageToAll(playerid, const message[], va_args<>)
 {
 	new textBuffer[192];
 	if(numargs() > 2) {
