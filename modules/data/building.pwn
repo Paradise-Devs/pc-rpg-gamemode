@@ -131,6 +131,14 @@ public OnPlayerEnterBuilding(playerid, building)
         SendClientMessage(playerid, COLOR_ERROR, "* Porta trancada.");
         return 0;
     }
+    else if(building == 1)
+    {
+        if(GetPlayerFirstTime(playerid, FIRST_TIME_CITY_HALL) == false)
+        {
+            StartCityHallSchoolCutscene(playerid);
+            return 0;
+        }
+    }
     else if(building == 25)
         return OnPlayerEnterDrivingSchool(playerid);
     return 1;

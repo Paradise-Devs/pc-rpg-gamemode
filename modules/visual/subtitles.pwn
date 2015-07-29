@@ -18,10 +18,12 @@
 //------------------------------------------------------------------------------
 
 static PlayerText:gpTextDrawSub[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
+static Text:WIDESCREEN_TOP;
+static Text:WIDESCREEN_BOTTOM;
 
 //------------------------------------------------------------------------------
 
-CreatePlayerSubtitle(playerid, text[])
+CreatePlayerSubtitle(playerid, text[], bool:widescreen = false)
 {
     if(gpTextDrawSub[playerid] != PlayerText:INVALID_TEXT_DRAW)
     {
@@ -40,6 +42,14 @@ CreatePlayerSubtitle(playerid, text[])
     PlayerTextDrawSetProportional(playerid, gpTextDrawSub[playerid], 1);
     PlayerTextDrawSetShadow(playerid, gpTextDrawSub[playerid], 1);
     PlayerTextDrawShow(playerid, gpTextDrawSub[playerid]);
+
+    if(widescreen)
+    {
+        TextDrawShowForPlayer(playerid, WIDESCREEN_TOP);
+        TextDrawShowForPlayer(playerid, WIDESCREEN_BOTTOM);
+        HidePlayerClock(playerid);
+        SelectTextDraw(playerid, 0xffffff00);
+    }
     return 1;
 }
 
@@ -63,6 +73,43 @@ DestroyPlayerSubtitle(playerid)
 
     PlayerTextDrawDestroy(playerid, gpTextDrawSub[playerid]);
     gpTextDrawSub[playerid] = PlayerText:INVALID_TEXT_DRAW;
+
+    TextDrawHideForPlayer(playerid, WIDESCREEN_TOP);
+    TextDrawHideForPlayer(playerid, WIDESCREEN_BOTTOM);
+    ShowPlayerClock(playerid);
+    CancelSelectTextDraw(playerid);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnGameModeInit()
+{
+    WIDESCREEN_TOP = TextDrawCreate(320.000000, 1.000000, "_");
+	TextDrawAlignment(WIDESCREEN_TOP, 2);
+	TextDrawBackgroundColor(WIDESCREEN_TOP, 255);
+	TextDrawFont(WIDESCREEN_TOP, 1);
+	TextDrawLetterSize(WIDESCREEN_TOP, 0.500000, 8.000000);
+	TextDrawColor(WIDESCREEN_TOP, -1);
+	TextDrawSetOutline(WIDESCREEN_TOP, 0);
+	TextDrawSetProportional(WIDESCREEN_TOP, 1);
+	TextDrawSetShadow(WIDESCREEN_TOP, 1);
+	TextDrawUseBox(WIDESCREEN_TOP, 1);
+	TextDrawBoxColor(WIDESCREEN_TOP, 255);
+	TextDrawTextSize(WIDESCREEN_TOP, 0.000000, -660.000000);
+
+	WIDESCREEN_BOTTOM = TextDrawCreate(320.000000, 381.000000, "_");
+	TextDrawAlignment(WIDESCREEN_BOTTOM, 2);
+	TextDrawBackgroundColor(WIDESCREEN_BOTTOM, 255);
+	TextDrawFont(WIDESCREEN_BOTTOM, 1);
+	TextDrawLetterSize(WIDESCREEN_BOTTOM, 0.500000, 8.000000);
+	TextDrawColor(WIDESCREEN_BOTTOM, -1);
+	TextDrawSetOutline(WIDESCREEN_BOTTOM, 0);
+	TextDrawSetProportional(WIDESCREEN_BOTTOM, 1);
+	TextDrawSetShadow(WIDESCREEN_BOTTOM, 1);
+	TextDrawUseBox(WIDESCREEN_BOTTOM, 1);
+	TextDrawBoxColor(WIDESCREEN_BOTTOM, 255);
+	TextDrawTextSize(WIDESCREEN_BOTTOM, 0.000000, -660.000000);
     return 1;
 }
 

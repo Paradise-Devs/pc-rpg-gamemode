@@ -18,7 +18,8 @@
 // Maximum 32 values per variable
 enum FIRST_TIME:(<<= 1)
 {
-	FIRST_TIME_DRIVING_SCHOOL = 1
+	FIRST_TIME_DRIVING_SCHOOL = 1,
+	FIRST_TIME_CITY_HALL
 }
 static FIRST_TIME:gplFirstTime[MAX_PLAYERS];
 
@@ -35,6 +36,13 @@ SetPlayerFirstTime(playerid, FIRST_TIME:id, bool:set)
             else
                 gplFirstTime[playerid] &= ~FIRST_TIME_DRIVING_SCHOOL;
         }
+		case FIRST_TIME_CITY_HALL:
+		{
+			if(set)
+                gplFirstTime[playerid] |= FIRST_TIME_CITY_HALL;
+            else
+                gplFirstTime[playerid] &= ~FIRST_TIME_CITY_HALL;
+		}
     }
 }
 

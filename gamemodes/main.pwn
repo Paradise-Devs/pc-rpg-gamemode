@@ -151,6 +151,9 @@ hook OnGameModeInit()
 #include "../modules/admin/commands.pwn"
 #include "../modules/admin/funcs.pwn"
 
+/* Cutscenes */
+#include "../modules/cutscenes/cityhall.pwn"
+
 /* Visual */
 #include "../modules/visual/speedo.pwn"
 #include "../modules/visual/subtitles.pwn"
