@@ -200,9 +200,9 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
     if(gPlayerVehicleID[playerid] == INVALID_VEHICLE_ID)
         return 1;
 
-    switch(newstate)
+    switch(oldstate)
     {
-        case PLAYER_STATE_ONFOOT:
+        case PLAYER_STATE_DRIVER:
         {
             SendClientMessage(playerid, COLOR_ERROR, "* Você falhou no teste por abandonar o veículo.");
 
