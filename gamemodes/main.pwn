@@ -153,6 +153,7 @@ hook OnGameModeInit()
 
 /* Visual */
 #include "../modules/visual/speedo.pwn"
+#include "../modules/visual/subtitles.pwn"
 
 /* NPCs */
 #include "../modules/npcs/actors.pwn"
