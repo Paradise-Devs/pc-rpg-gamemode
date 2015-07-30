@@ -96,8 +96,8 @@ YCMD:acmds(playerid, params[], help)
     else
         SetVehiclePos(GetPlayerVehicleID(targetid), x, y, z);
 
-        SendAdminActionMessage(targetid, "%s puxou você.", GetPlayerNamef(playerid));
-        SendAdminActionMessage(playerid, "Você puxou %s.", GetPlayerNamef(targetid));
+    SendAdminActionMessage(targetid, "%s puxou você.", GetPlayerNamef(playerid));
+    SendAdminActionMessage(playerid, "Você puxou %s.", GetPlayerNamef(targetid));
 
  	return 1;
  }
@@ -122,8 +122,8 @@ YCMD:acmds(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
- YCMD:ls(playerid, params[], help)
- {
+YCMD:ls(playerid, params[], help)
+{
  	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendPlayerErrorMessage(playerid, "Você não tem permissão.");
 
@@ -136,14 +136,14 @@ YCMD:acmds(playerid, params[], help)
     SetPlayerVirtualWorld(playerid, 0);
 
  	return 1;
- }
+}
 
 //------------------------------------------------------------------------------
 
- YCMD:sf(playerid, params[], help)
- {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
- 		return SendPlayerErrorMessage(playerid, "Você não tem permissão.");
+YCMD:sf(playerid, params[], help)
+{
+	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+		return SendPlayerErrorMessage(playerid, "Você não tem permissão.");
 
     if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
         SetPlayerPos(playerid, -1816.0549, 590.1733, 35.1641);
@@ -153,15 +153,15 @@ YCMD:acmds(playerid, params[], help)
     SetPlayerInterior(playerid, 0);
     SetPlayerVirtualWorld(playerid, 0);
 
- 	return 1;
- }
+	return 1;
+}
 
 //------------------------------------------------------------------------------
 
- YCMD:lv(playerid, params[], help)
- {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
- 		return SendPlayerErrorMessage(playerid, "Você não tem permissão.");
+YCMD:lv(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendPlayerErrorMessage(playerid, "Você não tem permissão.");
 
     if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
         SetPlayerPos(playerid, 2023.5212, 1341.9235, 10.82035);
@@ -171,8 +171,8 @@ YCMD:acmds(playerid, params[], help)
     SetPlayerInterior(playerid, 0);
     SetPlayerVirtualWorld(playerid, 0);
 
- 	return 1;
- }
+    return 1;
+}
 
 //------------------------------------------------------------------------------
 
@@ -238,8 +238,6 @@ YCMD:setmoney(playerid, params[], help)
        return SendPlayerErrorMessage(playerid, "O jogador não está conectado.");
 
    SetPlayerCash(playerid, value);
-
-   new output[80];
 
    if(playerid == targetid) {
        SendAdminActionMessage(playerid, "%s alterou seu dinheiro para $%s.", GetPlayerNamef(playerid), formatnumber(value));

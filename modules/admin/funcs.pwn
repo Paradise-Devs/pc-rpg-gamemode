@@ -11,6 +11,13 @@
 *
 */
 
+//Ir removendo conforme for usando
+#pragma unused SendAdminActionMessageToAll
+#pragma unused SendErrorMessageToAll
+#pragma unused SendInfoMessageToAll
+#pragma unused SendServerMessage
+#pragma unused SendSuccessMessageToAll
+
 //------------------------------------------------------------------------------
 
 /***
@@ -135,10 +142,9 @@ SendInfoMessageToAll(const message[], va_args<>)
 {
 	new textBuffer[192];
 
-	if(numargs() > 2) {
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<2>);
+	if(numargs() > 1) {
+		va_format(textBuffer, sizeof(textBuffer), message, va_start<1>);
 		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-		return SendClientMessage(playerid, COLOR_INFO, textBuffer);
 	} else {
 		format(textBuffer, sizeof(textBuffer), "* %s", message);
     }
@@ -151,7 +157,7 @@ SendInfoMessageToAll(const message[], va_args<>)
 
 //------------------------------------------------------------------------------
 
-SendPlayerSuccessMessage(playerid, const message[], va_args<>)
+SendSuccessMessageToAll(playerid, const message[], va_args<>)
 {
 	new textBuffer[192];
 	if(numargs() > 2) {

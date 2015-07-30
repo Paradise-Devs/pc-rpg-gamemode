@@ -49,6 +49,7 @@
 #define COLOR_SPECIAL			0xa5f413ff
 #define COLOR_ADMIN_ACTION		0x7dcfb6ff
 #define COLOR_SUB_TITLE			0xe6e6e6ff
+#define COLOR_SERVER	         0x218f6eFF
 
 #define COLOR_RANK_DEVELOPER	0x35a700ff
 #define COLOR_RANK_ADMIN		0x00AEFFFF
@@ -61,7 +62,6 @@
 //------------------------------------------------------------------------------
 
 // Libraries
-#include <streamer>
 #include <sscanf2>
 #include <a_mysql>
 #include <YSI\y_iterate>
@@ -69,6 +69,7 @@
 #include <YSI\y_timers>
 #include <YSI\y_commands>
 #include <YSI\y_va>
+#include <streamer>
 #include <fnumb>
 #include <util>
 #include <vcolor>
