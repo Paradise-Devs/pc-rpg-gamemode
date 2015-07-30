@@ -69,6 +69,19 @@ static gPlayerCharacterData[MAX_PLAYERS][e_player_cdata];
 
 //------------------------------------------------------------------------------
 
+// enumaration of player's phone data
+enum e_player_phdata
+{
+    e_player_phone_number,
+    e_player_phone_network,
+    e_player_phone_credits,
+    e_player_phone_state
+}
+
+static gPlayerPhoneData[MAX_PLAYERS][e_player_phdata];
+
+//------------------------------------------------------------------------------
+
 // enumaration of player's weapon data
 enum e_player_wdata
 {
@@ -140,6 +153,37 @@ SetPlayerJobLV(playerid, val)
 
 //------------------------------------------------------------------------------
 
+SetPlayerPhoneNumber(playerid, phonenumber)
+    gPlayerPhoneData[playerid][e_player_phone_number] = phonenumber;
+
+GetPlayerPhoneNumber(playerid)
+    return gPlayerPhoneData[playerid][e_player_phone_number];
+
+SetPlayerPhoneNetwork(playerid, networkid)
+    gPlayerPhoneData[playerid][e_player_phone_network] = networkid;
+
+GetPlayerPhoneNetwork(playerid)
+    return gPlayerPhoneData[playerid][e_player_phone_network];
+
+SetPlayerPhoneCredit(playerid, credits)
+    gPlayerPhoneData[playerid][e_player_phone_credits] = credits;
+
+GetPlayerPhoneCredit(playerid)
+    return gPlayerPhoneData[playerid][e_player_phone_credits];
+
+SetPlayerPhoneState(playerid, bool:ph_state)
+{
+    if(ph_state != false)
+        ph_state = true;
+
+    gPlayerPhoneData[playerid][e_player_phone_state] = ph_state;
+}
+
+GetPlayerPhoneState(playerid)
+    return gPlayerPhoneData[playerid][e_player_phone_state];
+
+//------------------------------------------------------------------------------
+
 GetPlayerCash(playerid)
     return gPlayerCharacterData[playerid][e_player_money];
 
@@ -190,6 +234,11 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
 
+    gPlayerPhoneData[playerid][e_player_phone_number]   = 0;
+    gPlayerPhoneData[playerid][e_player_phone_network]  = -1;
+    gPlayerPhoneData[playerid][e_player_phone_credits]  = 0;
+    gPlayerPhoneData[playerid][e_player_phone_state]    = 0;
+
     for (new i = 0; i < sizeof(gPlayerWeaponData[][]); i++)
         gPlayerWeaponData[playerid][e_player_weapon][i] = 0;
 }
@@ -229,12 +278,31 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[390];
+    new query[460];
+
 	mysql_format(mysql, query, sizeof(query),
-	"UPDATE `players` SET `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, `gender`=%d, `money`=%d, `hospital`=%d, `health`=%.2f, `armour`=%.2f, `ip`='%s', `last_login`=%d, `achievements`=%d, `ticket`=%d, `jobid`=%d, `jobxp`=%d, `joblv`=%d, `ftime`=%d WHERE `id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerRankVar(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank], gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money],
-    GetPlayerHospitalTime(playerid), health, armour, gPlayerAccountData[playerid][e_player_ip], gettime(), GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket], _:gPlayerCharacterData[playerid][e_player_jobid], gPlayerCharacterData[playerid][e_player_jobxp], gPlayerCharacterData[playerid][e_player_joblv],
-    GetPlayerFirstTimeVar(playerid), gPlayerAccountData[playerid][e_player_database_id]);
+	"UPDATE `players` SET \
+    `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, \
+    `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, \
+    `gender`=%d, `money`=%d, \
+    `hospital`=%d, `health`=%.2f, `armour`=%.2f, \
+    `ip`='%s', `last_login`=%d, \
+    `achievements`=%d, `ticket`=%d, \
+    `jobid`=%d, `jobxp`=%d, `joblv`=%d, \
+    `ftime`=%d, \
+    `PhoneNumber`=%d, `PhoneNetwork`=%d, `PhoneCredits`=%d, `PhoneState`=%d \
+    WHERE `id`=%d",
+    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid),
+    GetPlayerRankVar(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
+    gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money],
+    GetPlayerHospitalTime(playerid), health, armour,
+    gPlayerAccountData[playerid][e_player_ip], gettime(),
+    GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket],
+    _:gPlayerCharacterData[playerid][e_player_jobid], gPlayerCharacterData[playerid][e_player_jobxp], gPlayerCharacterData[playerid][e_player_joblv],
+    GetPlayerFirstTimeVar(playerid),
+    GetPlayerPhoneNumber(playerid), GetPlayerPhoneNetwork(playerid), GetPlayerPhoneCredit(playerid), GetPlayerPhoneState(playerid),
+    gPlayerAccountData[playerid][e_player_database_id]);
+
 	mysql_pquery(mysql, query);
 
     // Weapon saving
@@ -319,6 +387,11 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_jobid]      = Job:cache_get_field_content_int(0, "jobid", mysql);
         gPlayerCharacterData[playerid][e_player_jobxp]      = cache_get_field_content_int(0, "jobxp", mysql);
         gPlayerCharacterData[playerid][e_player_joblv]      = cache_get_field_content_int(0, "joblv", mysql);
+
+        gPlayerPhoneData[playerid][e_player_phone_number]	= cache_get_field_content_int(0, "PhoneNumber");
+        gPlayerPhoneData[playerid][e_player_phone_network]  = cache_get_field_content_int(0, "PhoneNetwork");
+        gPlayerPhoneData[playerid][e_player_phone_credits]	= cache_get_field_content_int(0, "PhoneCredits");
+        gPlayerPhoneData[playerid][e_player_phone_state]	= cache_get_field_content_int(0, "PhoneState");
 
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
