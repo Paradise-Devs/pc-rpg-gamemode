@@ -290,8 +290,8 @@ public OnAccountCheck(playerid)
 	cache_get_data(rows, fields, mysql);
 	if(rows > 0)
 	{
-		cache_get_field_content(0, "password", GetPlayerPassword(playerid), mysql, MAX_PLAYER_PASSWORD);
-		SetPlayerDatabaseID(playerid, cache_get_field_content_int(0, "ID", mysql));
+        cache_get_field_content(0, "password", GetPlayerPassword(playerid), mysql, MAX_PLAYER_PASSWORD);
+        SetPlayerDatabaseID(playerid, cache_get_field_content_int(0, "ID", mysql));
 
         new info[130];
         format(info, sizeof(info), "Bem-vindo de volta %s!\n\nSua conta já está registrada em nosso banco de dados.\nDigite sua senha para se conectar.", GetPlayerFirstName(playerid));

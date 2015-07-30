@@ -10,7 +10,12 @@
 *       Copyright Paradise Devs 2015.  All rights reserved.
 *
 */
-
+//Ir removendo conforme for usando
+#pragma unused GetPlayerLastLogin
+#pragma unused GetPlayerRegDate
+#pragma unused SetPlayerPassword
+#pragma unused SetPlayerRegDate
+#pragma unused SetPlayerState
 
 /********************************************************************************
 *
@@ -99,7 +104,7 @@ enum E_PLAYER_STATE (<<= 1)
     E_PLAYER_STATE_NONE,
     E_PLAYER_STATE_LOGGED = 1
 }
-static E_PLAYER_STATES:gPlayerStates[MAX_PLAYERS];
+static E_PLAYER_STATE:gPlayerStates[MAX_PLAYERS];
 
 /********************************************************************************
 *
@@ -167,10 +172,6 @@ GetPlayerCash(playerid) {
 
 GetPlayerGender(playerid) {
     return gPlayerCharacterData[playerid][e_player_gender];
-}
-
-GetPlayerFaction(playerid) {
-    return gPlayerCharacterData[playerid][e_player_faction];
 }
 
 GetPlayerFactionRank(playerid) {
@@ -243,13 +244,14 @@ SetPlayerLastLogin(playerid, unixt) {
 /////////////////////////////////////////////////////////////////////////////////
 // POSITION DATA
 /////////////////////////////////////////////////////////////////////////////////
-SetPlayerPosEx(playerid, Float:PosX, Float:PosY, Float:PosZ, Float:Angle, int, vw) {
-    gPlayerAccountData[playerid][e_player_x]    = PosX;
-    gPlayerAccountData[playerid][e_player_y]    = PosY;
-    gPlayerAccountData[playerid][e_player_z]    = PosZ;
-    gPlayerAccountData[playerid][e_player_a]    = Angle;
-    gPlayerAccountData[playerid][e_player_int]  = int;
-    gPlayerAccountData[playerid][e_player_vw]   = vw;
+SetPlayerPosEx(playerid, Float:PosX, Float:PosY, Float:PosZ, Float:Angle, int, vw)
+{
+    gPlayerPositionData[playerid][e_player_x]    = PosX;
+    gPlayerPositionData[playerid][e_player_y]    = PosY;
+    gPlayerPositionData[playerid][e_player_z]    = PosZ;
+    gPlayerPositionData[playerid][e_player_a]    = Angle;
+    gPlayerPositionData[playerid][e_player_int]  = int;
+    gPlayerPositionData[playerid][e_player_vw]   = vw;
 
     SetPlayerPos(playerid, PosX, PosY, PosZ);
     SetPlayerFacingAngle(playerid, Angle);
@@ -315,31 +317,27 @@ SetPlayerPhoneCredit(playerid, credits) {
     gPlayerPhoneData[playerid][e_player_phone_credits] = credits;
 }
 
-SetPlayerPhoneState(playerid, ph_state)
-{
-    if(ph_state != false)
-        ph_state = true;
-
-    gPlayerPhoneData[playerid][e_player_phone_state] = ph_state;
+SetPlayerPhoneState(playerid, ph_state) {
+  gPlayerPhoneData[playerid][e_player_phone_state] = ph_state;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
 // STATE SETTERS
 /////////////////////////////////////////////////////////////////////////////////
-SetPlayerLogged(playerid, bool:status)
+SetPlayerLogged(playerid, bool:set)
 {
-    if(!status)
+    if(!set)
         gPlayerStates[playerid] &= ~E_PLAYER_STATE_LOGGED;
     else
         gPlayerStates[playerid] |= E_PLAYER_STATE_LOGGED;
 }
 
-SetPlayerState(playerid, E_PLAYER_STATE:state, bool:status)
+SetPlayerState(playerid, E_PLAYER_STATE:status, bool:set)
 {
-    if(!status)
-        gPlayerStates[playerid] &= ~state;
+    if(!set)
+        gPlayerStates[playerid] &= ~status;
     else
-        gPlayerStates[playerid] |= state;
+        gPlayerStates[playerid] |= status;
 }
 
 /////////////////////////////////////////////////////////////////////////////////

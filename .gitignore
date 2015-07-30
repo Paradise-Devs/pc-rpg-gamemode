@@ -8,5 +8,8 @@
 *.atom-build.json
 *.txt
 *.log
-*pawncc
-*pawndisasm
+*pawncc.exe
+*pawnc.pdb
+*pawnc.dll
+*pawncc.pdb
+*pawndisasm.pdb
