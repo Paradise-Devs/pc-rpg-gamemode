@@ -49,7 +49,7 @@
 #define COLOR_SPECIAL			0xa5f413ff
 #define COLOR_ADMIN_ACTION		0x7dcfb6ff
 #define COLOR_SUB_TITLE			0xe6e6e6ff
-#define COLOR_SERVER	         0x218f6eFF
+#define COLOR_SERVER	        0xa5f413ff
 
 #define COLOR_RANK_DEVELOPER	0x35a700ff
 #define COLOR_RANK_ADMIN		0x00AEFFFF
@@ -110,6 +110,7 @@ hook OnGameModeInit()
 #include "../modules/def/job.pwn"
 #include "../modules/def/dialogs.pwn"
 #include "../modules/def/ftime.pwn"
+#include "../modules/def/messages.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
