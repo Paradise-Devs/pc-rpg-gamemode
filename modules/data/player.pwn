@@ -14,234 +14,23 @@
 
 #include <YSI\y_hooks>
 
+/////////////////////////////////////////////////////////////////////////////////
+// DEFAULT PLAYER VALUES
+/////////////////////////////////////////////////////////////////////////////////
+#define         START_X         1449.01
+#define         START_Y         -2287.10
+#define         START_Z         13.54
+#define         START_A         96.36
+#define         START_INT       0
+#define         START_VW        0
+#define         START_SKIN      0
+
 //------------------------------------------------------------------------------
 
 forward OnWeaponsLoad(playerid);
 forward OnAccountLoad(playerid);
 forward OnAccountCheck(playerid);
 forward OnAccountRegister(playerid);
-
-//------------------------------------------------------------------------------
-
-// enumaration of player's account data
-enum e_player_adata
-{
-    e_player_database_id,
-    e_player_password[MAX_PLAYER_PASSWORD],
-    e_player_regdate,
-    e_player_ip[16],
-    e_player_lastlogin
-}
-static gPlayerAccountData[MAX_PLAYERS][e_player_adata];
-
-//------------------------------------------------------------------------------
-
-// enumaration of player's position data
-enum e_player_pdata
-{
-    Float:e_player_x,
-    Float:e_player_y,
-    Float:e_player_z,
-    Float:e_player_a,
-    e_player_int,
-    e_player_vw
-}
-static gPlayerPositionData[MAX_PLAYERS][e_player_pdata];
-
-//------------------------------------------------------------------------------
-
-// enumaration of player's character data
-enum e_player_cdata
-{
-    e_player_skin,
-    e_player_gender,
-    e_player_money,
-    e_player_faction,
-    e_player_frank,
-    e_player_ticket,
-    Job:e_player_jobid,
-    e_player_jobxp,
-    e_player_joblv,
-    Float:e_player_health,
-    Float:e_player_armour
-}
-static gPlayerCharacterData[MAX_PLAYERS][e_player_cdata];
-
-//------------------------------------------------------------------------------
-
-// enumaration of player's phone data
-enum e_player_phdata
-{
-    e_player_phone_number,
-    e_player_phone_network,
-    e_player_phone_credits,
-    e_player_phone_state
-}
-
-static gPlayerPhoneData[MAX_PLAYERS][e_player_phdata];
-
-//------------------------------------------------------------------------------
-
-// enumaration of player's weapon data
-enum e_player_wdata
-{
-    e_player_weapon[13],
-    e_player_ammo[13]
-}
-static gPlayerWeaponData[MAX_PLAYERS][e_player_wdata];
-
-//------------------------------------------------------------------------------
-
-// enumaration of player's states (max 32 states)
-enum E_PLAYER_STATES (<<= 1)
-{
-    E_PLAYER_STATE_NONE,
-    E_PLAYER_STATE_LOGGED = 1
-}
-static E_PLAYER_STATES:gPlayerStates[MAX_PLAYERS];
-
-//------------------------------------------------------------------------------
-
-// Getters & Setters
-
-IsPlayerLogged(playerid)
-{
-    if(gPlayerStates[playerid] & E_PLAYER_STATE_LOGGED)
-        return 1;
-    return 0;
-}
-
-SetPlayerLogged(playerid, bool:status)
-{
-    if(!status)
-        gPlayerStates[playerid] &= ~E_PLAYER_STATE_LOGGED;
-    else
-        gPlayerStates[playerid] |= E_PLAYER_STATE_LOGGED;
-}
-
-//------------------------------------------------------------------------------
-
-GetPlayerLotteryTicket(playerid)
-    return gPlayerCharacterData[playerid][e_player_ticket];
-SetPlayerLotteryTicket(playerid, val)
-    gPlayerCharacterData[playerid][e_player_ticket] = val;
-
-//------------------------------------------------------------------------------
-
-GetPlayerFactionID(playerid)
-    return gPlayerCharacterData[playerid][e_player_faction];
-
-//------------------------------------------------------------------------------
-
-Job:GetPlayerJobID(playerid)
-    return gPlayerCharacterData[playerid][e_player_jobid];
-
-GetPlayerJobXP(playerid)
-    return gPlayerCharacterData[playerid][e_player_jobxp];
-
-SetPlayerJobXP(playerid, val)
-    gPlayerCharacterData[playerid][e_player_jobxp] = val;
-
-SetPlayerJobID(playerid, Job:id)
-    gPlayerCharacterData[playerid][e_player_jobid] = id;
-
-GetPlayerJobLV(playerid)
-    return gPlayerCharacterData[playerid][e_player_joblv];
-
-SetPlayerJobLV(playerid, val)
-    gPlayerCharacterData[playerid][e_player_joblv] = val;
-
-//------------------------------------------------------------------------------
-
-SetPlayerPhoneNumber(playerid, phonenumber)
-    gPlayerPhoneData[playerid][e_player_phone_number] = phonenumber;
-
-GetPlayerPhoneNumber(playerid)
-    return gPlayerPhoneData[playerid][e_player_phone_number];
-
-SetPlayerPhoneNetwork(playerid, networkid)
-    gPlayerPhoneData[playerid][e_player_phone_network] = networkid;
-
-GetPlayerPhoneNetwork(playerid)
-    return gPlayerPhoneData[playerid][e_player_phone_network];
-
-SetPlayerPhoneCredit(playerid, credits)
-    gPlayerPhoneData[playerid][e_player_phone_credits] = credits;
-
-GetPlayerPhoneCredit(playerid)
-    return gPlayerPhoneData[playerid][e_player_phone_credits];
-
-SetPlayerPhoneState(playerid, bool:ph_state)
-{
-    if(ph_state != false)
-        ph_state = true;
-
-    gPlayerPhoneData[playerid][e_player_phone_state] = ph_state;
-}
-
-GetPlayerPhoneState(playerid)
-    return gPlayerPhoneData[playerid][e_player_phone_state];
-
-//------------------------------------------------------------------------------
-
-GetPlayerCash(playerid)
-    return gPlayerCharacterData[playerid][e_player_money];
-
-GivePlayerCash(playerid, value)
-{
-    ResetPlayerMoney(playerid);
-    gPlayerCharacterData[playerid][e_player_money] += value;
-    GivePlayerMoney(playerid, gPlayerCharacterData[playerid][e_player_money]);
-}
-
-SetPlayerCash(playerid, value)
-{
-    ResetPlayerMoney(playerid);
-    gPlayerCharacterData[playerid][e_player_money] = value;
-    GivePlayerMoney(playerid, gPlayerCharacterData[playerid][e_player_money]);
-}
-
-//------------------------------------------------------------------------------
-
-ResetPlayerData(playerid)
-{
-    // Current Time
-    new ct = gettime();
-
-    // Reset all player status
-    gPlayerStates[playerid] = E_PLAYER_STATE_NONE;
-
-    gPlayerAccountData[playerid][e_player_database_id]  = 0;
-    gPlayerAccountData[playerid][e_player_regdate]      = ct;
-    gPlayerAccountData[playerid][e_player_lastlogin]    = ct;
-
-    gPlayerPositionData[playerid][e_player_x]           = 1449.01;
-    gPlayerPositionData[playerid][e_player_y]           = -2287.10;
-    gPlayerPositionData[playerid][e_player_z]           = 13.54;
-    gPlayerPositionData[playerid][e_player_a]           = 96.36;
-    gPlayerPositionData[playerid][e_player_int]         = 0;
-    gPlayerPositionData[playerid][e_player_vw]          = 0;
-
-    gPlayerCharacterData[playerid][e_player_gender]     = 0;
-    gPlayerCharacterData[playerid][e_player_money]      = 350;
-    gPlayerCharacterData[playerid][e_player_skin]       = 299;
-    gPlayerCharacterData[playerid][e_player_faction]    = 0;
-    gPlayerCharacterData[playerid][e_player_frank]      = 0;
-    gPlayerCharacterData[playerid][e_player_ticket]     = 0;
-    gPlayerCharacterData[playerid][e_player_jobid]      = INVALID_JOB_ID;
-    gPlayerCharacterData[playerid][e_player_jobxp]      = 0;
-    gPlayerCharacterData[playerid][e_player_joblv]      = 1;
-    gPlayerCharacterData[playerid][e_player_health]     = 100.0;
-    gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
-
-    gPlayerPhoneData[playerid][e_player_phone_number]   = 0;
-    gPlayerPhoneData[playerid][e_player_phone_network]  = -1;
-    gPlayerPhoneData[playerid][e_player_phone_credits]  = 0;
-    gPlayerPhoneData[playerid][e_player_phone_state]    = 0;
-
-    for (new i = 0; i < sizeof(gPlayerWeaponData[][]); i++)
-        gPlayerWeaponData[playerid][e_player_weapon][i] = 0;
-}
 
 //------------------------------------------------------------------------------
 
@@ -258,7 +47,7 @@ LoadPlayerAccount(playerid)
 LoadPlayerWeapons(playerid)
 {
     new query[66];
-    mysql_format(mysql, query, sizeof(query), "SELECT weaponid, ammo FROM player_weapons WHERE userid = %d;", gPlayerAccountData[playerid][e_player_database_id]);
+    mysql_format(mysql, query, sizeof(query), "SELECT weaponid, ammo FROM player_weapons WHERE userid = %d;", GetPlayerDatabaseID(playerid));
     mysql_tquery(mysql, query, "OnWeaponsLoad", "i", playerid);
 }
 
@@ -293,15 +82,15 @@ SavePlayerAccount(playerid)
     `PhoneNumber`=%d, `PhoneNetwork`=%d, `PhoneCredits`=%d, `PhoneState`=%d \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid),
-    GetPlayerRankVar(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
-    gPlayerCharacterData[playerid][e_player_gender], gPlayerCharacterData[playerid][e_player_money],
+    GetPlayerRankVar(playerid), GetPlayerSkin(playerid), GetPlayerFactionID(playerid), GetPlayerFactionRank(playerid),
+    GetPlayerGender(playerid), GetPlayerCash(playerid),
     GetPlayerHospitalTime(playerid), health, armour,
-    gPlayerAccountData[playerid][e_player_ip], gettime(),
-    GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket],
-    _:gPlayerCharacterData[playerid][e_player_jobid], gPlayerCharacterData[playerid][e_player_jobxp], gPlayerCharacterData[playerid][e_player_joblv],
+    GetPlayerIPf(playerid), gettime(),
+    GetPlayerAchievements(playerid), GetPlayerLotteryTicket(playerid),
+    _:GetPlayerJobID(playerid), GetPlayerJobXP(playerid), GetPlayerJobLV(playerid),
     GetPlayerFirstTimeVar(playerid),
     GetPlayerPhoneNumber(playerid), GetPlayerPhoneNetwork(playerid), GetPlayerPhoneCredit(playerid), GetPlayerPhoneState(playerid),
-    gPlayerAccountData[playerid][e_player_database_id]);
+    GetPlayerDatabaseID(playerid));
 
 	mysql_pquery(mysql, query);
 
@@ -310,9 +99,11 @@ SavePlayerAccount(playerid)
     for(new i; i < 13; i++)
     {
     	GetPlayerWeaponData(playerid, i, weaponid, ammo);
+
     	if(!weaponid)
             continue;
-    	mysql_format(mysql, query, sizeof(query), "INSERT INTO player_weapons VALUES (%d, %d, %d) ON DUPLICATE KEY UPDATE ammo = %d;", gPlayerAccountData[playerid][e_player_database_id], weaponid, ammo, ammo);
+
+    	mysql_format(mysql, query, sizeof(query), "INSERT INTO player_weapons VALUES (%d, %d, %d) ON DUPLICATE KEY UPDATE ammo = %d;", GetPlayerDatabaseID(playerid), weaponid, ammo, ammo);
     	mysql_pquery(mysql, query);
     }
     return 1;
@@ -322,17 +113,17 @@ SavePlayerAccount(playerid)
 
 public OnAccountRegister(playerid)
 {
-	gPlayerAccountData[playerid][e_player_database_id] = cache_insert_id();
+    SetPlayerDatabaseID(playerid,cache_insert_id());
 
     SetPlayerColor(playerid, 0xFFFFFFFF);
-    SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
-    SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
-    SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
+    SetPlayerInterior(playerid, START_INT);
+    SetPlayerVirtualWorld(playerid, START_VW);
+    SetSpawnInfo(playerid, 255, START_SKIN, START_X, START_Y, START_Z, START_A, 0, 0, 0, 0, 0, 0);
     ShowTutorialForPlayer(playerid);
 
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, sizeof(playerName));
-	printf("[mysql] new account registered on database. ID: %d, Username: %s", gPlayerAccountData[playerid][e_player_database_id], playerName);
+	printf("[mysql] new account registered on database. ID: %d, Username: %s", GetPlayerDatabaseID(playerid), playerName);
 	return 1;
 }
 
@@ -365,53 +156,67 @@ public OnAccountLoad(playerid)
 	cache_get_data(rows, fields, mysql);
 	if(rows > 0)
 	{
-        // Loading...
-        GetPlayerIp(playerid, gPlayerAccountData[playerid][e_player_ip], 16);
-        gPlayerAccountData[playerid][e_player_lastlogin] = cache_get_field_content_int(0, "last_login", mysql);
+        /////////////////////////////////////
+        // SPAWNING
+        /////////////////////////////////////
+        SpawnPlayer(playerid);
 
-        gPlayerPositionData[playerid][e_player_x]           = cache_get_field_content_float(0, "x", mysql);
-        gPlayerPositionData[playerid][e_player_y]           = cache_get_field_content_float(0, "y", mysql);
-        gPlayerPositionData[playerid][e_player_z]           = cache_get_field_content_float(0, "z", mysql);
-        gPlayerPositionData[playerid][e_player_a]           = cache_get_field_content_float(0, "a", mysql);
-        gPlayerPositionData[playerid][e_player_int]         = cache_get_field_content_int(0, "interior", mysql);
-        gPlayerPositionData[playerid][e_player_vw]          = cache_get_field_content_int(0, "virtual_world", mysql);
+        /////////////////////////////////////
+        // ACCOUNT
+        /////////////////////////////////////
+        SetPlayerIP(playerid, GetPlayerIPf(playerid));
+        SetPlayerLastLogin(playerid, cache_get_field_content_int(0, "last_login", mysql));
 
-        gPlayerCharacterData[playerid][e_player_health]     = cache_get_field_content_float(0, "health", mysql);
-        gPlayerCharacterData[playerid][e_player_armour]     = cache_get_field_content_float(0, "armour", mysql);
-        gPlayerCharacterData[playerid][e_player_faction]    = cache_get_field_content_int(0, "faction", mysql);
-        gPlayerCharacterData[playerid][e_player_frank]      = cache_get_field_content_int(0, "faction_rank", mysql);
-        gPlayerCharacterData[playerid][e_player_skin]       = cache_get_field_content_int(0, "skin", mysql);
-        gPlayerCharacterData[playerid][e_player_gender]     = cache_get_field_content_int(0, "gender", mysql);
-        gPlayerCharacterData[playerid][e_player_money]      = cache_get_field_content_int(0, "money", mysql);
-        gPlayerCharacterData[playerid][e_player_ticket]     = cache_get_field_content_int(0, "ticket", mysql);
-        gPlayerCharacterData[playerid][e_player_jobid]      = Job:cache_get_field_content_int(0, "jobid", mysql);
-        gPlayerCharacterData[playerid][e_player_jobxp]      = cache_get_field_content_int(0, "jobxp", mysql);
-        gPlayerCharacterData[playerid][e_player_joblv]      = cache_get_field_content_int(0, "joblv", mysql);
+        /////////////////////////////////////
+        // POSITION
+        /////////////////////////////////////
+        SetPlayerPosEx(playerid,
+            cache_get_field_content_float(0, "x",               mysql),
+            cache_get_field_content_float(0, "y",               mysql),
+            cache_get_field_content_float(0, "z",               mysql),
+            cache_get_field_content_float(0, "a",               mysql),
+            cache_get_field_content_int(0, "interior",          mysql),
+            cache_get_field_content_int(0, "virtual_world",     mysql)
+        );
 
-        gPlayerPhoneData[playerid][e_player_phone_number]	= cache_get_field_content_int(0, "PhoneNumber");
-        gPlayerPhoneData[playerid][e_player_phone_network]  = cache_get_field_content_int(0, "PhoneNetwork");
-        gPlayerPhoneData[playerid][e_player_phone_credits]	= cache_get_field_content_int(0, "PhoneCredits");
-        gPlayerPhoneData[playerid][e_player_phone_state]	= cache_get_field_content_int(0, "PhoneState");
+        /////////////////////////////////////
+        // CHARACTER
+        /////////////////////////////////////
+        SetPlayerHealth(playerid, cache_get_field_content_float(0, "health", mysql));
+        SetPlayerArmour(playerid, cache_get_field_content_float(0, "armour", mysql));
+        SetPlayerFaction(playerid, cache_get_field_content_int(0, "faction", mysql));
+        SetPlayerFactionRank(playerid, cache_get_field_content_int(0, "faction_rank", mysql));
+        SetPlayerSkin(playerid, cache_get_field_content_int(0, "skin", mysql));
+        SetPlayerGender(playerid, cache_get_field_content_int(0, "gender", mysql));
+        SetPlayerCash(playerid, cache_get_field_content_int(0, "money", mysql));
+        SetPlayerLotteryTicket(playerid, cache_get_field_content_int(0, "ticket", mysql));
+        SetPlayerJobID(playerid, Job:cache_get_field_content_int(0, "jobid", mysql));
+        SetPlayerJobXP(playerid, cache_get_field_content_int(0, "jobxp", mysql));
+        SetPlayerJobLV(playerid,cache_get_field_content_int(0, "joblv", mysql ));
+        LoadPlayerWeapons(playerid);
 
+        /////////////////////////////////////
+        // PHONE
+        /////////////////////////////////////
+        SetPlayerPhoneNumber(playerid, cache_get_field_content_int(0, "PhoneNumber"));
+        SetPlayerPhoneNetwork(playerid, cache_get_field_content_int(0, "PhoneNetwork"));
+        SetPlayerPhoneCredit(playerid, cache_get_field_content_int(0, "PhoneCredits"));
+        SetPlayerPhoneState(playerid, cache_get_field_content_int(0, "PhoneState"));
+
+        /////////////////////////////////////
+        // OTHERS
+        /////////////////////////////////////
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
         SetPlayerRankVar(playerid, cache_get_field_content_int(0, "rank", mysql));
         SetPlayerFirstTimeVar(playerid, cache_get_field_content_int(0, "ftime", mysql));
 
-        // Setting...
-        SetPlayerInterior(playerid, gPlayerPositionData[playerid][e_player_int]);
-        SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
-        SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
-        SpawnPlayer(playerid);
-
-        SetPlayerHealth(playerid, gPlayerCharacterData[playerid][e_player_health]);
-        SetPlayerArmour(playerid, gPlayerCharacterData[playerid][e_player_armour]);
-        SetPlayerColor(playerid, 0xFFFFFFFF);
-
-        LoadPlayerWeapons(playerid);
-
+        /////////////////////////////////////
+        // STATE
+        /////////////////////////////////////
         SetPlayerLogged(playerid, true);
     }
+
     return 1;
 }
 
@@ -424,17 +229,21 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         case DIALOG_LOGIN:
         {
             if(!response)
-                Kick(playerid);
-            else if(!strcmp(gPlayerAccountData[playerid][e_player_password], inputtext) && !isnull(gPlayerAccountData[playerid][e_player_password]) && !isnull(inputtext))
+                return Kick(playerid);
+
+            new playerPass[MAX_PLAYER_PASSWORD];
+            format(playerPass, MAX_PLAYER_PASSWORD, "%s", GetPlayerPassword(playerid));
+
+            if(!strcmp(playerPass, inputtext) && !isnull(playerPass) && !isnull(inputtext))
             {
                 ClearPlayerScreen(playerid);
                 SendClientMessage(playerid, COLOR_SUCCESS, "Conectado com sucesso!");
                 PlayConfirmSound(playerid);
                 LoadPlayerAccount(playerid);
-            }
-            else
+            } else {
                 ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_INPUT, "Conta Registrada->Senha Incorreta", "Senha incorreta!\nTente novamente:", "Conectar", "Sair"),
                 PlayErrorSound(playerid);
+            }
             return -2;
         }
         case DIALOG_REGISTER:
@@ -457,8 +266,14 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 GetPlayerName(playerid, playerName, sizeof(playerName));
                 GetPlayerIp(playerid, playerIP, sizeof(playerIP));
 
+                new Float:playerPos[4];
+                GetPlayerPos(playerid, playerPos[0], playerPos[1], playerPos[2]);
+                GetPlayerFacingAngle(playerid, playerPos[3]);
+                new playerInt = GetPlayerInterior(playerid);
+                new playerVW = GetPlayerVirtualWorld(playerid);
+
                 new query[250];
-                mysql_format(mysql, query, sizeof(query), "INSERT INTO `players` (`username`, `password`, `ip`, `regdate`, `x`, `y`, `z`, `a`, `interior`, `virtual_world`) VALUES ('%e', '%e', '%s', %d, %.2f, %.2f, %.2f, %.2f, %d, %d)", playerName, inputtext, playerIP, gettime(), gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], gPlayerPositionData[playerid][e_player_int], gPlayerPositionData[playerid][e_player_vw]);
+                mysql_format(mysql, query, sizeof(query), "INSERT INTO `players` (`username`, `password`, `ip`, `regdate`, `x`, `y`, `z`, `a`, `interior`, `virtual_world`) VALUES ('%e', '%e', '%s', %d, %.2f, %.2f, %.2f, %.2f, %d, %d)", playerName, inputtext, playerIP, gettime(), playerPos[0], playerPos[1], playerPos[2], playerPos[3], playerInt, playerVW);
             	mysql_tquery(mysql, query, "OnAccountRegister", "i", playerid);
             }
             return -2;
@@ -475,8 +290,8 @@ public OnAccountCheck(playerid)
 	cache_get_data(rows, fields, mysql);
 	if(rows > 0)
 	{
-		cache_get_field_content(0, "password", gPlayerAccountData[playerid][e_player_password], mysql, MAX_PLAYER_PASSWORD);
-		gPlayerAccountData[playerid][e_player_database_id] = cache_get_field_content_int(0, "ID", mysql);
+		cache_get_field_content(0, "password", GetPlayerPassword(playerid), mysql, MAX_PLAYER_PASSWORD);
+		SetPlayerDatabaseID(playerid, cache_get_field_content_int(0, "ID", mysql));
 
         new info[130];
         format(info, sizeof(info), "Bem-vindo de volta %s!\n\nSua conta já está registrada em nosso banco de dados.\nDigite sua senha para se conectar.", GetPlayerFirstName(playerid));
@@ -510,7 +325,7 @@ hook OnPlayerRequestClass(playerid, classid)
 
 hook OnPlayerSpawn(playerid)
 {
-    SetPlayerCash(playerid, gPlayerCharacterData[playerid][e_player_money]);
+    SetPlayerCash(playerid, GetPlayerCash(playerid));
 }
 
 //------------------------------------------------------------------------------

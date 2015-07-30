@@ -111,6 +111,7 @@ hook OnGameModeInit()
 #include "../modules/def/dialogs.pwn"
 #include "../modules/def/ftime.pwn"
 #include "../modules/def/messages.pwn"
+#include "../modules/def/getset.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
