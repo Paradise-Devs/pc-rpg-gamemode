@@ -7,9 +7,23 @@
 * NOTES :
 *       This file should only contain message funcs.
 *
+* FUNCTION LIST :
+*		- PLAYER:
+* 			SendPlayerErrorMessage
+*			SendPlayerInfoMessage
+*			SendPlayerSuccessMessage
+*			SendPlayerErrorMessage
+*
+*		- ADMIN:
+*			SendAdminActionMessage
+*
+*		- SERVER:
+*			SendServerMessage
+*
 *       Copyright Paradise Devs 2015.  All rights reserved.
 *
 */
+
 
 //Ir removendo conforme for usando
 #pragma unused SendAdminActionMessageToAll
