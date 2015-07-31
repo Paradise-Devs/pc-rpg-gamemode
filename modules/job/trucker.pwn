@@ -32,6 +32,9 @@ static gPlayerCurrentCP[MAX_PLAYERS];
 
 // Player Selected Service
 static gPSelectedService[MAX_PLAYERS];
+
+// Tickcout to not spam truck cargo message
+static gPTickcount[MAX_PLAYERS];
 //------------------------------------------------------------------------------
 
 static gTruckerServices[][][] =
@@ -121,16 +124,46 @@ static TRAILER_CARGO:gTrailerCargo[MAX_PLAYERS];
 
 static gPlayerTruckID[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
 static gPlayerTrailerID[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
+static Text3D:gPlayer3DTextID[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID, ...};
+
+//------------------------------------------------------------------------------
+
+GetTrailerCargo(playerid)
+{
+    new cargo[32];
+    switch(gTrailerCargo[playerid])
+    {
+        case TRAILER_CARGO_CLOTHES:
+            cargo = "Roupas";
+        case TRAILER_CARGO_DRUGS:
+            cargo = "Drogas";
+        case TRAILER_CARGO_FOOD:
+            cargo = "Comida";
+        case TRAILER_CARGO_GUNS:
+            cargo = "Armas";
+        case TRAILER_CARGO_MATERIALS:
+            cargo = "Materiais";
+        case TRAILER_CARGO_ANIMALS:
+            cargo = "Animais";
+        case TRAILER_CARGO_FUEL:
+            cargo = "Combustível";
+        case TRAILER_CARGO_PEOPLE:
+            cargo = "Pessoas";
+        default:
+            cargo = "Nada";
+    }
+    return cargo;
+}
 
 //------------------------------------------------------------------------------
 
 hook OnGameModeInit()
 {
     CreateDynamicPickup(1210, 1, JOB_POSITION[0], JOB_POSITION[1], JOB_POSITION[2], 0, 0, -1, MAX_PICKUP_RANGE);
-    CreateDynamic3DTextLabel("Caminhoneiro\nPressione Y", 0xFFFFFFFF, JOB_POSITION[0], JOB_POSITION[1], JOB_POSITION[2], MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+    CreateDynamic3DTextLabel("Caminhoneiro\nPressione {1add69}Y", 0xFFFFFFFF, JOB_POSITION[0], JOB_POSITION[1], JOB_POSITION[2], MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
 
     CreateDynamicPickup(1239, 1, LOAD_POSITION[0], LOAD_POSITION[1], LOAD_POSITION[2], 0, 0, -1, MAX_PICKUP_RANGE);
-    CreateDynamic3DTextLabel("Serviços\nPressione Y", 0xFFFFFFFF, LOAD_POSITION[0], LOAD_POSITION[1], LOAD_POSITION[2], MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+    CreateDynamic3DTextLabel("Serviços\nPressione {1add69}Y", 0xFFFFFFFF, LOAD_POSITION[0], LOAD_POSITION[1], LOAD_POSITION[2], MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
     return 1;
 }
 
@@ -142,9 +175,11 @@ hook OnPlayerDisconnect(playerid, reason)
     {
         DestroyVehicle(gPlayerTruckID[playerid]);
         DestroyVehicle(gPlayerTrailerID[playerid]);
+        DestroyDynamic3DTextLabel(gPlayer3DTextID[playerid]);
 
         gPlayerTruckID[playerid] = INVALID_VEHICLE_ID;
         gPlayerTrailerID[playerid] = INVALID_VEHICLE_ID;
+        gPlayer3DTextID[playerid] = Text3D:INVALID_3DTEXT_ID;
 
         gPlayerCurrentCP[playerid] = 0;
     }
@@ -203,6 +238,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     gTrailerCargo[playerid] = TRAILER_CARGO:(listitem+1);
                     gPlayerTruckID[playerid] = CreateVehicle(515, 2444.2415, -2091.3992, 14.5237, 89.4204, -1, -1, -1);
                     gPlayerTrailerID[playerid] = CreateVehicle(591, 2453.3735, -2091.9829, 14.2064, 84.7415, -1, -1, -1);
+                    gPlayer3DTextID[playerid] = CreateDynamic3DTextLabel("Pressione {1add69}Y\n{ffffff}Para ver a carga", 0xFFFFFFFF, 0.0, 0.0, 0.0, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, gPlayerTrailerID[playerid], 1, 0, 0);
                     AttachTrailerToVehicle(gPlayerTrailerID[playerid], gPlayerTruckID[playerid]);
                     PutPlayerInVehicle(playerid, gPlayerTruckID[playerid], 0);
                     SetVehicleFuel(gPlayerTruckID[playerid], 100.0);
@@ -239,6 +275,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             SendClientMessage(playerid, COLOR_SUB_TITLE, "* Volte com o caminhão para a empresa para receber o pagamento.");
 
             SetPlayerRaceCheckpoint(playerid, 1, 2509.3311, -2089.5120, 14.1535, 0.0, 0.0, 0.0, 10.0);
+            gPlayerCurrentCP[playerid]++;
         }
         case 1:
         {
@@ -249,9 +286,11 @@ hook OnPlayerEnterRaceCPT(playerid)
 
             DestroyVehicle(gPlayerTruckID[playerid]);
             DestroyVehicle(gPlayerTrailerID[playerid]);
+            DestroyDynamic3DTextLabel(gPlayer3DTextID[playerid]);
 
             gPlayerTruckID[playerid] = INVALID_VEHICLE_ID;
             gPlayerTrailerID[playerid] = INVALID_VEHICLE_ID;
+            gPlayer3DTextID[playerid] = Text3D:INVALID_3DTEXT_ID;
 
             gPlayerCurrentCP[playerid] = 0;
 
@@ -297,6 +336,34 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
             strcat(info, buffer);
         }
         ShowPlayerDialog(playerid, DIALOG_TRUCKER_SERVICES,  DIALOG_STYLE_TABLIST_HEADERS, "Caminhoneiro -> Serviços", info, "Aceitar", "Recusar");
+    }
+    else
+    {
+        if(IsPlayerInAnyVehicle(playerid) || gPTickcount[playerid] > tickcount())
+            return 1;
+
+        new Float:x, Float:y, Float:z;
+        foreach(new i: Player)
+        {
+            if(gPlayerTrailerID[i] == INVALID_VEHICLE_ID)
+                continue;
+
+            GetVehiclePos(gPlayerTrailerID[i], x, y, z);
+            if(IsPlayerInRangeOfPoint(playerid, 5.0, x, y, z))
+            {
+                new Float:vx, Float:vy, Float:vz;
+                GetVehicleVelocity(gPlayerTrailerID[i], vx, vy, vz);
+                if(vx > 0.0 || vy > 0.0 || vz > 0.0)
+                    SendClientMessage(playerid, COLOR_ERROR, "* O veículo precisa estar parado para ver a carga.");
+                else
+                {
+                    SendClientMessagef(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~ Carga do caminhão de %s ~~~~~~~~~~~~~~~~~~", GetPlayerNamef(i));
+                    SendClientMessagef(playerid, COLOR_SUB_TITLE, "* O caminhão está carregado com: %s.", GetTrailerCargo(i));
+                }
+                gPTickcount[playerid] = tickcount() + 2500;
+                break;
+            }
+        }
     }
     return 1;
 }

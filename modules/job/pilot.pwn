@@ -154,7 +154,7 @@ hook OnGameModeInit()
 {
     print("Loading pilot job.");
 	CreateDynamicPickup(1210, 1, 1954.4822, -2177.7603, 13.5469, 0, 0, -1, MAX_PICKUP_RANGE);
-	CreateDynamic3DTextLabel("Piloto\nPressione Y", 0xFFFFFFFF, 1954.4822, -2177.7603, 13.5469, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+	CreateDynamic3DTextLabel("Piloto\nPressione {1add69}Y", 0xFFFFFFFF, 1954.4822, -2177.7603, 13.5469, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
     gCheckpointid = CreateDynamicCP(1957.1, -2181.5964, 13.5469, 1.0, 0, 0);
 	return 1;
 }
