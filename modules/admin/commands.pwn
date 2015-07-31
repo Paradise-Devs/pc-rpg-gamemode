@@ -284,201 +284,201 @@ YCMD:setjob(playerid, params[], help)
 
 YCMD:setrank(playerid, params[], help)
 {
-	if(!IsPlayerAdmin(playerid) || GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
-	   return SendPlayerErrorMessage(playerid, "Você não tem permissão.");
+	if(IsPlayerAdmin(playerid) || GetPlayerHighestRank(playerid) >= PLAYER_RANK_DEVELOPER)
+	{
+    	new	targetid, rankName[9], option[8];
 
-	new	targetid, rankName[9], option[8];
+    	if(sscanf(params, "us[9]s[8]", targetid, rankName, option))
+        {
+    		SendPlayerInfoMessage(playerid, "/setrank [playerid] [nome do rank] [add / remover]");
+    		SendPlayerInfoMessage(playerid, "Ranks: donator, designer, beta, mod, super, admin, dev");
+            return 1;
+        }
 
-	if(sscanf(params, "us[9]s[8]", targetid, rankName, option))
-    {
-		SendPlayerInfoMessage(playerid, "/setrank [playerid] [nome do rank] [add / remover]");
-		SendPlayerInfoMessage(playerid, "Ranks: donator, designer, beta, mod, super, admin, dev");
-        return 1;
+        if(!strcmp(rankName, "donator", true))
+        {
+            if(!strcmp(option, "add", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você alterou sua conta para donator com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s foi alterada para donator com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s alterou sua conta para donator.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_DONATOR, targetid, true);
+            }
+            else if(!strcmp(option, "remover", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você removeu seu rank de donator com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de donator com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s removeu seu rank de donator.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_DONATOR, targetid, false);
+            }
+
+            else SendPlayerErrorMessage(playerid, "Opção inválida.");
+        }
+        else if(!strcmp(rankName, "designer", true))
+        {
+            if(!strcmp(option, "add", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você alterou sua conta para designer com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s alterada para designer com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s alterou sua conta para designer.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_DESIGNER, targetid, true);
+            }
+            else if(!strcmp(option, "remover", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você removeu seu rank de designer com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de designer com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s removeu seu rank de designer.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_DESIGNER, targetid, false);
+            }
+            else SendPlayerErrorMessage(playerid, "Opção inválida.");
+        }
+        else if(!strcmp(rankName, "beta", true))
+        {
+            if(!strcmp(option, "add", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você alterou sua conta para beta-tester com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s alterada para beta-tester com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s alterou sua conta para beta-tester.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_BETATESTER, targetid, true);
+            }
+            else if(!strcmp(option, "remover", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você removeu seu rank de beta-tester com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de beta-tester com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s removeu seu rank de beta-tester.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_BETATESTER, targetid, false);
+            }
+            else SendPlayerErrorMessage(playerid, "Opção inválida.");
+        }
+        else if(!strcmp(rankName, "mod", true))
+        {
+            if(!strcmp(option, "add", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você alterou sua conta para moderador com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s alterada para moderador com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s alterou sua conta para moderador.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_MODERATOR, targetid, true);
+            }
+            else if(!strcmp(option, "remover", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você removeu seu rank de moderador com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de moderador com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s removeu seu rank de moderador.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_MODERATOR, targetid, false);
+            }
+            else SendPlayerErrorMessage(playerid, "Opção inválida.");
+        }
+        else if(!strcmp(rankName, "super", true))
+        {
+            if(!strcmp(option, "add", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você alterou sua conta para supervisor com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s alterada para supervisor com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s alterou sua conta para supervisor.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_SUPERVISOR, targetid, true);
+            }
+            else if(!strcmp(option, "remover", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você removeu seu rank de supervisor com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de supervisor com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s removeu seu rank de supervisor.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_SUPERVISOR, targetid, false);
+            }
+            else SendPlayerErrorMessage(playerid, "Opção inválida.");
+        }
+        else if(!strcmp(rankName, "admin", true))
+        {
+            if(!strcmp(option, "add", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você alterou sua conta para administrador com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s alterada para administrador com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s alterou sua conta para administrador.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_ADMIN, targetid, true);
+            }
+            else if(!strcmp(option, "remover", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você removeu seu rank de administrador com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de administrador com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s removeu seu rank de administrador.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_ADMIN, targetid, false);
+            }
+            else SendPlayerErrorMessage(playerid, "Opção inválida.");
+        }
+        else if(!strcmp(rankName, "dev", true))
+        {
+            if(!strcmp(option, "add", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você alterou sua conta para developer com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s alterada para developer com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s alterou sua conta para developer.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_DEVELOPER, targetid, true);
+            }
+            else if(!strcmp(option, "remover", true))
+            {
+                if(targetid == playerid) {
+                    SendPlayerSuccessMessage(playerid, "Você removeu seu rank de developer com sucesso.");
+                } else {
+                    SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de developer com sucesso.", GetPlayerNamef(targetid));
+                    SendPlayerSuccessMessage(targetid, "%s removeu seu rank de developer.", GetPlayerNamef(playerid));
+                }
+
+                SetPlayerRank(PLAYER_RANK_DEVELOPER, targetid, false);
+            }
+            else SendPlayerErrorMessage(playerid, "Opção inválida.");
+        }
     }
-
-    if(!strcmp(rankName, "donator", true))
-    {
-        if(!strcmp(option, "add", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você alterou sua conta para donator com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s foi alterada para donator com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s alterou sua conta para donator.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_DONATOR, targetid, true);
-        }
-        else if(!strcmp(option, "remover", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você removeu seu rank de donator com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de donator com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s removeu seu rank de donator.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_DONATOR, targetid, false);
-        }
-
-        else SendPlayerErrorMessage(playerid, "Opção inválida.");
-    }
-    else if(!strcmp(rankName, "designer", true))
-    {
-        if(!strcmp(option, "add", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você alterou sua conta para designer com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s alterada para designer com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s alterou sua conta para designer.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_DESIGNER, targetid, true);
-        }
-        else if(!strcmp(option, "remover", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você removeu seu rank de designer com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de designer com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s removeu seu rank de designer.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_DESIGNER, targetid, false);
-        }
-        else SendPlayerErrorMessage(playerid, "Opção inválida.");
-    }
-    else if(!strcmp(rankName, "beta", true))
-    {
-        if(!strcmp(option, "add", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você alterou sua conta para beta-tester com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s alterada para beta-tester com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s alterou sua conta para beta-tester.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_BETATESTER, targetid, true);
-        }
-        else if(!strcmp(option, "remover", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você removeu seu rank de beta-tester com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de beta-tester com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s removeu seu rank de beta-tester.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_BETATESTER, targetid, false);
-        }
-        else SendPlayerErrorMessage(playerid, "Opção inválida.");
-    }
-    else if(!strcmp(rankName, "mod", true))
-    {
-        if(!strcmp(option, "add", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você alterou sua conta para moderador com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s alterada para moderador com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s alterou sua conta para moderador.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_MODERATOR, targetid, true);
-        }
-        else if(!strcmp(option, "remover", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você removeu seu rank de moderador com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de moderador com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s removeu seu rank de moderador.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_MODERATOR, targetid, false);
-        }
-        else SendPlayerErrorMessage(playerid, "Opção inválida.");
-    }
-    else if(!strcmp(rankName, "super", true))
-    {
-        if(!strcmp(option, "add", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você alterou sua conta para supervisor com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s alterada para supervisor com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s alterou sua conta para supervisor.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_SUPERVISOR, targetid, true);
-        }
-        else if(!strcmp(option, "remover", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você removeu seu rank de supervisor com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de supervisor com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s removeu seu rank de supervisor.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_SUPERVISOR, targetid, false);
-        }
-        else SendPlayerErrorMessage(playerid, "Opção inválida.");
-    }
-    else if(!strcmp(rankName, "admin", true))
-    {
-        if(!strcmp(option, "add", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você alterou sua conta para administrador com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s alterada para administrador com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s alterou sua conta para administrador.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_ADMIN, targetid, true);
-        }
-        else if(!strcmp(option, "remover", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você removeu seu rank de administrador com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de administrador com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s removeu seu rank de administrador.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_ADMIN, targetid, false);
-        }
-        else SendPlayerErrorMessage(playerid, "Opção inválida.");
-    }
-    else if(!strcmp(rankName, "dev", true))
-    {
-        if(!strcmp(option, "add", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você alterou sua conta para developer com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s alterada para developer com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s alterou sua conta para developer.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_DEVELOPER, targetid, true);
-        }
-        else if(!strcmp(option, "remover", true))
-        {
-            if(targetid == playerid) {
-                SendPlayerSuccessMessage(playerid, "Você removeu seu rank de developer com sucesso.");
-            } else {
-                SendPlayerSuccessMessage(playerid, "Conta de %s foi removida de developer com sucesso.", GetPlayerNamef(targetid));
-                SendPlayerSuccessMessage(targetid, "%s removeu seu rank de developer.", GetPlayerNamef(playerid));
-            }
-
-            SetPlayerRank(PLAYER_RANK_DEVELOPER, targetid, false);
-        }
-        else SendPlayerErrorMessage(playerid, "Opção inválida.");
-    }
-
+    else SendPlayerErrorMessage(playerid, "Você não tem permissão.");
 	return 1;
 }
