@@ -5,118 +5,54 @@
 *       Adds messages functions.
 *
 * NOTES :
-*       This file should only contain message funcs.
+*       This file should only contain message functions.
 *
 * FUNCTION LIST :
-*		- PLAYER:
-* 			SendPlayerErrorMessage
-*			SendPlayerInfoMessage
-*			SendPlayerSuccessMessage
-*			SendPlayerErrorMessage
-*
-*		- ADMIN:
-*			SendAdminActionMessage
-*
-*		- SERVER:
-*			SendServerMessage
+*			SendClientMessagef
+*			SendAdminMessage
+*			SendActionMessage
+*			SendClientActionMessage
+*			SendClientLocalMessage
 *
 *       Copyright Paradise Devs 2015.  All rights reserved.
 *
 */
 
-
-//Ir removendo conforme for usando
-#pragma unused SendAdminActionMessageToAll
-#pragma unused SendErrorMessageToAll
-#pragma unused SendInfoMessageToAll
-#pragma unused SendSuccessMessageToAll
-
 //------------------------------------------------------------------------------
 
-/***
- *
- *     #####  #         ##   #     # ###### #####
- *     #    # #        #  #   #   #  #      #    #
- *     #    # #       #    #   # #   #####  #    #
- *     #####  #       ######    #    #      #####
- *     #      #       #    #    #    #      #   #
- *     #      ####### #    #    #    ###### #    #
- *
- */
-
-//------------------------------------------------------------------------------
-
-SendPlayerErrorMessage(playerid, const message[], va_args<>)
+SendClientMessagef(playerid, color, const message[], va_args<>)
 {
-	new textBuffer[192];
-
-	if(numargs() > 2) {
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<2>);
-		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-	} else {
-		format(textBuffer, sizeof(textBuffer), "* %s", message);
-    }
-
-	SendClientMessage(playerid, COLOR_ERROR, textBuffer);
-
-	return 1;
+   new string[145];
+   va_format(string, sizeof(string), message, va_start<3>);
+   return SendClientMessage(playerid, color, string);
 }
 
 //------------------------------------------------------------------------------
 
-SendPlayerInfoMessage(playerid, const message[], va_args<>)
+SendAdminMessage(PLAYER_RANK:rank, color, const message[], va_args<>)
 {
-	new textBuffer[192];
-
-	if(numargs() > 2) {
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<2>);
-		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-		return SendClientMessage(playerid, COLOR_INFO, textBuffer);
-	} else {
-		format(textBuffer, sizeof(textBuffer), "* %s", message);
-    }
-
-	SendClientMessage(playerid, COLOR_INFO, textBuffer);
-
-	return 1;
-}
-
-
-//------------------------------------------------------------------------------
-
-SendPlayerSuccessMessage(playerid, const message[], va_args<>)
-{
-	new textBuffer[192];
-	if(numargs() > 2) {
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<2>);
-		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-		return SendClientMessage(playerid, COLOR_SUCCESS, textBuffer);
-	} else {
-		format(textBuffer, sizeof(textBuffer), "* %s", message);
-    }
-
-	SendClientMessage(playerid, COLOR_SUCCESS, textBuffer);
-
-	return 1;
-}
-
-
-//------------------------------------------------------------------------------
-
-SendAdminActionMessage(playerid, const message[], va_args<>)
-{
-	new textBuffer[192];
-	if(numargs() > 2)
+	if(numargs() > 3)
 	{
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<2>);
-		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
+		new string[145];
+		va_format(string, sizeof(string), message, va_start<3>);
+		foreach(new i: Player)
+		{
+			if(GetPlayerHighestRank(i) < rank || !IsPlayerLogged(i))
+	            continue;
 
-		return SendClientMessage(playerid, COLOR_ADMIN_ACTION, textBuffer);
+	        SendClientMessage(i, color, string);
+		}
 	}
 	else
 	{
-		SendClientMessage(playerid, COLOR_ADMIN_ACTION, message);
-  }
+		foreach(new i: Player)
+		{
+			if(GetPlayerHighestRank(i) < rank || !IsPlayerLogged(i))
+	            continue;
+
+	        SendClientMessage(i, color, message);
+		}
+	}
 	return 1;
 }
 
@@ -124,18 +60,13 @@ SendAdminActionMessage(playerid, const message[], va_args<>)
 
 SendActionMessage(playerid, Float:radius, action[])
 {
-	new	Float:fDist[3];
+	new	Float:fDist[3], message[145];
 	GetPlayerPos(playerid, fDist[0], fDist[1], fDist[2]);
-
+	format(message, sizeof(message), "* %s (( %s ))", action, GetPlayerNamef(playerid));
 	foreach(new i: Player)
 	{
-		if(!IsPlayerLogged(i))
-			continue;
-
 		if(GetPlayerDistanceFromPoint(i, fDist[0], fDist[1], fDist[2]) <= radius && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
 		{
-			new	message[128];
-			format(message, sizeof(message), "* %s (( %s ))", action, GetPlayerNamef(playerid));
 			SendClientMessage(i, COLOR_ACTION, message);
 		}
 	}
@@ -145,12 +76,12 @@ SendActionMessage(playerid, Float:radius, action[])
 
 SendClientLocalMessage(playerid, color, Float:radius, string[])
 {
-	SetPlayerChatBubble(playerid, string, color, radius, 5000);
 	new Float:fDist[3];
 	GetPlayerPos(playerid, fDist[0], fDist[1], fDist[2]);
+	SetPlayerChatBubble(playerid, string, color, radius, 5000);
 	foreach(new i: Player)
 	{
-		if(GetPlayerDistanceFromPoint(i, fDist[0], fDist[1], fDist[2]) <= radius)
+		if(GetPlayerDistanceFromPoint(i, fDist[0], fDist[1], fDist[2]) <= radius && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
 		{
 			SendClientMessage(i, color, string);
 		}
@@ -161,172 +92,14 @@ SendClientLocalMessage(playerid, color, Float:radius, string[])
 
 SendClientActionMessage(playerid, Float:radius, action[])
 {
-	new	Float:fDist[3];
+	new	Float:fDist[3], message[145];
 	GetPlayerPos(playerid, fDist[0], fDist[1], fDist[2]);
-
+	format(message, sizeof(message), "* %s %s", GetPlayerNamef(playerid), action);
 	foreach(new i: Player)
 	{
-		if(!IsPlayerLogged(i))
-			continue;
-
 		if(GetPlayerDistanceFromPoint(i, fDist[0], fDist[1], fDist[2]) <= radius && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
 		{
-			new	message[128];
-			format(message, sizeof(message), "* %s %s", GetPlayerNamef(playerid), action);
 			SendClientMessage(i, COLOR_ACTION, message);
 		}
 	}
-}
-
-//------------------------------------------------------------------------------
-
-/***
- *
- *       ##   #      #
- *      #  #  #      #
- *     #    # #      #
- *     ###### #      #
- *     #    # #      #
- *     #    # ###### ######
- *
- */
-
-SendErrorMessageToAll(const message[], va_args<>)
-{
-	new textBuffer[192];
-
-	if(numargs() > 1) {
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<1>);
-		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-	} else {
-		format(textBuffer, sizeof(textBuffer), "* %s", message);
-    }
-
-	SendClientMessageToAll(COLOR_ERROR, textBuffer);
-
-	return 1;
-}
-
-//------------------------------------------------------------------------------
-
-SendInfoMessageToAll(const message[], va_args<>)
-{
-	new textBuffer[192];
-
-	if(numargs() > 1) {
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<1>);
-		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-	} else {
-		format(textBuffer, sizeof(textBuffer), "* %s", message);
-    }
-
-	SendClientMessageToAll(COLOR_INFO, textBuffer);
-
-	return 1;
-}
-
-
-//------------------------------------------------------------------------------
-
-SendSuccessMessageToAll(playerid, const message[], va_args<>)
-{
-	new textBuffer[192];
-	if(numargs() > 2) {
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<2>);
-		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-		return SendClientMessage(playerid, COLOR_SUCCESS, textBuffer);
-	} else {
-		format(textBuffer, sizeof(textBuffer), "* %s", message);
-    }
-
-	SendClientMessageToAll(COLOR_SUCCESS, textBuffer);
-
-	return 1;
-}
-
-//------------------------------------------------------------------------------
-
-SendAdminActionMessageToAll(playerid, const message[], va_args<>)
-{
-	new textBuffer[192];
-	if(numargs() > 2) {
-		va_format(textBuffer, sizeof(textBuffer), message, va_start<2>);
-		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-
-		return SendClientMessage(playerid, COLOR_ADMIN_ACTION, textBuffer);
-	} else {
-		format(textBuffer, sizeof(textBuffer), "* %s", message);
-    }
-
-	SendClientMessageToAll(COLOR_ADMIN_ACTION, textBuffer);
-
-	return 1;
-}
-
-//------------------------------------------------------------------------------
-
-/***
- *
- *       ##   #####  #    # # #    #
- *      #  #  #    # ##  ## # ##   #
- *     #    # #    # # ## # # # #  #
- *     ###### #    # #    # # #  # #
- *     #    # #    # #    # # #   ##
- *     #    # #####  #    # # #    #
- *
- ***/
-
-SendAdminMessage(PLAYER_RANK:rank, color, const message[], va_args<>)
-{
-	new out[228];
-
-	// Large array because of possible embedding colours
-	va_format(out, sizeof(out), message, va_start<3>);
-	format(out, sizeof(out), "* %s", out);
-
-	foreach(new i: Player)
-	{
-        if(GetPlayerHighestRank(i) < rank)
-            continue;
-
-        if(IsPlayerLogged(i))
-            SendClientMessage(i, color, out);
-	}
-
-    return 1;
-}
-
-
-//------------------------------------------------------------------------------
-
-/***
- *
- *      ####  ###### #####  #    # ###### #####
- *     #      #      #    # #    # #      #    #
- *      ####  #####  #    # #    # #####  #    #
- *          # #      #####  #    # #      #####
- *     #    # #      #   #   #  #  #      #   #
- *      ####  ###### #    #   ##   ###### #    #
- *
- ***/
-
-SendServerMessage(const message[], va_args<>)
-{
-   new textBuffer[192];
-   if(numargs() > 2) {
-       va_format(textBuffer, sizeof(textBuffer), message, va_start<1>);
-       format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
-
-       foreach(new i: Player)
-           if(IsPlayerLogged(i))
-               SendClientMessage(i, COLOR_SERVER, textBuffer);
-   } else {
-       format(textBuffer, sizeof(textBuffer), "* %s", message);
-
-       foreach(new i: Player)
-           if(IsPlayerLogged(i))
-               SendClientMessage(i, COLOR_SERVER, message);
-   }
-
-   return 1;
 }

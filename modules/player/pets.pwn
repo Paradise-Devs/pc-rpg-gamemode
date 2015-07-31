@@ -297,14 +297,14 @@ YCMD:ajudapet(playerid, params[], help)
 YCMD:comprarpet(playerid, params[], help)
 {
     if(gPPetData[playerid][E_PET_DBID_PLAYER])
-        return SendPlayerErrorMessage(playerid, "Você já tem um pet.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você já tem um pet.");
 
 	if(GetPlayerCash(playerid) < PET_PRICE)
-		return SendPlayerErrorMessage(playerid, "Você não tem dinheiro suficiente.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
 
     new petName[MAX_PET_NAME];
     if(sscanf(params, "s[20]", petName))
-    	return SendPlayerInfoMessage(playerid, "/comprarpet [nome do pet]");
+    	return SendClientMessage(playerid, COLOR_INFO, "* /comprarpet [nome do pet]");
 
     new output[75 + MAX_PET_NAME];
     format(output, sizeof(output), "* Você comprou um pet e deu o nome dele de {18dbb2}%s{ffffff}. (/ajudapet)", petName);
@@ -342,10 +342,10 @@ YCMD:comprarpet(playerid, params[], help)
 YCMD:alimentarpet(playerid, params[], help)
 {
     if(!gPPetData[playerid][E_PET_DBID_PLAYER])
-        return SendPlayerErrorMessage(playerid, "Você não tem um pet.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem um pet.");
 
 	if(!gPPetData[playerid][E_PET_FOOD_PLAYER])
-        return SendPlayerErrorMessage(playerid, "Você não tem ração para seu pet.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem ração para seu pet.");
 
 	if(gPPetData[playerid][E_PET_HUNGER] > 25.0)
 	{
@@ -367,13 +367,13 @@ YCMD:alimentarpet(playerid, params[], help)
 YCMD:compraralimentopet(playerid, params[], help)
 {
     if(!gPPetData[playerid][E_PET_DBID_PLAYER])
-        return SendPlayerErrorMessage(playerid, "Você não tem um pet.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem um pet.");
 
 	if(gPPetData[playerid][E_PET_FOOD_PLAYER] > 2)
-        return SendPlayerErrorMessage(playerid, "Você não pode carregar mais ração.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode carregar mais ração.");
 
 	if(GetPlayerCash(playerid) < PET_FOOD_PRICE)
-		return SendPlayerErrorMessage(playerid, "Você não tem dinheiro suficiente.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
 
 	SendClientMessage(playerid, 0xffffffff, "* Você comprou ração para pets.");
 	GivePlayerCash(playerid, -PET_FOOD_PRICE);
@@ -386,7 +386,7 @@ YCMD:compraralimentopet(playerid, params[], help)
 YCMD:abandonarpet(playerid, params[], help)
 {
 	if(!gPPetData[playerid][E_PET_DBID_PLAYER])
-        return SendPlayerErrorMessage(playerid, "Você não tem um pet.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem um pet.");
 
 	new output[57];
 	format(output, sizeof(output), "* Você abandonou {18dbb2}%s{ffffff}.", gPPetData[playerid][E_PET_NAME]);
