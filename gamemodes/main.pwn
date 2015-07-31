@@ -24,40 +24,40 @@
 
 //------------------------------------------------------------------------------
 
-#define MAX_PLAYER_PASSWORD		32
-#define MAX_BUILDINGS			32
-#define MAX_PICKUP_RANGE		40.0
-#define MAX_TEXT3D_RANGE		20.0
-#define MAX_MAPICON_RANGE		150.0
+#define MAX_PLAYER_PASSWORD								32
+#define MAX_BUILDINGS											32
+#define MAX_PICKUP_RANGE									40.0
+#define MAX_TEXT3D_RANGE									20.0
+#define MAX_MAPICON_RANGE									150.0
 
-#define HOSPITAL_TIME			180	// Seconds
-#define HOSPITAL_PRICE			500
+#define HOSPITAL_TIME											180	// Seconds
+#define HOSPITAL_PRICE										500
 
-#define MAX_FACTIONS			32
+#define MAX_FACTIONS											32
 
 #define INTERVAL_BETWEEN_SERVER_MESSAGES	900000 // ms
 
 //------------------------------------------------------------------------------
 
-#define COLOR_ERROR				0xf14545ff
-#define COLOR_SUCCESS			0x88aa62FF
-#define COLOR_INFO				0xA9C4E4FF
-#define COLOR_ACTION			0xDA70D6FF
-#define COLOR_WHITE				0xFFFFFFFF
-#define COLOR_YELLOW			0xFFFF00FF
-#define COLOR_TITLE				0xa5f413ff
-#define COLOR_SPECIAL			0xa5f413ff
-#define COLOR_ADMIN_ACTION		0x7dcfb6ff
-#define COLOR_SUB_TITLE			0xe6e6e6ff
-#define COLOR_SERVER	        0xa5f413ff
+#define COLOR_ERROR												0xf14545ff
+#define COLOR_SUCCESS											0x88aa62FF
+#define COLOR_INFO												0xA9C4E4FF
+#define COLOR_ACTION											0xDA70D6FF
+#define COLOR_WHITE												0xFFFFFFFF
+#define COLOR_YELLOW											0xFFFF00FF
+#define COLOR_TITLE												0xa5f413ff
+#define COLOR_SPECIAL											0xa5f413ff
+#define COLOR_ADMIN_ACTION								0x7dcfb6ff
+#define COLOR_SUB_TITLE										0xe6e6e6ff
+#define COLOR_SERVER											0xa5f413ff
 
-#define COLOR_RANK_DEVELOPER	0x35a700ff
-#define COLOR_RANK_ADMIN		0x00AEFFFF
-#define COLOR_RANK_SUPERVISOR	0x009CE5FF
-#define COLOR_RANK_MODERATOR	0x008BCCFF
-#define COLOR_RANK_BETATESER	0x992A2AFF
-#define COLOR_RANK_DESIGNER		0xe48200ff
-#define COLOR_RANK_BACKUP		0xCE8500FF
+#define COLOR_RANK_DEVELOPER							0x35a700ff
+#define COLOR_RANK_ADMIN									0x00AEFFFF
+#define COLOR_RANK_SUPERVISOR							0x009CE5FF
+#define COLOR_RANK_MODERATOR							0x008BCCFF
+#define COLOR_RANK_BETATESER							0x992A2AFF
+#define COLOR_RANK_DESIGNER								0xe48200ff
+#define COLOR_RANK_BACKUP									0xCE8500FF
 
 //------------------------------------------------------------------------------
 
@@ -169,6 +169,7 @@ hook OnGameModeInit()
 
 /* Jobs */
 #include "../modules/job/pilot.pwn"
+#include "../modules/job/trucker.pwn"
 
 /* Objects */
 #include "../modules/objects/hospital.pwn"

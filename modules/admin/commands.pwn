@@ -23,7 +23,7 @@ YCMD:acmds(playerid, params[], help)
         SendClientMessage(playerid, COLOR_RANK_MODERATOR, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv");
 
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
-        SendClientMessage(playerid, COLOR_RANK_ADMIN, "* /criarcar - /setmoney");
+        SendClientMessage(playerid, COLOR_RANK_ADMIN, "* /criarcar - /setmoney - /setjob");
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
@@ -193,33 +193,32 @@ YCMD:criarcar(playerid, params[], help)
         return SendPlayerErrorMessage(playerid, "Você não tem permissão.");
 
     new
-		idx,
-		iString[ 128 ];
+  		idx,
+  		iString[ 128 ];
 
-	if ( params[ 0 ] == '\0' )
-		return SendPlayerInfoMessage(playerid, "/criarcar [modeloid/nome]" );
+  	if ( params[ 0 ] == '\0' )
+  		return SendPlayerInfoMessage(playerid, "/criarcar [modeloid/nome]" );
 
-	idx = GetVehicleModelIDFromName(params);
+  	idx = GetVehicleModelIDFromName(params);
 
-	if(idx == -1)
-	{
-		idx = strval(iString);
+  	if(idx == -1)
+  	{
+  		idx = strval(iString);
 
-		if (idx < 400 || idx > 611)
-			return SendPlayerErrorMessage(playerid, "Veículo inválido.");
-	}
+  		if (idx < 400 || idx > 611)
+  			return SendPlayerErrorMessage(playerid, "Veículo inválido.");
+  	}
 
-	new	Float:x, Float:y, Float:z, Float:a;
-	GetPlayerPos(playerid, x, y, z);
-	GetXYInFrontOfPlayer(playerid, x, y, 5.0);
-	GetPlayerFacingAngle(playerid, a);
+  	new	Float:x, Float:y, Float:z, Float:a;
+  	GetPlayerPos(playerid, x, y, z);
+  	GetXYInFrontOfPlayer(playerid, x, y, 5.0);
+  	GetPlayerFacingAngle(playerid, a);
 
-	new vehicleid = CreateVehicle(idx, x, y, z + 2.0, a + 90.0, -1, -1, 5000);
-	LinkVehicleToInterior(vehicleid, GetPlayerInterior(playerid));
+    new vehicleid = CreateVehicle(idx, x, y, z + 2.0, a + 90.0, -1, -1, 5000);
+    LinkVehicleToInterior(vehicleid, GetPlayerInterior(playerid));
     SetVehicleFuel(vehicleid, 100.0);
 
     SendAdminActionMessage(playerid, "Você criou um \"%s\" (ModeloID: %d, VeículoID: %d)", aVehicleNames[idx - 400], idx, vehicleid);
-
     return 1;
 }
 
@@ -239,13 +238,34 @@ YCMD:setmoney(playerid, params[], help)
 
    SetPlayerCash(playerid, value);
 
-   if(playerid == targetid) {
-       SendAdminActionMessage(playerid, "%s alterou seu dinheiro para $%s.", GetPlayerNamef(playerid), formatnumber(value));
-   } else {
-       SendAdminActionMessage(playerid, "%s alterou seu dinheiro para $%s.", GetPlayerNamef(targetid), formatnumber(value));
+   if(playerid != targetid)
        SendAdminActionMessage(targetid, "%s alterou seu dinheiro para $%s.", GetPlayerNamef(playerid), formatnumber(value));
-   }
 
+   SendAdminActionMessage(playerid, "Você alterou o dinheiro de %s para $%s.", GetPlayerNamef(targetid), formatnumber(value));
+   return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:setjob(playerid, params[], help)
+{
+   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+   new targetid, value;
+   if(sscanf(params, "ui", targetid, value))
+       return SendClientMessage(playerid, COLOR_INFO, "* /setjob [playerid] [emprego]");
+
+   else if(!IsPlayerLogged(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+   new Job:job = Job:value;
+   SetPlayerJobID(targetid, job);
+
+   if(playerid != targetid)
+       SendAdminActionMessage(targetid, "%s alterou seu emprego para %s.", GetPlayerNamef(playerid), GetJobName(job));
+
+   SendAdminActionMessage(playerid, "Você alterou o emprego de %s para %s.", GetPlayerNamef(targetid), GetJobName(job));
    return 1;
 }
 

@@ -106,17 +106,17 @@ SendPlayerSuccessMessage(playerid, const message[], va_args<>)
 SendAdminActionMessage(playerid, const message[], va_args<>)
 {
 	new textBuffer[192];
-	if(numargs() > 2) {
+	if(numargs() > 2)
+	{
 		va_format(textBuffer, sizeof(textBuffer), message, va_start<2>);
 		format(textBuffer, sizeof(textBuffer), "* %s", textBuffer);
 
 		return SendClientMessage(playerid, COLOR_ADMIN_ACTION, textBuffer);
-	} else {
-		format(textBuffer, sizeof(textBuffer), "* %s", message);
-    }
-
-	SendClientMessage(playerid, COLOR_ADMIN_ACTION, textBuffer);
-
+	}
+	else
+	{
+		SendClientMessage(playerid, COLOR_ADMIN_ACTION, message);
+  }
 	return 1;
 }
 
