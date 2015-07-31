@@ -101,13 +101,13 @@ ShowPlayerStatsHUD(playerid)
 		StatsBar[1][playerid] = CreatePlayerProgressBar(playerid, 73.00, 203.00, 55.50, 5.20, 0xD2D2D2FF, 100.0); // Sede
 		StatsBar[2][playerid] = CreatePlayerProgressBar(playerid, 73.00, 213.00, 55.50, 5.20, 0xD2D2D2FF, 100.0); // Sono
 		StatsBar[3][playerid] = CreatePlayerProgressBar(playerid, 73.00, 223.00, 55.50, 5.20, 0xD2D2D2FF); // Vicio
-		//StatsBar[4][playerid] = CreatePlayerProgressBar(playerid, 73.00, 233.00, 55.50, 5.20, 0xD2D2D2FF); // Fome Pet
+		StatsBar[4][playerid] = CreatePlayerProgressBar(playerid, 73.00, 233.00, 55.50, 5.20, 0xD2D2D2FF); // Fome Pet
 
 		SetPlayerProgressBarValue(playerid, StatsBar[0][playerid], GetPlayerHunger(playerid));
 		SetPlayerProgressBarValue(playerid, StatsBar[1][playerid], GetPlayerThirst(playerid));
 		SetPlayerProgressBarValue(playerid, StatsBar[2][playerid], GetPlayerSleep(playerid));
 		SetPlayerProgressBarValue(playerid, StatsBar[3][playerid], GetPlayerAddiction(playerid));
-		//SetPlayerProgressBarValue(playerid, StatsBar[4][playerid], GetPlayerPetHunger(playerid));
+		SetPlayerProgressBarValue(playerid, StatsBar[4][playerid], GetPlayerPetHunger(playerid));
 
 		for (new i = 0; i < sizeof(StatsText); i++)
 			PlayerTextDrawShow(playerid, StatsText[i][playerid]);

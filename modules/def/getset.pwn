@@ -10,6 +10,7 @@
 *       Copyright Paradise Devs 2015.  All rights reserved.
 *
 */
+
 //Ir removendo conforme for usando
 #pragma unused GetPlayerLastLogin
 #pragma unused GetPlayerRegDate

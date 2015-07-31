@@ -146,11 +146,11 @@ hook OnGameModeInit()
 
 /* Player */
 #include "../modules/player/achievement.pwn"
-#include "../modules/player/message.pwn"
 #include "../modules/player/chat.pwn"
 #include "../modules/player/commands.pwn"
 #include "../modules/player/deadbody.pwn"
 #include "../modules/player/needs.pwn"
+#include "../modules/player/pets.pwn"
 
 /* Admin */
 #include "../modules/admin/commands.pwn"
