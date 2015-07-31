@@ -20,7 +20,7 @@ YCMD:acmds(playerid, params[], help)
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_MODERATOR)
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin");
 
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob");
@@ -196,6 +196,29 @@ YCMD:sairdohospital(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
+ YCMD:setskin(playerid, params[], help)
+ {
+ 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+ 	new targetid, skinid;
+ 	if(sscanf(params, "ui", targetid, skinid))
+ 		return SendClientMessage(playerid, COLOR_INFO, "* /setskin [playerid] [skin]");
+
+ 	else if(!IsPlayerLogged(targetid))
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+    else if(skinid < 0 || skinid > 311)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Skin inválida.");
+
+ 	SetPlayerSkin(targetid, skinid);
+    SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua skin para %d.", GetPlayerNamef(playerid), skinid);
+    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a skin de %s para %d.", GetPlayerNamef(targetid), skinid);
+ 	return 1;
+ }
+
+//------------------------------------------------------------------------------
+
 /***
  *
  *       ##   #####  #    # # #    # #  ####  ##### #####    ##   #####  ####  #####
@@ -283,7 +306,7 @@ YCMD:setjob(playerid, params[], help)
    SetPlayerJobID(targetid, job);
 
    if(playerid != targetid)
-       SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* %s alterou seu emprego para %s.", GetPlayerNamef(playerid), GetJobName(job));
+       SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou seu emprego para %s.", GetPlayerNamef(playerid), GetJobName(job));
 
    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o emprego de %s para %s.", GetPlayerNamef(targetid), GetJobName(job));
    return 1;
