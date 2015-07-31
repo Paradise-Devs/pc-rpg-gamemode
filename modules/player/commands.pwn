@@ -193,7 +193,7 @@ public e_COMMAND_ERRORS:OnPlayerCommandReceived(playerid, cmdtext[], e_COMMAND_E
 		SendClientMessage(playerid, COLOR_ERROR, "* Você precisa estar logado para usar algum comando.");
 		return COMMAND_DENIED;
 	}
-	else if(GetPlayerHospitalTime(playerid) > 0)
+	else if(GetPlayerHospitalTime(playerid) > 0 && GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você está em coma.");
 		return COMMAND_DENIED;
