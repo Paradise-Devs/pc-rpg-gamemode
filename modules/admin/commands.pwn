@@ -20,10 +20,10 @@ YCMD:acmds(playerid, params[], help)
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_MODERATOR)
-        SendClientMessage(playerid, COLOR_RANK_MODERATOR, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital");
 
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
-        SendClientMessage(playerid, COLOR_RANK_ADMIN, "* /criarcar - /setmoney - /setjob");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob");
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
@@ -177,6 +177,20 @@ YCMD:lv(playerid, params[], help)
 
     SetPlayerInterior(playerid, 0);
     SetPlayerVirtualWorld(playerid, 0);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:sairdohospital(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    else if(GetPlayerHospitalTime(playerid) < 1)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está no hospital.");
+
+    SetPlayerHospitalTime(playerid, 1);
     return 1;
 }
 

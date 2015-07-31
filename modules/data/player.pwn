@@ -14,9 +14,8 @@
 
 #include <YSI\y_hooks>
 
-/////////////////////////////////////////////////////////////////////////////////
-// DEFAULT PLAYER VALUES
-/////////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------
+
 #define         START_X         1449.01
 #define         START_Y         -2287.10
 #define         START_Z         13.54
@@ -158,20 +157,11 @@ public OnAccountLoad(playerid)
 	cache_get_data(rows, fields, mysql);
 	if(rows > 0)
 	{
-        /////////////////////////////////////
-        // SPAWNING
-        /////////////////////////////////////
         SpawnPlayer(playerid);
 
-        /////////////////////////////////////
-        // ACCOUNT
-        /////////////////////////////////////
         SetPlayerIP(playerid, GetPlayerIPf(playerid));
         SetPlayerLastLogin(playerid, cache_get_field_content_int(0, "last_login", mysql));
 
-        /////////////////////////////////////
-        // POSITION
-        /////////////////////////////////////
         SetPlayerPosEx(playerid,
             cache_get_field_content_float(0, "x",               mysql),
             cache_get_field_content_float(0, "y",               mysql),
@@ -181,9 +171,6 @@ public OnAccountLoad(playerid)
             cache_get_field_content_int(0, "virtual_world",     mysql)
         );
 
-        /////////////////////////////////////
-        // CHARACTER
-        /////////////////////////////////////
         SetPlayerHealth(playerid, cache_get_field_content_float(0, "health", mysql));
         SetPlayerArmour(playerid, cache_get_field_content_float(0, "armour", mysql));
         SetPlayerFaction(playerid, cache_get_field_content_int(0, "faction", mysql));
@@ -201,28 +188,18 @@ public OnAccountLoad(playerid)
     	SetPlayerAddiction(playerid, cache_get_field_content_float(0, "Addiction"));
         LoadPlayerWeapons(playerid);
 
-        /////////////////////////////////////
-        // PHONE
-        /////////////////////////////////////
         SetPlayerPhoneNumber(playerid, cache_get_field_content_int(0, "PhoneNumber"));
         SetPlayerPhoneNetwork(playerid, cache_get_field_content_int(0, "PhoneNetwork"));
         SetPlayerPhoneCredit(playerid, cache_get_field_content_int(0, "PhoneCredits"));
         SetPlayerPhoneState(playerid, cache_get_field_content_int(0, "PhoneState"));
 
-        /////////////////////////////////////
-        // OTHERS
-        /////////////////////////////////////
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
         SetPlayerRankVar(playerid, cache_get_field_content_int(0, "rank", mysql));
         SetPlayerFirstTimeVar(playerid, cache_get_field_content_int(0, "ftime", mysql));
 
-        /////////////////////////////////////
-        // STATE
-        /////////////////////////////////////
         SetPlayerLogged(playerid, true);
     }
-
     return 1;
 }
 
@@ -246,7 +223,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 SendClientMessage(playerid, COLOR_SUCCESS, "Conectado com sucesso!");
                 PlayConfirmSound(playerid);
                 LoadPlayerAccount(playerid);
-            } else {
+            } else
+            {
                 ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_INPUT, "Conta Registrada->Senha Incorreta", "Senha incorreta!\nTente novamente:", "Conectar", "Sair"),
                 PlayErrorSound(playerid);
             }
@@ -313,7 +291,7 @@ public OnAccountCheck(playerid)
         ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Conta Registrada", info, "Registrar", "Sair");
         PlaySelectSound(playerid);
     }
-	SendClientMessage(playerid, COLOR_SUCCESS, "* Conectado.");
+	SendClientMessage(playerid, COLOR_SUCCESS, "Conectado.");
     return 1;
 }
 
@@ -354,7 +332,7 @@ hook OnPlayerConnect(playerid)
 {
     SetPlayerColor(playerid, 0xacacacff);
     ClearPlayerScreen(playerid);
-    SendClientMessage(playerid, COLOR_INFO, "* Conectando ao banco de dados, por favor aguarde...");
+    SendClientMessage(playerid, COLOR_INFO, "Conectando ao banco de dados, por favor aguarde...");
     ResetPlayerData(playerid);
     return 1;
 }
