@@ -79,7 +79,8 @@ SavePlayerAccount(playerid)
     `achievements`=%d, `ticket`=%d, \
     `jobid`=%d, `jobxp`=%d, `joblv`=%d, \
     `ftime`=%d, \
-    `PhoneNumber`=%d, `PhoneNetwork`=%d, `PhoneCredits`=%d, `PhoneState`=%d \
+    `PhoneNumber`=%d, `PhoneNetwork`=%d, `PhoneCredits`=%d, `PhoneState`=%d, \
+    `Hunger`=%.3f, `Thirst`=%.3f, `Sleep`=%.3f, `Addiction`=%.3f \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid),
     GetPlayerRankVar(playerid), GetPlayerSkin(playerid), GetPlayerFactionID(playerid), GetPlayerFactionRank(playerid),
@@ -90,6 +91,7 @@ SavePlayerAccount(playerid)
     _:GetPlayerJobID(playerid), GetPlayerJobXP(playerid), GetPlayerJobLV(playerid),
     GetPlayerFirstTimeVar(playerid),
     GetPlayerPhoneNumber(playerid), GetPlayerPhoneNetwork(playerid), GetPlayerPhoneCredit(playerid), GetPlayerPhoneState(playerid),
+    GetPlayerHunger(playerid), GetPlayerThirst(playerid), GetPlayerSleep(playerid), GetPlayerAddiction(playerid),
     GetPlayerDatabaseID(playerid));
 
 	mysql_pquery(mysql, query);
@@ -193,6 +195,10 @@ public OnAccountLoad(playerid)
         SetPlayerJobID(playerid, Job:cache_get_field_content_int(0, "jobid", mysql));
         SetPlayerJobXP(playerid, cache_get_field_content_int(0, "jobxp", mysql));
         SetPlayerJobLV(playerid,cache_get_field_content_int(0, "joblv", mysql ));
+        SetPlayerHunger(playerid, cache_get_field_content_float(0, "Hunger"));
+    	SetPlayerThirst(playerid, cache_get_field_content_float(0, "Thirst"));
+    	SetPlayerSleep(playerid, cache_get_field_content_float(0, "Sleep"));
+    	SetPlayerAddiction(playerid, cache_get_field_content_float(0, "Addiction"));
         LoadPlayerWeapons(playerid);
 
         /////////////////////////////////////

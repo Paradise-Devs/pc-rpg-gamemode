@@ -368,6 +368,10 @@ ResetPlayerData(playerid) {
     gPlayerCharacterData[playerid][e_player_joblv]      = 1;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
+    gPlayerCharacterData[playerid][e_player_hunger]     = 50.0;
+    gPlayerCharacterData[playerid][e_player_thirst]     = 50.0;
+    gPlayerCharacterData[playerid][e_player_sleep]      = 50.0;
+    gPlayerCharacterData[playerid][e_player_addiction]  = 0.0;
 
     gPlayerPhoneData[playerid][e_player_phone_number]   = 0;
     gPlayerPhoneData[playerid][e_player_phone_network]  = -1;
