@@ -112,10 +112,10 @@ hook OnGameModeInit()
 #include "../modules/def/dialogs.pwn"
 #include "../modules/def/ftime.pwn"
 #include "../modules/def/messages.pwn"
-#include "../modules/def/getset.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
+#include "../modules/data/internal.pwn"
 #include "../modules/data/building.pwn"
 #include "../modules/data/vehicle.pwn"
 #include "../modules/data/faction.pwn"

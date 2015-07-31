@@ -1,8 +1,8 @@
 /*******************************************************************************
-* FILENAME :        modules/def/getset.pwn
+* FILENAME :        modules/def/internal.pwn
 *
 * DESCRIPTION :
-*       Getters and setters is here.
+*       Getters and setters of player's data.
 *
 * NOTES :
 *       This file should only contain get and set functions.
@@ -39,7 +39,7 @@ enum e_player_adata
 }
 static gPlayerAccountData[MAX_PLAYERS][e_player_adata];
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 enum e_player_pdata
 {
@@ -52,7 +52,7 @@ enum e_player_pdata
 }
 static gPlayerPositionData[MAX_PLAYERS][e_player_pdata];
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 enum e_player_cdata
 {
@@ -74,7 +74,7 @@ enum e_player_cdata
 }
 static gPlayerCharacterData[MAX_PLAYERS][e_player_cdata];
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 enum e_player_phdata
 {
@@ -86,7 +86,7 @@ enum e_player_phdata
 
 static gPlayerPhoneData[MAX_PLAYERS][e_player_phdata];
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 enum e_player_wdata
 {
@@ -95,7 +95,7 @@ enum e_player_wdata
 }
 static gPlayerWeaponData[MAX_PLAYERS][e_player_wdata];
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 enum E_PLAYER_STATE (<<= 1)
 {
@@ -104,7 +104,7 @@ enum E_PLAYER_STATE (<<= 1)
 }
 static E_PLAYER_STATE:gPlayerStates[MAX_PLAYERS];
 
-/********************************************************************************
+/*******************************************************************************
 *
 *      ###### ###### ##### ##### ###### #####   ####
 *     #       #        #     #   #      #    # #
@@ -113,52 +113,62 @@ static E_PLAYER_STATE:gPlayerStates[MAX_PLAYERS];
 *     #     # #        #     #   #      #   #  #    #
 *      #####  ######   #     #   ###### #    #  ####
 *
-********************************************************************************/
-//--------------------------------------------------------------------
+*******************************************************************************/
 
 GetPlayerDatabaseID(playerid) {
     return gPlayerAccountData[playerid][e_player_database_id];
 }
+
 GetPlayerPassword(playerid) {
     new s[MAX_PLAYER_PASSWORD];
     format(s, MAX_PLAYER_PASSWORD, "%s", gPlayerAccountData[playerid][e_player_password]);
     return s;
 }
+
 GetPlayerRegDate(playerid) {
     return gPlayerAccountData[playerid][e_player_regdate];
 }
+
 GetPlayerIPf(playerid) {
     new ip[16];
     GetPlayerIp(playerid, ip, 16);
     return ip;
 }
+
 GetPlayerLastLogin(playerid) {
     return gPlayerAccountData[playerid][e_player_lastlogin];
 }
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 GetPlayerLotteryTicket(playerid) {
     return gPlayerCharacterData[playerid][e_player_ticket];
 }
+
 GetPlayerFactionID(playerid) {
     return gPlayerCharacterData[playerid][e_player_faction];
 }
+
 Job:GetPlayerJobID(playerid) {
     return gPlayerCharacterData[playerid][e_player_jobid];
 }
+
 GetPlayerJobLV(playerid) {
     return gPlayerCharacterData[playerid][e_player_joblv];
 }
+
 GetPlayerJobXP(playerid) {
     return gPlayerCharacterData[playerid][e_player_jobxp];
 }
+
 GetPlayerCash(playerid) {
     return gPlayerCharacterData[playerid][e_player_money];
 }
+
 GetPlayerGender(playerid) {
     return gPlayerCharacterData[playerid][e_player_gender];
 }
+
 GetPlayerFactionRank(playerid) {
     return gPlayerCharacterData[playerid][e_player_frank];
 }
@@ -166,32 +176,38 @@ GetPlayerFactionRank(playerid) {
 Float:GetPlayerHunger(playerid) {
     return gPlayerCharacterData[playerid][e_player_hunger];
 }
+
 Float:GetPlayerThirst(playerid) {
     return gPlayerCharacterData[playerid][e_player_thirst];
 }
+
 Float:GetPlayerSleep(playerid) {
     return gPlayerCharacterData[playerid][e_player_sleep];
 }
+
 Float:GetPlayerAddiction(playerid) {
     return gPlayerCharacterData[playerid][e_player_addiction];
 }
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 GetPlayerPhoneNumber(playerid) {
     return gPlayerPhoneData[playerid][e_player_phone_number];
 }
+
 GetPlayerPhoneNetwork(playerid) {
     return gPlayerPhoneData[playerid][e_player_phone_network];
 }
+
 GetPlayerPhoneCredit(playerid) {
     return gPlayerPhoneData[playerid][e_player_phone_credits];
 }
+
 GetPlayerPhoneState(playerid) {
     return gPlayerPhoneData[playerid][e_player_phone_state];
 }
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 IsPlayerLogged(playerid) {
     if(gPlayerStates[playerid] & E_PLAYER_STATE_LOGGED)
@@ -211,27 +227,30 @@ IsPlayerLogged(playerid) {
 *
 ********************************************************************************/
 
-//--------------------------------------------------------------------
-
 SetPlayerDatabaseID(playerid, id) {
     gPlayerAccountData[playerid][e_player_database_id] = id;
 }
+
 SetPlayerPassword(playerid, password[]) {
     format(gPlayerAccountData[playerid][e_player_password], MAX_PLAYER_PASSWORD, "%s", password);
 }
+
 SetPlayerRegDate(playerid, unixt) {
     gPlayerAccountData[playerid][e_player_regdate] = unixt;
 }
+
 SetPlayerIP(playerid, ip[16]) {
     format(gPlayerAccountData[playerid][e_player_ip], 16, "%s", ip);
 }
+
 SetPlayerLastLogin(playerid, unixt) {
     gPlayerAccountData[playerid][e_player_lastlogin] = unixt;
 }
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-SetPlayerPosEx(playerid, Float:PosX, Float:PosY, Float:PosZ, Float:Angle, int, vw) {
+SetPlayerPosEx(playerid, Float:PosX, Float:PosY, Float:PosZ, Float:Angle, int, vw)
+{
     gPlayerPositionData[playerid][e_player_x]    = PosX;
     gPlayerPositionData[playerid][e_player_y]    = PosY;
     gPlayerPositionData[playerid][e_player_z]    = PosZ;
@@ -245,50 +264,65 @@ SetPlayerPosEx(playerid, Float:PosX, Float:PosY, Float:PosZ, Float:Angle, int, v
     SetPlayerVirtualWorld(playerid, vw);
 }
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 SetPlayerLotteryTicket(playerid, val) {
     gPlayerCharacterData[playerid][e_player_ticket] = val;
 }
+
 SetPlayerJobID(playerid, Job:id) {
     gPlayerCharacterData[playerid][e_player_jobid] = id;
 }
+
 SetPlayerJobLV(playerid, val) {
     gPlayerCharacterData[playerid][e_player_joblv] = val;
 }
+
 SetPlayerJobXP(playerid, val) {
     gPlayerCharacterData[playerid][e_player_jobxp] = val;
 }
+
 SetPlayerGender(playerid, gender) {
     gPlayerCharacterData[playerid][e_player_gender] = gender;
 }
 SetPlayerFaction(playerid, faction) {
     gPlayerCharacterData[playerid][e_player_faction] = faction;
 }
+
 SetPlayerFactionRank(playerid, rank) {
     gPlayerCharacterData[playerid][e_player_frank] = rank;
 }
-SetPlayerCash(playerid, money) {
+
+SetPlayerCash(playerid, money)
+{
     ResetPlayerMoney(playerid);
     gPlayerCharacterData[playerid][e_player_money] = money;
     GivePlayerMoney(playerid, money);
 }
-SetPlayerHunger(playerid, Float:value) {
+
+SetPlayerHunger(playerid, Float:value)
+{
     if(value < 0.0) value = 0.0;
 	else if(value > 100.0) value = 100.0;
     gPlayerCharacterData[playerid][e_player_hunger] = value;
 }
-SetPlayerThirst(playerid, Float:value) {
+
+SetPlayerThirst(playerid, Float:value)
+{
     if(value < 0.0) value = 0.0;
 	else if(value > 100.0) value = 100.0;
     gPlayerCharacterData[playerid][e_player_thirst] = value;
 }
-SetPlayerSleep(playerid, Float:value) {
+
+SetPlayerSleep(playerid, Float:value)
+{
     if(value < 0.0) value = 0.0;
     else if(value > 100.0) value = 100.0;
     gPlayerCharacterData[playerid][e_player_sleep] = value;
 }
-SetPlayerAddiction(playerid, Float:value) {
+
+SetPlayerAddiction(playerid, Float:value)
+{
     if(value < 0.0) value = 0.0;
     else if(value > 100.0) value = 100.0;
     gPlayerCharacterData[playerid][e_player_addiction] = value;
@@ -300,7 +334,7 @@ GivePlayerCash(playerid, money) {
     GivePlayerMoney(playerid, money);
 }
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 SetPlayerPhoneNumber(playerid, phonenumber) {
     gPlayerPhoneData[playerid][e_player_phone_number] = phonenumber;
@@ -315,15 +349,18 @@ SetPlayerPhoneState(playerid, ph_state) {
   gPlayerPhoneData[playerid][e_player_phone_state] = ph_state;
 }
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-SetPlayerLogged(playerid, bool:set) {
+SetPlayerLogged(playerid, bool:set)
+{
     if(!set)
         gPlayerStates[playerid] &= ~E_PLAYER_STATE_LOGGED;
     else
         gPlayerStates[playerid] |= E_PLAYER_STATE_LOGGED;
 }
-SetPlayerState(playerid, E_PLAYER_STATE:status, bool:set) {
+
+SetPlayerState(playerid, E_PLAYER_STATE:status, bool:set)
+{
     if(!set)
         gPlayerStates[playerid] &= ~status;
     else
@@ -340,7 +377,8 @@ SetPlayerState(playerid, E_PLAYER_STATE:status, bool:set) {
 *     #    # ######  ####  ######   #
 *
 ********************************************************************************/
-ResetPlayerData(playerid) {
+ResetPlayerData(playerid)
+{
     // Current Time
     new ct = gettime();
 
