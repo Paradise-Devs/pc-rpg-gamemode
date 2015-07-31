@@ -296,9 +296,7 @@ public OnAccountCheck(playerid)
 	cache_get_data(rows, fields, mysql);
 	if(rows > 0)
 	{
-        new password[MAX_PLAYER_PASSWORD];
-        cache_get_field_content(0, "password", password, mysql, MAX_PLAYER_PASSWORD);
-        SetPlayerPassword(playerid, password);
+        cache_get_field_content(0, "password", GetPlayerPassword(playerid), mysql, MAX_PLAYER_PASSWORD);
         SetPlayerDatabaseID(playerid, cache_get_field_content_int(0, "ID", mysql));
 
         new info[130];

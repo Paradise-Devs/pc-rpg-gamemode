@@ -216,7 +216,7 @@ IsPlayerLogged(playerid) {
 SetPlayerDatabaseID(playerid, id) {
     gPlayerAccountData[playerid][e_player_database_id] = id;
 }
-SetPlayerPassword(playerid, password[]) {
+SetPlayerPassword(playerid, password[MAX_PLAYER_PASSWORD]) {
     format(gPlayerAccountData[playerid][e_player_password], MAX_PLAYER_PASSWORD, "%s", password);
 }
 SetPlayerRegDate(playerid, unixt) {
