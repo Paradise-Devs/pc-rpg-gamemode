@@ -70,6 +70,7 @@
 #include <YSI\y_commands>
 #include <YSI\y_va>
 #include <streamer>
+#include <progress2>
 #include <fnumb>
 #include <util>
 #include <vcolor>
@@ -149,6 +150,7 @@ hook OnGameModeInit()
 #include "../modules/player/chat.pwn"
 #include "../modules/player/commands.pwn"
 #include "../modules/player/deadbody.pwn"
+#include "../modules/player/needs.pwn"
 
 /* Admin */
 #include "../modules/admin/commands.pwn"
@@ -160,6 +162,7 @@ hook OnGameModeInit()
 /* Visual */
 #include "../modules/visual/speedo.pwn"
 #include "../modules/visual/subtitles.pwn"
+#include "../modules/visual/stats.pwn"
 
 /* NPCs */
 #include "../modules/npcs/actors.pwn"

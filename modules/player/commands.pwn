@@ -172,8 +172,6 @@ YCMD:gritar(playerid, params[], help)
 	return 1;
 }
 
-//------------------------------------------------------------------------------
-
 /*
         Error & Return type
 
