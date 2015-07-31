@@ -212,7 +212,8 @@ YCMD:sairdohospital(playerid, params[], help)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Skin inválida.");
 
  	SetPlayerSkin(targetid, skinid);
-    SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua skin para %d.", GetPlayerNamef(playerid), skinid);
+    if(playerid != targetid)
+        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua skin para %d.", GetPlayerNamef(playerid), skinid);
     SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a skin de %s para %d.", GetPlayerNamef(targetid), skinid);
  	return 1;
  }

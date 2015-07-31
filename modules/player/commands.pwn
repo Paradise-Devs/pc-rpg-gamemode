@@ -79,7 +79,7 @@ YCMD:id(playerid, params[], help)
 YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	SendClientMessage(playerid, 0xffffffff, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
