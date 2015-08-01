@@ -25,6 +25,9 @@ YCMD:acmds(playerid, params[], help)
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob");
 
+    if(IsPlayerAdmin(playerid))
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /avehcmds");
+
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }

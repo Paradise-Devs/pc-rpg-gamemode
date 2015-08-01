@@ -316,7 +316,7 @@ stock GetPlayerFirstName(playerid)
 
 //------------------------------------------------------------------------------
 
-GetVehicleModelIDFromName(vname[])
+stock GetVehicleModelIDFromName(vname[])
 {
 	for(new i = 0; i < 211; i++)
 	{
@@ -334,6 +334,16 @@ stock GetVehicleName(vehicleid)
     if(!GetVehicleModel(vehicleid))
         return vehiclename;
     format(vehiclename, sizeof(vehiclename), aVehicleNames[GetVehicleModel(vehicleid) - 400]);
+    return vehiclename;
+}
+//------------------------------------------------------------------------------
+
+stock GetVehicleNameFromModel(modelid)
+{
+    new vehiclename[32] = "Nenhum";
+    if(modelid < 400 || modelid > 611)
+        return vehiclename;
+    format(vehiclename, sizeof(vehiclename), aVehicleNames[modelid - 400]);
     return vehiclename;
 }
 
