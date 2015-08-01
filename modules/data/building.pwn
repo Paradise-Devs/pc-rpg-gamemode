@@ -22,7 +22,7 @@ forward OnPlayerExitBuilding(playerid, building);
 
 //------------------------------------------------------------------------------
 
-#define INTERVAL_BETWEEN_PICKUP_UPDATES 750
+#define INTERVAL_BETWEEN_PICKUP_UPDATES 1500
 
 //------------------------------------------------------------------------------
 
