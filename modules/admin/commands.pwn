@@ -267,7 +267,7 @@ YCMD:sairdohospital(playerid, params[], help)
     if(playerid != targetid)
         SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua skin para %d.", GetPlayerNamef(playerid), skinid);
     SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a skin de %s para %d.", GetPlayerNamef(targetid), skinid);
-    SetSpawnInfo(playerid, 255, skinid, 0.0, 0.0, 0.0, 0.0, 0, 0, 0, 0, 0, 0);
+    SetSpawnInfo(targetid, 255, skinid, 0.0, 0.0, 0.0, 0.0, 0, 0, 0, 0, 0, 0);
  	return 1;
  }
 
@@ -288,7 +288,7 @@ YCMD:kick(playerid, params[], help)
    else if(playerid == targetid)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar você mesmo.");
 
-   else if(GetPlayerHighestRank(playerid) > PLAYER_RANK_BETATESTER)
+   else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um membro da administração.");
 
    new output[144];
@@ -315,7 +315,7 @@ YCMD:ban(playerid, params[], help)
    else if(playerid == targetid)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir você mesmo.");
 
-   else if(GetPlayerHighestRank(playerid) > PLAYER_RANK_BETATESTER)
+   else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
 
    new output[144];
@@ -432,7 +432,7 @@ YCMD:tdist(playerid, params[], help)
     else if(!IsPlayerLogged(targetid))
         SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 	else
-		SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você está a %.2f de distância do jogador.", GetPlayerDistanceFromPlayer(playerid, targetid));
+		SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você está a %.2f units de distância do jogador.", GetPlayerDistanceFromPlayer(playerid, targetid));
 	return 1;
 }
 
@@ -724,7 +724,7 @@ YCMD:fakeban(playerid, params[], help)
    else if(playerid == targetid)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir você mesmo.");
 
-   else if(GetPlayerHighestRank(playerid) > PLAYER_RANK_BETATESTER)
+   else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
 
    new output[144];

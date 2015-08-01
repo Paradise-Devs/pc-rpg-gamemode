@@ -139,11 +139,11 @@ YCMD:sussurrar(playerid, params[], help)
 	GetPlayerPos(playerid, fDist[0], fDist[1], fDist[2]);
 	if(GetPlayerDistanceFromPoint(targetid, fDist[0], fDist[1], fDist[2]) < 3.0 && GetPlayerVirtualWorld(targetid) == GetPlayerVirtualWorld(playerid))
 	{
-        new output[148];
-        format(output, sizeof(output), "* Você sussurou para {FFD700}%s{FFFF00}: %s", GetPlayerNamef(targetid), message);
-		SendClientMessage(playerid, COLOR_YELLOW, output);
-        format(output, sizeof(output), "* {FFD700}%s{FFFF00} sussurou: %s", GetPlayerNamef(playerid), message);
-		SendClientMessage(targetid, COLOR_YELLOW, output);
+        new output[145];
+        format(output, sizeof(output), "* [SS] para %s(ID: %d): %s", GetPlayerNamef(targetid), message);
+		SendClientMessage(playerid, 0x26b4cdff, output);
+        format(output, sizeof(output), "* [SS] %s(ID: %d): %s", GetPlayerNamef(playerid), message);
+		SendClientMessage(targetid, 0x26b4cdff, output);
         format(output, sizeof(output), "sussurou algo para %s.", GetPlayerNamef(targetid));
         SendClientActionMessage(playerid, 15.0, output);
 	}

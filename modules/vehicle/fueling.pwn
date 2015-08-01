@@ -146,7 +146,7 @@ hook OnGameModeInit()
 {
     for(new i = 0; i < sizeof(GAS_STATIONS_POSITIONS); i++)
     {
-        CreateDynamic3DTextLabel("Abastecer\nPressione {1add69}Y", 0xFFFFFFFF, GAS_STATIONS_POSITIONS[i][0], GAS_STATIONS_POSITIONS[i][1], GAS_STATIONS_POSITIONS[i][2], MAX_TEXT3D_RANGE);
+        CreateDynamic3DTextLabel("Abastecer\nSegure {1add69}Y", 0xFFFFFFFF, GAS_STATIONS_POSITIONS[i][0], GAS_STATIONS_POSITIONS[i][1], GAS_STATIONS_POSITIONS[i][2], MAX_TEXT3D_RANGE);
     }
     return 1;
 }

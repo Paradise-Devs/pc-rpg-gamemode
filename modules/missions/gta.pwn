@@ -195,7 +195,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             new money;
 
             GetVehicleHealth(g_pTargetVehicleID[playerid], health);
-            money = ((floatround(health) * 15) / 2);
+            money = ((floatround(health) * 5) / 2);
 
             SendClientMessagef(playerid, COLOR_TITLE, "* Você entregou o %s.", GetVehicleName(g_pTargetVehicleID[playerid]));
             SendClientMessagef(playerid, COLOR_SUB_TITLE, "* Seu pagamento foi de $%s.", formatnumber(money));
