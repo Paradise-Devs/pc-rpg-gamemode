@@ -74,6 +74,7 @@
 #include <fnumb>
 #include <util>
 #include <vcolor>
+#include <zones>
 
 //------------------------------------------------------------------------------
 
@@ -170,6 +171,9 @@ hook OnGameModeInit()
 /* Jobs */
 #include "../modules/job/pilot.pwn"
 #include "../modules/job/trucker.pwn"
+
+/* Missions */
+#include "../modules/missions/gta.pwn"
 
 /* Objects */
 #include "../modules/objects/hospital.pwn"

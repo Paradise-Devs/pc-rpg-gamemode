@@ -458,7 +458,10 @@ YCMD:irmarca(playerid, params[], help)
 
     SetPlayerInterior(playerid, gplMarkExt[playerid][0]);
     SetPlayerVirtualWorld(playerid, gplMarkExt[playerid][1]);
-    SetPlayerPos(playerid, gplMarkPos[playerid][0], gplMarkPos[playerid][1], gplMarkPos[playerid][2]);
+    if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+        SetPlayerPos(playerid, gplMarkPos[playerid][0], gplMarkPos[playerid][1], gplMarkPos[playerid][2]);
+    else
+        SetVehiclePos(GetPlayerVehicleID(playerid), gplMarkPos[playerid][0], gplMarkPos[playerid][1], gplMarkPos[playerid][2]);
 	SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você foi até a posição marcada. (%.2f, %.2f, %.2f, %d, %d)", gplMarkPos[playerid][0], gplMarkPos[playerid][1], gplMarkPos[playerid][2], gplMarkExt[playerid][0], gplMarkExt[playerid][1]);
 	return 1;
 }
