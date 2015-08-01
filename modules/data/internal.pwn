@@ -328,10 +328,11 @@ SetPlayerAddiction(playerid, Float:value)
     gPlayerCharacterData[playerid][e_player_addiction] = value;
 }
 
-GivePlayerCash(playerid, money) {
+GivePlayerCash(playerid, money)
+{
     ResetPlayerMoney(playerid);
     gPlayerCharacterData[playerid][e_player_money] += money;
-    GivePlayerMoney(playerid, money);
+    GivePlayerMoney(playerid, gPlayerCharacterData[playerid][e_player_money]);
 }
 
 //------------------------------------------------------------------------------
