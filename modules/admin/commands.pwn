@@ -279,7 +279,7 @@ YCMD:kick(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, reason[128];
-   if(sscanf(params, "us", targetid, reason))
+   if(sscanf(params, "us[128]", targetid, reason))
        return SendClientMessage(playerid, COLOR_INFO, "* /kick [playerid] [motivo]");
 
    else if(!IsPlayerLogged(targetid))
@@ -568,7 +568,7 @@ YCMD:pm(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, message[128];
-   if(sscanf(params, "us", targetid, message))
+   if(sscanf(params, "us[128]", targetid, message))
        return SendClientMessage(playerid, COLOR_INFO, "* /pm [playerid] [mensagem]");
 
    else if(!IsPlayerLogged(targetid))
@@ -592,7 +592,7 @@ YCMD:say(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new message[128];
-   if(sscanf(params, "s", message))
+   if(sscanf(params, "s[128]", message))
        return SendClientMessage(playerid, COLOR_INFO, "* /say [mensagem]");
 
    new output[144];
@@ -715,7 +715,7 @@ YCMD:fakeban(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, reason[128];
-   if(sscanf(params, "us", targetid, reason))
+   if(sscanf(params, "us[128]", targetid, reason))
        return SendClientMessage(playerid, COLOR_INFO, "* /fakeban [playerid] [motivo]");
 
    else if(!IsPlayerLogged(targetid))
