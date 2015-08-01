@@ -40,7 +40,7 @@ hook OnRconCommand(cmd[])
     {
         GameTextForAll("~b~~h~~h~~h~Reiniciando servidor...", 10000, 3);
         printf("\n\n============================================================\n");
-    	printf("Restartnig %s %s.%s%s...\n", SCRIPT_VERSION_NAME, SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
+    	printf("Restarting %s %s.%s%s...\n", SCRIPT_VERSION_NAME, SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
         printf("Saving vehicles...");
         SaveVehicles();
         printf("Saving player accounts...");

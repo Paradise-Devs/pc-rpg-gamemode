@@ -79,6 +79,7 @@ timer OnRefuelVehicle[100](playerid)
         stop gplFillingT[playerid];
         gplFillingT[playerid] = Timer:-1;
         gplIsFilling[playerid] = false;
+        PlaySelectSound(playerid);
     }
     return 1;
 }
