@@ -15,7 +15,7 @@
 
 //------------------------------------------------------------------------------
 
-static bool:gplAnimationsPreLoaded[MAX_PLAYERS] = false;
+static bool:gplAnimationsPreLoaded[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
