@@ -209,11 +209,15 @@ GetPlayerPhoneState(playerid) {
 
 //------------------------------------------------------------------------------
 
-IsPlayerLogged(playerid) {
-    if(gPlayerStates[playerid] & E_PLAYER_STATE_LOGGED)
-        return 1;
+IsPlayerLogged(playerid)
+{
+    if(!IsPlayerConnected(playerid))
+        return false;
 
-    return 0;
+    if(gPlayerStates[playerid] & E_PLAYER_STATE_LOGGED)
+        return true;
+
+    return false;
 }
 
 /********************************************************************************
@@ -354,10 +358,10 @@ SetPlayerPhoneState(playerid, ph_state) {
 
 SetPlayerLogged(playerid, bool:set)
 {
-    if(!set)
-        gPlayerStates[playerid] &= ~E_PLAYER_STATE_LOGGED;
-    else
+    if(set)
         gPlayerStates[playerid] |= E_PLAYER_STATE_LOGGED;
+    else
+        gPlayerStates[playerid] &= ~E_PLAYER_STATE_LOGGED;
 }
 
 SetPlayerState(playerid, E_PLAYER_STATE:status, bool:set)

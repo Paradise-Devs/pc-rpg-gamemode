@@ -760,7 +760,6 @@ YCMD:setrank(playerid, params[], help)
 	if(IsPlayerAdmin(playerid) || GetPlayerHighestRank(playerid) >= PLAYER_RANK_DEVELOPER)
 	{
     	new	targetid, rankName[9], option[8];
-
     	if(sscanf(params, "us[9]s[8]", targetid, rankName, option))
         {
     		SendClientMessage(playerid, COLOR_INFO, "* /setrank [playerid] [nome do rank] [add / remover]");
@@ -769,7 +768,7 @@ YCMD:setrank(playerid, params[], help)
         }
 
         else if(!IsPlayerLogged(targetid))
-            SendClientMessage(playerid, COLOR_ERROR, "* Jogador não conectado.");
+            return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 
         else if(!strcmp(rankName, "donator", true))
         {

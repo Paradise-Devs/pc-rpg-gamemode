@@ -68,6 +68,9 @@ YCMD:id(playerid, params[], help)
 	if(sscanf(params, "u", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /id [jogador]");
 
+	else if(!IsPlayerLogged(targetid))
+		SendClientMessage(playerid, COLOR_ERROR, "* Jogador não conectado.");
+
     new output[40];
 	format(output, sizeof(output), "* %s(ID: %i)", GetPlayerNamef(targetid), targetid);
 	SendClientMessage(playerid, 0xAFAFAFAF, output);
