@@ -31,7 +31,9 @@
 #define MAX_MAPICON_RANGE								150.0
 
 #define HOSPITAL_TIME									90	// Seconds
+
 #define HOSPITAL_PRICE									500
+#define FUEL_PRICE										1 // * 100 / 0.2%
 
 #define MAX_FACTIONS									32
 
@@ -127,6 +129,7 @@ hook OnGameModeInit()
 #include "../modules/vehicle/reserve.pwn"
 #include "../modules/vehicle/dschool.pwn"
 #include "../modules/vehicle/status.pwn"
+#include "../modules/vehicle/fueling.pwn"
 
 /* Game */
 #include "../modules/game/mapicons.pwn"
