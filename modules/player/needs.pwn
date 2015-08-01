@@ -161,44 +161,48 @@ ptask OnClientUpdate[1000](playerid)
 	if(GetPlayerAddiction(playerid) > 0.01)
 		SetPlayerAddiction(playerid, GetPlayerAddiction(playerid) - 0.006);
 
-    if(gPlayerWarningMessage[playerid][WARNING_SLEEP] < tickcount() && GetPlayerSleep(playerid) < 10.0)
+	// Dont spam messages if the player is away
+	if(!IsPlayerPaused(playerid))
 	{
-		if(GetPlayerSleep(playerid) < 2.5)
-			SendClientMessage(playerid, COLOR_INFO, "* Você está com sono.");
-		else
-			SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sono.");
-        SendClientActionMessage(playerid, 20.0, "bocejou.");
-    	gPlayerWarningMessage[playerid][WARNING_SLEEP] = tickcount() + INTERVAL_BETWEEN_WARNING;
-    }
+	    if(gPlayerWarningMessage[playerid][WARNING_SLEEP] < tickcount() && GetPlayerSleep(playerid) < 10.0)
+		{
+			if(GetPlayerSleep(playerid) < 2.5)
+				SendClientMessage(playerid, COLOR_INFO, "* Você está com sono.");
+			else
+				SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sono.");
+	        SendClientActionMessage(playerid, 20.0, "bocejou.");
+	    	gPlayerWarningMessage[playerid][WARNING_SLEEP] = tickcount() + INTERVAL_BETWEEN_WARNING;
+	    }
 
-    else if(gPlayerWarningMessage[playerid][WARNING_HUNGER] < tickcount() && GetPlayerHunger(playerid) < 10.0)
-	{
-		if(GetPlayerHunger(playerid) < 2.5)
-			SendClientMessage(playerid, COLOR_INFO, "* Você está faminto.");
-        else if(GetPlayerHunger(playerid) < 5.0)
-    		SendClientMessage(playerid, COLOR_INFO, "* Você está com fome.");
-        else
-    		SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com fome.");
-        SendActionMessage(playerid, 20.0, "Estômago roncando.");
-        gPlayerWarningMessage[playerid][WARNING_HUNGER] = tickcount() + INTERVAL_BETWEEN_WARNING;
-	}
+	    else if(gPlayerWarningMessage[playerid][WARNING_HUNGER] < tickcount() && GetPlayerHunger(playerid) < 10.0)
+		{
+			if(GetPlayerHunger(playerid) < 2.5)
+				SendClientMessage(playerid, COLOR_INFO, "* Você está faminto.");
+	        else if(GetPlayerHunger(playerid) < 5.0)
+	    		SendClientMessage(playerid, COLOR_INFO, "* Você está com fome.");
+	        else
+	    		SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com fome.");
+	        SendActionMessage(playerid, 20.0, "Estômago roncando.");
+	        gPlayerWarningMessage[playerid][WARNING_HUNGER] = tickcount() + INTERVAL_BETWEEN_WARNING;
+		}
 
-    else if(gPlayerWarningMessage[playerid][WARNING_ADDICTION] < tickcount() && GetPlayerAddiction(playerid) < 5.0 && GetPlayerAddiction(playerid) > 0.0)
-	{
-		SendClientMessage(playerid, COLOR_INFO, "* Você está a muito tempo sem se drogar, sua HP começará a descer em breve.");
-        SendClientActionMessage(playerid, 20.0, "começa a tremer.");
-        gPlayerWarningMessage[playerid][WARNING_ADDICTION] = tickcount() + INTERVAL_BETWEEN_WARNING;
-	}
+	    else if(gPlayerWarningMessage[playerid][WARNING_ADDICTION] < tickcount() && GetPlayerAddiction(playerid) < 5.0 && GetPlayerAddiction(playerid) > 0.0)
+		{
+			SendClientMessage(playerid, COLOR_INFO, "* Você está a muito tempo sem se drogar, sua HP começará a descer em breve.");
+	        SendClientActionMessage(playerid, 20.0, "começa a tremer.");
+	        gPlayerWarningMessage[playerid][WARNING_ADDICTION] = tickcount() + INTERVAL_BETWEEN_WARNING;
+		}
 
-	else if(gPlayerWarningMessage[playerid][WARNING_THIRST] < tickcount() && GetPlayerThirst(playerid) < 10.0)
-	{
-		if(GetPlayerThirst(playerid) < 2.5)
-			SendClientMessage(playerid, COLOR_INFO, "* Você está sedento.");
-        else if(GetPlayerThirst(playerid) < 5.0)
-    		SendClientMessage(playerid, COLOR_INFO, "* Você está com sede.");
-        else
-    		SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sede.");
-        gPlayerWarningMessage[playerid][WARNING_THIRST] = tickcount() + INTERVAL_BETWEEN_WARNING;
+		else if(gPlayerWarningMessage[playerid][WARNING_THIRST] < tickcount() && GetPlayerThirst(playerid) < 10.0)
+		{
+			if(GetPlayerThirst(playerid) < 2.5)
+				SendClientMessage(playerid, COLOR_INFO, "* Você está sedento.");
+	        else if(GetPlayerThirst(playerid) < 5.0)
+	    		SendClientMessage(playerid, COLOR_INFO, "* Você está com sede.");
+	        else
+	    		SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sede.");
+	        gPlayerWarningMessage[playerid][WARNING_THIRST] = tickcount() + INTERVAL_BETWEEN_WARNING;
+		}
 	}
 
     if(GetPlayerHunger(playerid) == 0.0)
