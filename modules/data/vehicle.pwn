@@ -244,7 +244,7 @@ YCMD:updateveh(playerid, params[], help)
         {
             new c_col1, c_col2;
             if(sscanf(params, "sii", option, c_col1, c_col2))
-                return SendClientMessage(playerid, COLOR_INFO, "* /updateveh color [co1] [cor2]");
+                return SendClientMessage(playerid, COLOR_INFO, "* /updateveh color [cor1] [cor2]");
             else if(c_col1 < -1 || c_col2 < -1)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Cor inválida.");
             else
