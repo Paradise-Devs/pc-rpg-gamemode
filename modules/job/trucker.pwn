@@ -31,10 +31,10 @@ static const Float:LOAD_POSITION[] = {2434.1604, -2094.9910, 13.5469};
 static gPlayerCurrentCP[MAX_PLAYERS];
 
 // Player Selected Service
-static gPSelectedService[MAX_PLAYERS];
+static gplSelectedService[MAX_PLAYERS];
 
 // Tickcout to not spam truck cargo message
-static gPTickcount[MAX_PLAYERS];
+static gplTickCount[MAX_PLAYERS];
 //------------------------------------------------------------------------------
 
 static gTruckerServices[][][] =
@@ -234,7 +234,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     else
                         SendClientMessage(playerid, COLOR_SUB_TITLE, "* Cuidado com a mercadoria.");
 
-                    gPSelectedService[playerid] = listitem;
+                    gplSelectedService[playerid] = listitem;
                     gTrailerCargo[playerid] = TRAILER_CARGO:(listitem+1);
                     gPlayerTruckID[playerid] = CreateVehicle(515, 2444.2415, -2091.3992, 14.5237, 89.4204, -1, -1, -1);
                     gPlayerTrailerID[playerid] = CreateVehicle(591, 2453.3735, -2091.9829, 14.2064, 84.7415, -1, -1, -1);
@@ -242,6 +242,10 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     AttachTrailerToVehicle(gPlayerTrailerID[playerid], gPlayerTruckID[playerid]);
                     PutPlayerInVehicle(playerid, gPlayerTruckID[playerid], 0);
                     SetVehicleFuel(gPlayerTruckID[playerid], 100.0);
+
+                    TogglePlayerControllable(playerid, false);
+                    defer UnfreezePlayer(playerid);
+                    GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~w~carregando...", 5000, 3);
 
                     new rand = random(sizeof(gTruckLocations[]));
                     SetPlayerRaceCheckpoint(playerid, 0, gTruckLocations[listitem][rand][0], gTruckLocations[listitem][rand][1], gTruckLocations[listitem][rand][2], 2509.3311, -2089.5120, 14.1535, 10.0);
@@ -274,6 +278,10 @@ hook OnPlayerEnterRaceCPT(playerid)
             SendClientMessage(playerid, COLOR_SPECIAL, "* Entrega completa!");
             SendClientMessage(playerid, COLOR_SUB_TITLE, "* Volte com o caminhão para a empresa para receber o pagamento.");
 
+            TogglePlayerControllable(playerid, false);
+            defer UnfreezePlayer(playerid);
+            GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~w~descarregando...", 5000, 3);
+
             SetPlayerRaceCheckpoint(playerid, 1, 2509.3311, -2089.5120, 14.1535, 0.0, 0.0, 0.0, 10.0);
             gPlayerCurrentCP[playerid]++;
         }
@@ -281,8 +289,8 @@ hook OnPlayerEnterRaceCPT(playerid)
         {
             PlayConfirmSound(playerid);
             SendClientMessage(playerid, COLOR_SPECIAL, "* Serviço completo!");
-            SendClientMessagef(playerid, COLOR_SUB_TITLE, "* Você recebeu $%s de pagamento.", formatnumber(gTruckerServices[gPSelectedService[playerid]][1][0]));
-            GivePlayerCash(playerid, gTruckerServices[gPSelectedService[playerid]][1][0]);
+            SendClientMessagef(playerid, COLOR_SUB_TITLE, "* Você recebeu $%s de pagamento.", formatnumber(gTruckerServices[gplSelectedService[playerid]][1][0]));
+            GivePlayerCash(playerid, gTruckerServices[gplSelectedService[playerid]][1][0]);
 
             DestroyVehicle(gPlayerTruckID[playerid]);
             DestroyVehicle(gPlayerTrailerID[playerid]);
@@ -339,7 +347,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
     }
     else
     {
-        if(IsPlayerInAnyVehicle(playerid) || gPTickcount[playerid] > tickcount())
+        if(IsPlayerInAnyVehicle(playerid) || gplTickCount[playerid] > tickcount())
             return 1;
 
         new Float:x, Float:y, Float:z;
@@ -360,7 +368,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
                     SendClientMessagef(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~ Carga do caminhão de %s ~~~~~~~~~~~~~~~~~~", GetPlayerNamef(i));
                     SendClientMessagef(playerid, COLOR_SUB_TITLE, "* O caminhão está carregado com: %s.", GetTrailerCargo(i));
                 }
-                gPTickcount[playerid] = tickcount() + 2500;
+                gplTickCount[playerid] = tickcount() + 2500;
                 break;
             }
         }

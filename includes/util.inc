@@ -408,6 +408,13 @@ Float:GetPlayerDistanceFromPlayer(playerid, targetid)
 
 //------------------------------------------------------------------------------
 
+timer UnfreezePlayer[5000](playerid)
+{
+	TogglePlayerControllable(playerid, true);
+}
+
+//------------------------------------------------------------------------------
+
 GetXYInFrontOfPlayer(playerid, &Float:x, &Float:y, Float:distance)
 {	// Created by Y_Less
 
