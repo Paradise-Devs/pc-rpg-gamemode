@@ -66,8 +66,7 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[460];
-
+    new query[650];
 	mysql_format(mysql, query, sizeof(query),
 	"UPDATE `players` SET \
     `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, \
@@ -78,8 +77,8 @@ SavePlayerAccount(playerid)
     `achievements`=%d, `ticket`=%d, \
     `jobid`=%d, `jobxp`=%d, `joblv`=%d, \
     `ftime`=%d, \
-    `PhoneNumber`=%d, `PhoneNetwork`=%d, `PhoneCredits`=%d, `PhoneState`=%d, \
-    `Hunger`=%.3f, `Thirst`=%.3f, `Sleep`=%.3f, `Addiction`=%.3f \
+    `phone_number`=%d, `phone_network`=%d, `phone_credits`=%d, `phone_state`=%d, \
+    `hunger`=%.3f, `thirst`=%.3f, `sleep`=%.3f, `addiction`=%.3f \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid),
     GetPlayerRankVar(playerid), GetPlayerSkin(playerid), GetPlayerFactionID(playerid), GetPlayerFactionRank(playerid),
@@ -182,16 +181,16 @@ public OnAccountLoad(playerid)
         SetPlayerJobID(playerid, Job:cache_get_field_content_int(0, "jobid", mysql));
         SetPlayerJobXP(playerid, cache_get_field_content_int(0, "jobxp", mysql));
         SetPlayerJobLV(playerid,cache_get_field_content_int(0, "joblv", mysql ));
-        SetPlayerHunger(playerid, cache_get_field_content_float(0, "Hunger"));
-    	SetPlayerThirst(playerid, cache_get_field_content_float(0, "Thirst"));
-    	SetPlayerSleep(playerid, cache_get_field_content_float(0, "Sleep"));
-    	SetPlayerAddiction(playerid, cache_get_field_content_float(0, "Addiction"));
+        SetPlayerHunger(playerid, cache_get_field_content_float(0, "hunger"));
+    	SetPlayerThirst(playerid, cache_get_field_content_float(0, "thirst"));
+    	SetPlayerSleep(playerid, cache_get_field_content_float(0, "sleep"));
+    	SetPlayerAddiction(playerid, cache_get_field_content_float(0, "addiction"));
         LoadPlayerWeapons(playerid);
 
-        SetPlayerPhoneNumber(playerid, cache_get_field_content_int(0, "PhoneNumber"));
-        SetPlayerPhoneNetwork(playerid, cache_get_field_content_int(0, "PhoneNetwork"));
-        SetPlayerPhoneCredit(playerid, cache_get_field_content_int(0, "PhoneCredits"));
-        SetPlayerPhoneState(playerid, cache_get_field_content_int(0, "PhoneState"));
+        SetPlayerPhoneNumber(playerid, cache_get_field_content_int(0, "phone_number"));
+        SetPlayerPhoneNetwork(playerid, cache_get_field_content_int(0, "phone_network"));
+        SetPlayerPhoneCredit(playerid, cache_get_field_content_int(0, "phone_credits"));
+        SetPlayerPhoneState(playerid, cache_get_field_content_int(0, "phone_state"));
 
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
