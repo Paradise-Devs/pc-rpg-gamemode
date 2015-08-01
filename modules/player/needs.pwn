@@ -164,43 +164,41 @@ ptask OnClientUpdate[1000](playerid)
     if(gPlayerWarningMessage[playerid][WARNING_SLEEP] < tickcount() && GetPlayerSleep(playerid) < 10.0)
 	{
 		if(GetPlayerSleep(playerid) < 2.5)
-			SendClientMessage(playerid, COLOR_INFO, "* Você está com sono!");
+			SendClientMessage(playerid, COLOR_INFO, "* Você está com sono.");
 		else
-			SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sono!");
+			SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sono.");
+        SendClientActionMessage(playerid, 20.0, "bocejou.");
+    	gPlayerWarningMessage[playerid][WARNING_SLEEP] = tickcount() + INTERVAL_BETWEEN_WARNING;
+    }
 
-		SendClientActionMessage(playerid, 20.0, "bocejou.");
-
-		gPlayerWarningMessage[playerid][WARNING_SLEEP] = tickcount() + INTERVAL_BETWEEN_WARNING;
-	}
-
-    if(gPlayerWarningMessage[playerid][WARNING_HUNGER] < tickcount() && GetPlayerHunger(playerid) < 10.0)
+    else if(gPlayerWarningMessage[playerid][WARNING_HUNGER] < tickcount() && GetPlayerHunger(playerid) < 10.0)
 	{
 		if(GetPlayerHunger(playerid) < 2.5)
-			SendClientMessage(playerid, COLOR_INFO, "* Você está faminto!");
-		else if(GetPlayerHunger(playerid) < 5.0)
-			SendClientMessage(playerid, COLOR_INFO, "* Você está com fome!");
-		else
-			SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com fome!");
-		SendActionMessage(playerid, 20.0, "Estômago roncando.");
-		gPlayerWarningMessage[playerid][WARNING_HUNGER] = tickcount() + INTERVAL_BETWEEN_WARNING;
+			SendClientMessage(playerid, COLOR_INFO, "* Você está faminto.");
+        else if(GetPlayerHunger(playerid) < 5.0)
+    		SendClientMessage(playerid, COLOR_INFO, "* Você está com fome.");
+        else
+    		SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com fome.");
+        SendActionMessage(playerid, 20.0, "Estômago roncando.");
+        gPlayerWarningMessage[playerid][WARNING_HUNGER] = tickcount() + INTERVAL_BETWEEN_WARNING;
 	}
 
-    if(gPlayerWarningMessage[playerid][WARNING_ADDICTION] < tickcount() && GetPlayerAddiction(playerid) < 5.0 && GetPlayerAddiction(playerid) > 0.0)
+    else if(gPlayerWarningMessage[playerid][WARNING_ADDICTION] < tickcount() && GetPlayerAddiction(playerid) < 5.0 && GetPlayerAddiction(playerid) > 0.0)
 	{
-		SendClientMessage(playerid, COLOR_INFO, "* Você está a muito tempo sem se drogar, sua HP começar� a descer em breve.");
-		SendClientActionMessage(playerid, 20.0, "começa a tremer.");
-		gPlayerWarningMessage[playerid][WARNING_ADDICTION] = tickcount() + INTERVAL_BETWEEN_WARNING;
+		SendClientMessage(playerid, COLOR_INFO, "* Você está a muito tempo sem se drogar, sua HP começará a descer em breve.");
+        SendClientActionMessage(playerid, 20.0, "começa a tremer.");
+        gPlayerWarningMessage[playerid][WARNING_ADDICTION] = tickcount() + INTERVAL_BETWEEN_WARNING;
 	}
 
-	if(gPlayerWarningMessage[playerid][WARNING_THIRST] < tickcount() && GetPlayerThirst(playerid) < 10.0)
+	else if(gPlayerWarningMessage[playerid][WARNING_THIRST] < tickcount() && GetPlayerThirst(playerid) < 10.0)
 	{
 		if(GetPlayerThirst(playerid) < 2.5)
-			SendClientMessage(playerid, COLOR_INFO, "* Você está sedento!");
-		else if(GetPlayerThirst(playerid) < 5.0)
-			SendClientMessage(playerid, COLOR_INFO, "* Você está com sede!");
-		else
-			SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sede!");
-		gPlayerWarningMessage[playerid][WARNING_THIRST] = tickcount() + INTERVAL_BETWEEN_WARNING;
+			SendClientMessage(playerid, COLOR_INFO, "* Você está sedento.");
+        else if(GetPlayerThirst(playerid) < 5.0)
+    		SendClientMessage(playerid, COLOR_INFO, "* Você está com sede.");
+        else
+    		SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sede.");
+        gPlayerWarningMessage[playerid][WARNING_THIRST] = tickcount() + INTERVAL_BETWEEN_WARNING;
 	}
 
     if(GetPlayerHunger(playerid) == 0.0)
@@ -211,7 +209,7 @@ ptask OnClientUpdate[1000](playerid)
 		if(health == 1.0)
 		{
 			SendClientMessage(playerid, COLOR_INFO, "* Você desmaiou de fome.");
-			SetPlayerHunger(playerid, 50.0);
+            SetPlayerHunger(playerid, 50.0);
 		}
 		SetPlayerHealth(playerid, health - 1.0);
 	}
@@ -222,8 +220,8 @@ ptask OnClientUpdate[1000](playerid)
 
 		if(health == 1.0)
 		{
-			SendClientMessage(playerid, COLOR_INFO, "* Você desmaiou de desidratação.");
-			SetPlayerThirst(playerid, 50.0);
+			SendClientMessage(playerid, COLOR_INFO, "* Você desmaiou de desitratação.");
+            SetPlayerThirst(playerid, 50.0);
 		}
 		SetPlayerHealth(playerid, health - 1.0);
 	}
@@ -244,7 +242,8 @@ ptask OnClientUpdate[1000](playerid)
 		ApplyAnimation(playerid, "CRACK", "crckidle2", 4.1, 1, 0, 0, 1, 0, 1);
 		SendClientActionMessage(playerid, 20.0, "desmaiou de sono.");
 	}
-	if(IsPlayerSleeping(playerid))
+
+    if(IsPlayerSleeping(playerid))
 	{
 		if(GetPlayerAnimationIndex(playerid) != 390)
 			ApplyAnimation(playerid, "CRACK", "crckidle2", 4.1, 1, 0, 0, 1, 0, 1);
@@ -295,8 +294,8 @@ YCMD:dormir(playerid, params[], help)
 	if(IsPlayerSleeping(playerid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você já está dormindo.");
 
-	if(GetPlayerSleep(playerid) > 10.0)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está com sono");
+    if(GetPlayerSleep(playerid) > 10.0)
+    	return SendClientMessage(playerid, COLOR_ERROR, "* Você não está com sono.");
 
 	ApplyAnimation(playerid, "CRACK", "crckidle2", 4.1, 1, 0, 0, 1, 0, 1);
 	PutPlayerInNearestBed(playerid);
@@ -305,25 +304,24 @@ YCMD:dormir(playerid, params[], help)
 	return 1;
 }
 
-//--------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 YCMD:acordar(playerid, params[], help)
 {
 	new targetid;
-
 	if(sscanf(params, "u", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /acordar [playerid]");
 
-	if(GetPlayerDistanceFromPlayer(playerid, targetid) > 3.0)
+	else if(GetPlayerDistanceFromPlayer(playerid, targetid) > 3.0)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo do jogador.");
 
-	if(!IsPlayerSleeping(targetid))
+    else if(!IsPlayerSleeping(targetid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está dormindo.");
 
-	if(playerid == targetid)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode acordar Você mesmo.");
+    else if(playerid == targetid)
+    	return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode acordar você mesmo.");
 
-	SetPlayerSleeping(targetid, false);
+    SetPlayerSleeping(targetid, false);
 	ClearAnimations(targetid, 1);
 
 	new message[13 + MAX_PLAYER_NAME];
