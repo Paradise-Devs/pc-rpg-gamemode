@@ -30,7 +30,7 @@
 #define MAX_TEXT3D_RANGE								20.0
 #define MAX_MAPICON_RANGE								150.0
 
-#define HOSPITAL_TIME									180	// Seconds
+#define HOSPITAL_TIME									90	// Seconds
 #define HOSPITAL_PRICE									500
 
 #define MAX_FACTIONS									32
