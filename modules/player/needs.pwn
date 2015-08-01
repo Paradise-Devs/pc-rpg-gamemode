@@ -280,6 +280,7 @@ ptask OnClientUpdate[1000](playerid)
 
 		SetPlayerChatBubble(playerid, sleepstr, -1, 20.0, 1250);
 	}
+	OnPlayerPetUpdate(playerid);
     return 1;
 }
 
