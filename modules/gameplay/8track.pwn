@@ -114,8 +114,14 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
 
 			new freePos = gTrackPlayerPoolSize;
 			for(new i = 0; i < MAX_PLAYER_8TRACK_RACE; i++)
+			{
 				if(gPlayers[i] == INVALID_PLAYER_ID)
-					freePos = i, gPlayers[i] = playerid;
+				{
+					freePos = i;
+					gPlayers[i] = playerid;
+					break;
+				}
+			}
 
 			gPVehicleID[playerid] = CreateVehicle(modelid[random(sizeof(modelid))], gVehiclePositions[freePos][0], gVehiclePositions[freePos][1], gVehiclePositions[freePos][2], gVehiclePositions[freePos][3], random(126), random(126), -1);
 			LinkVehicleToInterior(gPVehicleID[playerid], 7);
