@@ -27,6 +27,13 @@ static const Float:GAS_STATIONS_POSITIONS[][] =
 
 //------------------------------------------------------------------------------
 
+IsPlayerFuelingVehicle(playerid)
+{
+    return gplIsFilling[playerid];
+}
+
+//------------------------------------------------------------------------------
+
 bool:IsPlayerAtGasStation(playerid)
 {
     for(new i = 0; i < sizeof(GAS_STATIONS_POSITIONS); i++)
@@ -115,7 +122,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
                 GetVehicleParamsEx(GetPlayerVehicleID(playerid), engine, lights, alarm, doors, bonnet, boot, objective);
                 if(GetPlayerCash(playerid) < FUEL_PRICE)
                     SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
-                else if(engine != VEHICLE_PARAMS_ON)
+                else if(engine == VEHICLE_PARAMS_ON)
                     SendClientMessage(playerid, COLOR_ERROR, "* O motor do veículo precisa estar desligado.");
                 else
                 {

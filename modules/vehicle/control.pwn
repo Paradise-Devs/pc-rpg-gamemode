@@ -50,6 +50,8 @@ timer OnVehicleStartEngine[2000](vehicleid, playerid)
         SendActionMessage(playerid, 15.0, "Motor danificado.");
     else if(GetVehicleFuel(vehicleid) <= 0.0)
         SendActionMessage(playerid, 15.0, "Sem combustível.");
+    else if(IsPlayerFuelingVehicle(playerid))
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não pode ligar o motor agora.");
     else
     {
         new rand = random(7);
