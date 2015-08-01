@@ -26,7 +26,7 @@ YCMD:acmds(playerid, params[], help)
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_MODERATOR)
     {
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos - /fuelveh");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say");
     }
@@ -344,6 +344,19 @@ YCMD:irpos(playerid, params[], help)
 	return 1;
 }
 
+//------------------------------------------------------------------------------
+
+YCMD:fuelveh(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    else if(!IsPlayerInAnyVehicle(playerid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+
+	SetVehicleFuel(GetPlayerVehicleID(playerid), 100.0);
+	return 1;
+}
 //------------------------------------------------------------------------------
 
 YCMD:rtc(playerid, params[], help)
