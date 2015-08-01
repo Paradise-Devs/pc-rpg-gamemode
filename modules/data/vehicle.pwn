@@ -62,6 +62,14 @@ SetVehicleFuel(vehicleid, Float:value)
 
 //------------------------------------------------------------------------------
 
+Float:GetVehicleHealthf(vehicleid)
+{
+    GetVehicleHealth(vehicleid, gVehicleData[vehicleid][e_vehicle_health]);
+    return gVehicleData[vehicleid][e_vehicle_health];
+}
+
+//------------------------------------------------------------------------------
+
 GetVehicleFactionID(vehicleid)
     return gVehicleData[vehicleid][e_vehicle_factionid];
 
@@ -95,6 +103,26 @@ public OnVehicleLoad()
         gCreatedVehicles++;
 	}
     printf("Number of vehicles loaded: %d", gCreatedVehicles);
+}
+
+//------------------------------------------------------------------------------
+
+SaveVehicles()
+{
+    for(new i = 0; i < MAX_VEHICLES; i++)
+    {
+        if(gVehicleData[i][e_vehicle_db] == 0)
+            continue;
+
+        new query[320];
+    	mysql_format(mysql, query, sizeof(query),
+    	"UPDATE `vehicles` SET `vehicle_model`=%d, `vehicle_col1`=%d, `vehicle_col2`=%d, `vehicle_siren`=%d, `vehicle_x`=%f, `vehicle_y`=%f, `vehicle_z`=%f, `vehicle_a`=%f, , `vehicle_fuel`=%f, `vehicle_health`=%f, `vehicle_faction`=%d, `vehicle_job`=%d, `vehicle_locked`=%d WHERE `ID`=%d",
+        gVehicleData[i][e_vehicle_model], gVehicleData[i][e_vehicle_color_1], gVehicleData[i][e_vehicle_color_2], gVehicleData[i][e_vehicle_siren], gVehicleData[i][e_vehicle_x], gVehicleData[i][e_vehicle_y], gVehicleData[i][e_vehicle_z], gVehicleData[i][e_vehicle_a], gVehicleData[i][e_vehicle_fuel],
+        gVehicleData[i][e_vehicle_health], gVehicleData[i][e_vehicle_factionid], gVehicleData[i][e_vehicle_jobid], gVehicleData[i][e_vehicle_locked],
+        gVehicleData[i][e_vehicle_db]);
+        mysql_pquery(mysql, query);
+    }
+    return 1;
 }
 
 //------------------------------------------------------------------------------

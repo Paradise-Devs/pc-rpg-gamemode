@@ -156,6 +156,9 @@ hook OnGameModeInit()
 #include "../modules/player/needs.pwn"
 #include "../modules/player/pets.pwn"
 
+/* Server */
+#include "../modules/server/rcon.pwn"
+
 /* Admin */
 #include "../modules/admin/commands.pwn"
 #include "../modules/admin/funcs.pwn"
