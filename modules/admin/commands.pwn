@@ -681,7 +681,14 @@ YCMD:setjob(playerid, params[], help)
 
    new targetid, value;
    if(sscanf(params, "ui", targetid, value))
-       return SendClientMessage(playerid, COLOR_INFO, "* /setjob [playerid] [emprego]");
+   {
+       SendClientMessage(playerid, COLOR_INFO, "* /setjob [playerid] [emprego]");
+       SendClientMessagef(playerid, COLOR_SUB_TITLE, "* (%i)%s - (%i)%s - (%i)%s",
+       INVALID_JOB_ID, GetJobName(INVALID_JOB_ID),
+       PILOT_JOB_ID, GetJobName(PILOT_JOB_ID),
+       TRUCKER_JOB_ID, GetJobName(TRUCKER_JOB_ID));
+       return 1;
+   }
 
    else if(!IsPlayerLogged(targetid))
        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
@@ -760,6 +767,9 @@ YCMD:setrank(playerid, params[], help)
     		SendClientMessage(playerid, COLOR_INFO, "* Ranks: donator, designer, beta, mod, super, admin, dev");
             return 1;
         }
+
+        else if(!IsPlayerLogged(targetid))
+            SendClientMessage(playerid, COLOR_ERROR, "* Jogador não conectado.");
 
         else if(!strcmp(rankName, "donator", true))
         {

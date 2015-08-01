@@ -323,7 +323,7 @@ hook OnGameModeInit()
 	ApplyActorAnimation(gActorData[ACTOR_FISHING][E_ID], "SAMP", "FishingIdle", 4.0, 1, 0, 0, 0, 0);
 
 	// Boxer Actor
-	gActorData[ACTOR_BOXER][E_ID] = CreateActor(random(2) + 80, 355.2786, 201.1419, 1008.3828, 353.8667);// Training
+	gActorData[ACTOR_BOXER][E_ID] = CreateActor(random(2) + 80, 767.7533, 13.9446, 1000.7003, 295.5587);// Training
 	ApplyActorAnimation(gActorData[ACTOR_BOXER][E_ID], "FIGHT_B", "FIGHTB_IDLE", 4.0, 1, 0, 0, 0, 0);
 	return 1;
 }
