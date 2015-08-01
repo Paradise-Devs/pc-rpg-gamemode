@@ -345,7 +345,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
         }
         ShowPlayerDialog(playerid, DIALOG_TRUCKER_SERVICES,  DIALOG_STYLE_TABLIST_HEADERS, "Caminhoneiro -> Serviços", info, "Aceitar", "Recusar");
     }
-    else
+    else if(newkeys == KEY_YES)
     {
         if(IsPlayerInAnyVehicle(playerid) || gplTickCount[playerid] > tickcount())
             return 1;
@@ -357,11 +357,11 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
                 continue;
 
             GetVehiclePos(gPlayerTrailerID[i], x, y, z);
-            if(IsPlayerInRangeOfPoint(playerid, 5.0, x, y, z))
+            if(IsPlayerInRangeOfPoint(playerid, 7.5, x, y, z))
             {
                 new Float:vx, Float:vy, Float:vz;
                 GetVehicleVelocity(gPlayerTrailerID[i], vx, vy, vz);
-                if(vx > 0.0 || vy > 0.0 || vz > 0.0)
+                if(vx > 0.5 || vy > 0.5 || vz > 0.5)
                     SendClientMessage(playerid, COLOR_ERROR, "* O veículo precisa estar parado para ver a carga.");
                 else
                 {
