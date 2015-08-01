@@ -197,6 +197,8 @@ public OnAccountLoad(playerid)
         SetPlayerRankVar(playerid, cache_get_field_content_int(0, "rank", mysql));
         SetPlayerFirstTimeVar(playerid, cache_get_field_content_int(0, "ftime", mysql));
 
+        LoadPlayerPets(playerid);
+
         SetPlayerColor(playerid, 0xFFFFFFFF);
         SetPlayerLogged(playerid, true);
     }

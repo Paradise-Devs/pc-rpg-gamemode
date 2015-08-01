@@ -144,13 +144,12 @@ SendPetLocalMessage(playerid, message[])
 
 //------------------------------------------------------------------------------
 
-// Loads player pets
-/*LoadPlayerPets(playerid)
+LoadPlayerPets(playerid)
 {
 	new query[54];
 	mysql_format(mysql, query, sizeof(query), "SELECT * FROM `pets` WHERE `OwnerID` = %i",GetPlayerDatabaseID(playerid));
 	mysql_tquery(mysql, query, "OnPlayerLoadPets", "i", playerid);
-}*/
+}
 
 //------------------------------------------------------------------------------
 
@@ -258,17 +257,6 @@ public OnPlayerPetUpdate(playerid)
 			SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está ficando com fome!");
 		gPlayerWarningMessagePet[playerid] = tickcount() + 120000;
 	}
-    return 1;
-}
-
-//------------------------------------------------------------------------------
-
-hook OnGameModeInit()
-{
-    mysql_tquery(mysql,
-	"CREATE TABLE IF NOT EXISTS `pets` (`ID` int(11) NOT NULL AUTO_INCREMENT,\
-	`Name` VARCHAR(25), `OwnerID` INT(11), `Model` INT(11), `Size` INT(11), `Hunger` FLOAT, `NextGrowth` FLOAT, `Food` INT(11),\
-	PRIMARY KEY (ID), KEY (ID)) ENGINE = InnoDB DEFAULT CHARSET = latin1 AUTO_INCREMENT = 1;");
     return 1;
 }
 
