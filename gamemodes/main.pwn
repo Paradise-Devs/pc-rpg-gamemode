@@ -118,7 +118,6 @@ hook OnGameModeInit()
 
 /* Data */
 #include "../modules/data/connection.pwn"
-#include "../modules/data/internal.pwn"
 #include "../modules/data/building.pwn"
 #include "../modules/data/vehicle.pwn"
 #include "../modules/data/faction.pwn"
