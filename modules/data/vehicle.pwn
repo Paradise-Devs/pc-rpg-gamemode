@@ -116,7 +116,7 @@ SaveVehicles()
 
         new query[320];
     	mysql_format(mysql, query, sizeof(query),
-    	"UPDATE `vehicles` SET `vehicle_model`=%d, `vehicle_col1`=%d, `vehicle_col2`=%d, `vehicle_siren`=%d, `vehicle_x`=%f, `vehicle_y`=%f, `vehicle_z`=%f, `vehicle_a`=%f, , `vehicle_fuel`=%f, `vehicle_health`=%f, `vehicle_faction`=%d, `vehicle_job`=%d, `vehicle_locked`=%d WHERE `ID`=%d",
+    	"UPDATE `vehicles` SET `vehicle_model`=%d, `vehicle_col1`=%d, `vehicle_col2`=%d, `vehicle_siren`=%d, `vehicle_x`=%f, `vehicle_y`=%f, `vehicle_z`=%f, `vehicle_a`=%f, `vehicle_fuel`=%f, `vehicle_health`=%f, `vehicle_faction`=%d, `vehicle_job`=%d, `vehicle_locked`=%d WHERE `ID`=%d",
         gVehicleData[i][e_vehicle_model], gVehicleData[i][e_vehicle_color_1], gVehicleData[i][e_vehicle_color_2], gVehicleData[i][e_vehicle_siren], gVehicleData[i][e_vehicle_x], gVehicleData[i][e_vehicle_y], gVehicleData[i][e_vehicle_z], gVehicleData[i][e_vehicle_a], gVehicleData[i][e_vehicle_fuel],
         gVehicleData[i][e_vehicle_health], gVehicleData[i][e_vehicle_factionid], gVehicleData[i][e_vehicle_jobid], gVehicleData[i][e_vehicle_locked],
         gVehicleData[i][e_vehicle_db]);

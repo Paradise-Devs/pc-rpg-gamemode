@@ -347,7 +347,7 @@ LoadPlayerVehicles(playerid)
 {
 	new query[64];
 	mysql_format(mysql, query, sizeof(query), "SELECT * FROM `dealership` WHERE `OwnerID` = %i", GetPlayerDatabaseID(playerid));
-	mysql_tquery(mysql, query, "OnLoadPlayerVehicle", "i", playerid);
+	mysql_pquery(mysql, query, "OnLoadPlayerVehicle", "i", playerid);
 }
 
 //--------------------------------------------------------------------
@@ -672,7 +672,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 					GivePlayerCash(playerid, -g_dealership_vehicles[modelid][1]);
 
 					// Inseting player vehicle into database
-					mysql_tquery(mysql, "SELECT * FROM `dealership`", "OnPlayerBuyOnDealership", "ii", playerid, i);
+					mysql_pquery(mysql, "SELECT * FROM `dealership`", "OnPlayerBuyOnDealership", "ii", playerid, i);
 
 					// And finally, stoping de loop
 					break;
@@ -868,7 +868,7 @@ public OnPlayerBuyOnDealership(playerid, i)
 	g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_WORLD], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_INTERIOR], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_COLOR1],
 	g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_COLOR1], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_PAINTJOB], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_HEALTH],
 	g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FUEL], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FINES]);
-	mysql_tquery(mysql, query, "OnInsertVehicleOnDatabase", "ii", playerid, i);
+	mysql_pquery(mysql, query, "OnInsertVehicleOnDatabase", "ii", playerid, i);
 }
 
 //--------------------------------------------------------------------
@@ -1193,7 +1193,7 @@ hook OnPlayerDisconnect(playerid, reason)
 
 		new query[128];
 		mysql_format(mysql, query, sizeof(query), "UPDATE `players` SET `virtual_world`=0, `x`=559.9263, `y`=-1289.6732, `z`=17.2482, `a`=7.5971 WHERE `ID`=%d", GetPlayerDatabaseID(playerid));
-		mysql_tquery(mysql, query);
+		mysql_pquery(mysql, query);
 	}
 
 	if(g_p_EnabledDealershipVehicleID[playerid] != INVALID_VEHICLE_ID)
@@ -1202,7 +1202,7 @@ hook OnPlayerDisconnect(playerid, reason)
 		GetVehicleHealth(g_p_EnabledDealershipVehicleID[playerid], h);
 		new i = g_p_EnabledDealershipVehicleKey[playerid];
 		new query[320];
-		mysql_format(mysql, query, sizeof(query), "UPDATE `dealership` SET `Health`=%f, `Fuel`=%d, `Fines`=%d, `Mod1`=%d, `Mod2`=%d, `Mod3`=%d, `Mod4`=%d, `Mod5`=%d, `Mod6`=%d, `Mod7`=%d\
+		mysql_format(mysql, query, sizeof(query), "UPDATE `dealership` SET `Health`=%f, `Fuel`=%f, `Fines`=%d, `Mod1`=%d, `Mod2`=%d, `Mod3`=%d, `Mod4`=%d, `Mod5`=%d, `Mod6`=%d, `Mod7`=%d\
 		, `Mod8`=%d, `Mod9`=%d, `Mod10`=%d, `Mod11`=%d, `Mod12`=%d, `Mod13`=%d, `Mod14`=%d, `Mod15`=%d, `Mod16`=%d, `Mod17`=%d WHERE `ID`=%d",
 		h, GetVehicleFuel(g_p_EnabledDealershipVehicleID[playerid]), g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FINES],
 		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][0], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][1], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][2],
@@ -1211,7 +1211,7 @@ hook OnPlayerDisconnect(playerid, reason)
 		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][9], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][10], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][11],
 		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][12], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][13], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][14],
 		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][15], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][16], g_pDealershipData[playerid][g_p_EnabledDealershipVehicleKey[playerid]][E_DEALERSHIP_VEHICLE_DBID]);
-		mysql_tquery(mysql, query);
+		mysql_pquery(mysql, query);
 		DestroyVehicle(g_p_EnabledDealershipVehicleID[playerid]);
 	}
 
@@ -1238,7 +1238,7 @@ hook OnPlayerDisconnect(playerid, reason)
 YCMD:ajudaveiculo(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos Veículo ~~~~~~~~~~~~~~~~~~~~");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /veiculos - /estacionar - /abastecer - /venderveiculo - /trancarveiculo");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /veiculos - /estacionar - /venderveiculo - /trancarveiculo");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /veiculos chama/recolhe seus veículos pessoais.");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* (Você só pode ter 1 veículo em uso por vez).");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos Veículo ~~~~~~~~~~~~~~~~~~~~");
@@ -1314,7 +1314,7 @@ YCMD:estacionar(playerid, params[], help)
 	// Updating database
 	new query[138];
 	mysql_format(mysql, query, sizeof(query), "UPDATE `dealership` SET `X`=%f, `Y`=%f, `Z`=%f, `A`=%f,`World`=%d, `Interior`=%d, `Health`=%f WHERE `ID`=%d", x, y, z, a, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), h, g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_DBID]);
-	mysql_tquery(mysql, query);
+	mysql_pquery(mysql, query);
 	return 1;
 }
 
@@ -1380,7 +1380,7 @@ YCMD:venderveiculo(playerid, params[], help)
 	// Updating database
 	new query[62];
 	mysql_format(mysql, query, sizeof(query), "DELETE FROM `dealership` WHERE `ID`=%d LIMIT 1", g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_DBID]);
-	mysql_tquery(mysql, query);
+	mysql_pquery(mysql, query);
 
 	vehPrice /= 3;
 
