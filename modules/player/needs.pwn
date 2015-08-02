@@ -137,7 +137,7 @@ PutPlayerInNearestBed(playerid, Float:range = 5.0)
 
 //--------------------------------------------------------------------
 
-bool:IsPlayerSleeping(playerid)
+IsPlayerSleeping(playerid)
 	return gpIsSleeping[playerid];
 
 //--------------------------------------------------------------------

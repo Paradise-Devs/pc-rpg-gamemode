@@ -22,11 +22,6 @@ hook OnPlayerText(playerid, text[])
         SendClientMessage(playerid, COLOR_ERROR, "* Você não está logado.");
         return -1;
     }
-    else if(GetPlayerHospitalTime(playerid) > 0)
-    {
-        SendClientMessage(playerid, COLOR_ERROR, "* Você está em coma.");
-        return -1;
-    }
     else if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_BETATESTER && strfind(text, "@", true) == 0 && strlen(text) > 1)
 	{
 		strdel(text, 0, 1);
@@ -35,6 +30,16 @@ hook OnPlayerText(playerid, text[])
 		SendAdminMessage(PLAYER_RANK_BETATESTER, 0xedededff, message);
 		return -1;
 	}
+    else if(GetPlayerHospitalTime(playerid) > 0)
+    {
+        SendClientMessage(playerid, COLOR_ERROR, "* Você está em coma.");
+        return -1;
+    }
+    else if(IsPlayerSleeping(playerid))
+    {
+        SendClientMessage(playerid, COLOR_ERROR, "* Você está em dormindo.");
+        return -1;
+    }
 
     new	Float:x, Float:y, Float:z;
     GetPlayerPos(playerid, x, y, z);
