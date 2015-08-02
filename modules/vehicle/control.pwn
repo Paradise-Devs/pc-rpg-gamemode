@@ -92,6 +92,23 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 //------------------------------------------------------------------------------
 
+SetVehicleEngineState(vehicleid, stat)
+{
+	new
+		engine,
+		lights,
+		alarm,
+		doors,
+		bonnet,
+		boot,
+		objective
+	;
+	GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
+	SetVehicleParamsEx(vehicleid, stat, lights, alarm, doors, bonnet, boot, objective);
+}
+
+//------------------------------------------------------------------------------
+
 YCMD:janela(playerid, params[], help)
 {
     if(!IsPlayerInAnyVehicle(playerid))

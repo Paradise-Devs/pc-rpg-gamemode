@@ -623,7 +623,7 @@ YCMD:criarcar(playerid, params[], help)
   		idx,
   		iString[ 128 ];
 
-  	if ( params[ 0 ] == '\0' )
+  	if (params[0] == '\0')
   		return SendClientMessage(playerid, COLOR_INFO, "* /criarcar [modeloid/nome]" );
 
   	idx = GetVehicleModelIDFromName(params);
@@ -632,20 +632,17 @@ YCMD:criarcar(playerid, params[], help)
   	{
   		idx = strval(iString);
 
-  		if (idx < 400 || idx > 611)
+  		if(idx < 400 || idx > 611)
   			return SendClientMessage(playerid, COLOR_ERROR, "* Veículo inválido.");
   	}
 
-  	new	Float:x, Float:y, Float:z, Float:a;
-  	GetPlayerPos(playerid, x, y, z);
-  	GetXYInFrontOfPlayer(playerid, x, y, 5.0);
-  	GetPlayerFacingAngle(playerid, a);
+    if(GetAdminCreatedCars(playerid) >= 1) {
+		DestroyAdminCars(playerid);
+		SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Veículos criados anteriormente por você foram automaticamente destruídos.");
+	}
 
-    new vehicleid = CreateVehicle(idx, x, y, z + 2.0, a + 90.0, -1, -1, 5000);
-    LinkVehicleToInterior(vehicleid, GetPlayerInterior(playerid));
-    SetVehicleFuel(vehicleid, 100.0);
+    CreateAdminCar(playerid, idx);
 
-    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você criou um \"%s\" (ModeloID: %d, VeículoID: %d)", aVehicleNames[idx - 400], idx, vehicleid);
     return 1;
 }
 

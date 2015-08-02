@@ -94,12 +94,13 @@ YCMD:admins(playerid, params[], help)
 {
 	new count = 0, string[64];
 	SendClientMessage(playerid, COLOR_TITLE, "- Membros da moderação online -");
+	
 	foreach(new i: Player)
 	{
 		if(GetPlayerHighestRank(i) >= PLAYER_RANK_MODERATOR)
 		{
-			format(string, sizeof string, "* {FFFFFF}[{%06x}%s{FFFFFF}] %s(ID: %i)", GetPlayerRankColor(i) >>> 8, GetPlayerRankName(i, true), GetPlayerNamef(i), i);
-			SendClientMessage(playerid, -1, string);
+			format(string, sizeof string, "* {FFFFFF}[{%06x}%s{FFFFFF}] %s {A6A6A6}(ID: %i)", GetPlayerRankColor(i) >>> 8, GetPlayerRankName(i, true), GetPlayerNamef(i), i);
+			SendClientMessage(playerid, COLOR_INFO, string);
 			count++;
 		}
 	}
