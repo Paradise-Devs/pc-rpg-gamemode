@@ -83,7 +83,7 @@ YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
@@ -94,7 +94,7 @@ YCMD:admins(playerid, params[], help)
 {
 	new count = 0, string[64];
 	SendClientMessage(playerid, COLOR_TITLE, "- Membros da moderação online -");
-	
+
 	foreach(new i: Player)
 	{
 		if(GetPlayerHighestRank(i) >= PLAYER_RANK_MODERATOR)

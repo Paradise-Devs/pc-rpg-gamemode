@@ -254,15 +254,45 @@ new g_p_EnabledDealershipVehicleKey[MAX_PLAYERS];
 
 //--------------------------------------------------------------------
 
-hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
+ResetPlayerVehicleData(playerid)
 {
-    if(checkpointid == gCheckpointid)
-    {
-        ShowPlayerDialog(playerid, DIALOG_DEALERSHIP, DIALOG_STYLE_MSGBOX, "Concessionária", "Você deseja visualizar nossos veículos?", "Sim", "Não");
-        PlayerPlaySound(playerid, 1083, 0.0, 0.0, 0.0);
-        return -2;
-    }
-    return 1;
+    for (new i = 0; i < MAX_VEHICLES_PER_PLAYER; i++)
+	{
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_DBID]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_ID]			= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MODEL]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_WORLD]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_INTERIOR]	= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_COLOR1]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_COLOR2]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_PAINTJOB]	= -1;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_HEALTH]		= 0.0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FUEL]		= 0.0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FINES]		= 0;
+
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][0]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][1]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][2]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][3]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][4]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][5]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][6]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][7]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][8]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][9]		= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][10]	= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][11]	= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][12]	= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][13]	= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][14]	= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][15]	= 0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][16]	= 0;
+
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_X] = 0.0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_Y] = 0.0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_Z] = 0.0;
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_A] = 0.0;
+	}
 }
 
 //--------------------------------------------------------------------
@@ -683,7 +713,21 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 	return 1;
 }
 
-//
+//------------------------------------------------------------------------------
+
+hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
+{
+    if(checkpointid == gCheckpointid)
+    {
+        ShowPlayerDialog(playerid, DIALOG_DEALERSHIP, DIALOG_STYLE_MSGBOX, "Concessionária", "Você deseja visualizar nossos veículos?", "Sim", "Não");
+        PlayerPlaySound(playerid, 1083, 0.0, 0.0, 0.0);
+        return -2;
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 hook OnVehiclePaintjob(playerid, vehicleid, paintjobid)
 {
 	new i = g_p_EnabledDealershipVehicleKey[playerid];
@@ -692,21 +736,24 @@ hook OnVehiclePaintjob(playerid, vehicleid, paintjobid)
     return 1;
 }
 
-//
+//------------------------------------------------------------------------------
+
 hook OnVehicleMod(playerid, vehicleid, componentid)
 {
 	SaveComponent(playerid, vehicleid, componentid);
 	return 1;
 }
 
-//
+//------------------------------------------------------------------------------
+
 hook OnVehicleSpawn(vehicleid)
 {
 	ModVehicle(vehicleid);
 	return 1;
 }
 
-//
+//------------------------------------------------------------------------------
+
 ModVehicle(vehicleid)
 {
 	foreach(new playerid: Player)
@@ -728,7 +775,8 @@ ModVehicle(vehicleid)
 	return 1;
 }
 
-//
+//------------------------------------------------------------------------------
+
 SaveComponent(playerid, vehicleid, componentid)
 {
     if(g_p_EnabledDealershipVehicleID[playerid] != vehicleid)
@@ -881,44 +929,6 @@ public OnPlayerBuyOnDealership(playerid, i)
 
 public OnLoadPlayerVehicle(playerid)
 {
-	for (new i = 0; i < MAX_VEHICLES_PER_PLAYER; i++)
-	{
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_DBID]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_ID]			= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MODEL]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_WORLD]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_INTERIOR]	= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_COLOR1]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_COLOR2]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_PAINTJOB]	= -1;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_HEALTH]		= 0.0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FUEL]		= 0.0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FINES]		= 0;
-
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][0]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][1]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][2]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][3]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][4]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][5]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][6]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][7]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][8]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][9]		= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][10]	= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][11]	= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][12]	= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][13]	= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][14]	= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][15]	= 0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][16]	= 0;
-
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_X] = 0.0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_Y] = 0.0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_Z] = 0.0;
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_A] = 0.0;
-	}
-
 	new rows, fields;
 	cache_get_data(rows, fields, mysql);
 	if(rows)
@@ -1180,6 +1190,7 @@ hook OnPlayerDeath(playerid, killerid, reason)
 
 hook OnPlayerDisconnect(playerid, reason)
 {
+    new query[128];
 	if(g_pDealershipVehicle[playerid][E_VEH_BROWSING_ID] > 0)
 	{
 		DestroyVehicle(g_pDealershipVehicle[playerid][E_VEH_BROWSING_ID]);
@@ -1191,32 +1202,27 @@ hook OnPlayerDisconnect(playerid, reason)
 		g_pDealershipVehicle[playerid][E_VEH_BROWSING_CATEGORY]	= 0;
 		g_pDealershipVehicle[playerid][E_VEH_BROWSING_ANGLE]	= 0.0;
 
-		new query[128];
 		mysql_format(mysql, query, sizeof(query), "UPDATE `players` SET `virtual_world`=0, `x`=559.9263, `y`=-1289.6732, `z`=17.2482, `a`=7.5971 WHERE `ID`=%d", GetPlayerDatabaseID(playerid));
 		mysql_pquery(mysql, query);
 	}
 
-	if(g_p_EnabledDealershipVehicleID[playerid] != INVALID_VEHICLE_ID)
-	{
-		new Float:h;
-		GetVehicleHealth(g_p_EnabledDealershipVehicleID[playerid], h);
-		new i = g_p_EnabledDealershipVehicleKey[playerid];
-		new query[320];
-		mysql_format(mysql, query, sizeof(query), "UPDATE `dealership` SET `Health`=%f, `Fuel`=%f, `Fines`=%d, `Mod1`=%d, `Mod2`=%d, `Mod3`=%d, `Mod4`=%d, `Mod5`=%d, `Mod6`=%d, `Mod7`=%d\
-		, `Mod8`=%d, `Mod9`=%d, `Mod10`=%d, `Mod11`=%d, `Mod12`=%d, `Mod13`=%d, `Mod14`=%d, `Mod15`=%d, `Mod16`=%d, `Mod17`=%d WHERE `ID`=%d",
-		h, GetVehicleFuel(g_p_EnabledDealershipVehicleID[playerid]), g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FINES],
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][0], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][1], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][2],
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][3], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][4], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][5],
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][6], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][7], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][8],
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][9], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][10], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][11],
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][12], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][13], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][14],
-		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][15], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MOD][16], g_pDealershipData[playerid][g_p_EnabledDealershipVehicleKey[playerid]][E_DEALERSHIP_VEHICLE_DBID]);
+    for(new i = 0; i < MAX_VEHICLES_PER_PLAYER; i++)
+    {
+        if(g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_DBID] == 0)
+            continue;
+
+		mysql_format(mysql, query, sizeof(query), "UPDATE `dealership` SET `Health`=%f, `Fuel`=%f, `Fines`=%d WHERE `ID`=%d",
+		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_HEALTH], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FUEL], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FINES],
+        g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_DBID]);
 		mysql_pquery(mysql, query);
+    }
+
+	if(g_p_EnabledDealershipVehicleID[playerid] != INVALID_VEHICLE_ID)
 		DestroyVehicle(g_p_EnabledDealershipVehicleID[playerid]);
-	}
 
 	g_p_EnabledDealershipVehicleID[playerid] = INVALID_VEHICLE_ID;
 	g_p_EnabledDealershipVehicleKey[playerid] = 0;
+    ResetPlayerVehicleData(playerid);
 }
 
 /***
