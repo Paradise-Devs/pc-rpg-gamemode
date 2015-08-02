@@ -108,6 +108,38 @@ hook OnPlayerDisconnect(playerid, reason)
     }
     return 1;
 }
+//------------------------------------------------------------------------------
+
+hook OnPlayerDeath(playerid, killerid, reason)
+{
+    if(gplTruck[playerid] != INVALID_VEHICLE_ID)
+    {
+        DestroyVehicle(gplTruck[playerid]);
+        gplTruck[playerid] = INVALID_VEHICLE_ID;
+
+        for(new i = 0; i < sizeof(gplObj[]); i++)
+        {
+            if(gplObj[playerid][i] != INVALID_OBJECT_ID)
+            {
+                DestroyDynamicObject(gplObj[playerid][i]);
+                gplObj[playerid][i] = INVALID_OBJECT_ID;
+            }
+        }
+
+        for(new i = 0; i < sizeof(gSpawnPositions); i++)
+        {
+            if(gSpawnPositions[i] == playerid)
+            {
+                gSpawnPositions[i] = INVALID_PLAYER_ID;
+                break;
+            }
+        }
+
+        DisablePlayerRaceCheckpoint(playerid);
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não conseguiu completar o serviço.");
+    }
+    return 1;
+}
 
 //------------------------------------------------------------------------------
 

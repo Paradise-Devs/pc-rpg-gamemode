@@ -188,6 +188,28 @@ hook OnPlayerDisconnect(playerid, reason)
 
 //------------------------------------------------------------------------------
 
+hook OnPlayerDeath(playerid, killerid, reason)
+{
+    if(gPlayerTruckID[playerid] != INVALID_VEHICLE_ID)
+    {
+        DestroyVehicle(gPlayerTruckID[playerid]);
+        DestroyVehicle(gPlayerTrailerID[playerid]);
+        DestroyDynamic3DTextLabel(gPlayer3DTextID[playerid]);
+
+        gPlayerTruckID[playerid] = INVALID_VEHICLE_ID;
+        gPlayerTrailerID[playerid] = INVALID_VEHICLE_ID;
+        gPlayer3DTextID[playerid] = Text3D:INVALID_3DTEXT_ID;
+
+        gPlayerCurrentCP[playerid] = 0;
+
+        DisablePlayerRaceCheckpoint(playerid);
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não conseguiu completar o serviço.");
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
     switch(dialogid)
