@@ -253,7 +253,7 @@ SetPlayerLastLogin(playerid, unixt) {
 
 //------------------------------------------------------------------------------
 
-SetPlayerPosEx(playerid, Float:PosX, Float:PosY, Float:PosZ, Float:Angle, int, vw)
+stock SetPlayerPosEx(playerid, Float:PosX, Float:PosY, Float:PosZ, Float:Angle, int, vw)
 {
     gPlayerPositionData[playerid][e_player_x]    = PosX;
     gPlayerPositionData[playerid][e_player_y]    = PosY;

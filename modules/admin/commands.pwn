@@ -683,10 +683,11 @@ YCMD:setjob(playerid, params[], help)
    if(sscanf(params, "ui", targetid, value))
    {
        SendClientMessage(playerid, COLOR_INFO, "* /setjob [playerid] [emprego]");
-       SendClientMessagef(playerid, COLOR_SUB_TITLE, "* (%i)%s - (%i)%s - (%i)%s",
+       SendClientMessagef(playerid, COLOR_SUB_TITLE, "* (%i)%s - (%i)%s - (%i)%s - (%i)%s",
        _:INVALID_JOB_ID, GetJobName(INVALID_JOB_ID),
        _:PILOT_JOB_ID, GetJobName(PILOT_JOB_ID),
-       _:TRUCKER_JOB_ID, GetJobName(TRUCKER_JOB_ID));
+       _:TRUCKER_JOB_ID, GetJobName(TRUCKER_JOB_ID),
+       _:LUMBERJACK_JOB_ID, GetJobName(LUMBERJACK_JOB_ID));
        return 1;
    }
 

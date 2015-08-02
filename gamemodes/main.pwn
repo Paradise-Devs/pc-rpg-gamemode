@@ -177,6 +177,7 @@ hook OnGameModeInit()
 /* Jobs */
 #include "../modules/job/pilot.pwn"
 #include "../modules/job/trucker.pwn"
+#include "../modules/job/lumberjack.pwn"
 
 /* Missions */
 #include "../modules/missions/gta.pwn"

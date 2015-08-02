@@ -156,25 +156,24 @@ public OnAccountLoad(playerid)
 	cache_get_data(rows, fields, mysql);
 	if(rows > 0)
 	{
+        new Float:x = cache_get_field_content_float(0, "x", mysql);
+        new Float:y = cache_get_field_content_float(0, "y", mysql);
+        new Float:z = cache_get_field_content_float(0, "z", mysql);
+        new Float:a = cache_get_field_content_float(0, "a", mysql);
+        SetSpawnInfo(playerid, 255, cache_get_field_content_int(0, "skin", mysql), x, y, z, a, 0, 0, 0, 0, 0, 0);
+
         SpawnPlayer(playerid);
 
         SetPlayerIP(playerid, GetPlayerIPf(playerid));
         SetPlayerLastLogin(playerid, cache_get_field_content_int(0, "last_login", mysql));
 
-        SetPlayerPosEx(playerid,
-            cache_get_field_content_float(0, "x",               mysql),
-            cache_get_field_content_float(0, "y",               mysql),
-            cache_get_field_content_float(0, "z",               mysql),
-            cache_get_field_content_float(0, "a",               mysql),
-            cache_get_field_content_int(0, "interior",          mysql),
-            cache_get_field_content_int(0, "virtual_world",     mysql)
-        );
+        SetPlayerInterior(playerid, cache_get_field_content_int(0, "interior", mysql));
+        SetPlayerVirtualWorld(playerid, cache_get_field_content_int(0, "virtual_world", mysql));
 
         SetPlayerHealth(playerid, cache_get_field_content_float(0, "health", mysql));
         SetPlayerArmour(playerid, cache_get_field_content_float(0, "armour", mysql));
         SetPlayerFaction(playerid, cache_get_field_content_int(0, "faction", mysql));
         SetPlayerFactionRank(playerid, cache_get_field_content_int(0, "faction_rank", mysql));
-        SetPlayerSkin(playerid, cache_get_field_content_int(0, "skin", mysql));
         SetPlayerGender(playerid, cache_get_field_content_int(0, "gender", mysql));
         SetPlayerCash(playerid, cache_get_field_content_int(0, "money", mysql));
         SetPlayerLotteryTicket(playerid, cache_get_field_content_int(0, "ticket", mysql));
