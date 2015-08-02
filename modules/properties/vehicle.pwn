@@ -1262,17 +1262,21 @@ YCMD:veiculos(playerid, params[], help)
 	if(!PlayerHasVehicle(playerid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem um veículo.");
 
+	new info[380];
 	new vehicle_name[38];
-	new info[128];
+    new location[MAX_ZONE_NAME];
+    strcat(info, "Nome\tLocalização\tEm uso\n");
 	for(new i = 0; i < MAX_VEHICLES_PER_PLAYER; i++)
 	{
-		if(g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_ID] == g_p_EnabledDealershipVehicleID[playerid])
-			format(vehicle_name, sizeof(vehicle_name), "%s - {FF0000}Em uso\n", GetVehicleNameFromModel(g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MODEL]));
-		else
-			format(vehicle_name, sizeof(vehicle_name), "%s\n", GetVehicleNameFromModel(g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MODEL]));
+        Get2DZoneName(location, g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_X], g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_Y]);
+
+        if(g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_X] == 0.0 && g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_Y] == 0.0 && g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_Z] == 0.0)
+            location = "Indisponível\0";
+
+		format(vehicle_name, sizeof(vehicle_name), "%s\t%s\t%s\n", GetVehicleNameFromModel(g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MODEL]), location, (g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_ID] == g_p_EnabledDealershipVehicleID[playerid]) ? "{FF0000}Sim" : "Não");
 		strcat(info, vehicle_name);
 	}
-	ShowPlayerDialog(playerid, DIALOG_VEHICLE, DIALOG_STYLE_LIST, "Meus Veículos", info, "Chamar", "Sair");
+	ShowPlayerDialog(playerid, DIALOG_VEHICLE, DIALOG_STYLE_TABLIST_HEADERS, "Meus Veículos", info, "Chamar", "Sair");
 	return 1;
 }
 
