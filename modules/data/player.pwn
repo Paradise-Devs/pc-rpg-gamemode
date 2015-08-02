@@ -329,6 +329,43 @@ SetPlayerJobXP(playerid, val)
 
 //------------------------------------------------------------------------------
 
+GetPlayerPhoneNumber(playerid)
+{
+    return gPlayerPhoneData[playerid][e_player_phone_number];
+}
+
+SetPlayerPhoneNumber(playerid, val)
+{
+    gPlayerPhoneData[playerid][e_player_phone_number] = val;
+}
+
+SetPlayerPhoneNetwork(playerid, val)
+{
+    gPlayerPhoneData[playerid][e_player_phone_network] = val;
+}
+
+GetPlayerPhoneState(playerid)
+{
+    return gPlayerPhoneData[playerid][e_player_phone_state];
+}
+
+SetPlayerPhoneState(playerid, val)
+{
+    gPlayerPhoneData[playerid][e_player_phone_state] = val;
+}
+
+GetPlayerPhoneCredit(playerid)
+{
+    return gPlayerPhoneData[playerid][e_player_phone_credits];
+}
+
+SetPlayerPhoneCredit(playerid, val)
+{
+    gPlayerPhoneData[playerid][e_player_phone_credits] = val;
+}
+
+//------------------------------------------------------------------------------
+
 GetPlayerDatabaseID(playerid)
 {
     return gPlayerAccountData[playerid][e_player_database_id];

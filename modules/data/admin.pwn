@@ -17,7 +17,7 @@
 #define MAX_CREATED_VEH_PER_ADMIN	1
 
 new gAdminCreatedCars[MAX_PLAYERS][MAX_CREATED_VEH_PER_ADMIN];
-new gAdminCCarsCount[MAX_PLAYERS];
+new gAdminCCarsCount[MAX_PLAYERS] = 0;
 
 GetAdminCreatedCars(playerid) {
 	return gAdminCCarsCount[playerid];
@@ -36,4 +36,5 @@ hook OnPlayerDisconnect(playerid, reason)
 	if(GetAdminCreatedCars(playerid) > 1) {
 		DestroyAdminCars(playerid);
 	}
+	return 1;
 }

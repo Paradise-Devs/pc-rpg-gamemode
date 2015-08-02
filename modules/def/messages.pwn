@@ -103,3 +103,25 @@ SendClientActionMessage(playerid, Float:radius, action[])
 		}
 	}
 }
+
+//------------------------------------------------------------------------------
+
+SendMultiMessage(playerid, color, message[])
+{
+    if(strlen(message) > 144)
+    {
+        new
+            secondLine[144];
+
+        strmid(secondLine, message, 140, strlen(message));
+        strdel(message, 140, strlen(message));
+        strins(message, "...", 140, 144);
+        strins(secondLine, "...", 0);
+
+        SendClientMessage(playerid, color, message);
+        SendClientMessage(playerid, color, secondLine);
+    }
+    else
+        SendClientMessage(playerid, color, message);
+    return 1;
+}

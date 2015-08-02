@@ -147,6 +147,7 @@ hook OnGameModeInit()
 #include "../modules/gameplay/lottery.pwn"
 #include "../modules/gameplay/tutorial.pwn"
 #include "../modules/gameplay/weather.pwn"
+#include "../modules/gameplay/phone.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
