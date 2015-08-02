@@ -14,6 +14,7 @@
 #include <YSI\y_hooks>
 
 //--------------------------------------------------------------------
+
 enum
 {
 	WARNING_HUNGER,
@@ -224,7 +225,7 @@ ptask OnClientUpdate[1000](playerid)
 
 		if(health == 1.0)
 		{
-			SendClientMessage(playerid, COLOR_INFO, "* Você desmaiou de desitratação.");
+			SendClientMessage(playerid, COLOR_INFO, "* Você desmaiou de desidratação.");
             SetPlayerThirst(playerid, 50.0);
 		}
 		SetPlayerHealth(playerid, health - 1.0);
@@ -282,6 +283,21 @@ ptask OnClientUpdate[1000](playerid)
 	}
 	OnPlayerPetUpdate(playerid);
     return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerDeath(playerid, killerid, reason)
+{
+	if(GetPlayerHunger(playerid) < 5.0)
+		SetPlayerHunger(playerid, 5.0);
+
+	if(GetPlayerThirst(playerid) < 5.0)
+		SetPlayerThirst(playerid, 5.0);
+
+	if(GetPlayerAddiction(playerid) < 5.0 && GetPlayerAddiction(playerid) > 0.0)
+		SetPlayerAddiction(playerid, 5.0);
+	return 1;
 }
 
 /********************************************************************************
