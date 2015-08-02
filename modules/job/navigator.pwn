@@ -16,7 +16,7 @@
 //------------------------------------------------------------------------------
 
 // Minimum serivce time in ms
-static const MINIMUM_SERVICE_TIME = 300000;
+static const MINIMUM_SERVICE_TIME = 450000;
 
 // Checkpointid
 static STREAMER_TAG_CP gCheckpointid;
@@ -30,11 +30,11 @@ static const XP_SCALE = 15;
 // Available services
 static const g_sNavigatorServices[][][] =
 {
-    {5000, "Transportar comida"},
-    {7500, "Transportar roupas"},
-    {10000, "Transportar materiais"},
-    {15000, "Transportar armas"},
-    {20000, "Transportar dinheiro"}
+    {7500, "Transportar comida"},
+    {10000, "Transportar roupas"},
+    {15000, "Transportar materiais"},
+    {20000, "Transportar armas"},
+    {25000, "Transportar dinheiro"}
 };
 
 // Services destination

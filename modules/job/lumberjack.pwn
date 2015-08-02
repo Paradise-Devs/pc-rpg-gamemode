@@ -51,19 +51,19 @@ static const Float:g_fTreePositions[][] =
 // Available services
 static g_sLumberServices[][][] =
 {
-    {1000, "Transportar para madeireira"},
-    {2500, "Transportar para construção"},
-    {5000, "Transportar para fazenda"},
+    {1000, "Transportar para Madeireira"},
+    {2500, "Transportar para Ocean Docks"},
+    {5000, "Transportar para Red County"},
     {10000, "Transportar para Las Venturas"}
 };
 
 // Services destination
 static Float:g_fLumberServices[][] =
 {
-    {-528.9730, -190.2834, 78.9779},
-    {-528.9730, -190.2834, 78.9779},
-    {-528.9730, -190.2834, 78.9779},
-    {-528.9730, -190.2834, 78.9779}
+    {-528.9730, -190.2834,  78.9779},
+    {2156.6016, -2292.9009, 13.1570},
+    {1546.9208, 17.2555,    24.7613},
+    {2436.7915, 1910.8887,  5.8847}
 };
 
 //------------------------------------------------------------------------------
