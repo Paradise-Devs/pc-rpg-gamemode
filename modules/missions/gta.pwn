@@ -146,6 +146,12 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 PlayCancelSound(playerid);
             else
             {
+				if(IsPlayerInMission(playerid))
+				{
+					SendClientMessage(playerid, COLOR_ERROR, "* Você já está em uma missão.");
+					return -1;
+				}
+
 				new modelid = random(sizeof(g_nVehicles));
 				new randpos = random(sizeof(g_fCarSpawnPosition));
 				new location[MAX_ZONE_NAME];
@@ -170,6 +176,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
                 SendClientMessagef(playerid, COLOR_TITLE, "* O veículo é um %s localizado em %s.", GetVehicleName(g_pTargetVehicleID[playerid]), location);
                 SendClientMessage(playerid, COLOR_SUB_TITLE, "* Quanto menos o veículo for danificado, maior o pagamento.");
+				SetPlayerMission(playerid, MISSION_GTA);
             }
             return -1;
         }
@@ -203,6 +210,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             GivePlayerCash(playerid, money);
             DisablePlayerRaceCheckpoint(playerid);
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
+			SetPlayerMission(playerid, INVALID_MISSION_ID);
 
             DestroyVehicle(g_pTargetVehicleID[playerid]);
             g_pTargetVehicleID[playerid] = INVALID_VEHICLE_ID;

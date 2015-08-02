@@ -116,6 +116,7 @@ hook OnGameModeInit()
 #include "../modules/def/dialogs.pwn"
 #include "../modules/def/ftime.pwn"
 #include "../modules/def/messages.pwn"
+#include "../modules/def/missions.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
@@ -186,6 +187,7 @@ hook OnGameModeInit()
 
 /* Missions */
 #include "../modules/missions/gta.pwn"
+#include "../modules/missions/colonel.pwn"
 
 /* Objects */
 #include "../modules/objects/hospital.pwn"
