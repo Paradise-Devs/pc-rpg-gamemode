@@ -1,5 +1,5 @@
 /*******************************************************************************
-* FILENAME :        modules/gameplays/lottery.pwn
+* FILENAME :        modules/gameplay/phone.pwn
 *
 * DESCRIPTION :
 *       A script that allow players call others.
@@ -100,7 +100,7 @@ hook OnPlayerDisconnect(playerid, reason)
 		if(IsPlayerInCall(playerid))
 		{
 			new	targetid = GetPlayerCallerID(playerid);
-			SendClientMessage(targetid, 0xB9C9BFFF, "*** A linha caiu...");
+			SendClientMessage(targetid, 0xB9C9BFFF, "* A linha caiu...");
 			SetPlayerCallerID(targetid, INVALID_PLAYER_ID);
 		}
 	}
@@ -116,7 +116,7 @@ hook OnPlayerDeath(playerid, killerid, reason)
 		if(IsPlayerInCall(playerid))
 		{
 			new	targetid = GetPlayerCallerID(playerid);
-			SendClientMessage(targetid, 0xB9C9BFFF, "*** A linha caiu...");
+			SendClientMessage(targetid, 0xB9C9BFFF, "* A linha caiu...");
 			SetPlayerCallerID(targetid, INVALID_PLAYER_ID);
 
 			if(IsPlayerAttachedObjectSlotUsed(playerid, 0) || GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USECELLPHONE)
@@ -138,7 +138,7 @@ hook OnPlayerDeath(playerid, killerid, reason)
 		new	targetid = IsPlayerBeingCalledBy(playerid);
 
 		SetPlayerCallerID(targetid, INVALID_PLAYER_ID);
-		SendClientMessage(targetid, 0xB9C9BFFF, "*** A linha caiu...");
+		SendClientMessage(targetid, 0xB9C9BFFF, "* A linha caiu...");
 	}
 	return 1;
 }
@@ -261,13 +261,13 @@ YCMD:sms(playerid, params[], help)
 			if(i == playerid) goto end;
 
 			if(!GetPlayerPhoneState(i))
-				return SendClientMessage(playerid, COLOR_ERROR, "O número está fora de área de cobertura ou fora de serviço.");
+				return SendClientMessage(playerid, COLOR_ERROR, "* O número está fora de área de cobertura ou fora de serviço.");
 
-            new output[65 + MAX_PLAYER_NAME + 128];
-            format(output, sizeof(output), "*** SMS de {FFD700}%s{FFFF00}({FFD700}%i{FFFF00}): %s", GetPlayerNamef(playerid),GetPlayerPhoneNumber(playerid), msgText);
+            new output[145];
+            format(output, sizeof(output), "* SMS de %s(%i): %s", GetPlayerNamef(playerid), GetPlayerPhoneNumber(playerid), msgText);
             SendMultiMessage(i, 0xFFFF00FF, output);
 
-            format(output, sizeof(output), "*** Mensagem enviada a {FFD700}%s{FFFF00}({FFD700}%i{FFFF00}): %s", GetPlayerNamef(i), GetPlayerPhoneNumber(i), msgText);
+            format(output, sizeof(output), "* SMS para %s(%i): %s", GetPlayerNamef(i), GetPlayerPhoneNumber(i), msgText);
             SendMultiMessage(playerid, 0xFFFF00FF, output);
 
             SetPlayerPhoneCredit(playerid, GetPlayerPhoneCredit(playerid) - 20);
@@ -351,10 +351,10 @@ YCMD:ligar(playerid, params[], help)
 		if(GetPlayerPhoneNumber(i) == phoneNumber && phoneNumber != 0)
 		{
 			if(i == playerid || IsPlayerInAnyCall(i) || IsPlayerBeingCalled(i))
-				return SendClientMessage(playerid, COLOR_ERROR, "O número chamado está ocupado.");
+				return SendClientMessage(playerid, COLOR_ERROR, "* O número chamado está ocupado.");
 
             if(!GetPlayerPhoneState(i))
-                return SendClientMessage(playerid, COLOR_ERROR, "O número está fora de área de cobertura ou fora de serviço.");
+                return SendClientMessage(playerid, COLOR_ERROR, "* O número está fora de área de cobertura ou fora de serviço.");
 
             if(!IsPlayerAttachedObjectSlotUsed(playerid, 0) || GetPlayerSpecialAction(playerid) != SPECIAL_ACTION_USECELLPHONE)
 			{
@@ -362,8 +362,8 @@ YCMD:ligar(playerid, params[], help)
 				SetPlayerSpecialAction(playerid, SPECIAL_ACTION_USECELLPHONE);
 			}
 
-			SendClientMessagef(i, 0xFFFF00FF, "*** Telefone tocando... - número: {FFD700}%i{FFFF00}.", GetPlayerPhoneNumber(playerid));
-            SendClientMessagef(i, 0xFFFF00FF, "*** Chamando... - número: {FFD700}%i{FFFF00}.", phoneNumber);
+			SendClientMessagef(i, 0xFFFF00FF, "* Telefone tocando... - número: %i.", GetPlayerPhoneNumber(playerid));
+            SendClientMessagef(i, 0xFFFF00FF, "* Chamando... - número: %i.", phoneNumber);
 
             PlayerPlaySound(playerid, 3600, 0.0, 0.0, 0.0);
 
@@ -375,7 +375,7 @@ YCMD:ligar(playerid, params[], help)
             return 1;
         }
     }
-    return SendClientMessage(playerid, COLOR_ERROR, "O número está fora de área de cobertura ou fora de serviço.");
+    return SendClientMessage(playerid, COLOR_ERROR, "* O número está fora de área de cobertura ou fora de serviço.");
 }
 
 //------------------------------------------------------------------------------
@@ -383,10 +383,10 @@ YCMD:ligar(playerid, params[], help)
 YCMD:desligar(playerid, params[], help)
 {
 	if(GetPlayerPhoneNumber(playerid) == 0)
-		return SendClientMessage(playerid, COLOR_ERROR, "Você não possui um celular.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um celular.");
 
     if(!GetPlayerPhoneState(playerid))
-    		return SendClientMessage(playerid, COLOR_ERROR, "Seu celular está desligado.");
+    		return SendClientMessage(playerid, COLOR_ERROR, "* Seu celular está desligado.");
 
 	if(!IsPlayerInAnyCall(playerid) && !IsPlayerBeingCalled(playerid) && GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USECELLPHONE)
 	{
@@ -397,7 +397,7 @@ YCMD:desligar(playerid, params[], help)
 	}
 
 	if(!IsPlayerInAnyCall(playerid))
-		return SendClientMessage(playerid, COLOR_ERROR, "Você não está fazendo ou recebendo uma ligação.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está fazendo ou recebendo uma ligação.");
 
 	if(IsPlayerInAnyCall(playerid))
 	{
@@ -406,7 +406,7 @@ YCMD:desligar(playerid, params[], help)
 			new
 				targetid = GetPlayerCallerID(playerid);
 
-			SendClientMessage(targetid, 0xB9C9BFFF, "*** Desligaram...");
+			SendClientMessage(targetid, 0xB9C9BFFF, "* Desligaram...");
 			SetPlayerCallerID(targetid, INVALID_PLAYER_ID);
 
 			if(IsPlayerAttachedObjectSlotUsed(playerid, 0) || GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USECELLPHONE)
@@ -417,7 +417,7 @@ YCMD:desligar(playerid, params[], help)
 		}
 
 		SetPlayerCallerID(playerid, INVALID_PLAYER_ID);
-		SendClientMessage(playerid, 0xB9C9BFFF, "*** Você desligou...");
+		SendClientMessage(playerid, 0xB9C9BFFF, "* Você desligou...");
 		SendClientActionMessage(playerid, 15.0, "guardou o celular no bolso.");
 
 		if(IsPlayerAttachedObjectSlotUsed(playerid, 0) || GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USECELLPHONE)
@@ -432,8 +432,8 @@ YCMD:desligar(playerid, params[], help)
 			targetid = IsPlayerBeingCalledBy(playerid);
 
 		SetPlayerCallerID(targetid, INVALID_PLAYER_ID);
-		SendClientMessage(targetid, 0xB9C9BFFF, "*** Desligaram...");
-		SendClientMessage(playerid, 0xB9C9BFFF, "*** Você desligou...");
+		SendClientMessage(targetid, 0xB9C9BFFF, "* Desligaram...");
+		SendClientMessage(playerid, 0xB9C9BFFF, "* Você desligou...");
 	}
 	return 1;
 }
@@ -443,13 +443,13 @@ YCMD:desligar(playerid, params[], help)
 YCMD:atender(playerid, params[], help)
 {
 	if(GetPlayerPhoneNumber(playerid) == 0)
-		return SendClientMessage(playerid, COLOR_ERROR, "Você não possui um celular.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um celular.");
 
 	if(!GetPlayerPhoneState(playerid))
-		return SendClientMessage(playerid, COLOR_ERROR, "Seu celular está desligado.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Seu celular está desligado.");
 
 	if(IsPlayerInAnyCall(playerid))
-		return SendClientMessage(playerid, COLOR_ERROR, "Você já está em uma ligação.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você já está em uma ligação.");
 
 	if(IsPlayerBeingCalled(playerid))
 	{
@@ -464,13 +464,13 @@ YCMD:atender(playerid, params[], help)
 		}
 
 		SendClientActionMessage(playerid, 15.0, "atendeu o celular.");
-		SendClientMessage(targetid, 0xB9C9BFFF, "*** Atenderam...");
+		SendClientMessage(targetid, 0xB9C9BFFF, "* Atenderam...");
 
 		SetPlayerCallerID(playerid, targetid);
 	}
 	else
 	{
-		SendClientMessage(playerid, COLOR_ERROR, "Você não está recebendo uma ligação.");
+		SendClientMessage(playerid, COLOR_ERROR, "* Você não está recebendo uma ligação.");
 	}
 	return 1;
 }
@@ -480,7 +480,7 @@ YCMD:atender(playerid, params[], help)
 /*YCMD:infocelular(playerid, params[], help)
 {
 	if(!GetPlayerPhoneNumber(playerid))
-		return SendClientMessage(playerid, COLOR_ERROR, "Você não tem um celular.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem um celular.");
 
 	new stateMessage[4];
 	stateMessage = (GetPlayerPhoneState(playerid)) ? "Sim" : "não";
@@ -501,22 +501,22 @@ YCMD:atender(playerid, params[], help)
 YCMD:telefone(playerid, params[], help)
 {
 	/*if(gPlayerData[playerid][E_PLAYER_AGENDA] < 1)
-		return SendClientMessage(playerid, COLOR_ERROR, "Você não tem uma agenda.");*/
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem uma agenda.");*/
 
 	new targetid;
 	if(sscanf(params, "u", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "/telefone [jogador]");
 
 	if(!IsPlayerLogged(targetid))
-		return SendClientMessage(playerid, COLOR_ERROR, "O jogador não está logado.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está logado.");
 
 	if(GetPlayerPhoneNumber(targetid) == 0)
-		return SendClientMessage(playerid, COLOR_ERROR, "O jogador não tem um celular.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não tem um celular.");
 
 	new sMessage[52 + MAX_PLAYER_NAME];
 	format(sMessage, sizeof(sMessage), "* {ba9100}%s{e0b418} - número: {ba9100}%d", GetPlayerNamef(targetid), GetPlayerPhoneNumber(targetid));
 	SendClientMessage(playerid, 0xe0b418ff, sMessage);
-	SendClientActionMessage(playerid, 15.0, "procura um número na lista telef�nica.");
+	SendClientActionMessage(playerid, 15.0, "procura um número na lista telefônica.");
 	return 1;
 }
 
@@ -525,7 +525,7 @@ YCMD:telefone(playerid, params[], help)
 /*YCMD:anuncio(playerid, params[], help)
 {
 	if(GetPlayerPlayedTime(playerid)/3600 < 3)
-		return SendClientMessage(playerid, COLOR_ERROR, "Você precisa ter pelo menos 3 horas de jogo.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ter pelo menos 3 horas de jogo.");
 
 	foreach(new b: Business)
 	{
@@ -570,7 +570,7 @@ YCMD:telefone(playerid, params[], help)
 	}
 
 	if(GetPlayerPhoneNumber(playerid) == 0)
-		return SendClientMessage(playerid, COLOR_ERROR, "Você não possui um celular.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um celular.");
 
 	new advertiseText[128];
 
@@ -579,7 +579,7 @@ YCMD:telefone(playerid, params[], help)
 
 	if(GetPlayerPhoneCredit(playerid) < strlen(advertiseText) * 40)
 	{
-		SendClientMessage(playerid, COLOR_ERROR, "Você não possui creditos suficientes. {C8C8C8}[$%i]", strlen(advertiseText) * 40);
+		SendClientMessage(playerid, COLOR_ERROR, "* Você não possui creditos suficientes. {C8C8C8}[$%i]", strlen(advertiseText) * 40);
 		return 1;
 	}
 
