@@ -41,6 +41,7 @@
 
 //------------------------------------------------------------------------------
 
+#define COLOR_WARNING									0xf14545ff
 #define COLOR_ERROR										0xf14545ff
 #define COLOR_SUCCESS									0x88aa62FF
 #define COLOR_INFO										0xA9C4E4FF

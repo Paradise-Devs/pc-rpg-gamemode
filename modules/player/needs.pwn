@@ -26,7 +26,7 @@ enum
 static gPlayerWarningMessage[MAX_PLAYERS][5];
 static bool:gpIsSleeping[MAX_PLAYERS];
 
-#define INTERVAL_BETWEEN_WARNING	120000 // 2 minutes
+#define INTERVAL_BETWEEN_WARNING	180000 // 3 minutes
 
 new Float:gfBedPositions[][] =
 {
@@ -165,43 +165,35 @@ ptask OnClientUpdate[1000](playerid)
 	// Dont spam messages if the player is away
 	if(!IsPlayerPaused(playerid))
 	{
-	    if(gPlayerWarningMessage[playerid][WARNING_SLEEP] < tickcount() && GetPlayerSleep(playerid) < 10.0)
+	    if(gPlayerWarningMessage[playerid][WARNING_SLEEP] < tickcount() && GetPlayerSleep(playerid) < 7.5)
 		{
-			if(GetPlayerSleep(playerid) < 2.5)
-				SendClientMessage(playerid, COLOR_INFO, "* Você está com sono.");
-			else
-				SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sono.");
 	        SendClientActionMessage(playerid, 20.0, "bocejou.");
 	    	gPlayerWarningMessage[playerid][WARNING_SLEEP] = tickcount() + INTERVAL_BETWEEN_WARNING;
 	    }
 
-	    else if(gPlayerWarningMessage[playerid][WARNING_HUNGER] < tickcount() && GetPlayerHunger(playerid) < 10.0)
+	    else if(gPlayerWarningMessage[playerid][WARNING_HUNGER] < tickcount() && GetPlayerHunger(playerid) < 7.5)
 		{
 			if(GetPlayerHunger(playerid) < 2.5)
-				SendClientMessage(playerid, COLOR_INFO, "* Você está faminto.");
-	        else if(GetPlayerHunger(playerid) < 5.0)
-	    		SendClientMessage(playerid, COLOR_INFO, "* Você está com fome.");
-	        else
-	    		SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com fome.");
+				SendClientMessage(playerid, COLOR_WARNING, "* Você está faminto.");
 	        SendActionMessage(playerid, 20.0, "Estômago roncando.");
 	        gPlayerWarningMessage[playerid][WARNING_HUNGER] = tickcount() + INTERVAL_BETWEEN_WARNING;
 		}
 
-	    else if(gPlayerWarningMessage[playerid][WARNING_ADDICTION] < tickcount() && GetPlayerAddiction(playerid) < 5.0 && GetPlayerAddiction(playerid) > 0.0)
+	    else if(gPlayerWarningMessage[playerid][WARNING_ADDICTION] < tickcount() && GetPlayerAddiction(playerid) < 2.5 && GetPlayerAddiction(playerid) > 0.0)
 		{
-			SendClientMessage(playerid, COLOR_INFO, "* Você está a muito tempo sem se drogar, sua HP começará a descer em breve.");
+			SendClientMessage(playerid, COLOR_WARNING, "* Você está a muito tempo sem se drogar, sua HP começará a descer em breve.");
 	        SendClientActionMessage(playerid, 20.0, "começa a tremer.");
 	        gPlayerWarningMessage[playerid][WARNING_ADDICTION] = tickcount() + INTERVAL_BETWEEN_WARNING;
 		}
 
-		else if(gPlayerWarningMessage[playerid][WARNING_THIRST] < tickcount() && GetPlayerThirst(playerid) < 10.0)
+		else if(gPlayerWarningMessage[playerid][WARNING_THIRST] < tickcount() && GetPlayerThirst(playerid) < 7.5)
 		{
 			if(GetPlayerThirst(playerid) < 2.5)
-				SendClientMessage(playerid, COLOR_INFO, "* Você está sedento.");
+				SendClientMessage(playerid, COLOR_WARNING, "* Você está sedento.");
 	        else if(GetPlayerThirst(playerid) < 5.0)
-	    		SendClientMessage(playerid, COLOR_INFO, "* Você está com sede.");
+	    		SendClientMessage(playerid, COLOR_WARNING, "* Você está com sede.");
 	        else
-	    		SendClientMessage(playerid, COLOR_INFO, "* Você está ficando com sede.");
+	    		SendClientMessage(playerid, COLOR_WARNING, "* Você está ficando com sede.");
 	        gPlayerWarningMessage[playerid][WARNING_THIRST] = tickcount() + INTERVAL_BETWEEN_WARNING;
 		}
 	}
@@ -213,7 +205,7 @@ ptask OnClientUpdate[1000](playerid)
 
 		if(health == 1.0)
 		{
-			SendClientMessage(playerid, COLOR_INFO, "* Você desmaiou de fome.");
+			SendClientMessage(playerid, COLOR_WARNING, "* Você desmaiou de fome.");
             SetPlayerHunger(playerid, 50.0);
 		}
 		SetPlayerHealth(playerid, health - 1.0);
@@ -225,7 +217,7 @@ ptask OnClientUpdate[1000](playerid)
 
 		if(health == 1.0)
 		{
-			SendClientMessage(playerid, COLOR_INFO, "* Você desmaiou de desidratação.");
+			SendClientMessage(playerid, COLOR_WARNING, "* Você desmaiou de desidratação.");
             SetPlayerThirst(playerid, 50.0);
 		}
 		SetPlayerHealth(playerid, health - 1.0);
