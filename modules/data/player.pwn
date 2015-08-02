@@ -524,6 +524,7 @@ public OnAccountLoad(playerid)
 
         LoadPlayerWeapons(playerid);
         LoadPlayerPets(playerid);
+        LoadPlayerVehicles(playerid);
 
         SetPlayerColor(playerid, 0xFFFFFFFF);
         SetPlayerLogged(playerid, true);

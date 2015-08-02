@@ -123,6 +123,9 @@ hook OnGameModeInit()
 #include "../modules/data/faction.pwn"
 #include "../modules/data/player.pwn"
 
+/* Properties */
+#include "../modules/properties/vehicle.pwn"
+
 /* Vehicle */
 #include "../modules/vehicle/control.pwn"
 #include "../modules/vehicle/reserve.pwn"
