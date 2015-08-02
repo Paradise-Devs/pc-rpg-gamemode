@@ -182,6 +182,7 @@ hook OnGameModeInit()
 #include "../modules/job/pilot.pwn"
 #include "../modules/job/trucker.pwn"
 #include "../modules/job/lumberjack.pwn"
+#include "../modules/job/navigator.pwn"
 
 /* Missions */
 #include "../modules/missions/gta.pwn"

@@ -399,7 +399,6 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             {
                 PlayErrorSound(playerid);
                 SendClientMessage(playerid, COLOR_ERROR, "* Você não tem nível de emprego suficiente para este serviço.");
-                SetCameraBehindPlayer(playerid);
             }
             else
             {
