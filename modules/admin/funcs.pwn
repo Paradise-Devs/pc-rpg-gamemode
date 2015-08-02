@@ -10,26 +10,46 @@
 *       Copyright Paradise Devs 2015.  All rights reserved.
 *
 */
+
+//------------------------------------------------------------------------------
+
+#include <YSI\y_hooks>
+
+#define MAX_CREATED_VEH_PER_ADMIN	1
+
+//------------------------------------------------------------------------------
+
+static gAdminCreatedCars[MAX_PLAYERS][MAX_CREATED_VEH_PER_ADMIN];
+static gAdminCCarsCount[MAX_PLAYERS];
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+	if(gAdminCCarsCount[playerid] > 0)
+		DestroyAdminCars(playerid);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+GetAdminCreatedCars(playerid)
+{
+	return gAdminCCarsCount[playerid];
+}
+
+//------------------------------------------------------------------------------
+
 CreateAdminCar(playerid, index)
 {
-	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:a,
-		vehicleid;
-
+	new	Float:x, Float:y, Float:z, Float:a, vehicleid;
 	GetPlayerPos(playerid, x, y, z);
 	GetXYInFrontOfPlayer(playerid, x, y, 5.0);
 	GetPlayerFacingAngle(playerid, a);
 
 	vehicleid = CreateVehicle(index, x, y, z + 2.0, a, -1, -1, 5000);
 
-	if(GetAdminCreatedCars(playerid) == 0) {
-		gAdminCreatedCars[playerid][0] = vehicleid;
-	} else {
-		gAdminCreatedCars[playerid][GetAdminCreatedCars(playerid) + 1] = vehicleid;
-	}
+	gAdminCreatedCars[playerid][gAdminCCarsCount[playerid]] = vehicleid;
 
 	LinkVehicleToInterior(vehicleid, GetPlayerInterior(playerid));
 	PutPlayerInVehicle(playerid, vehicleid, 0);
@@ -39,15 +59,22 @@ CreateAdminCar(playerid, index)
     gAdminCCarsCount[playerid]++;
 
 	SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você criou um \"%s\" (modelid: %d - vehid: %d)", aVehicleNames[index - 400], index, vehicleid);
-
 	return 1;
 }
 
-DestroyAdminCars(playerid) {
-	for(new i = 0; i <= MAX_CREATED_VEH_PER_ADMIN; i++)
-		DestroyVehicle(gAdminCreatedCars[playerid][i]);
+//------------------------------------------------------------------------------
+
+DestroyAdminCars(playerid)
+{
+	for(new i = 0; i < MAX_CREATED_VEH_PER_ADMIN; i++)
+	{
+		if(gAdminCreatedCars[playerid][i] != 0)
+		{
+			DestroyVehicle(gAdminCreatedCars[playerid][i]);
+			gAdminCreatedCars[playerid][i] = 0;
+		}
+	}
 
     gAdminCCarsCount[playerid] = 0;
-
 	return 1;
 }

@@ -290,6 +290,7 @@ timer OnUnloadTruck[5000](playerid)
 
     TogglePlayerControllable(playerid, true);
     SendClientMessage(playerid, COLOR_SPECIAL, "* Traga o caminhão de volta para receber o pagamento.");
+    PlaySelectSound(playerid);
     for(new i = 0; i < sizeof(gplObj[]); i++)
     {
         if(gplObj[playerid][i] != INVALID_OBJECT_ID)

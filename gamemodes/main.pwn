@@ -122,7 +122,6 @@ hook OnGameModeInit()
 #include "../modules/data/vehicle.pwn"
 #include "../modules/data/faction.pwn"
 #include "../modules/data/player.pwn"
-#include "../modules/data/admin.pwn"
 
 /* Vehicle */
 #include "../modules/vehicle/control.pwn"
@@ -161,8 +160,8 @@ hook OnGameModeInit()
 #include "../modules/server/rcon.pwn"
 
 /* Admin */
-#include "../modules/admin/commands.pwn"
 #include "../modules/admin/funcs.pwn"
+#include "../modules/admin/commands.pwn"
 
 /* Cutscenes */
 #include "../modules/cutscenes/cityhall.pwn"

@@ -92,19 +92,11 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 //------------------------------------------------------------------------------
 
-SetVehicleEngineState(vehicleid, stat)
+SetVehicleEngineState(vehicleid, set)
 {
-	new
-		engine,
-		lights,
-		alarm,
-		doors,
-		bonnet,
-		boot,
-		objective
-	;
+	new	engine, lights, alarm, doors, bonnet, boot, objective;
 	GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
-	SetVehicleParamsEx(vehicleid, stat, lights, alarm, doors, bonnet, boot, objective);
+	SetVehicleParamsEx(vehicleid, set, lights, alarm, doors, bonnet, boot, objective);
 }
 
 //------------------------------------------------------------------------------

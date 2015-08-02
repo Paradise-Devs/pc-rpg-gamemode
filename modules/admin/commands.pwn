@@ -636,13 +636,13 @@ YCMD:criarcar(playerid, params[], help)
   			return SendClientMessage(playerid, COLOR_ERROR, "* Veículo inválido.");
   	}
 
-    if(GetAdminCreatedCars(playerid) >= 1) {
+    if(GetAdminCreatedCars(playerid) >= MAX_CREATED_VEH_PER_ADMIN)
+    {
 		DestroyAdminCars(playerid);
-		SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Veículos criados anteriormente por você foram automaticamente destruídos.");
+		SendClientMessage(playerid, COLOR_ADMIN_ACTION, "* Veículos criados anteriormente por você foram automaticamente destruídos.");
 	}
 
     CreateAdminCar(playerid, idx);
-
     return 1;
 }
 
