@@ -53,6 +53,7 @@ hook OnPlayerSpawn(playerid)
     	PreloadAnimLib(playerid,"ON_LOOKERS");
     	PreloadAnimLib(playerid,"DEALER");
 		PreloadAnimLib(playerid,"CARRY");
+		PreloadAnimLib(playerid,"BASEBALL");
 		PreloadAnimLib(playerid,"COP_AMBIENT");
 		PreloadAnimLib(playerid,"PARK");
 		PreloadAnimLib(playerid,"INT_HOUSE");

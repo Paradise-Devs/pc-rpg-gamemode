@@ -27,10 +27,6 @@ static const XP_SCALE = 5;
 // Truck spawns
 static const Float:g_fTruckPositions[][] =
 {
-    /*{-76.8016,  -1108.3137, 1.7047, 160.2779},
-    {-72.5871,  -1110.2834, 1.7199, 158.3766},
-    {-67.8664,  -1112.1920, 1.7039, 157.7502},
-    {-62.8780,  -1114.1816, 1.7026, 159.7589},*/
     {-60.2119,  -1131.3918, 1.7022, 66.9555},
     {-62.1630,  -1135.5721, 1.7756, 67.2424},
     {-63.9874,  -1140.1875, 1.7036, 66.4234},
@@ -47,9 +43,7 @@ static const Float:g_fTreePositions[][] =
 {
     {-57.4415,  -1178.8361, 2.5063},
     {-45.4158,  -1187.4178, 3.9320},
-    {-65.2910,  -1192.6443, 2.3965},
     {-54.8692,  -1198.9314, 3.6370},
-    {-39.4565,  -1200.5903, 4.8773},
     {-49.0132,  -1214.4027, 4.2994},
     {-64.2599,  -1212.8302, 3.3633}
 };
@@ -74,11 +68,16 @@ static Float:g_fLumberServices[][] =
 
 //------------------------------------------------------------------------------
 
+static gSpawnPositions[9] = {INVALID_PLAYER_ID, ...};
+
+//------------------------------------------------------------------------------
+
 static gplCurrentCP[MAX_PLAYERS];
 static gplCurrentSC[MAX_PLAYERS];
 static gplAttachmentIndex[MAX_PLAYERS];
 static bool:gplIsLoading[MAX_PLAYERS] = {true, ...};
 static gplTruck[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
+static gplObj[MAX_PLAYERS][5];
 
 //------------------------------------------------------------------------------
 
@@ -88,6 +87,24 @@ hook OnPlayerDisconnect(playerid, reason)
     {
         DestroyVehicle(gplTruck[playerid]);
         gplTruck[playerid] = INVALID_VEHICLE_ID;
+
+        for(new i = 0; i < sizeof(gplObj[]); i++)
+        {
+            if(gplObj[playerid][i] != INVALID_OBJECT_ID)
+            {
+                DestroyDynamicObject(gplObj[playerid][i]);
+                gplObj[playerid][i] = INVALID_OBJECT_ID;
+            }
+        }
+
+        for(new i = 0; i < sizeof(gSpawnPositions); i++)
+        {
+            if(gSpawnPositions[i] == playerid)
+            {
+                gSpawnPositions[i] = INVALID_PLAYER_ID;
+                break;
+            }
+        }
     }
     return 1;
 }
@@ -152,7 +169,7 @@ hook OnPlayerEnterRaceCPT(playerid)
         case CHECKPOINT_LUMBER:
         {
             PlaySelectSound(playerid);
-            if(gplCurrentCP[playerid] < sizeof(g_fTreePositions))
+            if(gplCurrentCP[playerid] < sizeof(g_fTreePositions) || (gplCurrentCP[playerid] == sizeof(g_fTreePositions) && gplIsLoading[playerid]))
             {
                 if(IsPlayerInAnyVehicle(playerid))
                     return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode fazer isso em um veículo.");
@@ -170,6 +187,17 @@ hook OnPlayerEnterRaceCPT(playerid)
                     RemovePlayerAttachedObject(playerid, gplAttachmentIndex[playerid]);
                     SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE);
 
+                    for(new i = 0; i < sizeof(gplObj[]); i++)
+                    {
+                        if(gplObj[playerid][i] == INVALID_OBJECT_ID)
+                        {
+                            new Float:OffsetY = 1.5 - (i * 1.5);
+                            gplObj[playerid][i] = CreateDynamicObject(1463, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+                            AttachDynamicObjectToVehicle(gplObj[playerid][i], gplTruck[playerid], 0.0, OffsetY, 0.0, 0.0, 0.0, 0.0);
+                            break;
+                        }
+                    }
+
                     new Float:x, Float:y, Float:z;
                     GetVehiclePos(gplTruck[playerid], x, y, z);
                     SetPlayerRaceCheckpoint(playerid, 0, g_fTreePositions[gplCurrentCP[playerid]][0], g_fTreePositions[gplCurrentCP[playerid]][1], g_fTreePositions[gplCurrentCP[playerid]][2], x, y, z, 1.0);
@@ -181,6 +209,29 @@ hook OnPlayerEnterRaceCPT(playerid)
             {
                 if(IsPlayerInAnyVehicle(playerid))
                     return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode fazer isso em um veículo.");
+
+                RemovePlayerAttachedObject(playerid, gplAttachmentIndex[playerid]);
+                SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE);
+
+                for(new i = 0; i < sizeof(gplObj[]); i++)
+                {
+                    if(gplObj[playerid][i] == INVALID_OBJECT_ID)
+                    {
+                        new Float:OffsetY = 1.5 - (i * 1.5);
+                        gplObj[playerid][i] = CreateDynamicObject(1463, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+                        AttachDynamicObjectToVehicle(gplObj[playerid][i], gplTruck[playerid], 0.0, OffsetY, 0.0, 0.0, 0.0, 0.0);
+                        break;
+                    }
+                }
+
+                for(new i = 0; i < sizeof(gSpawnPositions); i++)
+                {
+                    if(gSpawnPositions[i] == playerid)
+                    {
+                        gSpawnPositions[i] = INVALID_PLAYER_ID;
+                        break;
+                    }
+                }
 
                 new engine, lights, alarm, doors, bonnet, boot, objective;
                 GetVehicleParamsEx(gplTruck[playerid], engine, lights, alarm, doors, bonnet, boot, objective);
@@ -195,10 +246,9 @@ hook OnPlayerEnterRaceCPT(playerid)
                 if(!IsPlayerInVehicle(playerid, gplTruck[playerid]))
                     return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em seu caminhão.");
 
-                defer UnfreezePlayer(playerid);
+                defer OnUnloadTruck(playerid);
                 TogglePlayerControllable(playerid, false);
                 GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~w~descarregando...", 5000, 3);
-                SendClientMessage(playerid, COLOR_SPECIAL, "* Traga o caminhão de volta para receber o pagamento.");
                 SetPlayerRaceCheckpoint(playerid, 1, -79.4407, -1126.8350, 1.7517, 0.0, 0.0, 0.0, 5.0);
                 gplCurrentCP[playerid]++;
             }
@@ -233,8 +283,31 @@ hook OnPlayerEnterRaceCPT(playerid)
 
 //------------------------------------------------------------------------------
 
+timer OnUnloadTruck[5000](playerid)
+{
+    if(!IsPlayerLogged(playerid))
+        return 1;
+
+    TogglePlayerControllable(playerid, true);
+    SendClientMessage(playerid, COLOR_SPECIAL, "* Traga o caminhão de volta para receber o pagamento.");
+    for(new i = 0; i < sizeof(gplObj[]); i++)
+    {
+        if(gplObj[playerid][i] != INVALID_OBJECT_ID)
+        {
+            DestroyDynamicObject(gplObj[playerid][i]);
+            gplObj[playerid][i] = INVALID_OBJECT_ID;
+        }
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 timer OnPlayerCutTree[5000](playerid)
 {
+    if(!IsPlayerLogged(playerid))
+        return 1;
+
     TogglePlayerControllable(playerid, true);
     ClearAnimations(playerid);
     SetPlayerSpecialAction(playerid, SPECIAL_ACTION_CARRY);
@@ -254,6 +327,7 @@ timer OnPlayerCutTree[5000](playerid)
             break;
         }
     }
+    return 1;
 }
 
 //------------------------------------------------------------------------------
@@ -296,9 +370,28 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             }
             else
             {
-                new rand = random(sizeof(g_fTruckPositions));
+                new rand = -2;
+                for(new i = 0; i < sizeof(gSpawnPositions); i++)
+                {
+                    if(gSpawnPositions[i] == INVALID_PLAYER_ID)
+                    {
+                        rand = i;
+                        break;
+                    }
+                }
+
+                if(rand == -2)
+                {
+                    SendClientMessage(playerid, COLOR_ERROR, "* As vagas dos caminhões estão ocupadas, aguarde um jogador terminar de cortar madeira.");
+                    return 1;
+                }
+
+                gSpawnPositions[rand] = playerid;
                 gplTruck[playerid] = CreateVehicle(578, g_fTruckPositions[rand][0], g_fTruckPositions[rand][1], g_fTruckPositions[rand][2], g_fTruckPositions[rand][3], -1, -1, -1);
                 SetVehicleFuel(gplTruck[playerid], 100.0);
+
+                for(new i = 0; i < sizeof(gplObj[]); i++)
+                    gplObj[playerid][i] = INVALID_OBJECT_ID;
 
                 new engine, lights, alarm, doors, bonnet, boot, objective;
                 GetVehicleParamsEx(gplTruck[playerid], engine, lights, alarm, doors, bonnet, boot, objective);
@@ -311,6 +404,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 gplCurrentCP[playerid] = 1;
 
                 SendClientMessage(playerid, COLOR_SPECIAL, "* Colete madeira.");
+                PlaySelectSound(playerid);
             }
             return -2;
         }
