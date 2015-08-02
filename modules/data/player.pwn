@@ -369,7 +369,7 @@ SavePlayerAccount(playerid)
     gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid),
     GetPlayerHospitalTime(playerid), health, armour,
     GetPlayerIPf(playerid), gettime(),
-    GetPlayerAchievements(playerid), GetPlayerLotteryTicket(playerid),
+    GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket],
     _:gPlayerCharacterData[playerid][e_player_jobid], gPlayerCharacterData[playerid][e_player_jobxp], gPlayerCharacterData[playerid][e_player_joblv],
     GetPlayerFirstTimeVar(playerid),
     gPlayerPhoneData[playerid][e_player_phone_number], gPlayerPhoneData[playerid][e_player_phone_network], gPlayerPhoneData[playerid][e_player_phone_credits], gPlayerPhoneData[playerid][e_player_phone_state],

@@ -162,6 +162,7 @@ hook OnPlayerEnterRaceCPT(playerid)
                     defer OnPlayerCutTree(playerid);
                     TogglePlayerControllable(playerid, false);
                     GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~w~cortando...", 5000, 3);
+                    ApplyAnimation(playerid, "BASEBALL", "BAT_4", 4.1, 1, 1, 1, 1, 0, 1);
                 }
                 else
                 {
@@ -194,8 +195,12 @@ hook OnPlayerEnterRaceCPT(playerid)
                 if(!IsPlayerInVehicle(playerid, gplTruck[playerid]))
                     return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em seu caminhão.");
 
+                defer UnfreezePlayer(playerid);
+                TogglePlayerControllable(playerid, false);
+                GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~w~descarregando...", 5000, 3);
                 SendClientMessage(playerid, COLOR_SPECIAL, "* Traga o caminhão de volta para receber o pagamento.");
                 SetPlayerRaceCheckpoint(playerid, 1, -79.4407, -1126.8350, 1.7517, 0.0, 0.0, 0.0, 5.0);
+                gplCurrentCP[playerid]++;
             }
             else
             {
@@ -231,6 +236,7 @@ hook OnPlayerEnterRaceCPT(playerid)
 timer OnPlayerCutTree[5000](playerid)
 {
     TogglePlayerControllable(playerid, true);
+    ClearAnimations(playerid);
     SetPlayerSpecialAction(playerid, SPECIAL_ACTION_CARRY);
     SendClientMessage(playerid, COLOR_SUB_TITLE, "* Traga a madeira para o caminhão.");
     gplIsLoading[playerid] = false;
