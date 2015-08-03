@@ -126,63 +126,8 @@ stock GetPlayerRankVar(playerid)
 
 stock SetPlayerRank(PLAYER_RANK:rank, playerid, bool:set)
 {
-    switch(rank)
-    {
-        case PLAYER_RANK_DEVELOPER:
-        {
-            if(set)
-                gPlayerRanks[playerid] |= PLAYER_RANK_DEVELOPER;
-            else
-                gPlayerRanks[playerid] &= ~PLAYER_RANK_DEVELOPER;
-        }
-        case PLAYER_RANK_ADMIN:
-        {
-            if(set)
-                gPlayerRanks[playerid] |= PLAYER_RANK_ADMIN;
-            else
-                gPlayerRanks[playerid] &= ~PLAYER_RANK_ADMIN;
-        }
-        case PLAYER_RANK_SUPERVISOR:
-        {
-            if(set)
-                gPlayerRanks[playerid] |= PLAYER_RANK_SUPERVISOR;
-            else
-                gPlayerRanks[playerid] &= ~PLAYER_RANK_SUPERVISOR;
-        }
-        case PLAYER_RANK_MODERATOR:
-        {
-            if(set)
-                gPlayerRanks[playerid] |= PLAYER_RANK_MODERATOR;
-            else
-                gPlayerRanks[playerid] &= ~PLAYER_RANK_MODERATOR;
-        }
-        case PLAYER_RANK_BETATESTER:
-        {
-            if(set)
-                gPlayerRanks[playerid] |= PLAYER_RANK_BETATESTER;
-            else
-                gPlayerRanks[playerid] &= ~PLAYER_RANK_BETATESTER;
-        }
-        case PLAYER_RANK_DESIGNER:
-        {
-            if(set)
-                gPlayerRanks[playerid] |= PLAYER_RANK_DESIGNER;
-            else
-                gPlayerRanks[playerid] &= ~PLAYER_RANK_DESIGNER;
-        }
-        case PLAYER_RANK_BACKUP:
-        {
-            if(set)
-                gPlayerRanks[playerid] |= PLAYER_RANK_BACKUP;
-            else
-                gPlayerRanks[playerid] &= ~PLAYER_RANK_BACKUP;
-        }
-        case PLAYER_RANK_DONATOR:
-        {
-            if(set)
-                gPlayerRanks[playerid] |= PLAYER_RANK_DONATOR;
-            else
-                gPlayerRanks[playerid] &= ~PLAYER_RANK_DONATOR;
-        }
-    }
+    if(set)
+        gPlayerRanks[playerid] |= rank;
+    else
+        gPlayerRanks[playerid] &= ~rank;
 }

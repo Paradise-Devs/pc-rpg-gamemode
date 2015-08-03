@@ -660,10 +660,10 @@ YCMD:setmoney(playerid, params[], help)
    else if(!IsPlayerLogged(targetid))
        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 
-   SetPlayerCash(playerid, value);
+   SetPlayerCash(targetid, value);
 
    if(playerid != targetid)
-       SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* %s alterou seu dinheiro para $%s.", GetPlayerNamef(playerid), formatnumber(value));
+       SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou seu dinheiro para $%s.", GetPlayerNamef(playerid), formatnumber(value));
 
    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o dinheiro de %s para $%s.", GetPlayerNamef(targetid), formatnumber(value));
    return 1;
