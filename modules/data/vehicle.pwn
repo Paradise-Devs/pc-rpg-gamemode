@@ -420,6 +420,8 @@ YCMD:deleteveh(playerid, params[], help)
         new query[60];
         mysql_format(mysql, query, sizeof(query), "DELETE FROM `vehicles` WHERE `ID`=%d", gVehicleData[vehicleid][e_vehicle_db]);
         mysql_pquery(mysql, query);
+
+        gVehicleData[vehicleid][e_vehicle_db] = 0;
     }
     return 1;
 }
