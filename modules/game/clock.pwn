@@ -15,7 +15,7 @@
 
 //------------------------------------------------------------------------------
 
-new gCurrentHour = 07;
+new gCurrentHour = 03;
 new gCurrentMinute = 00;
 new Text:gClockTD;
 new bool:gplClockLoaded[MAX_PLAYERS];
@@ -58,7 +58,7 @@ HidePlayerClock(playerid)
 
 hook OnGameModeInit()
 {
-    gClockTD = TextDrawCreate(545.000000, 20.000000, "00:00");
+    gClockTD = TextDrawCreate(545.000000, 20.000000, "03:00");
     TextDrawBackgroundColor(gClockTD, 255);
     TextDrawFont(gClockTD, 3);
     TextDrawLetterSize(gClockTD, 0.6, 2.0);
@@ -68,6 +68,14 @@ hook OnGameModeInit()
     TextDrawSetShadow(gClockTD, 0);
     TextDrawSetProportional(gClockTD, 1);
     return 1;
+}
+
+//------------------------------------------------------------------------------
+
+GetServerClock(&hour, &minute)
+{
+    hour = gCurrentHour;
+    minute = gCurrentMinute;
 }
 
 //------------------------------------------------------------------------------

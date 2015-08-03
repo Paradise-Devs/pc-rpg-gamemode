@@ -354,6 +354,7 @@ GetPlayerLevel(playerid)
 
 SetPlayerLevel(playerid, val)
 {
+    SetPlayerScore(playerid, val);
     gPlayerCharacterData[playerid][e_player_level] = val;
 }
 

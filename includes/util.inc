@@ -457,6 +457,26 @@ GetPlayerLastName(playerid)
 
 //------------------------------------------------------------------------------
 
+stock IsPlayerRunning(playerid)
+{
+    new
+        keys,
+        ud,
+        lr;
+
+    GetPlayerKeys(playerid, keys, ud, lr);
+
+    if(keys & KEY_WALK)
+        return false;
+
+    if(ud == 0 && lr == 0)
+        return false;
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 stock split(const strsrc[], strdest[][], delimiter)
 {
     new i, li;
