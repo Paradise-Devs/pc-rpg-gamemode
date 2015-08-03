@@ -26,6 +26,10 @@
 
 //------------------------------------------------------------------------------
 
+forward OnPlayerLevelUp(playerid, oldlevel, newlevel);
+
+//------------------------------------------------------------------------------
+
 enum e_player_adata
 {
     e_player_database_id,
@@ -414,7 +418,7 @@ GetPlayerDatabaseID(playerid)
 
 //------------------------------------------------------------------------------
 
-OnPlayerLevelUp(playerid, oldlevel, newlevel)
+public OnPlayerLevelUp(playerid, oldlevel, newlevel)
 {
 	PlayerPlaySound(playerid, 5203, 0.0, 0.0, 0.0);
 	GameTextForPlayer(playerid, "Level up", 5000, 1);

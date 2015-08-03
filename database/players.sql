@@ -62,17 +62,10 @@ CREATE TABLE IF NOT EXISTS `players` (
   `sleep` float unsigned NOT NULL DEFAULT '100',
   `addiction` float unsigned NOT NULL DEFAULT '100',
   `phone_number` int(10) unsigned NOT NULL DEFAULT '0',
-  `phone_network` int(10) unsigned NOT NULL DEFAULT '0',
+  `phone_network` int(10) unsigned NOT NULL DEFAULT '-1',
   `phone_credits` int(10) unsigned NOT NULL DEFAULT '0',
   `phone_state` int(10) unsigned NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `players`
---
-
-INSERT INTO `players` (`ID`, `username`, `password`, `ip`, `email`, `x`, `y`, `z`, `a`, `interior`, `virtual_world`, `health`, `armour`, `skin`, `rank`, `faction`, `faction_rank`, `last_login`, `regdate`, `gender`, `money`, `hospital`, `achievements`, `ticket`, `jobid`, `jobxp`, `joblv`, `xp`, `level`, `ftime`, `hunger`, `thirst`, `sleep`, `addiction`, `phone_number`, `phone_network`, `phone_credits`, `phone_state`) VALUES
-(1, 'Los', '784612', '127.0.0.1', NULL, 0, 0, 0, 0, 0, 0, 100, 0, 299, 0, 0, 0, 0, 1438570084, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 100, 100, 100, 100, 0, 0, 0, 0);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -92,7 +85,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
-  MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
