@@ -62,6 +62,8 @@ enum e_player_cdata
     Job:e_player_jobid,
     e_player_jobxp,
     e_player_joblv,
+    e_player_level,
+    e_player_xp,
     Float:e_player_health,
     Float:e_player_armour,
     Float:e_player_hunger,
@@ -157,6 +159,8 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_jobid]      = INVALID_JOB_ID;
     gPlayerCharacterData[playerid][e_player_jobxp]      = 0;
     gPlayerCharacterData[playerid][e_player_joblv]      = 1;
+    gPlayerCharacterData[playerid][e_player_xp]         = 0;
+    gPlayerCharacterData[playerid][e_player_level]      = 1;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
     gPlayerCharacterData[playerid][e_player_hunger]     = 50.0;
@@ -339,6 +343,28 @@ SetPlayerJobXP(playerid, val)
 
 //------------------------------------------------------------------------------
 
+GetPlayerLevel(playerid)
+{
+    return gPlayerCharacterData[playerid][e_player_level];
+}
+
+SetPlayerLevel(playerid, val)
+{
+    gPlayerCharacterData[playerid][e_player_level] = val;
+}
+
+GetPlayerXP(playerid)
+{
+    return gPlayerCharacterData[playerid][e_player_level];
+}
+
+SetPlayerXP(playerid, val)
+{
+    gPlayerCharacterData[playerid][e_player_xp] = val;
+}
+
+//------------------------------------------------------------------------------
+
 GetPlayerPhoneNumber(playerid)
 {
     return gPlayerPhoneData[playerid][e_player_phone_number];
@@ -407,6 +433,7 @@ SavePlayerAccount(playerid)
     `ip`='%s', `last_login`=%d, \
     `achievements`=%d, `ticket`=%d, \
     `jobid`=%d, `jobxp`=%d, `joblv`=%d, \
+    `XP`=%d, `level`=%d,
     `ftime`=%d, \
     `phone_number`=%d, `phone_network`=%d, `phone_credits`=%d, `phone_state`=%d, \
     `hunger`=%.3f, `thirst`=%.3f, `sleep`=%.3f, `addiction`=%.3f \
@@ -418,6 +445,7 @@ SavePlayerAccount(playerid)
     GetPlayerIPf(playerid), gettime(),
     GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket],
     _:gPlayerCharacterData[playerid][e_player_jobid], gPlayerCharacterData[playerid][e_player_jobxp], gPlayerCharacterData[playerid][e_player_joblv],
+    GetPlayerXP(playerid), GetPlayerLevel(playerid),
     GetPlayerFirstTimeVar(playerid),
     gPlayerPhoneData[playerid][e_player_phone_number], gPlayerPhoneData[playerid][e_player_phone_network], gPlayerPhoneData[playerid][e_player_phone_credits], gPlayerPhoneData[playerid][e_player_phone_state],
     gPlayerCharacterData[playerid][e_player_hunger], gPlayerCharacterData[playerid][e_player_thirst], gPlayerCharacterData[playerid][e_player_sleep], gPlayerCharacterData[playerid][e_player_addiction],
@@ -507,6 +535,8 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_jobid]              = Job:cache_get_field_content_int(0, "jobid", mysql);
         gPlayerCharacterData[playerid][e_player_joblv]              = cache_get_field_content_int(0, "joblv", mysql);
         gPlayerCharacterData[playerid][e_player_jobxp]              = cache_get_field_content_int(0, "jobxp", mysql);
+        gPlayerCharacterData[playerid][e_player_level]              = cache_get_field_content_int(0, "xp", mysql);
+        gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "level", mysql);
         gPlayerCharacterData[playerid][e_player_hunger]             = cache_get_field_content_float(0, "hunger", mysql);
         gPlayerCharacterData[playerid][e_player_thirst]             = cache_get_field_content_float(0, "thirst", mysql);
         gPlayerCharacterData[playerid][e_player_sleep]              = cache_get_field_content_float(0, "sleep", mysql);
