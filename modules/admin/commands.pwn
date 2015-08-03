@@ -35,7 +35,7 @@ YCMD:acmds(playerid, params[], help)
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /lotto - /jetpack - /fakeban");
 
     if(IsPlayerAdmin(playerid))
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /avehcmds");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /avehcmds - /abuildingcmds");
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
