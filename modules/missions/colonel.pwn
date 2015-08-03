@@ -246,12 +246,12 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
             gplIsCarrying[playerid] = false;
             RemovePlayerAttachedObject(playerid, gplAttachmentIndex[playerid]);
             SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE);
-            ApplyAnimation(playerid, "CARRY", "LIFTUP105", 4.1, 0, 1, 1, 1, 0, 1);
+            ApplyAnimation(playerid, "CARRY", "LIFTUP105", 4.1, 0, 1, 1, 0, 0, 1);
             PlaySelectSound(playerid);
 
             if(gplLoadedObj[playerid] == sizeof(gplObjects[]))
             {
-                SendClientMessage(playerid, COLOR_SUB_TITLE, "* Leve o caminhão para o local.");
+                SendClientMessage(playerid, COLOR_TITLE, "* Leve o caminhão para o local.");
                 SetPlayerRaceCheckpoint(playerid, 1, 2742.5559, -1999.3014, 13.4838, 0.0, 0.0, 0.0, 10.0);
                 gplCurrentCP[playerid]++;
             }
