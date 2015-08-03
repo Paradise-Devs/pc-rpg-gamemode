@@ -177,6 +177,14 @@ YCMD:gritar(playerid, params[], help)
 	return 1;
 }
 
+//------------------------------------------------------------------------------
+
+YCMD:stats(playerid, params[], help)
+{
+	ShowPlayerDataHud(playerid);
+	return 1;
+}
+
 /*
         Error & Return type
 

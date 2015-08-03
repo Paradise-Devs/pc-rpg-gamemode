@@ -440,3 +440,38 @@ GetXYInFrontOfPlayer(playerid, &Float:x, &Float:y, Float:distance)
 	x += (distance * floatsin(-a, degrees));
 	y += (distance * floatcos(-a, degrees));
 }
+
+//------------------------------------------------------------------------------
+
+GetPlayerLastName(playerid)
+{
+    new playerName[MAX_PLAYER_NAME + 1], splittedname[2][MAX_PLAYER_NAME + 1];
+    GetPlayerName(playerid, playerName, sizeof(playerName));
+    split(playerName, splittedname, '_');
+    if(isnull(splittedname[1])) {
+        splittedname[1] = "N/A";
+    }
+
+    return splittedname[1];
+}
+
+//------------------------------------------------------------------------------
+
+stock split(const strsrc[], strdest[][], delimiter)
+{
+    new i, li;
+    new aNum;
+    new len;
+    while(i <= strlen(strsrc))
+    {
+        if(strsrc[i] == delimiter || i == strlen(strsrc))
+        {
+            len = strmid(strdest[aNum], strsrc, li, i, 128);
+            strdest[aNum][len] = 0;
+            li = i+1;
+            aNum++;
+        }
+        i++;
+    }
+    return 1;
+}

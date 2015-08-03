@@ -233,6 +233,16 @@ GetPlayerIPf(playerid)
     return ip;
 }
 
+GetPlayerRegDataUnix(playerid)
+{
+    return gPlayerAccountData[playerid][e_player_regdate];
+}
+
+GetPlayerLastLoginUnix(playerid)
+{
+    return gPlayerAccountData[playerid][e_player_lastlogin];
+}
+
 //------------------------------------------------------------------------------
 
 GetPlayerLotteryTicket(playerid)
