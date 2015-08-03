@@ -433,7 +433,7 @@ SavePlayerAccount(playerid)
     `ip`='%s', `last_login`=%d, \
     `achievements`=%d, `ticket`=%d, \
     `jobid`=%d, `jobxp`=%d, `joblv`=%d, \
-    `XP`=%d, `level`=%d,
+    `XP`=%d, `level`=%d, \
     `ftime`=%d, \
     `phone_number`=%d, `phone_network`=%d, `phone_credits`=%d, `phone_state`=%d, \
     `hunger`=%.3f, `thirst`=%.3f, `sleep`=%.3f, `addiction`=%.3f \
