@@ -308,6 +308,7 @@ hook OnPlayerEnterRaceCPT(playerid)
 
                 SendClientMessage(playerid, COLOR_TITLE, "* Você completou a missão!");
                 SendClientMessage(playerid, COLOR_SUB_TITLE, "* Parabéns.");
+                SetPlayerXP(playerid, GetPlayerXP(playerid) + (GetPlayerLevel(playerid) * 50));
             }
             return -2;
         }

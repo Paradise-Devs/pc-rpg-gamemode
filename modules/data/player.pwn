@@ -363,6 +363,11 @@ SetPlayerXP(playerid, val)
     gPlayerCharacterData[playerid][e_player_xp] = val;
 }
 
+stock GetPlayerRequiredXP(playerid)
+{
+    return gPlayerCharacterData[playerid][e_player_level] * 150;
+}
+
 //------------------------------------------------------------------------------
 
 GetPlayerPhoneNumber(playerid)
@@ -405,6 +410,19 @@ SetPlayerPhoneCredit(playerid, val)
 GetPlayerDatabaseID(playerid)
 {
     return gPlayerAccountData[playerid][e_player_database_id];
+}
+
+//------------------------------------------------------------------------------
+
+OnPlayerLevelUp(playerid, oldlevel, newlevel)
+{
+	PlayerPlaySound(playerid, 5203, 0.0, 0.0, 0.0);
+	GameTextForPlayer(playerid, "Level up", 5000, 1);
+	SetPlayerXP(playerid, 0);
+    SetPlayerLevel(playerid, oldlevel + 1);
+
+    SendClientMessagef(playerid, COLOR_SUCCESS, "Você acabou de subir para o level %d.", newlevel);
+    return 1;
 }
 
 //------------------------------------------------------------------------------
@@ -708,5 +726,21 @@ hook OnPlayerDisconnect(playerid, reason)
 {
     SavePlayerAccount(playerid);
     SetPlayerLogged(playerid, false);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+ptask CheckPlayerProgression[180000](playerid)
+{
+    if(!IsPlayerLogged(playerid))
+    	return 1;
+
+	if(!IsPlayerPaused(playerid))
+	   SetPlayerXP(playerid, GetPlayerXP(playerid) + 1);
+
+	if(GetPlayerXP(playerid) >= GetPlayerRequiredXP(playerid))
+	   OnPlayerLevelUp(playerid, GetPlayerLevel(playerid), GetPlayerLevel(playerid) + 1);
+
     return 1;
 }

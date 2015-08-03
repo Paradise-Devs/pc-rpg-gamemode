@@ -212,6 +212,8 @@ hook OnPlayerEnterRaceCPT(playerid)
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
 			SetPlayerMission(playerid, INVALID_MISSION_ID);
 
+			SetPlayerXP(playerid, GetPlayerXP(playerid) + (GetPlayerLevel(playerid) * 50));
+
             DestroyVehicle(g_pTargetVehicleID[playerid]);
             g_pTargetVehicleID[playerid] = INVALID_VEHICLE_ID;
             return -2;
