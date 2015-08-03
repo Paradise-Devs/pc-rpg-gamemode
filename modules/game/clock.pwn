@@ -58,15 +58,15 @@ HidePlayerClock(playerid)
 
 hook OnGameModeInit()
 {
-    gClockTD = TextDrawCreate(545.000000, 20.000000, "07:00");
-    TextDrawBackgroundColor(gClockTD, 255);
-    TextDrawFont(gClockTD, 3);
-    TextDrawLetterSize(gClockTD, 0.6, 2.0);
-    TextDrawColor(gClockTD, 0xc3c3c3ff);
-    TextDrawBoxColor(gClockTD, 0x000000ff);
+    gClockTD = TextDrawCreate(605.0, 25.0, "00:00");
+	TextDrawUseBox(gClockTD, 0);
+	TextDrawFont(gClockTD, 3);
+	TextDrawSetShadow(gClockTD, 0);
     TextDrawSetOutline(gClockTD, 2);
-    TextDrawSetShadow(gClockTD, 0);
-    TextDrawSetProportional(gClockTD, 1);
+    TextDrawBackgroundColor(gClockTD, 0x000000FF);
+    TextDrawColor(gClockTD, 0xfbfbfbff);
+    TextDrawAlignment(gClockTD, 3);
+	TextDrawLetterSize(gClockTD, 0.5, 1.5);
     return 1;
 }
 

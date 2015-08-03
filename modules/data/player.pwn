@@ -419,7 +419,7 @@ OnPlayerLevelUp(playerid, oldlevel, newlevel)
 	PlayerPlaySound(playerid, 5203, 0.0, 0.0, 0.0);
 	GameTextForPlayer(playerid, "Level up", 5000, 1);
 	SetPlayerXP(playerid, 0);
-    SetPlayerLevel(playerid, oldlevel + 1);
+    SetPlayerLevel(playerid, newlevel);
 
     SendClientMessagef(playerid, COLOR_SUCCESS, "Você acabou de subir para o level %d.", newlevel);
     return 1;
