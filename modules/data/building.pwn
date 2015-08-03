@@ -274,7 +274,7 @@ YCMD:updatebuilding(playerid, params[], help)
     new bid, option[8];
 	if(sscanf(params, "is[8]", bid, option))
 		SendClientMessage(playerid, COLOR_INFO, "* /updatebuilding [id] [entrada - saida - porta]");
-    else if(bid < 0 || bid > MAX_BUILDINGS)
+    else if(bid < 0 || bid > MAX_BUILDINGS-1)
         SendClientMessagef(playerid, COLOR_ERROR, "* Building inválido, valores de 0 à %i.", MAX_BUILDINGS);
     else if(gBuildingData[bid][e_building_db] == 0)
         SendClientMessage(playerid, COLOR_ERROR, "* Este building não existe.");
@@ -356,7 +356,7 @@ YCMD:deletebuilding(playerid, params[], help)
     new bid;
 	if(sscanf(params, "i", bid))
 		SendClientMessage(playerid, COLOR_INFO, "* /deletebuilding [id]");
-    else if(bid < 0 || bid > MAX_BUILDINGS)
+    else if(bid < 0 || bid > MAX_BUILDINGS-1)
         SendClientMessagef(playerid, COLOR_ERROR, "* Building inválido, valores de 0 à %i.", MAX_BUILDINGS);
     else if(gBuildingData[bid][e_building_db] == 0)
         SendClientMessage(playerid, COLOR_ERROR, "* Este building não existe.");
