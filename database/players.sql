@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `sleep` float unsigned NOT NULL DEFAULT '100',
   `addiction` float unsigned NOT NULL DEFAULT '100',
   `phone_number` int(10) unsigned NOT NULL DEFAULT '0',
-  `phone_network` int(10) unsigned NOT NULL DEFAULT '-1',
+  `phone_network` int(10) NOT NULL DEFAULT '-1',
   `phone_credits` int(10) unsigned NOT NULL DEFAULT '0',
   `phone_state` int(10) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
