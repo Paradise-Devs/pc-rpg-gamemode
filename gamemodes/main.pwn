@@ -160,6 +160,7 @@ hook OnGameModeInit()
 #include "../modules/player/deadbody.pwn"
 #include "../modules/player/needs.pwn"
 #include "../modules/player/pets.pwn"
+#include "../modules/player/dialogs.pwn"
 
 /* Server */
 #include "../modules/server/rcon.pwn"
@@ -181,10 +182,12 @@ hook OnGameModeInit()
 #include "../modules/npcs/actors.pwn"
 
 /* Jobs */
+#include "../modules/job/commands.pwn"
 #include "../modules/job/pilot.pwn"
 #include "../modules/job/trucker.pwn"
 #include "../modules/job/lumberjack.pwn"
 #include "../modules/job/navigator.pwn"
+#include "../modules/job/paramedic.pwn"
 
 /* Missions */
 #include "../modules/missions/gta.pwn"

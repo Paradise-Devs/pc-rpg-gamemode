@@ -69,6 +69,7 @@ enum e_player_cdata
     e_player_level,
     e_player_xp,
     bool:e_player_god_mode,
+    bool:e_player_working,
     Float:e_player_health,
     Float:e_player_armour,
     Float:e_player_hunger,
@@ -173,6 +174,7 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_sleep]      = 50.0;
     gPlayerCharacterData[playerid][e_player_addiction]  = 0.0;
     gPlayerCharacterData[playerid][e_player_god_mode]   = false;
+    gPlayerCharacterData[playerid][e_player_working]    = false;
 
     gPlayerPhoneData[playerid][e_player_phone_number]   = 0;
     gPlayerPhoneData[playerid][e_player_phone_network]  = -1;
@@ -336,6 +338,30 @@ SetAdminGodMode(playerid, bool:set)
         gPlayerCharacterData[playerid][e_player_god_mode] = false;
         SetPlayerHealth(playerid, 100);
         DefaultPlayerNeeds(playerid);
+    }
+
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+IsPlayerWorking(playerid)
+{
+    if(gPlayerCharacterData[playerid][e_player_working])
+        return true;
+    else
+        return false;
+}
+
+SetPlayerWorking(playerid, bool:set)
+{
+    if(set) {
+        gPlayerCharacterData[playerid][e_player_working] = true;
+        //Função para alterar skin para a do trabalho - TO-DO
+    }
+    else {
+        gPlayerCharacterData[playerid][e_player_working] = false;
+        //Função para alterar skin para a do civil - TO-DO
     }
 
     return 1;

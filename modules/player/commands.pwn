@@ -114,7 +114,13 @@ YCMD:admins(playerid, params[], help)
 
 YCMD:ajuda(playerid, params[], help)
 {
-	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	new string[128];
+	strcat(string, "Categoria\tDescrição\n");
+	strcat(string, "Emprego\tAjuda referente ao emprego do seu personagem\n");
+	ShowPlayerDialog(playerid, DIALOG_HELP, DIALOG_STYLE_TABLIST_HEADERS, "Ajuda", string, "Selecionar", "Cancelar");
+
+	PlaySelectSound(playerid);
+	/*SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_WHITE, "* Para uma lista com os comandos disponíveis digite {a5f413}/comandos{ffffff} ou {a5f413}/cmds{ffffff}.");
 	SendClientMessage(playerid, COLOR_WHITE, "* Grande parte dos {a5f413}itens{ffffff} a venda se encontram em {a5f413}lojas 24-7{ffffff}.");
 	SendClientMessage(playerid, COLOR_WHITE, "* Um {a5f413}GPS{ffffff} irá te ajudar a localizar os locais importantes através do comando {a5f413}/gps{ffffff}.");
@@ -122,7 +128,7 @@ YCMD:ajuda(playerid, params[], help)
 	SendClientMessage(playerid, COLOR_WHITE, "* {a5f413}Anúncios{ffffff} enviados por empresas de publicidade {a5f413}são 50%% mais baratos{ffffff}.");
 	SendClientMessage(playerid, COLOR_WHITE, "* Para mais informações visite nosso site e fórum em {a5f413}www.pc-rpg.com.br{ffffff}.");
 	SendClientMessage(playerid, COLOR_WHITE, "* Caso ainda tenha dúvidas chame um {a5f413}administrador{ffffff} com {a5f413}/relatorio{ffffff}.");
-	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");*/
 	return 1;
 }
 
