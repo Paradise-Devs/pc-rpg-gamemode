@@ -228,11 +228,11 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
                 new hour, minute;
                 GetServerClock(hour, minute);
-                if(hour > 3)
+                /*if(hour > 3)
                 {
                     SendClientMessage(playerid, COLOR_ERROR, "* Essa missão só está disponível entre 00:00 e 03:59.");
                     return 1;
-                }
+                }*/
 
                 g_pVehicleID[playerid] = CreateVehicle(498, 2473.4927, -1693.4933, 13.5833, 359.4650, 0, 0, -1);
                 SetVehicleFuel(g_pVehicleID[playerid], 100.0);
@@ -448,7 +448,7 @@ hook OnPlayerEnterRaceCPT(playerid)
                 SetPlayerCPID(playerid, CHECKPOINT_NONE);
 
                 GameTextForPlayer(playerid, ConvertToGameText("missão completa!~n~~w~exp +"), 9000, 0);
-                PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/118147782/MissionPassed.mp3");
+                PlayAudioStreamForPlayer(playerid, "https://pc-rpg.com.br/music/MissionPassed.mp3");
 
                 SetPlayerXP(playerid, GetPlayerXP(playerid) + (GetPlayerLevel(playerid) * 50));
             }
