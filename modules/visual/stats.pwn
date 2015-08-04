@@ -111,7 +111,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawFont(playerid, gpt_data_hud[5][playerid], 2);
 	PlayerTextDrawSetProportional(playerid, gpt_data_hud[5][playerid], 1);
 
-	/*format(string, sizeof(string), "Nivel: %s%d", stats_color, GetPlayerLevel(playerid));
+	format(string, sizeof(string), "Nivel: %s%d", stats_color, GetPlayerLevel(playerid));
 	gpt_data_hud[6][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 135.644393, string);
 	PlayerTextDrawLetterSize(playerid, gpt_data_hud[6][playerid], 0.184900, 1.391700);
 	PlayerTextDrawAlignment(playerid, gpt_data_hud[6][playerid], 1);
@@ -131,7 +131,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetOutline(playerid, gpt_data_hud[7][playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[7][playerid], 51);
 	PlayerTextDrawFont(playerid, gpt_data_hud[7][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[7][playerid], 1);*/
+	PlayerTextDrawSetProportional(playerid, gpt_data_hud[7][playerid], 1);
 
 	format(string, sizeof(string), "Dinheiro: %s$%d", stats_color, GetPlayerCash(playerid));
 	gpt_data_hud[9][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 165.511108, string);
@@ -476,11 +476,11 @@ SetPlayerStatsColor(playerid, color)
 		format(string, sizeof(string), "Conta: %s%s", stats_color, GetPlayerRankName(playerid));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[5][playerid], string);
 
-		/*format(string, sizeof(string), "Nivel: %s%d", stats_color, GetPlayerLevel(playerid));
+		format(string, sizeof(string), "Nivel: %s%d", stats_color, GetPlayerLevel(playerid));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[6][playerid], string);
 
 		format(string, sizeof(string), "Exp.: %s%d/%d", stats_color, GetPlayerXP(playerid), GetPlayerRequiredXP(playerid));
-		PlayerTextDrawSetString(playerid, gpt_data_hud[7][playerid], string);*/
+		PlayerTextDrawSetString(playerid, gpt_data_hud[7][playerid], string);
 
 		format(string, sizeof(string), "Dinheiro: %s$%d", stats_color, GetPlayerCash(playerid));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[9][playerid], string);

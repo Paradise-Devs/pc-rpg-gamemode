@@ -366,6 +366,9 @@ GetPlayerXP(playerid)
 SetPlayerXP(playerid, val)
 {
     gPlayerCharacterData[playerid][e_player_xp] = val;
+    
+    if(GetPlayerXP(playerid) >= GetPlayerRequiredXP(playerid))
+	   OnPlayerLevelUp(playerid, GetPlayerLevel(playerid), GetPlayerLevel(playerid) + 1);
 }
 
 stock GetPlayerRequiredXP(playerid)
