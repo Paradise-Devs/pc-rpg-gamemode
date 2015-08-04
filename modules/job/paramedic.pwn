@@ -128,7 +128,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
             new rand = random(sizeof(g_fAmbulanceSpawns));
             gPlayerAmbulanceID[playerid] = CreateVehicle(416, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2], g_fAmbulanceSpawns[rand][3], 1, 3, 50000);
-            gAmbulancePickupID[playerid] = CreateDynamicPickup(1559, 1, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2] + 3, 0, 0, -1, MAX_PICKUP_RANGE);
+            gAmbulancePickupID[playerid] = CreateDynamicPickup(1559, 1, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2] + 3, 0, 0, playerid, MAX_PICKUP_RANGE);
             SetVehicleFuel(gPlayerAmbulanceID[playerid], 100);
 
             SendClientMessage(playerid, COLOR_SPECIAL, "* Entre na ambulância indicada e aguarde até um chamado.");
