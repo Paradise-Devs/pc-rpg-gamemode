@@ -46,6 +46,7 @@ YCMD:servico(playerid, params[], help)
 
     if(IsPlayerWorking(playerid)) {
         SetPlayerWorking(playerid, false);
+        SetPlayerCivilSkin(playerid);
         SendClientMessage(playerid, COLOR_INFO, "* Você saiu do trabalho.");
         return 1;
     }

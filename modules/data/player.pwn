@@ -57,7 +57,8 @@ static gPlayerPositionData[MAX_PLAYERS][e_player_pdata];
 
 enum e_player_cdata
 {
-    e_player_skin,
+    e_player_civil_skin,
+    e_player_job_skin,
     e_player_gender,
     e_player_money,
     e_player_faction,
@@ -158,7 +159,8 @@ ResetPlayerData(playerid)
 
     gPlayerCharacterData[playerid][e_player_gender]     = 0;
     gPlayerCharacterData[playerid][e_player_money]      = 350;
-    gPlayerCharacterData[playerid][e_player_skin]       = 299;
+    gPlayerCharacterData[playerid][e_player_civil_skin] = 299;
+    gPlayerCharacterData[playerid][e_player_job_skin]   = 299;
     gPlayerCharacterData[playerid][e_player_faction]    = 0;
     gPlayerCharacterData[playerid][e_player_frank]      = 0;
     gPlayerCharacterData[playerid][e_player_ticket]     = 0;
@@ -399,6 +401,54 @@ SetPlayerJobXP(playerid, val)
     gPlayerCharacterData[playerid][e_player_jobxp] = val;
 }
 
+SetPlayerCivilSkin(playerid)
+{
+    SetPlayerSkin(playerid, gPlayerCharacterData[playerid][e_player_civil_skin]);
+}
+
+SetPlayerJobSkin(playerid)
+{
+    switch(GetPlayerJobID(playerid))
+    {
+        case PILOT_JOB_ID: {
+            SetPlayerSkin(playerid, 61);
+            gPlayerCharacterData[playerid][e_player_job_skin] = 61;
+        }
+        case TRUCKER_JOB_ID: {
+            SetPlayerSkin(playerid, 247);
+            gPlayerCharacterData[playerid][e_player_job_skin] = 247;
+        }
+        case LUMBERJACK_JOB_ID: {
+            SetPlayerSkin(playerid, 239);
+            gPlayerCharacterData[playerid][e_player_job_skin] = 239;
+        }
+        case NAVIGATOR_JOB_ID: {
+            SetPlayerSkin(playerid, 253);
+            gPlayerCharacterData[playerid][e_player_job_skin] = 253;
+        }
+        case PARAMEDIC_JOB_ID: {
+            SetPlayerSkin(playerid, 274);
+            gPlayerCharacterData[playerid][e_player_job_skin] = 274;
+        }
+    }
+
+    return 1;
+}
+
+GetPlayerJobSkin(playerid)
+{
+    new skinid;
+
+    switch(GetPlayerJobID(playerid))
+    {
+        case PILOT_JOB_ID:      skinid = 61;
+        case TRUCKER_JOB_ID:    skinid = 247;
+        case LUMBERJACK_JOB_ID: skinid = 239;
+        case NAVIGATOR_JOB_ID:  skinid = 253;
+        case PARAMEDIC_JOB_ID:  skinid = 274;
+    }
+    return skinid;
+}
 //------------------------------------------------------------------------------
 
 GetPlayerLevel(playerid)
@@ -507,7 +557,7 @@ SavePlayerAccount(playerid)
 	mysql_format(mysql, query, sizeof(query),
 	"UPDATE `players` SET \
     `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, \
-    `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, \
+    `rank`=%d, `civil_skin`=%d, `job_skin`=%d, `faction`=%d, `faction_rank`=%d, \
     `gender`=%d, `money`=%d, \
     `hospital`=%d, `health`=%.2f, `armour`=%.2f, \
     `ip`='%s', `last_login`=%d, \
@@ -519,7 +569,7 @@ SavePlayerAccount(playerid)
     `hunger`=%.3f, `thirst`=%.3f, `sleep`=%.3f, `addiction`=%.3f \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid),
-    GetPlayerRankVar(playerid), GetPlayerSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
+    GetPlayerRankVar(playerid), GetPlayerSkin(playerid), GetPlayerJobSkin(playerid), gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
     gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid),
     GetPlayerHospitalTime(playerid), health, armour,
     GetPlayerIPf(playerid), gettime(),
@@ -605,7 +655,8 @@ public OnAccountLoad(playerid)
         gPlayerPositionData[playerid][e_player_int]                 = cache_get_field_content_int(0, "interior", mysql);
         gPlayerPositionData[playerid][e_player_vw]                  = cache_get_field_content_int(0, "virtual_world", mysql);
 
-        gPlayerCharacterData[playerid][e_player_skin]               = cache_get_field_content_int(0, "skin", mysql);
+        gPlayerCharacterData[playerid][e_player_civil_skin]         = cache_get_field_content_int(0, "civil_skin", mysql);
+        gPlayerCharacterData[playerid][e_player_job_skin]           = cache_get_field_content_int(0, "job_skin", mysql);
         gPlayerCharacterData[playerid][e_player_health]             = cache_get_field_content_int(0, "health", mysql);
         gPlayerCharacterData[playerid][e_player_armour]             = cache_get_field_content_int(0, "armour", mysql);
         gPlayerCharacterData[playerid][e_player_faction]            = cache_get_field_content_int(0, "faction", mysql);
@@ -628,7 +679,7 @@ public OnAccountLoad(playerid)
         gPlayerPhoneData[playerid][e_player_phone_credits]          = cache_get_field_content_int(0, "phone_credits", mysql);
         gPlayerPhoneData[playerid][e_player_phone_state]            = cache_get_field_content_int(0, "phone_state", mysql);
 
-        SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
+        SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_civil_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
         SpawnPlayer(playerid);
 
         SetPlayerInterior(playerid,     gPlayerPositionData[playerid][e_player_int]);

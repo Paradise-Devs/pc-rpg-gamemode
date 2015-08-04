@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 03-Ago-2015 às 05:04
+-- Generation Time: 04-Ago-2015 às 13:20
 -- Versão do servidor: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS `players` (
   `virtual_world` int(11) DEFAULT '0',
   `health` float DEFAULT '100',
   `armour` float DEFAULT '0',
-  `skin` int(11) DEFAULT '299',
+  `civil_skin` int(11) unsigned DEFAULT '299',
+  `job_skin` int(11) unsigned DEFAULT '299',
   `rank` int(10) unsigned NOT NULL DEFAULT '0',
   `faction` int(11) NOT NULL DEFAULT '0',
   `faction_rank` int(11) NOT NULL DEFAULT '0',
@@ -65,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `phone_network` int(10) NOT NULL DEFAULT '-1',
   `phone_credits` int(10) unsigned NOT NULL DEFAULT '0',
   `phone_state` int(10) unsigned NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -85,7 +86,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
-  MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -69,6 +69,11 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
     if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 1.5, JOB_POSITION[0], JOB_POSITION[1], JOB_POSITION[2]))
     {
+        if(GetPlayerJobID(playerid) != INVALID_JOB_ID) {
+            PlayCancelSound(playerid);
+            return SendClientMessage(playerid, COLOR_ERROR, "* Você já possui um emprego.");
+        }
+
         PlaySelectSound(playerid);
         ShowPlayerDialog(playerid, DIALOG_PARAMEDIC_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Paramédico", "Você deseja se tornar um paramédico?", "Sim", "Não");
         return 1;
@@ -118,7 +123,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             if(!response)
                 return PlayCancelSound(playerid);
 
-            SetPlayerSkin(playerid, 274);
+            SetPlayerJobSkin(playerid);
             SetPlayerWorking(playerid, true);
 
             new rand = random(sizeof(g_fAmbulanceSpawns));
@@ -148,6 +153,7 @@ hook OnPlayerDisconnect(playerid, reason)
 hook OnPlayerDeath(playerid, killerid, reason)
 {
     if(IsPlayerWorking(playerid)) {
+        SetPlayerCivilSkin(playerid);
         DestroyPlayerParamedicInfo(playerid);
         SendClientMessage(playerid, COLOR_ERROR, "* Você saiu do trabalho.");
     }
