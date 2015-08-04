@@ -68,6 +68,7 @@ enum e_player_cdata
     e_player_joblv,
     e_player_level,
     e_player_xp,
+    bool:e_player_god_mode,
     Float:e_player_health,
     Float:e_player_armour,
     Float:e_player_hunger,
@@ -171,6 +172,7 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_thirst]     = 50.0;
     gPlayerCharacterData[playerid][e_player_sleep]      = 50.0;
     gPlayerCharacterData[playerid][e_player_addiction]  = 0.0;
+    gPlayerCharacterData[playerid][e_player_god_mode]   = false;
 
     gPlayerPhoneData[playerid][e_player_phone_number]   = 0;
     gPlayerPhoneData[playerid][e_player_phone_network]  = -1;
@@ -315,6 +317,32 @@ SetPlayerAddiction(playerid, Float:value)
 
 //------------------------------------------------------------------------------
 
+IsAdminInGodMode(playerid)
+{
+    if(gPlayerCharacterData[playerid][e_player_god_mode])
+        return true;
+    else
+        return false;
+}
+
+SetAdminGodMode(playerid, bool:set)
+{
+    if(set) {
+        gPlayerCharacterData[playerid][e_player_god_mode] = true;
+        SetPlayerHealth(playerid, 99999);
+        FillPlayerNeeds(playerid);
+    }
+    else {
+        gPlayerCharacterData[playerid][e_player_god_mode] = false;
+        SetPlayerHealth(playerid, 100);
+        DefaultPlayerNeeds(playerid);
+    }
+
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 Job:GetPlayerJobID(playerid)
 {
     return gPlayerCharacterData[playerid][e_player_jobid];
@@ -366,7 +394,7 @@ GetPlayerXP(playerid)
 SetPlayerXP(playerid, val)
 {
     gPlayerCharacterData[playerid][e_player_xp] = val;
-    
+
     if(GetPlayerXP(playerid) >= GetPlayerRequiredXP(playerid))
 	   OnPlayerLevelUp(playerid, GetPlayerLevel(playerid), GetPlayerLevel(playerid) + 1);
 }

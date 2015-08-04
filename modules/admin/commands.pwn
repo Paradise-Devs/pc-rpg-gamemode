@@ -32,7 +32,7 @@ YCMD:acmds(playerid, params[], help)
     }
 
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /lotto - /jetpack - /fakeban");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /lotto - /jetpack - /fakeban - /godmode");
 
     if(IsPlayerAdmin(playerid))
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /avehcmds - /abuildingcmds");
@@ -739,6 +739,24 @@ YCMD:fakeban(playerid, params[], help)
    SendClientMessage(targetid, 0xf26363ff, output);
    SendClientMessage(targetid, 0xA9C4E4FF, "Server closed the connection.");
    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:godmode(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    if(IsAdminInGodMode(playerid)) {
+        SetAdminGodMode(playerid, false);
+        SendClientMessage(playerid, COLOR_ADMIN_ACTION, "* Você saiu do god mode.");
+    } else {
+        SetAdminGodMode(playerid, true);
+        SendClientMessage(playerid, COLOR_ADMIN_ACTION, "* Você entrou no god mode.");
+    }
+
+    return 1;
 }
 
 //------------------------------------------------------------------------------
