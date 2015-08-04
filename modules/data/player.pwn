@@ -504,6 +504,7 @@ public OnAccountRegister(playerid)
 
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, sizeof(playerName));
+    SendAdminMessage(PLAYER_RANK_MODERATOR, 0x3A9BF4FF, "%s{FFFFFF} registrou-se no servidor.", GetPlayerFirstName(playerid));
 	printf("[mysql] new account registered on database. ID: %d, Username: %s", gPlayerAccountData[playerid][e_player_database_id], playerName);
 	return 1;
 }
@@ -591,6 +592,8 @@ public OnAccountLoad(playerid)
 
         SetPlayerColor(playerid, 0xFFFFFFFF);
         SetPlayerLogged(playerid, true);
+
+        SendAdminMessage(PLAYER_RANK_MODERATOR, 0x3A9BF4FF, "%s{FFFFFF} conectou-se ao servidor.", GetPlayerFirstName(playerid));
     }
     return 1;
 }
