@@ -31,17 +31,25 @@ static const Float:JOB_POSITION[] = { 1183.1554, -1313.3402, 13.5681 };
 // Service position
 static const Float:SERVICE_POSITION[] = { 1183.1333, -1332.5238, 13.5808 };
 
-new gPlayerAmbulanceID[MAX_PLAYERS] = INVALID_VEHICLE_ID;
-new gAmbulancePickupID[MAX_PLAYERS] = -1;
+new
+    gPlayerAmbulanceID[MAX_PLAYERS]     = INVALID_VEHICLE_ID,
+    gAmbulanceObject[MAX_PLAYERS]       = INVALID_OBJECT_ID,
+    gParamedicID[MAX_PLAYERS]           = INVALID_PLAYER_ID,
+    Float:gHealValue[MAX_PLAYERS]       = 0.0,
+    Timer: obj[MAX_PLAYERS];
+
+forward DestroyPlayerParamedicInfo(playerid);
 
 //------------------------------------------------------------------------------
-DestroyPlayerParamedicInfo(playerid)
+public DestroyPlayerParamedicInfo(playerid)
 {
     DestroyVehicle(gPlayerAmbulanceID[playerid]);
-    DestroyDynamicPickup(gAmbulancePickupID[playerid]);
+    DestroyDynamicObject(gAmbulanceObject[playerid]);
 
     gPlayerAmbulanceID[playerid] = INVALID_VEHICLE_ID;
-    gAmbulancePickupID[playerid] = -1;
+    gAmbulanceObject[playerid] = INVALID_PLAYER_ID;
+
+    stop obj[playerid];
 
     SetPlayerWorking(playerid, false);
     DisablePlayerRaceCheckpoint(playerid);
@@ -95,6 +103,14 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 //------------------------------------------------------------------------------
 
+hook OnPlayerConnect(playerid)
+{
+    gParamedicID[playerid] = INVALID_PLAYER_ID;
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
     switch(dialogid)
@@ -127,12 +143,50 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             SetPlayerWorking(playerid, true);
 
             new rand = random(sizeof(g_fAmbulanceSpawns));
-            gPlayerAmbulanceID[playerid] = CreateVehicle(416, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2], g_fAmbulanceSpawns[rand][3], 1, 3, 50000);
-            gAmbulancePickupID[playerid] = CreateDynamicPickup(1559, 1, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2] + 3, 0, 0, playerid, MAX_PICKUP_RANGE);
+            gPlayerAmbulanceID[playerid]    = CreateVehicle(416, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2], g_fAmbulanceSpawns[rand][3], 1, 3, 50000);
+            gAmbulanceObject[playerid]      = CreateDynamicObject(19198, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2] + 2.6, 0.0, 0.0, 0.0, 0, 0, playerid, MAX_PICKUP_RANGE);
+            obj[playerid] = repeat DoAnimFrame(gAmbulanceObject[playerid]);
+            CallRemoteFunction("OnObjectMoved", "i", gAmbulanceObject[playerid]);
+
             SetVehicleFuel(gPlayerAmbulanceID[playerid], 100);
 
             SendClientMessage(playerid, COLOR_SPECIAL, "* Entre na ambulância indicada e aguarde até um chamado.");
             SendClientMessage(playerid, COLOR_SUB_TITLE, "* A ambulância é de sua responsabilidade, caso ela seja destruída, seu trabalho será cancelado automaticamente.");
+        }
+        case DIALOG_PARAMEDIC_HEAL:
+        {
+            new healthValue = floatround(-gHealValue[playerid]);
+
+            if(!response)
+            {
+                SendClientMessage(gParamedicID[playerid], COLOR_ERROR, "* O jogador não aceitou.");
+                gParamedicID[playerid] = INVALID_PLAYER_ID;
+                gHealValue[playerid] = 0.0;
+                PlayCancelSound(playerid);
+                return 1;
+            }
+
+            if(GetPlayerCash(playerid) < healthValue)
+            {
+                SendClientMessage(playerid, COLOR_ERROR, "* Você não possui dinheiro suficiente.");
+                SendClientMessage(gParamedicID[playerid], COLOR_ERROR, "* O jogador não possui dinheiro suficiente.");
+                PlayCancelSound(playerid);
+                return 1;
+            }
+
+            GivePlayerCash(playerid, healthValue);
+            GivePlayerCash(gParamedicID[playerid], healthValue);
+            SetPlayerHealth(playerid, 100.0);
+
+            SendClientMessagef(gParamedicID[playerid], COLOR_SUCCESS, "* O jogador foi curado e você recebeu $%d.", gHealValue[playerid]);
+            SendClientMessage(playerid, COLOR_ERROR, "* Você foi curado.");
+
+            SendClientActionMessage(playerid, 15.0, "paga para um paramédico.");
+
+            gParamedicID[playerid] = INVALID_PLAYER_ID;
+            gHealValue[playerid] = 0.0;
+
+            return 1;
         }
     }
     return 1;
@@ -169,19 +223,56 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
         new vehicleid = GetPlayerVehicleID(playerid);
 
         if(vehicleid == gPlayerAmbulanceID[playerid])
-            DestroyDynamicPickup(gAmbulancePickupID[playerid]);
+        {
+            stop obj[playerid];
+            DestroyDynamicObject(gAmbulanceObject[playerid]);
+        }
     }
     return 1;
 }
 
-//------------------------------------------------------------------------------
-
-ptask CheckPlayerWorking[5000](playerid)
+/********************************************************************************
+ *     ######   #######  ##     ## ##     ##    ###    ##    ## ########   ######
+ *    ##    ## ##     ## ###   ### ###   ###   ## ##   ###   ## ##     ## ##    ##
+ *    ##       ##     ## #### #### #### ####  ##   ##  ####  ## ##     ## ##
+ *    ##       ##     ## ## ### ## ## ### ## ##     ## ## ## ## ##     ##  ######
+ *    ##       ##     ## ##     ## ##     ## ######### ##  #### ##     ##       ##
+ *    ##    ## ##     ## ##     ## ##     ## ##     ## ##   ### ##     ## ##    ##
+ *     ######   #######  ##     ## ##     ## ##     ## ##    ## ########   ######
+********************************************************************************/
+YCMD:curar(playerid, params[], help)
 {
-    if(GetPlayerJobID(playerid) == PARAMEDIC_JOB_ID)
-        if(!IsPlayerWorking(playerid))
-            if(gPlayerAmbulanceID[playerid] != INVALID_VEHICLE_ID)
-                DestroyPlayerParamedicInfo(playerid);
+    new targetid;
+
+	if(sscanf(params, "u", targetid))
+		return SendClientMessage(playerid, COLOR_INFO, "* /curar [playerid]");
+
+    if(!IsPlayerWorking(playerid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está trabalhando.");
+
+    if(GetPlayerDistanceFromPlayer(playerid, targetid) > 3.0)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo do jogador.");
+
+    new Float:health;
+    GetPlayerHealth(targetid, health);
+
+    if(health == 100)
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador está com a vida cheia.");
+
+    if(gParamedicID[targetid] != INVALID_PLAYER_ID)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Algum paramédico já ofereceu cura para este jogador.");
+
+    if(playerid == targetid)
+    	return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode curar você mesmo.");
+
+    gHealValue[targetid] = (100 - health);
+    gParamedicID[targetid] = playerid;
+
+    new s[91 + MAX_PLAYER_NAME];
+    format(s, sizeof(s), "{9F9F9F}O paramédico {00FF00}%s {9F9F9F}quer curar você por {00FF00}$%d.\n\nDeseja aceitar?", GetPlayerFirstName(playerid), gHealValue[targetid]);
+    ShowPlayerDialog(targetid, DIALOG_PARAMEDIC_HEAL, DIALOG_STYLE_MSGBOX, "Paramédico", s, "Aceitar", "Negar");
+
+    SendClientMessage(playerid, COLOR_INFO, "* Aguardando a resposta do jogador.");
 
     return 1;
 }

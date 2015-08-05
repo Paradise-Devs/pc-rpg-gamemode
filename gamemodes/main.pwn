@@ -194,6 +194,7 @@ hook OnGameModeInit()
 #include "../modules/missions/colonel.pwn"
 
 /* Objects */
+#include "../modules/objects/anim.pwn"
 #include "../modules/objects/hospital.pwn"
 #include "../modules/objects/airport.pwn"
 

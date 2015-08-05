@@ -48,6 +48,10 @@ YCMD:servico(playerid, params[], help)
         SetPlayerWorking(playerid, false);
         SetPlayerCivilSkin(playerid);
         SendClientMessage(playerid, COLOR_INFO, "* Você saiu do trabalho.");
+
+        if(GetPlayerJobID(playerid) == PARAMEDIC_JOB_ID)
+            CallRemoteFunction("DestroyPlayerParamedicInfo", "i", playerid);
+            
         return 1;
     }
 
