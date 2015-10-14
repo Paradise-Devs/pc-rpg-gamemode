@@ -29,7 +29,8 @@
 #define MAX_PICKUP_RANGE								40.0
 #define MAX_TEXT3D_RANGE								20.0
 #define MAX_MAPICON_RANGE								150.0
-
+#define MAX_BUSINESS									32
+#define MAX_BUSINESS_NAME								64
 #define HOSPITAL_TIME									90	// Seconds
 
 #define HOSPITAL_PRICE									500
@@ -81,6 +82,10 @@
 
 //------------------------------------------------------------------------------
 
+new Iterator:Business<MAX_BUSINESS>;
+
+//------------------------------------------------------------------------------
+
 hook OnGameModeInit()
 {
 	// Gamemode start message
@@ -127,6 +132,7 @@ hook OnGameModeInit()
 
 /* Properties */
 #include "../modules/properties/vehicle.pwn"
+#include "../modules/properties/business.pwn"
 
 /* Vehicle */
 #include "../modules/vehicle/control.pwn"
