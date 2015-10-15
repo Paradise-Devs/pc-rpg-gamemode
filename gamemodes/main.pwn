@@ -31,6 +31,8 @@
 #define MAX_MAPICON_RANGE								150.0
 #define MAX_BUSINESS									32
 #define MAX_BUSINESS_NAME								64
+#define MAX_HOUSES										32
+#define MAX_HOUSE_NAME									64
 #define HOSPITAL_TIME									90	// Seconds
 
 #define HOSPITAL_PRICE									500
@@ -83,6 +85,7 @@
 //------------------------------------------------------------------------------
 
 new Iterator:Business<MAX_BUSINESS>;
+new Iterator:House<MAX_HOUSES>;
 
 //------------------------------------------------------------------------------
 
