@@ -331,7 +331,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawFont(playerid, gpt_data_hud[23][playerid], 2);
 	PlayerTextDrawSetProportional(playerid, gpt_data_hud[23][playerid], 1);
 
-	/*format(string, sizeof(string), "Tempo Jogado: %s%s", stats_color, GetPlayerPlayedTimeStamp(playerid));
+	format(string, sizeof(string), "Tempo Jogado: %s%s", stats_color, GetPlayerPlayedTimeStamp(playerid));
 	gpt_data_hud[24][playerid] = CreatePlayerTextDraw(playerid, 280.333343, 95.822250, string);// 364
 	PlayerTextDrawLetterSize(playerid, gpt_data_hud[24][playerid], 0.184900, 1.391700);
 	PlayerTextDrawAlignment(playerid, gpt_data_hud[24][playerid], 1);
@@ -340,7 +340,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetOutline(playerid, gpt_data_hud[24][playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[24][playerid], 51);
 	PlayerTextDrawFont(playerid, gpt_data_hud[24][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[24][playerid], 1);*/
+	PlayerTextDrawSetProportional(playerid, gpt_data_hud[24][playerid], 1);
 
 	gpt_data_hud[25][playerid] = CreatePlayerTextDraw(playerid, 514.333312, 107.022224, "ld_chat:thumbdn");
 	PlayerTextDrawLetterSize(playerid, gpt_data_hud[25][playerid], 0.000000, 0.000000);
@@ -560,8 +560,8 @@ SetPlayerStatsColor(playerid, color)
 		format(string, sizeof(string), "Ultimo Login: %s%s", stats_color, lastLogin);
 		PlayerTextDrawSetString(playerid, gpt_data_hud[23][playerid], string);
 
-		/*format(string, sizeof(string), "Tempo Jogado: %s%s", stats_color, GetPlayerPlayedTimeStamp(playerid));
-		PlayerTextDrawSetString(playerid, gpt_data_hud[24][playerid], string);*/
+		format(string, sizeof(string), "Tempo Jogado: %s%s", stats_color, GetPlayerPlayedTimeStamp(playerid));
+		PlayerTextDrawSetString(playerid, gpt_data_hud[24][playerid], string);
 	}
 	return 1;
 }

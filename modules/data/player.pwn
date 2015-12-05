@@ -36,7 +36,8 @@ enum e_player_adata
     e_player_password[MAX_PLAYER_PASSWORD],
     e_player_regdate,
     e_player_ip[16],
-    e_player_lastlogin
+    e_player_lastlogin,
+    e_player_playedtime
 }
 static gPlayerAccountData[MAX_PLAYERS][e_player_adata];
 
@@ -161,6 +162,7 @@ ResetPlayerData(playerid)
     gPlayerAccountData[playerid][e_player_database_id]  = 0;
     gPlayerAccountData[playerid][e_player_regdate]      = ct;
     gPlayerAccountData[playerid][e_player_lastlogin]    = ct;
+    gPlayerAccountData[playerid][e_player_playedtime]   = 0;
 
     gPlayerPositionData[playerid][e_player_x]           = 1449.01;
     gPlayerPositionData[playerid][e_player_y]           = -2287.10;
@@ -316,6 +318,26 @@ GetPlayerRegDataUnix(playerid)
 GetPlayerLastLoginUnix(playerid)
 {
     return gPlayerAccountData[playerid][e_player_lastlogin];
+}
+
+GetPlayerPlayedTimeStamp(playerid)
+{
+	new playedTime[32];
+	if(GetPlayerPlayedTime(playerid) < 86400)
+		format(playedTime, sizeof(playedTime), "%02dh %02dm %02ds", (GetPlayerPlayedTime(playerid) / 3600), (GetPlayerPlayedTime(playerid) - (3600 * (GetPlayerPlayedTime(playerid) / 3600))) / 60, (GetPlayerPlayedTime(playerid) % 60));
+	else
+		 format(playedTime, sizeof(playedTime), "%02dd %02dh %02dm %02ds", GetPlayerPlayedTime(playerid) / 86400, (GetPlayerPlayedTime(playerid) - (86400 * (GetPlayerPlayedTime(playerid) / 86400))) / 3600, (GetPlayerPlayedTime(playerid) - (3600 * (GetPlayerPlayedTime(playerid) / 3600))) / 60, (GetPlayerPlayedTime(playerid) % 60));
+	return playedTime;
+}
+
+GetPlayerPlayedTime(playerid)
+{
+    return gPlayerAccountData[playerid][e_player_playedtime];
+}
+
+SetPlayerPlayedTime(playerid, time)
+{
+    gPlayerAccountData[playerid][e_player_playedtime] = time;
 }
 
 //------------------------------------------------------------------------------
@@ -633,14 +655,14 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[1128];
+    new query[1024];
 	mysql_format(mysql, query, sizeof(query),
 	"UPDATE `players` SET \
     `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `spawn`=%d, \
     `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, \
     `gender`=%d, `money`=%d, \
     `hospital`=%d, `health`=%.2f, `armour`=%.2f, \
-    `ip`='%s', `last_login`=%d, \
+    `ip`='%s', `last_login`=%d, `played_time`=%d, \
     `achievements`=%d, `ticket`=%d, \
     `jobid`=%d, `jobxp`=%d, `joblv`=%d, \
     `XP`=%d, `level`=%d, \
@@ -655,7 +677,7 @@ SavePlayerAccount(playerid)
     GetPlayerRankVar(playerid), gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
     gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid),
     GetPlayerHospitalTime(playerid), health, armour,
-    GetPlayerIPf(playerid), gettime(),
+    GetPlayerIPf(playerid), gettime(), gPlayerAccountData[playerid][e_player_playedtime],
     GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket],
     _:gPlayerCharacterData[playerid][e_player_jobid], gPlayerCharacterData[playerid][e_player_jobxp], gPlayerCharacterData[playerid][e_player_joblv],
     GetPlayerXP(playerid), GetPlayerLevel(playerid),
@@ -670,6 +692,7 @@ SavePlayerAccount(playerid)
     gPlayerItemData[playerid][e_player_agenda], gPlayerItemData[playerid][e_player_gps], gPlayerItemData[playerid][e_player_cigaretts], gPlayerItemData[playerid][e_player_lighter], gPlayerItemData[playerid][e_player_walkietalkie],
     gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_pquery(mysql, query);
+    printf("PLAYER QUERY LENGTH: %d", strlen(query));
 
     // Weapon saving
     new weaponid, ammo;
@@ -768,6 +791,7 @@ public OnAccountLoad(playerid)
 	{
         GetPlayerIp(playerid, gPlayerAccountData[playerid][e_player_ip], 16);
         gPlayerAccountData[playerid][e_player_lastlogin]            = cache_get_field_content_int(0, "last_login", mysql);
+        gPlayerAccountData[playerid][e_player_playedtime]           = cache_get_field_content_int(0, "played_time", mysql);
 
         gPlayerPositionData[playerid][e_player_x]                   = cache_get_field_content_float(0, "x", mysql);
         gPlayerPositionData[playerid][e_player_y]                   = cache_get_field_content_float(0, "y", mysql);

@@ -527,10 +527,10 @@ YCMD:telefone(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
-/*YCMD:anuncio(playerid, params[], help)
+YCMD:anuncio(playerid, params[], help)
 {
 	if(GetPlayerPlayedTime(playerid)/3600 < 3)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ter pelo menos 3 horas de jogo.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ter pelo menos 3 horas de jogo.");	
 
 	foreach(new b: Business)
 	{
@@ -584,7 +584,7 @@ YCMD:telefone(playerid, params[], help)
 
 	if(GetPlayerPhoneCredit(playerid) < strlen(advertiseText) * 40)
 	{
-		SendClientMessage(playerid, COLOR_ERROR, "* Você não possui creditos suficientes. {C8C8C8}[$%i]", strlen(advertiseText) * 40);
+		SendClientMessagef(playerid, COLOR_ERROR, "* Você não possui creditos suficientes. {C8C8C8}[$%i]", strlen(advertiseText) * 40);
 		return 1;
 	}
 
@@ -601,4 +601,4 @@ YCMD:telefone(playerid, params[], help)
 	format(priceText, sizeof(priceText), "~r~-$%d", strlen(advertiseText) * 40);
 	GameTextForPlayer(playerid, priceText, 5000, 1);
 	return 1;
-}*/
+}

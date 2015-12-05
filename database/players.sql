@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `faction` int(11) NOT NULL DEFAULT '0',
   `faction_rank` int(11) NOT NULL DEFAULT '0',
   `last_login` int(11) DEFAULT '0',
+  `played_time` int(11) DEFAULT '0',
   `regdate` int(11) DEFAULT '0',
   `gender` tinyint(1) DEFAULT '0',
   `money` int(11) NOT NULL DEFAULT '0',

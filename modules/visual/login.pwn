@@ -1892,7 +1892,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 			\n{004747}=================================================\n{FFFFFF}Sua conta: \t\t\t\t{00aeff}%s\n{FFFFFF}Registrado: \t\t\t\t{00aeff}%s\n\
 			{FFFFFF}Útimo login: \t\t\t\t{00aeff}%s\n\n{FFFFFF}Level: \t\t\t\t\t{00aeff}%d\n{FFFFFF}Sexo: \t\t\t\t\t{00aeff}%s\n{FFFFFF}Emprego atual: \t\t\t\t{00aeff}%s\n\
 			{004747}=================================================\n{FFFFFF}Digite sua senha para log-in:\n",
-			GetPlayerNamef(playerid), GetPlayerRankName(playerid), convertTimestamp(GetPlayerRegDataUnix(playerid)),
+			GetPlayerNamef(playerid), GetPlayerRankName(playerid, true), convertTimestamp(GetPlayerRegDataUnix(playerid)),
 			(GetPlayerLastLoginUnix(playerid) == 0) ? "Nunca" : convertTimestamp(GetPlayerLastLoginUnix(playerid)),
 			GetPlayerLevel(playerid), GetPlayerGenderName(playerid), GetJobName(GetPlayerJobID(playerid), true));
 
