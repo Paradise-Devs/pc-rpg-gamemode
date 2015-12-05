@@ -22,6 +22,8 @@ hook OnGameModeInit()
 	Command_AddAltNamed("gritar",		"g");
 	Command_AddAltNamed("sussurrar",	"s");
 	Command_AddAltNamed("comandos",		"cmds");
+	Command_AddAltNamed("anuncio",		"an");
+	Command_AddAltNamed("radio",		"r");
 	return 1;
 }
 

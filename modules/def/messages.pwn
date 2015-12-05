@@ -141,3 +141,23 @@ SendMultiMessage(playerid, color, message[])
         SendClientMessage(playerid, color, message);
     return 1;
 }
+
+SendMultiMessageToAll(color, message[])
+{
+    if(strlen(message) > 144)
+    {
+        new
+            secondLine[144];
+
+        strmid(secondLine, message, 140, strlen(message));
+        strdel(message, 140, strlen(message));
+        strins(message, "...", 140, 144);
+        strins(secondLine, "...", 0);
+
+        SendClientMessageToAll(color, message);
+        SendClientMessageToAll(color, secondLine);
+    }
+    else
+        SendClientMessageToAll(color, message);
+    return 1;
+}

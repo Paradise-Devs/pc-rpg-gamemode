@@ -219,9 +219,19 @@ GetPlayerFactionID(playerid)
     return gPlayerCharacterData[playerid][e_player_faction];
 }
 
+SetPlayerFactionID(playerid, fid)
+{
+    gPlayerCharacterData[playerid][e_player_faction] = fid;
+}
+
 GetPlayerFactionRankID(playerid)
 {
     return gPlayerCharacterData[playerid][e_player_frank];
+}
+
+SetPlayerFactionRankID(playerid, frank)
+{
+    gPlayerCharacterData[playerid][e_player_frank] = frank;
 }
 
 //------------------------------------------------------------------------------

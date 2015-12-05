@@ -32,7 +32,7 @@ YCMD:acmds(playerid, params[], help)
     }
 
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /lotto - /jetpack - /fakeban");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /setfaction - /setfrank - /lotto - /jetpack - /fakeban");
 
     if(IsPlayerAdmin(playerid))
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /avehcmds - /abuildingcmds - /apartcmds - /ahousecmds");
@@ -720,6 +720,9 @@ YCMD:setjob(playerid, params[], help)
    else if(!IsPlayerLogged(targetid))
        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 
+   else if(value < 0)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Emprego inválido.");
+
    new Job:job = Job:value;
    SetPlayerJobID(targetid, job);
 
@@ -727,6 +730,68 @@ YCMD:setjob(playerid, params[], help)
        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou seu emprego para %s.", GetPlayerNamef(playerid), GetJobName(job));
 
    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o emprego de %s para %s.", GetPlayerNamef(targetid), GetJobName(job));
+   return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:setfaction(playerid, params[], help)
+{
+   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+   new targetid, fid;
+   if(sscanf(params, "ui", targetid, fid))
+   {
+       SendClientMessage(playerid, COLOR_INFO, "* /setfaction [playerid] [fID]");
+       return 1;
+   }
+
+   else if(!IsPlayerLogged(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+   else if(fid < 0 || fid > (GetFactionCount() - 1))
+       return SendClientMessagef(playerid, COLOR_ERROR, "* Facção inválido, apenas valores entre 0 e %d.", GetFactionCount() - 1);
+
+   SetPlayerFactionID(targetid, fid);
+   SetPlayerFactionRankID(targetid, GetFactionMaxRanks(fid) - 1);
+
+   if(playerid != targetid)
+       SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua facção para %s.", GetPlayerNamef(playerid), GetFactionName(fid));
+
+   SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a facção de %s para %s.", GetPlayerNamef(targetid), GetFactionName(fid));
+   return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:setfrank(playerid, params[], help)
+{
+   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+   new targetid, fid;
+   if(sscanf(params, "ui", targetid, fid))
+   {
+       SendClientMessage(playerid, COLOR_INFO, "* /setfaction [playerid] [frank]");
+       return 1;
+   }
+
+   else if(!IsPlayerLogged(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+   else if(GetPlayerFactionID(targetid) == FACTION_NONE)
+       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está em uma facção.");
+
+   else if(fid < 0 || fid > (GetFactionMaxRanks(GetPlayerFactionID(targetid)) - 1))
+       return SendClientMessagef(playerid, COLOR_ERROR, "* Cargo inválido, apenas valores entre 0 e %d.", GetFactionMaxRanks(GetPlayerFactionID(targetid)) - 1);
+
+   SetPlayerFactionRankID(targetid, fid);
+
+   if(playerid != targetid)
+       SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou seu cargo da facção para %s.", GetPlayerNamef(playerid), GetFactionRankName(GetPlayerFactionID(targetid), fid));
+
+   SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a facção de %s para %s.", GetPlayerNamef(targetid), GetFactionRankName(GetPlayerFactionID(targetid), fid));
    return 1;
 }
 

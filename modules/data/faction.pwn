@@ -49,6 +49,18 @@ static gFactionData[MAX_FACTIONS][e_faction_data];
 static gFactionRankNames[MAX_FACTIONS][MAX_FACTION_RANKS][MAX_FACTION_NAME];
 static gCreatedFaction;
 
+enum
+{
+    FACTION_TYPE_NONE,
+    FACTION_TYPE_NEWS
+}
+
+enum
+{
+    FACTION_NONE,
+    FACTION_CNN
+}
+
 //------------------------------------------------------------------------------
 
 GetFactionName(factionid)
@@ -79,6 +91,39 @@ GetFactionRankName(factionid, rank)
     }
     factionName = "desconhecido";
     return factionName;
+}
+
+GetFactionCount() { return gCreatedFaction; }
+GetFactionType(factionid){ return gFactionData[factionid][e_faction_type]; }
+GetFactionMaxRanks(factionid) { return gFactionData[factionid][e_faction_max_ranks]; }
+
+SendPlayerFactionMessage(playerid, message[])
+{
+	new factionid = GetPlayerFactionID(playerid);
+	if(factionid == FACTION_NONE)
+		return 0;
+
+	foreach(new i: Player)
+	{
+		if(GetPlayerFactionID(i) == factionid)
+		{
+			new radioMessage[181];
+			format(radioMessage, sizeof(radioMessage), "(Radio) %s %s diz: %s", GetFactionRankName(GetPlayerFactionID(playerid), GetPlayerFactionRankID(playerid)), GetPlayerNamef(playerid), message);
+			SendMultiMessage(i, gFactionData[factionid][e_faction_color], radioMessage);
+		}
+		else if(GetPlayerFactionID(i) != factionid && i != playerid)
+		{
+			new Float:x, Float:y, Float:z;
+			GetPlayerPos(playerid, x, y, z);
+			if(IsPlayerInRangeOfPoint(i, 8.0, x, y, z))
+			{
+				new localMessage[181];
+				format(localMessage, sizeof(localMessage), "(Radio) %s diz: %s", GetPlayerNamef(playerid), message);
+				SendMultiMessage(i, 0xB6B6B6FF, localMessage);
+			}
+		}
+	}
+	return 1;
 }
 
 //------------------------------------------------------------------------------
@@ -121,3 +166,15 @@ hook OnGameModeInit()
 }
 
 //------------------------------------------------------------------------------
+
+YCMD:radio(playerid, params[], help)
+{
+	if(GetPlayerFactionID(playerid) == FACTION_NONE)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pertence a uma organização.");
+
+	if(isnull(params))
+	  return SendClientMessage(playerid, COLOR_INFO, "* /radio [mensagem]");
+
+	SendPlayerFactionMessage(playerid, params);
+	return 1;
+}

@@ -216,6 +216,9 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/admin/funcs.pwn"
 #include "../modules/admin/commands.pwn"
 
+/* Factions */
+#include "../modules/faction/cnn.pwn"
+
 /* Cutscenes */
 #include "../modules/cutscenes/cityhall.pwn"
 
