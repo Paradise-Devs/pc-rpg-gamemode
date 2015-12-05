@@ -65,6 +65,22 @@ GetFactionName(factionid)
     return factionName;
 }
 
+GetFactionRankName(factionid, rank)
+{
+    new factionName[MAX_FACTION_NAME];
+    if(factionid < 0 || factionid > MAX_FACTIONS-1)
+        printf("[ERROR] GetFactionRankName tried to access invalid factionid. Factionid: %d", factionid);
+    else if(rank < 0 || rank > MAX_FACTION_RANKS-1)
+        printf("[ERROR] GetFactionRankName tried to access invalid rankid. rankid: %d", rank);
+    else
+    {
+        format(factionName, sizeof(factionName), "%s", gFactionRankNames[factionid][rank]);
+        return factionName;
+    }
+    factionName = "desconhecido";
+    return factionName;
+}
+
 //------------------------------------------------------------------------------
 
 public OnFactionLoad()

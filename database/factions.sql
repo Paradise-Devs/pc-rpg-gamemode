@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 26, 2015 at 07:13 
+-- Generation Time: Jul 26, 2015 at 07:13
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -37,16 +37,16 @@ CREATE TABLE IF NOT EXISTS `factions` (
   `max_ranks` int(11) NOT NULL DEFAULT '2',
   `custom` int(11) NOT NULL DEFAULT '0',
   `color` int(11) NOT NULL DEFAULT '0',
-  `rank_name_1` int(11) NOT NULL,
-  `rank_name_2` int(11) NOT NULL,
-  `rank_name_3` int(11) NOT NULL,
-  `rank_name_4` int(11) NOT NULL,
-  `rank_name_5` int(11) NOT NULL,
-  `rank_name_6` int(11) NOT NULL,
-  `rank_name_7` int(11) NOT NULL,
-  `rank_name_8` int(11) NOT NULL,
-  `rank_name_9` int(11) NOT NULL,
-  `rank_name_10` int(11) NOT NULL,
+  `rank_name_1` varchar(32) NOT NULL,
+  `rank_name_2` varchar(32) NOT NULL,
+  `rank_name_3` varchar(32) NOT NULL,
+  `rank_name_4` varchar(32) NOT NULL,
+  `rank_name_5` varchar(32) NOT NULL,
+  `rank_name_6` varchar(32) NOT NULL,
+  `rank_name_7` varchar(32) NOT NULL,
+  `rank_name_8` varchar(32) NOT NULL,
+  `rank_name_9` varchar(32) NOT NULL,
+  `rank_name_10` varchar(32) NOT NULL,
   `skin_1` int(11) NOT NULL DEFAULT '0',
   `skin_2` int(11) DEFAULT '0',
   `skin_3` int(11) NOT NULL DEFAULT '0',
