@@ -97,6 +97,16 @@ GetFactionCount() { return gCreatedFaction; }
 GetFactionType(factionid){ return gFactionData[factionid][e_faction_type]; }
 GetFactionMaxRanks(factionid) { return gFactionData[factionid][e_faction_max_ranks]; }
 
+/*SetPlayerFactionSkin(playerid)
+{
+    if(GetPlayerFactionID(playerid) = FACTION_NONE)
+        return 0;
+
+    new i = GetPlayerFactionRankID(playerid);
+    SetPlayerSkin(playerid, gFactionData[playerid][e_faction_skin][i]);
+    return 1;
+}*/
+
 SendPlayerFactionMessage(playerid, message[])
 {
 	new factionid = GetPlayerFactionID(playerid);
