@@ -14,7 +14,15 @@ hook OnGameModeInit()
 {
     g_AirPortBus = AddStaticVehicle(437, 1431.9888, -2283.2092, 13.5162, 1.1216, 79, 7);
     SetVehicleFuel(g_AirPortBus, 100.0);
+
+    defer ConnectNPCs();
     return 1;
+}
+
+timer ConnectNPCs[5000]()
+{
+	printf("Connecting NPCs...");
+	ConnectNPC("BusDriver", "bus_driver_airport");
 }
 
 hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)

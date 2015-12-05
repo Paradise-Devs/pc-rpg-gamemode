@@ -130,10 +130,6 @@ hook OnGameModeInit()
 	maleskinlist = LoadModelSelectionMenu("civillian_male_skins.txt");
 	femaleskinlist = LoadModelSelectionMenu("civillian_female_skins.txt");
 
-	// NPCs
-	printf("Connecting NPCs...");
-	ConnectNPC("BusDriver", "bus_driver_airport");
-
 	// Objects
 	printf("Creating objects...");
 	CreateDynamicObject(3089, 2160.5, 1603.3000488281, 1000.299987793, 0, 0, 270, -1, 1, -1, 25); // Phone Network inside door
