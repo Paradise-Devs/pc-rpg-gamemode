@@ -37,8 +37,8 @@ GetJobName(Job:id, bool:capitalize = false)
       jobName = "lenhador";
     case NAVIGATOR_JOB_ID:
       jobName = "navegador";
-  case PARAMEDIC_JOB_ID:
-    jobName = "paramédico";
+    case PARAMEDIC_JOB_ID:
+      jobName = "paramedico";
     default:
       jobName = "desempregado";
   }

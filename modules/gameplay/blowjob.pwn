@@ -311,7 +311,11 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 hook OnPlayerConnect(playerid)
 {
+	if(IsPlayerNPC(playerid))
+        return 1;
+	
 	ResetPlayerBlowJobData(playerid);
+	return 1;
 }
 
 //------------------------------------------------------------------------------

@@ -29,10 +29,13 @@
 #define MAX_PICKUP_RANGE								40.0
 #define MAX_TEXT3D_RANGE								20.0
 #define MAX_MAPICON_RANGE								150.0
-#define MAX_BUSINESS									32
-#define MAX_BUSINESS_NAME								64
-#define MAX_HOUSES										32
-#define MAX_HOUSE_NAME									64
+
+#define PICKUP_DELAY									2 // Seconds
+
+#define INVALID_APARTMENT_ID							-1
+#define INVALID_HOUSE_ID								-1
+#define INVALID_BUSINESS_ID								-1
+
 #define HOSPITAL_TIME									90	// Seconds
 
 #define HOSPITAL_PRICE									500
@@ -40,7 +43,17 @@
 
 #define MAX_FACTIONS									32
 
+#define MAX_BUSINESS									32
+#define MAX_BUSINESS_NAME								64
+
+#define MAX_HOUSES										64
+#define MAX_HOUSE_NAME									64
+#define MAX_HOUSE_MAPICON_RANGE							25.0
+
 #define INTERVAL_BETWEEN_SERVER_MESSAGES				900000 // ms
+
+#define LAST_POSITION									0
+#define HOUSE_POSITION									1
 
 //------------------------------------------------------------------------------
 
@@ -56,6 +69,7 @@
 #define COLOR_ADMIN_ACTION								0x7dcfb6ff
 #define COLOR_SUB_TITLE									0xe6e6e6ff
 #define COLOR_SERVER									0xa5f413ff
+#define COLOR_WALKIE_TALKIE								0x4FBBE0FF
 
 #define COLOR_RANK_DEVELOPER							0x35a700ff
 #define COLOR_RANK_ADMIN								0x00AEFFFF
@@ -81,11 +95,13 @@
 #include <util>
 #include <vcolor>
 #include <zones>
+#include <mSelection>
 
 //------------------------------------------------------------------------------
 
-new Iterator:Business<MAX_BUSINESS>;
-new Iterator:House<MAX_HOUSES>;
+// ID of the model list for text draw of skins
+new maleskinlist = mS_INVALID_LISTID;
+new femaleskinlist = mS_INVALID_LISTID;
 
 //------------------------------------------------------------------------------
 
@@ -108,8 +124,28 @@ hook OnGameModeInit()
 	EnableStuntBonusForAll(false);
 	ManualVehicleEngineAndLights();
 	ShowPlayerMarkers(PLAYER_MARKERS_MODE_OFF);
+
+	// Textdraw Model
+	printf("Loading textdraw model selection...");
+	maleskinlist = LoadModelSelectionMenu("civillian_male_skins.txt");
+	femaleskinlist = LoadModelSelectionMenu("civillian_female_skins.txt");
+
+	// NPCs
+	printf("Connecting NPCs...");
+	ConnectNPC("BusDriver", "bus_driver_airport");
+
+	// Objects
+	printf("Creating objects...");
+	CreateDynamicObject(3089, 2160.5, 1603.3000488281, 1000.299987793, 0, 0, 270, -1, 1, -1, 25); // Phone Network inside door
+	CreateDynamicObject(1506, 365.80, 196.24, 1007.37,   0.00, 0.00, 0.00, 26);//CNN News inside door
 	return 1;
 }
+
+//------------------------------------------------------------------------------
+
+// Iterators
+new	Iterator:House<MAX_HOUSES>;
+new	Iterator:Business<MAX_HOUSES>;
 
 //------------------------------------------------------------------------------
 
@@ -125,6 +161,7 @@ hook OnGameModeInit()
 #include "../modules/def/ftime.pwn"
 #include "../modules/def/messages.pwn"
 #include "../modules/def/missions.pwn"
+#include "../modules/def/statscol.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
@@ -135,6 +172,8 @@ hook OnGameModeInit()
 
 /* Properties */
 #include "../modules/properties/vehicle.pwn"
+#include "../modules/properties/apartment.pwn"
+#include "../modules/properties/house.pwn"
 #include "../modules/properties/business.pwn"
 
 /* Vehicle */
@@ -161,6 +200,9 @@ hook OnGameModeInit()
 #include "../modules/gameplay/tutorial.pwn"
 #include "../modules/gameplay/weather.pwn"
 #include "../modules/gameplay/phone.pwn"
+#include "../modules/gameplay/paintball.pwn"
+#include "../modules/gameplay/shtrange.pwn"
+#include "../modules/gameplay/gps.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
@@ -169,7 +211,6 @@ hook OnGameModeInit()
 #include "../modules/player/deadbody.pwn"
 #include "../modules/player/needs.pwn"
 #include "../modules/player/pets.pwn"
-#include "../modules/player/dialogs.pwn"
 
 /* Server */
 #include "../modules/server/rcon.pwn"
@@ -186,12 +227,14 @@ hook OnGameModeInit()
 #include "../modules/visual/subtitles.pwn"
 #include "../modules/visual/needs.pwn"
 #include "../modules/visual/stats.pwn"
+#include "../modules/visual/gps.pwn"
+#include "../modules/visual/logo.pwn"
 
 /* NPCs */
 #include "../modules/npcs/actors.pwn"
+#include "../modules/npcs/npcs.pwn"
 
 /* Jobs */
-#include "../modules/job/commands.pwn"
 #include "../modules/job/pilot.pwn"
 #include "../modules/job/trucker.pwn"
 #include "../modules/job/lumberjack.pwn"
@@ -203,9 +246,12 @@ hook OnGameModeInit()
 #include "../modules/missions/colonel.pwn"
 
 /* Objects */
-#include "../modules/objects/anim.pwn"
 #include "../modules/objects/hospital.pwn"
 #include "../modules/objects/airport.pwn"
+#include "../modules/objects/player.pwn" // a.k.a attachments
+
+/* Core */
+#include "../modules/core/timers.pwn"
 
 //------------------------------------------------------------------------------
 

@@ -148,28 +148,6 @@ SetPlayerSleeping(playerid, bool:status)
 	gpIsSleeping[playerid] = status;
 }
 
-//------------------------------------------------------------------------------
-
-FillPlayerNeeds(playerid)
-{
-	SetPlayerHunger(playerid, 100);
-	SetPlayerThirst(playerid, 100);
-	SetPlayerSleep(playerid, 100);
-	SetPlayerAddiction(playerid, 0);
-	return 1;
-}
-
-//------------------------------------------------------------------------------
-
-DefaultPlayerNeeds(playerid)
-{
-	SetPlayerHunger(playerid, 50);
-	SetPlayerThirst(playerid, 50);
-	SetPlayerSleep(playerid, 50);
-	SetPlayerAddiction(playerid, 0);
-	return 1;
-}
-
 //--------------------------------------------------------------------
 
 ptask OnClientUpdate[1000](playerid)
@@ -177,14 +155,12 @@ ptask OnClientUpdate[1000](playerid)
 	if(!IsPlayerLogged(playerid))
 		return 1;
 
-	if(!IsAdminInGodMode(playerid)) {
-		SetPlayerHunger(playerid, GetPlayerHunger(playerid) - 0.005);
-		SetPlayerThirst(playerid, GetPlayerThirst(playerid) - 0.01);
-		SetPlayerSleep(playerid, GetPlayerSleep(playerid) - 0.002);
+	SetPlayerHunger(playerid, GetPlayerHunger(playerid) - 0.005);
+	SetPlayerThirst(playerid, GetPlayerThirst(playerid) - 0.01);
+	SetPlayerSleep(playerid, GetPlayerSleep(playerid) - 0.002);
 
-		if(GetPlayerAddiction(playerid) > 0.01)
-			SetPlayerAddiction(playerid, GetPlayerAddiction(playerid) - 0.006);
-	}
+	if(GetPlayerAddiction(playerid) > 0.01)
+		SetPlayerAddiction(playerid, GetPlayerAddiction(playerid) - 0.006);
 
 	// Dont spam messages if the player is away
 	if(!IsPlayerPaused(playerid))

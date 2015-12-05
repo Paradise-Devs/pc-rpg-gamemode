@@ -289,7 +289,11 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 */
 hook OnPlayerConnect(playerid)
 {
+    if(IsPlayerNPC(playerid))
+        return 1;
+    
 	ResetPlayerAchievementData(playerid);
+    return 1;
 }
 
 /*

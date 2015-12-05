@@ -15,8 +15,19 @@
 
 //------------------------------------------------------------------------------
 
-// Ambulance spawns
-static const Float:g_fAmbulanceSpawns[][] =
+// Checkpointid
+static STREAMER_TAG_CP gCheckpointid;
+
+/*
+// Amount of XP multipled by job level to level up.
+static const REQUIRED_XP = 125;
+
+// Amount of XP multipled by job level the player will recieve for revivals.
+static const XP_SCALE = 5;
+*/
+
+// Truck spawns
+static const Float:g_fTruckPositions[][] =
 {
     {1177.9297, -1308.4379, 14.0030, 269.1813},
     {1178.2739, -1338.7297, 14.0304, 270.2344},
@@ -25,34 +36,58 @@ static const Float:g_fAmbulanceSpawns[][] =
     {1192.4919, -1316.4365, 13.5476, 180.3060}
 };
 
-// Job position
-static const Float:JOB_POSITION[] = { 1183.1554, -1313.3402, 13.5681 };
-
-// Service position
-static const Float:SERVICE_POSITION[] = { 1183.1333, -1332.5238, 13.5808 };
-
-new
-    gPlayerAmbulanceID[MAX_PLAYERS]     = INVALID_VEHICLE_ID,
-    gAmbulanceObject[MAX_PLAYERS]       = INVALID_OBJECT_ID,
-    gParamedicID[MAX_PLAYERS]           = INVALID_PLAYER_ID,
-    Float:gHealValue[MAX_PLAYERS]       = 0.0,
-    Timer: obj[MAX_PLAYERS];
-
-forward DestroyPlayerParamedicInfo(playerid);
+// Paramedic services
+static gParaServices[][][] =
+{
+    {500, "Entrar em serviço p/ atender chamados"}
+};
 
 //------------------------------------------------------------------------------
-public DestroyPlayerParamedicInfo(playerid)
+
+static gSpawnPositions[5] = {INVALID_PLAYER_ID, ...};
+
+//------------------------------------------------------------------------------
+
+static gplTruck[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerDisconnect(playerid, reason)
 {
-    DestroyVehicle(gPlayerAmbulanceID[playerid]);
-    DestroyDynamicObject(gAmbulanceObject[playerid]);
+    if(gplTruck[playerid] != INVALID_VEHICLE_ID)
+    {
+        DestroyVehicle(gplTruck[playerid]);
+        gplTruck[playerid] = INVALID_VEHICLE_ID;
 
-    gPlayerAmbulanceID[playerid] = INVALID_VEHICLE_ID;
-    gAmbulanceObject[playerid] = INVALID_PLAYER_ID;
+        for(new i = 0; i < sizeof(gSpawnPositions); i++)
+        {
+            if(gSpawnPositions[i] == playerid)
+            {
+                gSpawnPositions[i] = INVALID_PLAYER_ID;
+                break;
+            }
+        }
+    }
+    return 1;
+}
+//------------------------------------------------------------------------------
 
-    stop obj[playerid];
+hook OnPlayerDeath(playerid, killerid, reason)
+{
+    if(gplTruck[playerid] != INVALID_VEHICLE_ID)
+    {
+        DestroyVehicle(gplTruck[playerid]);
+        gplTruck[playerid] = INVALID_VEHICLE_ID;
 
-    SetPlayerWorking(playerid, false);
-    DisablePlayerRaceCheckpoint(playerid);
+        for(new i = 0; i < sizeof(gSpawnPositions); i++)
+        {
+            if(gSpawnPositions[i] == playerid)
+            {
+                gSpawnPositions[i] = INVALID_PLAYER_ID;
+                break;
+            }
+        }
+    }
     return 1;
 }
 
@@ -61,13 +96,52 @@ public DestroyPlayerParamedicInfo(playerid)
 hook OnGameModeInit()
 {
     print("Loading paramedic job.");
+	CreateDynamicPickup(1210, 1, 1183.1554, -1313.3402, 13.5681, 0, 0, -1, MAX_PICKUP_RANGE);
+	CreateDynamic3DTextLabel("Paramédico\nPressione {1add69}Y", 0xFFFFFFFF, 1183.1554, -1313.3402, 13.5681, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+    gCheckpointid = CreateDynamicCP(1183.1333, -1332.5238, 13.5808, 1.0, 0, 0);
+    return 1;
+}
 
-	CreateDynamicPickup(1210, 1, JOB_POSITION[0], JOB_POSITION[1], JOB_POSITION[2], 0, 0, -1, MAX_PICKUP_RANGE);
-	CreateDynamic3DTextLabel("Paramédico\nPressione {1add69}Y", 0xFFFFFFFF, JOB_POSITION[0], JOB_POSITION[1], JOB_POSITION[2], MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+//------------------------------------------------------------------------------
 
-    CreateDynamicPickup(1239, 1, SERVICE_POSITION[0], SERVICE_POSITION[1], SERVICE_POSITION[2], 0, 0, -1, MAX_PICKUP_RANGE);
-    CreateDynamic3DTextLabel("Trabalhar\nPressione {1add69}Y", 0xFFFFFFFF, SERVICE_POSITION[0], SERVICE_POSITION[1], SERVICE_POSITION[2], MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
+{
+    if(checkpointid == gCheckpointid)
+    {
+        if(GetPlayerJobID(playerid) != PARAMEDIC_JOB_ID)
+        {
+            PlayErrorSound(playerid);
+            SendClientMessage(playerid, COLOR_ERROR, "* Você não é um paramédico.");
+        }
+        else
+        {
+            PlaySelectSound(playerid);
+            new info[300], buffer[60];
+            strcat(info, "Serviço\tPagamento\tNível");
+            for(new i = 0; i < sizeof(gParaServices); i++)
+            {
+                format(buffer, sizeof(buffer), "\n%s\t$%s\t%i", gParaServices[i][1], formatnumber(gParaServices[i][0][0]), i+1);
+                strcat(info, buffer);
+            }
+            ShowPlayerDialog(playerid, DIALOG_PARAMEDIC_SERVICES,  DIALOG_STYLE_TABLIST_HEADERS, "Paramédico -> Serviços", info, "Aceitar", "Recusar");
+        }
+        return -2;
+    }
+    return 1;
+}
 
+//------------------------------------------------------------------------------
+
+hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
+{
+    foreach(new i: Player)
+    {
+        if(vehicleid == gplTruck[i] && !ispassenger && playerid != i)
+        {
+            SendClientMessagef(playerid, COLOR_ERROR, "* Ambulância reservada para %s.", GetPlayerNamef(i));
+            ClearAnimations(playerid);
+        }
+    }
     return 1;
 }
 
@@ -75,37 +149,46 @@ hook OnGameModeInit()
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-    if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 1.5, JOB_POSITION[0], JOB_POSITION[1], JOB_POSITION[2]))
+	if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 3.0, 1183.1554, -1313.3402, 13.5681))
+	{
+        ShowPlayerDialog(playerid, DIALOG_PARAMEDIC_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Paramédico", "Você deseja ser um paramédico?", "Sim", "Não");
+		return 1;
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerEnterRaceCPT(playerid)
+{
+    switch(GetPlayerCPID(playerid))
     {
-        if(GetPlayerJobID(playerid) != INVALID_JOB_ID) {
-            PlayCancelSound(playerid);
-            return SendClientMessage(playerid, COLOR_ERROR, "* Você já possui um emprego.");
+        case CHECKPOINT_PARAMEDIC:
+        {
+            // TO DO: on entering a checkpoint of a deadbody offer revival for $500
         }
-
-        PlaySelectSound(playerid);
-        ShowPlayerDialog(playerid, DIALOG_PARAMEDIC_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Paramédico", "Você deseja se tornar um paramédico?", "Sim", "Não");
-        return 1;
-    }
-    else if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 1.5, SERVICE_POSITION[0], SERVICE_POSITION[1], SERVICE_POSITION[2]))
-    {
-        PlaySelectSound(playerid);
-
-        if(GetPlayerJobID(playerid) != PARAMEDIC_JOB_ID)
-            return SendClientMessage(playerid, COLOR_ERROR, "* Você não é um paramédico.");
-
-        if(IsPlayerWorking(playerid))
-            return SendClientMessage(playerid, COLOR_ERROR, "* Você já está trabalhando! Para parar digite /servico.");
-
-        ShowPlayerDialog(playerid, DIALOG_PARAMEDIC_SERVICES, DIALOG_STYLE_MSGBOX, "Trabalhar", "Você deseja começar a trabalhar?", "Sim", "Não");
     }
     return 1;
 }
 
 //------------------------------------------------------------------------------
 
-hook OnPlayerConnect(playerid)
+hook OnPlayerStateChange(playerid, newstate, oldstate)
 {
-    gParamedicID[playerid] = INVALID_PLAYER_ID;
+    if(newstate == PLAYER_STATE_DRIVER)
+    {
+        if(IsPlayerInVehicle(playerid, gplTruck[playerid]))
+        {
+            for(new i = 0; i < sizeof(gSpawnPositions); i++)
+            {
+                if(gSpawnPositions[i] == playerid)
+                {
+                    gSpawnPositions[i] = INVALID_PLAYER_ID;
+                    break;
+                }
+            }
+        }
+    }
     return 1;
 }
 
@@ -118,75 +201,67 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         case DIALOG_PARAMEDIC_JOB:
         {
             if(!response)
-                return PlayCancelSound(playerid);
-
-            if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
-            {
-                PlayErrorSound(playerid);
-                SendClientMessage(playerid, COLOR_ERROR, "* Você já possui um emprego.");
-            }
+                PlayCancelSound(playerid);
             else
             {
-                SetPlayerJobID(playerid, PARAMEDIC_JOB_ID);
-                SendClientMessage(playerid, COLOR_SPECIAL, "* Agora você é um paramédico!");
-                SendClientMessage(playerid, COLOR_SUB_TITLE, "* Vá até o ícone ao lado para começar a trabalhar.");
-                SendClientMessage(playerid, COLOR_SUB_TITLE, "* Para obter mais informações digite /ajuda e selecione a opção de emprego ou digite /ajudaemprego.");
-                PlayConfirmSound(playerid);
+                if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
+                {
+                    PlayErrorSound(playerid);
+                    SendClientMessage(playerid, COLOR_ERROR, "* Você já possui um emprego.");
+                }
+                else
+                {
+                    SetPlayerJobID(playerid, PARAMEDIC_JOB_ID);
+                    SendClientMessage(playerid, COLOR_SPECIAL, "* Agora você é um paramédico!");
+                    SendClientMessage(playerid, COLOR_SUB_TITLE, "* Entre em serviço e aguarde algum chamado.");
+                    PlayConfirmSound(playerid);
+                }
             }
         }
         case DIALOG_PARAMEDIC_SERVICES:
         {
             if(!response)
-                return PlayCancelSound(playerid);
-
-            SetPlayerJobSkin(playerid);
-            SetPlayerWorking(playerid, true);
-
-            new rand = random(sizeof(g_fAmbulanceSpawns));
-            gPlayerAmbulanceID[playerid]    = CreateVehicle(416, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2], g_fAmbulanceSpawns[rand][3], 1, 3, 50000);
-            gAmbulanceObject[playerid]      = CreateDynamicObject(19198, g_fAmbulanceSpawns[rand][0], g_fAmbulanceSpawns[rand][1], g_fAmbulanceSpawns[rand][2] + 2.6, 0.0, 0.0, 0.0, 0, 0, playerid, MAX_PICKUP_RANGE);
-            obj[playerid] = repeat DoAnimFrame(gAmbulanceObject[playerid]);
-            CallRemoteFunction("OnObjectMoved", "i", gAmbulanceObject[playerid]);
-
-            SetVehicleFuel(gPlayerAmbulanceID[playerid], 100);
-
-            SendClientMessage(playerid, COLOR_SPECIAL, "* Entre na ambulância indicada e aguarde até um chamado.");
-            SendClientMessage(playerid, COLOR_SUB_TITLE, "* A ambulância é de sua responsabilidade, caso ela seja destruída, seu trabalho será cancelado automaticamente.");
-        }
-        case DIALOG_PARAMEDIC_HEAL:
-        {
-            new healthValue = floatround(-gHealValue[playerid]);
-
-            if(!response)
-            {
-                SendClientMessage(gParamedicID[playerid], COLOR_ERROR, "* O jogador não aceitou.");
-                gParamedicID[playerid] = INVALID_PLAYER_ID;
-                gHealValue[playerid] = 0.0;
                 PlayCancelSound(playerid);
-                return 1;
-            }
-
-            if(GetPlayerCash(playerid) < healthValue)
+            else if(GetPlayerJobLV(playerid) < listitem+1)
             {
-                SendClientMessage(playerid, COLOR_ERROR, "* Você não possui dinheiro suficiente.");
-                SendClientMessage(gParamedicID[playerid], COLOR_ERROR, "* O jogador não possui dinheiro suficiente.");
-                PlayCancelSound(playerid);
-                return 1;
+                PlayErrorSound(playerid);
+                SendClientMessage(playerid, COLOR_ERROR, "* Você não tem nível de emprego suficiente para este serviço.");
             }
+            else
+            {
+                if(gplTruck[playerid] != INVALID_VEHICLE_ID)
+                {
+                    SendClientMessage(playerid, COLOR_ERROR, "* Você já está em serviço.");
+                    return 1;
+                }
 
-            GivePlayerCash(playerid, healthValue);
-            GivePlayerCash(gParamedicID[playerid], healthValue);
-            SetPlayerHealth(playerid, 100.0);
+                new rand = -2;
+                for(new i = 0; i < sizeof(gSpawnPositions); i++)
+                {
+                    if(gSpawnPositions[i] == INVALID_PLAYER_ID)
+                    {
+                        rand = i;
+                        break;
+                    }
+                }
 
-            SendClientMessagef(gParamedicID[playerid], COLOR_SUCCESS, "* O jogador foi curado e você recebeu $%d.", gHealValue[playerid]);
-            SendClientMessage(playerid, COLOR_ERROR, "* Você foi curado.");
+                if(rand == -2)
+                {
+                    SendClientMessage(playerid, COLOR_ERROR, "* As vagas dos caminhões estão ocupadas, aguarde um jogador liberar a vaga.");
+                    return 1;
+                }
 
-            SendClientActionMessage(playerid, 15.0, "paga para um paramédico.");
+                SendClientMessage(playerid, COLOR_SPECIAL, "* Aguarde algum chamado para atender.");
+                SendClientMessage(playerid, COLOR_SUB_TITLE, "* Caso você destrua a ambulância será descontado de seu dinheiro.");
 
-            gParamedicID[playerid] = INVALID_PLAYER_ID;
-            gHealValue[playerid] = 0.0;
+                gSpawnPositions[rand] = playerid;
+                gplTruck[playerid] = CreateVehicle(416, g_fTruckPositions[rand][0], g_fTruckPositions[rand][1], g_fTruckPositions[rand][2], g_fTruckPositions[rand][3], 0, 1, -1);
+                SetVehicleFuel(gplTruck[playerid], 100.0);
 
-            return 1;
+                SetPlayerSkin(playerid, 274, false);
+                PlaySelectSound(playerid);
+            }
+            return -2;
         }
     }
     return 1;
@@ -194,85 +269,33 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 //------------------------------------------------------------------------------
 
-hook OnPlayerDisconnect(playerid, reason)
-{
-    if(IsPlayerWorking(playerid))
-        DestroyPlayerParamedicInfo(playerid);
-
-    return 1;
-}
-
-//------------------------------------------------------------------------------
-
-hook OnPlayerDeath(playerid, killerid, reason)
-{
-    if(IsPlayerWorking(playerid)) {
-        SetPlayerCivilSkin(playerid);
-        DestroyPlayerParamedicInfo(playerid);
-        SendClientMessage(playerid, COLOR_ERROR, "* Você saiu do trabalho.");
-    }
-    return 1;
-}
-
-//------------------------------------------------------------------------------
-
-hook OnPlayerStateChange(playerid, newstate, oldstate)
-{
-    if(oldstate == PLAYER_STATE_ONFOOT && newstate == PLAYER_STATE_DRIVER)
-    {
-        new vehicleid = GetPlayerVehicleID(playerid);
-
-        if(vehicleid == gPlayerAmbulanceID[playerid])
-        {
-            stop obj[playerid];
-            DestroyDynamicObject(gAmbulanceObject[playerid]);
-        }
-    }
-    return 1;
-}
-
-/********************************************************************************
- *     ######   #######  ##     ## ##     ##    ###    ##    ## ########   ######
- *    ##    ## ##     ## ###   ### ###   ###   ## ##   ###   ## ##     ## ##    ##
- *    ##       ##     ## #### #### #### ####  ##   ##  ####  ## ##     ## ##
- *    ##       ##     ## ## ### ## ## ### ## ##     ## ## ## ## ##     ##  ######
- *    ##       ##     ## ##     ## ##     ## ######### ##  #### ##     ##       ##
- *    ##    ## ##     ## ##     ## ##     ## ##     ## ##   ### ##     ## ##    ##
- *     ######   #######  ##     ## ##     ## ##     ## ##    ## ########   ######
-********************************************************************************/
 YCMD:curar(playerid, params[], help)
 {
-    new targetid;
+    if(GetPlayerJobID(playerid) != PARAMEDIC_JOB_ID)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não é um paramédico.");
 
+    new targetid;
 	if(sscanf(params, "u", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /curar [playerid]");
 
-    if(!IsPlayerWorking(playerid))
+    if(gplTruck[playerid] == INVALID_VEHICLE_ID)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não está trabalhando.");
-
-    if(GetPlayerDistanceFromPlayer(playerid, targetid) > 3.0)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo do jogador.");
 
     new Float:health;
     GetPlayerHealth(targetid, health);
 
-    if(health == 100)
+    if(health > 99.9)
 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador está com a vida cheia.");
-
-    if(gParamedicID[targetid] != INVALID_PLAYER_ID)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Algum paramédico já ofereceu cura para este jogador.");
 
     if(playerid == targetid)
     	return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode curar você mesmo.");
 
-    gHealValue[targetid] = (100 - health);
-    gParamedicID[targetid] = playerid;
+    if(!IsPlayerInVehicle(playerid, gplTruck[playerid]) || !IsPlayerInVehicle(targetid, gplTruck[playerid]))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Vocês precisam estar na ambulância.");
 
-    new s[91 + MAX_PLAYER_NAME];
-    format(s, sizeof(s), "{9F9F9F}O paramédico {00FF00}%s {9F9F9F}quer curar você por {00FF00}$%d.\n\nDeseja aceitar?", GetPlayerFirstName(playerid), gHealValue[targetid]);
-    ShowPlayerDialog(targetid, DIALOG_PARAMEDIC_HEAL, DIALOG_STYLE_MSGBOX, "Paramédico", s, "Aceitar", "Negar");
-
-    SendClientMessage(playerid, COLOR_INFO, "* Aguardando a resposta do jogador.");
-
+    new message[64];
+    format(message, sizeof(message), "trata dos ferimentos de %s.", GetPlayerNamef(targetid));
+    SendClientActionMessage(playerid, 20.0, message);
+    SetPlayerHealth(targetid, 100.0);
     return 1;
 }

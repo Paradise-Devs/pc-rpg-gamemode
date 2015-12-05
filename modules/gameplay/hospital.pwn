@@ -33,6 +33,8 @@ SetPlayerHospitalTime(playerid, value)
 
 hook OnPlayerConnect(playerid, reason)
 {
+    if(IsPlayerNPC(playerid))
+        return 1;
     gPHdata[playerid][e_ph_time] = 0;
     return 1;
 }
@@ -41,6 +43,8 @@ hook OnPlayerConnect(playerid, reason)
 
 hook OnPlayerDeath(playerid, killerid, reason)
 {
+    if(IsPlayerInPaintball(playerid))
+        return 1;
     gPHdata[playerid][e_ph_time] = HOSPITAL_TIME;
     return 1;
 }
@@ -49,6 +53,8 @@ hook OnPlayerDeath(playerid, killerid, reason)
 
 hook OnPlayerSpawn(playerid)
 {
+    if(IsPlayerNPC(playerid))
+        return 1;
     if(gPHdata[playerid][e_ph_time] > 0)
     {
         SendClientMessage(playerid, COLOR_INFO, "* Você está se recuperando, aguarde...");

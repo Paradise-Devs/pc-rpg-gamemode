@@ -60,7 +60,11 @@ hook OnGameModeInit()
 */
 hook OnPlayerSpawn(playerid)
 {
+	if(IsPlayerNPC(playerid))
+        return 1;
+	
     SetPlayerWeather(playerid, GetCurrentWeather());
+	return 1;
 }
 
 /*

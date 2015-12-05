@@ -40,6 +40,7 @@ static gPDeadBodyData[MAX_PLAYERS][E_DEADBODY_DATA];
 
 hook OnPlayerDeath(playerid, killerid, reason)
 {
+    if(IsPlayerInPaintball(playerid)) return 1;
     // Only create an actor if there is no actor of this player active
     if(gPDeadBodyData[playerid][E_DEADBODY_ACTIVE] == false)
     {
@@ -98,6 +99,18 @@ OnDestroyPlayerDeadbody(playerid)
         DestroyActor(gPDeadBodyData[playerid][E_DEADBODY_ACTOR]);
         DestroyDynamic3DTextLabel(gPDeadBodyData[playerid][E_DEADBODY_TEXT3D]);
     }
+}
+
+//------------------------------------------------------------------------------
+
+IsActorADeadbody(actorid)
+{
+    foreach(new i: Player)
+    {
+        if(actorid == gPDeadBodyData[i][E_DEADBODY_ACTOR])
+            return true;
+    }
+    return false;
 }
 
 //------------------------------------------------------------------------------

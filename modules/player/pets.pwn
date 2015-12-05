@@ -182,6 +182,9 @@ public OnInsertPetOnDatabase(playerid)
 
 hook OnPlayerSpawn(playerid)
 {
+    if(IsPlayerNPC(playerid))
+        return 1;
+        
 	if(gPPetData[playerid][E_PET_DBID_PLAYER] != 0)
 	{
 		// Put the pet on player's shoulder

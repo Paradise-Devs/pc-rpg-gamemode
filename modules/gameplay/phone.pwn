@@ -111,6 +111,7 @@ hook OnPlayerDisconnect(playerid, reason)
 
 hook OnPlayerDeath(playerid, killerid, reason)
 {
+	if(IsPlayerInPaintball(playerid)) return 1;
 	if(IsPlayerInAnyCall(playerid))
 	{
 		if(IsPlayerInCall(playerid))
@@ -344,7 +345,11 @@ YCMD:ligar(playerid, params[], help)
 		phoneNumber;
 
 	if(sscanf(params, "i", phoneNumber))
-		return SendClientMessage(playerid, COLOR_INFO, "/ligar [número]");
+	{
+		SendClientMessage(playerid, COLOR_INFO, "/ligar [número]");
+		SendClientMessage(playerid, COLOR_SUB_TITLE, "* 190 LSPD - 192 SAEU - 193 LSFD");
+		return 1;
+	}
 
     foreach(new i: Player)
 	{
@@ -500,8 +505,8 @@ YCMD:atender(playerid, params[], help)
 
 YCMD:telefone(playerid, params[], help)
 {
-	/*if(gPlayerData[playerid][E_PLAYER_AGENDA] < 1)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem uma agenda.");*/
+	if(GetPlayerAgenda(playerid) < 1)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem uma agenda.");
 
 	new targetid;
 	if(sscanf(params, "u", targetid))

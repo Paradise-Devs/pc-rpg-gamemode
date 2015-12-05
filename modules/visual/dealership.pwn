@@ -160,7 +160,7 @@ stock ShowPlayerDealershipHud(playerid)
 	PlayerTextDrawSetProportional(playerid, deal_cameratext[playerid], 1);
 	PlayerTextDrawShow(playerid, deal_cameratext[playerid]);
 
-	deal_cameraname[playerid] = CreatePlayerTextDraw(playerid, 32.333328, 186.577826, "1/4");
+	deal_cameraname[playerid] = CreatePlayerTextDraw(playerid, 32.333328, 186.577826, "1/6");
 	PlayerTextDrawLetterSize(playerid, deal_cameraname[playerid], 0.171666, 1.143703);
 	PlayerTextDrawAlignment(playerid, deal_cameraname[playerid], 1);
 	PlayerTextDrawColor(playerid, deal_cameraname[playerid], -1);

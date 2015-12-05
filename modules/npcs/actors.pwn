@@ -3,9 +3,7 @@
 *
 *  Assignment: A script to add actors on server.
 *
-*  Author: Larceny.
-*
-*  Contributors:
+*           Copyright Paradise Devs 2015.  All rights reserved.
 * *************************************************************************** */
 
 //------------------------------------------------------------------------------
@@ -182,7 +180,7 @@ hook OnPlayerUpdate(playerid)
 		new actorid = GetPlayerTargetActor(playerid);
 
 		// Check if the player is using a GUN to aim
-		if(actorid != INVALID_ACTOR_ID && (GetPlayerWeapon(playerid) >= 22 && GetPlayerWeapon(playerid) <= 38))
+		if(actorid != INVALID_ACTOR_ID && (GetPlayerWeapon(playerid) >= 22 && GetPlayerWeapon(playerid) <= 38) && !IsActorADeadbody(actorid))
 		{
 			// Check if the actor is already with hands up
 			if(!gActorData[actorid][E_IS_HANDSUP] && !gActorData[actorid][E_WAS_HIT])

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 04-Ago-2015 às 13:20
+-- Generation Time: 03-Ago-2015 às 05:04
 -- Versão do servidor: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS `players` (
   `a` float DEFAULT '0',
   `interior` int(11) DEFAULT '0',
   `virtual_world` int(11) DEFAULT '0',
+  `spawn` int(11) DEFAULT '0',
   `health` float DEFAULT '100',
   `armour` float DEFAULT '0',
-  `civil_skin` int(11) unsigned DEFAULT '299',
-  `job_skin` int(11) unsigned DEFAULT '299',
+  `skin` int(11) DEFAULT '299',
   `rank` int(10) unsigned NOT NULL DEFAULT '0',
   `faction` int(11) NOT NULL DEFAULT '0',
   `faction_rank` int(11) NOT NULL DEFAULT '0',
@@ -63,9 +63,28 @@ CREATE TABLE IF NOT EXISTS `players` (
   `sleep` float unsigned NOT NULL DEFAULT '100',
   `addiction` float unsigned NOT NULL DEFAULT '100',
   `phone_number` int(10) unsigned NOT NULL DEFAULT '0',
-  `phone_network` int(10) NOT NULL DEFAULT '-1',
+  `phone_network` int(10) signed NOT NULL DEFAULT '-1',
   `phone_credits` int(10) unsigned NOT NULL DEFAULT '0',
-  `phone_state` int(10) unsigned NOT NULL DEFAULT '0'
+  `phone_state` int(10) unsigned NOT NULL DEFAULT '0',
+  `apartkey` int(10) signed NOT NULL DEFAULT '-1',
+  `housekey` int(10) signed NOT NULL DEFAULT '-1',
+  `businesskey` int(10) signed NOT NULL DEFAULT '-1',
+  `WeaponSkillPistol` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillSilenced` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillDeagle` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillShotgun` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillSawnoff` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillSpas12` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillUzi` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillMP5` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillAK47` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillM4` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillSniper` int(10) signed NOT NULL DEFAULT '0',
+  `agenda` int(10) signed NOT NULL DEFAULT '0',
+  `gps` int(10) signed NOT NULL DEFAULT '0',
+  `lighter` int(10) signed NOT NULL DEFAULT '0',
+  `cigaretts` int(10) signed NOT NULL DEFAULT '0',
+  `walkietalkie` int(10) signed NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --

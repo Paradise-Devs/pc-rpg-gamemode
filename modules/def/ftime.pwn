@@ -69,6 +69,8 @@ SetPlayerFirstTimeVar(playerid, val)
 
 hook OnPlayerConnect(playerid)
 {
+	if(IsPlayerNPC(playerid))
+        return 1;
     gplFirstTime[playerid] = FIRST_TIME:0;
     return 1;
 }

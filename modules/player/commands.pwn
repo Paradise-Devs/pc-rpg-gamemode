@@ -83,10 +83,119 @@ YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /fumar - /gps");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo - /ajudaapartamento - /ajudacasa - /ajudaempresa - /ajudawalkie");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
+
+//------------------------------------------------------------------------------
+
+YCMD:ajudawalkie(playerid, params[], help)
+{
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos Walkie Talkie ~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /w - /mudarfreq");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* Você pode falar no IRC do servidor através da frequência 1337Mhz.");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos Walkie Talkie ~~~~~~~~~~~~~~~~~~~~");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:mudarfreq(playerid, params[], help)
+{
+	if(GetPlayerWalkieTalkieFrequency(playerid) == 0)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um Walkie Talkie.");
+
+	new freq;
+	if(sscanf(params, "i", freq))
+		return SendClientMessage(playerid, COLOR_INFO, "* /mudarfreq [freq]");
+
+	if(freq < 1000 || freq > 9999)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Apenas frequências entre 1000Mhz e 9999Mhz.");
+
+	SetPlayerWalkieTalkieFrequency(playerid, freq);
+	SendClientMessagef(playerid, COLOR_SUCCESS, "* Você alterou a frequência de seu Walkie Talkie para %iMhz.", freq);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:w(playerid, params[], help)
+{
+	if(GetPlayerWalkieTalkieFrequency(playerid) == 0)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um Walkie Talkie.");
+
+	new message[128];
+	if(sscanf(params, "s", message))
+		return SendClientMessage(playerid, COLOR_INFO, "* /w [mensagem]");
+
+	new Float:playerPos[3];
+	GetPlayerPos(playerid, playerPos[0], playerPos[1], playerPos[2]);
+
+	foreach(new i: Player)
+	{
+		if(!IsPlayerLogged(i) || i == playerid || GetPlayerWalkieTalkieFrequency(i) == GetPlayerWalkieTalkieFrequency(playerid))
+			continue;
+
+		new Float:dist = GetPlayerDistanceFromPoint(i, playerPos[0], playerPos[1], playerPos[2]);
+
+		if(IsPlayerInVehicle(i, GetPlayerVehicleID(playerid)) || dist <= 5) {
+			SendClientMessagef(i, 0xC6C6C6FF, "(Walkie Talkie) %s diz: %s", GetPlayerNamef(playerid), message);
+		}
+
+		else if(dist >= 6 && dist <= 10) {
+			SendClientMessagef(i, 0xB6B6B6FF, "(Walkie Talkie) %s diz: %s", GetPlayerNamef(playerid), message);
+		}
+
+		else if(dist >= 11 && dist <= 20) {
+			SendClientMessagef(i, 0x8B8B8BFF, "(Walkie Talkie) %s diz: %s", GetPlayerNamef(playerid), message);
+		}
+	}
+
+	SetPlayerChatBubble(playerid, message, COLOR_WHITE, 20.0, 5000);
+	SendWalkieTalkieMessage(GetPlayerWalkieTalkieFrequency(playerid), GetPlayerNamef(playerid), message);
+
+	/*
+	if(GetPlayerWalkieTalkieFrequency(playerid) == 1337) {
+		new name[MAX_PLAYER_NAME], ircMsg[256];
+		GetPlayerName(playerid, name, sizeof(name));
+		format(ircMsg, sizeof(ircMsg), "02[%d] 07%s: %s", playerid, name, message);
+		IRC_GroupSay(groupID, IRC_CHANNEL, ircMsg);
+	}
+	*/
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:fumar(playerid, params[], help)
+{
+	/*
+	if(IsPlayerCuffed(playerid))
+		return SendErrorMessage(playerid, "Você não pode fumar enquanto está algemado.");
+	*/
+
+	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_SMOKE_CIGGY)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você já está fumando um cigarro.");
+
+	if(GetPlayerCigaretts(playerid) < 1)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um cigarro.");
+
+	if(GetPlayerLighter(playerid) < 1)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um isqueiro.");
+
+	if(GetPlayerLighter(playerid) == 1)
+		return SendClientMessage(playerid, COLOR_ERROR, "* O gás do seu isqueiro acabou.");
+
+	SendClientActionMessage(playerid, 20.0, "acendeu um cigarro.");
+	SetPlayerSpecialAction(playerid, SPECIAL_ACTION_SMOKE_CIGGY);
+
+	SetPlayerCigaretts(playerid, GetPlayerCigaretts(playerid) - 1);
+	SetPlayerLighter(playerid, GetPlayerLighter(playerid) - 1);
+	return 1;
+}
+
 
 //------------------------------------------------------------------------------
 
@@ -114,13 +223,7 @@ YCMD:admins(playerid, params[], help)
 
 YCMD:ajuda(playerid, params[], help)
 {
-	new string[128];
-	strcat(string, "Categoria\tDescrição\n");
-	strcat(string, "Emprego\tAjuda referente ao emprego do seu personagem\n");
-	ShowPlayerDialog(playerid, DIALOG_HELP, DIALOG_STYLE_TABLIST_HEADERS, "Ajuda", string, "Selecionar", "Cancelar");
-
-	PlaySelectSound(playerid);
-	/*SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_WHITE, "* Para uma lista com os comandos disponíveis digite {a5f413}/comandos{ffffff} ou {a5f413}/cmds{ffffff}.");
 	SendClientMessage(playerid, COLOR_WHITE, "* Grande parte dos {a5f413}itens{ffffff} a venda se encontram em {a5f413}lojas 24-7{ffffff}.");
 	SendClientMessage(playerid, COLOR_WHITE, "* Um {a5f413}GPS{ffffff} irá te ajudar a localizar os locais importantes através do comando {a5f413}/gps{ffffff}.");
@@ -128,7 +231,7 @@ YCMD:ajuda(playerid, params[], help)
 	SendClientMessage(playerid, COLOR_WHITE, "* {a5f413}Anúncios{ffffff} enviados por empresas de publicidade {a5f413}são 50%% mais baratos{ffffff}.");
 	SendClientMessage(playerid, COLOR_WHITE, "* Para mais informações visite nosso site e fórum em {a5f413}www.pc-rpg.com.br{ffffff}.");
 	SendClientMessage(playerid, COLOR_WHITE, "* Caso ainda tenha dúvidas chame um {a5f413}administrador{ffffff} com {a5f413}/relatorio{ffffff}.");
-	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");*/
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Ajuda ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
 

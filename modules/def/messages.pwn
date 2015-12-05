@@ -90,6 +90,22 @@ SendClientLocalMessage(playerid, color, Float:radius, string[])
 
 //------------------------------------------------------------------------------
 
+SendWalkieTalkieMessage(frequency, user[], message[])
+{
+	new out[148];
+	format(out, sizeof(out), "[WT %iMhz] %s diz: %s", frequency, user, message);
+	foreach(new i: Player)
+	{
+		if(!IsPlayerLogged(i))
+			continue;
+
+		if(GetPlayerWalkieTalkieFrequency(i) == frequency)
+			SendClientMessage(i, COLOR_WALKIE_TALKIE, out);
+	}
+}
+
+//------------------------------------------------------------------------------
+
 SendClientActionMessage(playerid, Float:radius, action[])
 {
 	new	Float:fDist[3], message[145];

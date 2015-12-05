@@ -170,7 +170,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawFont(playerid, gpt_data_hud[11][playerid], 2);
 	PlayerTextDrawSetProportional(playerid, gpt_data_hud[11][playerid], 1);
 
-	/*new	phoneNetworkName[32] = "N/A";
+	new	phoneNetworkName[32] = "N/A";
 	if(GetPlayerPhoneNumber(playerid))
 		format(phoneNetworkName, sizeof(phoneNetworkName), GetBusinessName(GetPlayerPhoneNetwork(playerid)));
 
@@ -183,7 +183,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetOutline(playerid, gpt_data_hud[12][playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[12][playerid], 51);
 	PlayerTextDrawFont(playerid, gpt_data_hud[12][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[12][playerid], 1);*/
+	PlayerTextDrawSetProportional(playerid, gpt_data_hud[12][playerid], 1);
 
 	/*format(string, sizeof(string), "Nascimento: %s%s", stats_color, gPlayerData[playerid][E_PLAYER_BIRTHDAY]);
 	gpt_data_hud[13][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 223.170364, string);
@@ -194,9 +194,9 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetOutline(playerid, gpt_data_hud[13][playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[13][playerid], 51);
 	PlayerTextDrawFont(playerid, gpt_data_hud[13][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[13][playerid], 1);
+	PlayerTextDrawSetProportional(playerid, gpt_data_hud[13][playerid], 1);*/
 
-	format(string, sizeof(string), "Emprego: %s%s", stats_color, ConvertToGameText(GetPlayerJobName(playerid)));
+	format(string, sizeof(string), "Emprego: %s%s", stats_color, ConvertToGameText(GetJobName(GetPlayerJobID(playerid), true)));
 	gpt_data_hud[14][playerid] = CreatePlayerTextDraw(playerid, 368.000122, 121.540733, string);
 	PlayerTextDrawLetterSize(playerid, gpt_data_hud[14][playerid], 0.184900, 1.391700);
 	PlayerTextDrawAlignment(playerid, gpt_data_hud[14][playerid], 1);
@@ -205,10 +205,10 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetOutline(playerid, gpt_data_hud[14][playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[14][playerid], 51);
 	PlayerTextDrawFont(playerid, gpt_data_hud[14][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[14][playerid], 1);*/
+	PlayerTextDrawSetProportional(playerid, gpt_data_hud[14][playerid], 1);
 
-	/*new jobNvl[8] = "N/A";
-	if(GetPlayerJobID(playerid) != 0)
+	new jobNvl[8] = "N/A";
+	if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
 		format(jobNvl, sizeof(jobNvl), "%d", GetPlayerJobLV(playerid));
 
 	format(string, sizeof(string), "Nvl. Emprego: %s%s", stats_color, jobNvl);
@@ -223,7 +223,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetProportional(playerid, gpt_data_hud[15][playerid], 1);
 
 	new jobXP[32] = "N/A";
-	if(GetPlayerJobID(playerid) != JOB_NONE)
+	if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
 		format(jobXP, sizeof(jobXP), "%d/%d", GetPlayerJobXP(playerid), GetPlayerJobRequiredXP(playerid));
 
 	format(string, sizeof(string), "XP. Emprego: %s%s", stats_color, jobXP);
@@ -235,7 +235,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetOutline(playerid, gpt_data_hud[16][playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[16][playerid], 51);
 	PlayerTextDrawFont(playerid, gpt_data_hud[16][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[16][playerid], 1);*/
+	PlayerTextDrawSetProportional(playerid, gpt_data_hud[16][playerid], 1);
 
 	/*format(string, sizeof(string), "Org.: %s%s", stats_color, ConvertToGameText(GetFactionName(GetPlayerFactionID(playerid))));
 	gpt_data_hud[17][playerid] = CreatePlayerTextDraw(playerid, 367.333374, 163.851837, string);
@@ -259,7 +259,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawFont(playerid, gpt_data_hud[18][playerid], 2);
 	PlayerTextDrawSetProportional(playerid, gpt_data_hud[18][playerid], 1);*/
 
-	/*new house_str[4] = "Nao";
+	new house_str[4] = "Nao";
 	if(GetPlayerHouseID(playerid) != INVALID_HOUSE_ID)
 		house_str = "Sim";
 
@@ -291,7 +291,7 @@ ShowPlayerDataHud(playerid)
 
 	new vehicle_count = 0;
 	for(new i = 0; i < MAX_VEHICLES_PER_PLAYER; i++)
-		if(gPlayerData[playerid][E_PLAYER_VEHICLE_KEY][i] != 0)
+		if(g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_DBID] != 0)
 			vehicle_count++;
 
 	format(string, sizeof(string), "Veiculos: %s%d/%d", stats_color, vehicle_count, MAX_VEHICLES_PER_PLAYER);
@@ -303,7 +303,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetOutline(playerid, gpt_data_hud[21][playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[21][playerid], 51);
 	PlayerTextDrawFont(playerid, gpt_data_hud[21][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[21][playerid], 1);*/
+	PlayerTextDrawSetProportional(playerid, gpt_data_hud[21][playerid], 1);
 
 	format(string, sizeof(string), "Membro desde: %s%s", stats_color, convertTimestamp(GetPlayerRegDataUnix(playerid)));
 	gpt_data_hud[22][playerid] = CreatePlayerTextDraw(playerid, 190.333084, 303.644317, string);
@@ -495,38 +495,38 @@ SetPlayerStatsColor(playerid, color)
 		format(string, sizeof(string), "Tel.: %s%s", stats_color, phoneNumber);
 		PlayerTextDrawSetString(playerid, gpt_data_hud[11][playerid], string);
 
-		/*new	phoneNetworkName[32] = "N/A";
+		new	phoneNetworkName[32] = "N/A";
 		if(GetPlayerPhoneNumber(playerid))
 			format(phoneNetworkName, sizeof(phoneNetworkName), GetBusinessName(GetPlayerPhoneNetwork(playerid)));
 
 		format(string, sizeof(string), "Oper.: %s%s", stats_color, phoneNetworkName);
 		PlayerTextDrawSetString(playerid, gpt_data_hud[12][playerid], string);
 
-		format(string, sizeof(string), "Nascimento: %s%s", stats_color, gPlayerData[playerid][E_PLAYER_BIRTHDAY]);
-		PlayerTextDrawSetString(playerid, gpt_data_hud[13][playerid], string);
+		/*format(string, sizeof(string), "Nascimento: %s%s", stats_color, gPlayerData[playerid][E_PLAYER_BIRTHDAY]);
+		PlayerTextDrawSetString(playerid, gpt_data_hud[13][playerid], string);*/
 
-		format(string, sizeof(string), "Emprego: %s%s", stats_color, GetPlayerJobName(playerid));
+		format(string, sizeof(string), "Emprego: %s%s", stats_color, GetJobName(GetPlayerJobID(playerid)));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[14][playerid], string);
 
 		new jobNvl[8] = "N/A";
-		if(GetPlayerJobID(playerid) != JOB_NONE)
-			format(jobNvl, sizeof(jobNvl), "%d", GetPlayerJobLevel(playerid));
+		if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
+			format(jobNvl, sizeof(jobNvl), "%d", GetPlayerJobLV(playerid));
 
 		format(string, sizeof(string), "Nvl. Emprego: %s%s", stats_color, jobNvl);
-		PlayerTextDrawSetString(playerid, gpt_data_hud[15][playerid], string);*/
+		PlayerTextDrawSetString(playerid, gpt_data_hud[15][playerid], string);
 
-		/*new jobXP[32] = "N/A";
-		if(GetPlayerJobID(playerid) != JOB_NONE)
+		new jobXP[32] = "N/A";
+		if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
 			format(jobXP, sizeof(jobXP), "%d/%d", GetPlayerJobXP(playerid), GetPlayerJobRequiredXP(playerid));
 
 		format(string, sizeof(string), "XP. Emprego: %s%s", stats_color, jobXP);
 		PlayerTextDrawSetString(playerid, gpt_data_hud[16][playerid], string);
 
-		format(string, sizeof(string), "Org.: %s%s", stats_color, GetFactionName(GetPlayerFactionID(playerid)));
+		/*format(string, sizeof(string), "Org.: %s%s", stats_color, GetFactionName(GetPlayerFactionID(playerid)));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[17][playerid], string);*/
 
 		/*format(string, sizeof(string), "Cargo: %s%s", stats_color, GetPlayerFactionRankName(playerid));
-		PlayerTextDrawSetString(playerid, gpt_data_hud[18][playerid], string);
+		PlayerTextDrawSetString(playerid, gpt_data_hud[18][playerid], string);*/
 
 		new house_str[4] = "Nao";
 		if(GetPlayerHouseID(playerid))
@@ -544,11 +544,11 @@ SetPlayerStatsColor(playerid, color)
 
 		new vehicle_count = 0;
 		for(new i = 0; i < MAX_VEHICLES_PER_PLAYER; i++)
-			if(gPlayerData[playerid][E_PLAYER_VEHICLE_KEY][i] != 0)
+			if(g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_DBID] != 0)
 				vehicle_count++;
 
 		format(string, sizeof(string), "Veiculos: %s%d/%d", stats_color, vehicle_count, MAX_VEHICLES_PER_PLAYER);
-		PlayerTextDrawSetString(playerid, gpt_data_hud[21][playerid], string);*/
+		PlayerTextDrawSetString(playerid, gpt_data_hud[21][playerid], string);
 
 		format(string, sizeof(string), "Membro desde: %s%s", stats_color, convertTimestamp(GetPlayerRegDataUnix(playerid)));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[22][playerid], string);
@@ -571,6 +571,16 @@ SetPlayerStatsColor(playerid, color)
 GetPlayerStatsColor(playerid)
 {
 	return playerStatsColor[playerid];
+}
+
+//--------------------------------------------------------------------
+
+hook OnPlayerClickTextDraw(playerid, Text:clickedid)
+{
+	if(GetPVarInt(playerid, "isDataHudVisible"))
+		if(clickedid == Text:INVALID_TEXT_DRAW)
+			HidePlayerDataHud(playerid);
+	return 1;
 }
 
 //--------------------------------------------------------------------

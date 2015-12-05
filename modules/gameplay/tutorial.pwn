@@ -76,6 +76,8 @@ OnPlayerClickTutorialButton(playerid, BUTTON:button)
 
         SendClientMessage(playerid, 0xFFFFFFFF, "Para visualizar o stats de seu personagem digite {88aa62}/stats{ffffff}.");
         SendClientMessage(playerid, 0xFFFFFFFF, "Apenas jogadores próximo a você irão ouvir o que você diz.");
+        HidePlayerGPS(playerid);
+        ShowPlayerLogo(playerid);
         return 1;
     }
 

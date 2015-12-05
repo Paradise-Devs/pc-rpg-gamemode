@@ -253,6 +253,22 @@ stock ClearPlayerScreen(playerid, lines = 100)
 
 //------------------------------------------------------------------------------
 
+#define swap(%1,%2) \
+	%1 ^= %2, %2 ^= %1, %1 ^= %2
+
+//------------------------------------------------------------------------------
+
+stock IsPlayerInCube(playerid, Float:minx, Float:miny, Float:minz, Float:maxx, Float:maxy, Float:maxz)
+{
+    new Float:x, Float:y, Float:z;
+    GetPlayerPos(playerid, x, y, z);
+    if(x <= maxx && x >= minx && y <= maxy && y >= miny && z <= minz && z >= maxz)
+        return 1;
+    return 0;
+}
+
+//------------------------------------------------------------------------------
+
 stock ConvertToGameText(in[])
 {
     new string[256];
@@ -473,6 +489,51 @@ stock IsPlayerRunning(playerid)
         return false;
 
     return true;
+}
+
+//------------------------------------------------------------------------------
+
+stock GetFirstName(const name[])
+{
+    new playerName[MAX_PLAYER_NAME];
+    format(playerName, sizeof(playerName), "%s", name);
+    for(new i = 0; i < MAX_PLAYER_NAME; i++) {
+        if(playerName[i] == '_') playerName[i] = '\0';
+    }
+    if(isnull(playerName)) {
+        playerName = "Desconhecido";
+    }
+
+    return playerName;
+}
+
+//------------------------------------------------------------------------------
+
+stock IsNumeric(const string[])
+{
+    for (new i = 0, j = strlen(string); i < j; i++)
+    {
+        if (string[i] > '9' || string[i] < '0') return 0;
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+stock SetPlayerHealthEx(playerid, Float:health, Float:limit = Float:0x7F800000)
+{
+    if(health > limit)
+        health = limit;
+
+    SetPlayerHealth(playerid, health);
+    return 1;
+}
+
+stock Float:GetPlayerHealthf(playerid)
+{
+    new Float:health;
+    GetPlayerHealth(playerid, health);
+    return health;
 }
 
 //------------------------------------------------------------------------------

@@ -32,10 +32,10 @@ YCMD:acmds(playerid, params[], help)
     }
 
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /lotto - /jetpack - /fakeban - /godmode");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /lotto - /jetpack - /fakeban");
 
     if(IsPlayerAdmin(playerid))
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /avehcmds - /abuildingcmds");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /avehcmds - /abuildingcmds - /apartcmds - /ahousecmds");
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
@@ -85,6 +85,9 @@ YCMD:acmds(playerid, params[], help)
 
     SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s veio até você.", GetPlayerNamef(playerid));
     SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você foi até %s.", GetPlayerNamef(targetid));
+
+    DisablePlayerRaceCheckpoint(playerid);
+    SetPlayerCPID(playerid, CHECKPOINT_NONE);
  	return 1;
  }
 
@@ -121,6 +124,9 @@ YCMD:acmds(playerid, params[], help)
 
     SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s puxou você.", GetPlayerNamef(playerid));
     SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você puxou %s.", GetPlayerNamef(targetid));
+
+    DisablePlayerRaceCheckpoint(targetid);
+    SetPlayerCPID(targetid, CHECKPOINT_NONE);
  	return 1;
  }
 
@@ -234,6 +240,21 @@ YCMD:lv(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
+YCMD:virtualworld(playerid, params[], help)
+{
+    SendClientMessagef(playerid, 0xA9C4E4FF, "Current virtualworld: %d", GetPlayerVirtualWorld(playerid));
+    return 1;
+}
+//------------------------------------------------------------------------------
+
+YCMD:vehicleid(playerid, params[], help)
+{
+    SendClientMessagef(playerid, 0xA9C4E4FF, "Current vehicleid: %d", GetPlayerVehicleID(playerid));
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 YCMD:sairdohospital(playerid, params[], help)
 {
     if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
@@ -263,7 +284,7 @@ YCMD:sairdohospital(playerid, params[], help)
     else if(skinid < 0 || skinid > 311)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Skin inválida.");
 
- 	SetPlayerSkin(targetid, skinid);
+ 	SetPlayerSkin(targetid, skinid, true);
     if(playerid != targetid)
         SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua skin para %d.", GetPlayerNamef(playerid), skinid);
     SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a skin de %s para %d.", GetPlayerNamef(targetid), skinid);
@@ -287,6 +308,9 @@ YCMD:kick(playerid, params[], help)
 
    else if(playerid == targetid)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar você mesmo.");
+
+   else if(IsPlayerNPC(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um NPC.");
 
    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um membro da administração.");
@@ -314,6 +338,9 @@ YCMD:ban(playerid, params[], help)
 
    else if(playerid == targetid)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir você mesmo.");
+
+   else if(IsPlayerNPC(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um NPC.");
 
    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
@@ -680,12 +707,13 @@ YCMD:setjob(playerid, params[], help)
    if(sscanf(params, "ui", targetid, value))
    {
        SendClientMessage(playerid, COLOR_INFO, "* /setjob [playerid] [emprego]");
-       SendClientMessagef(playerid, COLOR_SUB_TITLE, "* (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s",
+       SendClientMessagef(playerid, COLOR_SUB_TITLE, "* (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s",
        _:INVALID_JOB_ID, GetJobName(INVALID_JOB_ID),
        _:PILOT_JOB_ID, GetJobName(PILOT_JOB_ID),
        _:TRUCKER_JOB_ID, GetJobName(TRUCKER_JOB_ID),
+       _:LUMBERJACK_JOB_ID, GetJobName(LUMBERJACK_JOB_ID),
        _:NAVIGATOR_JOB_ID, GetJobName(NAVIGATOR_JOB_ID),
-       _:LUMBERJACK_JOB_ID, GetJobName(LUMBERJACK_JOB_ID));
+       _:PARAMEDIC_JOB_ID, GetJobName(PARAMEDIC_JOB_ID));
        return 1;
    }
 
@@ -739,24 +767,6 @@ YCMD:fakeban(playerid, params[], help)
    SendClientMessage(targetid, 0xf26363ff, output);
    SendClientMessage(targetid, 0xA9C4E4FF, "Server closed the connection.");
    return 1;
-}
-
-//------------------------------------------------------------------------------
-
-YCMD:godmode(playerid, params[], help)
-{
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
-
-    if(IsAdminInGodMode(playerid)) {
-        SetAdminGodMode(playerid, false);
-        SendClientMessage(playerid, COLOR_ADMIN_ACTION, "* Você saiu do god mode.");
-    } else {
-        SetAdminGodMode(playerid, true);
-        SendClientMessage(playerid, COLOR_ADMIN_ACTION, "* Você entrou no god mode.");
-    }
-
-    return 1;
 }
 
 //------------------------------------------------------------------------------

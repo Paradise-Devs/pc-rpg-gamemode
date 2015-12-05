@@ -51,7 +51,7 @@ YCMD:servico(playerid, params[], help)
 
         if(GetPlayerJobID(playerid) == PARAMEDIC_JOB_ID)
             CallRemoteFunction("DestroyPlayerParamedicInfo", "i", playerid);
-            
+
         return 1;
     }
 

@@ -13,8 +13,8 @@
 
 //------------------------------------------------------------------------------
 
-#include <YSI\y_hooks>
 #include "../modules/visual/dealership.pwn"
+#include <YSI\y_hooks>
 
 #if !defined MAX_VEHICLES_PER_PLAYER
 	#define MAX_VEHICLES_PER_PLAYER	10
