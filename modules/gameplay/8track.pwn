@@ -165,6 +165,7 @@ static StartRace()
 		if(IsPlayerIn8Track(i))
 		{
 			SendClientMessage(i, -1, "* A corrida irá começar em {FFA050}10{FFFFFF}, liguem os motores.");
+			SetVehicleFuel(GetPlayerVehicleID(i), 100.0);
 			TogglePlayerControllable(i, false);
 		}
 	}
