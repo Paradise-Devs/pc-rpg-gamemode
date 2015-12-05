@@ -23,7 +23,7 @@ new mysql;
 
 hook OnGameModeInit()
 {
-	mysql_log(LOG_ERROR | LOG_WARNING | LOG_DEBUG);
+	//mysql_log(LOG_ERROR | LOG_WARNING | LOG_DEBUG);
 	mysql = mysql_connect(MySQL_HOST, MySQL_USER, MySQL_DB, MySQL_PASS);
 	if(mysql_errno(mysql) != 0)
     {
