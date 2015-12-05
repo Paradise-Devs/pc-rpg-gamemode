@@ -281,6 +281,9 @@ YCMD:curar(playerid, params[], help)
     if(gplTruck[playerid] == INVALID_VEHICLE_ID)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não está trabalhando.");
 
+    if(!IsPlayerInVehicle(playerid, gplTruck[playerid]) || !IsPlayerInVehicle(targetid, gplTruck[playerid]))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Vocês precisam estar na ambulância.");
+
     new Float:health;
     GetPlayerHealth(targetid, health);
 
@@ -289,9 +292,6 @@ YCMD:curar(playerid, params[], help)
 
     if(playerid == targetid)
     	return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode curar você mesmo.");
-
-    if(!IsPlayerInVehicle(playerid, gplTruck[playerid]) || !IsPlayerInVehicle(targetid, gplTruck[playerid]))
-        return SendClientMessage(playerid, COLOR_ERROR, "* Vocês precisam estar na ambulância.");
 
     new message[64];
     format(message, sizeof(message), "trata dos ferimentos de %s.", GetPlayerNamef(targetid));
