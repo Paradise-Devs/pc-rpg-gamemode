@@ -237,7 +237,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawFont(playerid, gpt_data_hud[16][playerid], 2);
 	PlayerTextDrawSetProportional(playerid, gpt_data_hud[16][playerid], 1);
 
-	/*format(string, sizeof(string), "Org.: %s%s", stats_color, ConvertToGameText(GetFactionName(GetPlayerFactionID(playerid))));
+	format(string, sizeof(string), "Org.: %s%s", stats_color, ConvertToGameText(GetFactionName(GetPlayerFactionID(playerid))));
 	gpt_data_hud[17][playerid] = CreatePlayerTextDraw(playerid, 367.333374, 163.851837, string);
 	PlayerTextDrawLetterSize(playerid, gpt_data_hud[17][playerid], 0.184900, 1.391700);
 	PlayerTextDrawAlignment(playerid, gpt_data_hud[17][playerid], 1);
@@ -248,7 +248,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawFont(playerid, gpt_data_hud[17][playerid], 2);
 	PlayerTextDrawSetProportional(playerid, gpt_data_hud[17][playerid], 1);
 
-	format(string, sizeof(string), "Cargo: %s%s", stats_color, ConvertToGameText(GetPlayerFactionRankName(playerid)));
+	format(string, sizeof(string), "Cargo: %s%s", stats_color, ConvertToGameText(GetFactionRankName(GetPlayerFactionID(playerid), GetPlayerFactionRankID(playerid))));
 	gpt_data_hud[18][playerid] = CreatePlayerTextDraw(playerid, 366.999847, 178.785217, string);
 	PlayerTextDrawLetterSize(playerid, gpt_data_hud[18][playerid], 0.184900, 1.391700);
 	PlayerTextDrawAlignment(playerid, gpt_data_hud[18][playerid], 1);
@@ -257,7 +257,7 @@ ShowPlayerDataHud(playerid)
 	PlayerTextDrawSetOutline(playerid, gpt_data_hud[18][playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[18][playerid], 51);
 	PlayerTextDrawFont(playerid, gpt_data_hud[18][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[18][playerid], 1);*/
+	PlayerTextDrawSetProportional(playerid, gpt_data_hud[18][playerid], 1);
 
 	new house_str[4] = "Nao";
 	if(GetPlayerHouseID(playerid) != INVALID_HOUSE_ID)
@@ -522,21 +522,21 @@ SetPlayerStatsColor(playerid, color)
 		format(string, sizeof(string), "XP. Emprego: %s%s", stats_color, jobXP);
 		PlayerTextDrawSetString(playerid, gpt_data_hud[16][playerid], string);
 
-		/*format(string, sizeof(string), "Org.: %s%s", stats_color, GetFactionName(GetPlayerFactionID(playerid)));
-		PlayerTextDrawSetString(playerid, gpt_data_hud[17][playerid], string);*/
+		format(string, sizeof(string), "Org.: %s%s", stats_color, GetFactionName(GetPlayerFactionID(playerid)));
+		PlayerTextDrawSetString(playerid, gpt_data_hud[17][playerid], string);
 
-		/*format(string, sizeof(string), "Cargo: %s%s", stats_color, GetPlayerFactionRankName(playerid));
-		PlayerTextDrawSetString(playerid, gpt_data_hud[18][playerid], string);*/
+		format(string, sizeof(string), "Cargo: %s%s", stats_color, GetFactionRankName(GetPlayerFactionID(playerid), GetPlayerFactionRankID(playerid)));
+		PlayerTextDrawSetString(playerid, gpt_data_hud[18][playerid], string);
 
 		new house_str[4] = "Nao";
-		if(GetPlayerHouseID(playerid))
+		if(GetPlayerHouseID(playerid) != INVALID_HOUSE_ID)
 			house_str = "Sim";
 
 		format(string, sizeof(string), "Casa: %s%s", stats_color, house_str);
 		PlayerTextDrawSetString(playerid, gpt_data_hud[19][playerid], string);
 
 		new business_str[32] = "Nao";
-		if(GetPlayerBusinessID(playerid))
+		if(GetPlayerBusinessID(playerid) != INVALID_BUSINESS_ID)
 			format(business_str, sizeof(business_str), "%s", GetBusinessName(GetPlayerBusinessID(playerid)));
 
 		format(string, sizeof(string), "Empresa: %s%s", stats_color, business_str);
