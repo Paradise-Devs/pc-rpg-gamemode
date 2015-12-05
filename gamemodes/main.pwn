@@ -230,6 +230,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/visual/gps.pwn"
 #include "../modules/visual/logo.pwn"
 #include "../modules/visual/login.pwn"
+#include "../modules/visual/businfo.pwn"
 
 /* NPCs */
 #include "../modules/npcs/actors.pwn"
