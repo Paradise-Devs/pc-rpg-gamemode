@@ -98,7 +98,7 @@ hook OnGameModeInit()
     print("Loading paramedic job.");
 	CreateDynamicPickup(1210, 1, 1183.1554, -1313.3402, 13.5681, 0, 0, -1, MAX_PICKUP_RANGE);
 	CreateDynamic3DTextLabel("Paramédico\nPressione {1add69}Y", 0xFFFFFFFF, 1183.1554, -1313.3402, 13.5681, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
-    gCheckpointid = CreateDynamicCP(1183.1333, -1332.5238, 13.5808, 1.0, 0, 0);
+    gCheckpointid = CreateDynamicCP(1172.0778, -1321.5398, 15.3990, 1.0, 0, 0);
     return 1;
 }
 
