@@ -4305,10 +4305,10 @@ YCMD:abusinesscmds(playerid, params[], help)
 	}
 	else
 	{
-		SendClientMessage(playerid, 0x00B6FFFF, "_____________________________ Business Comandos ______________________________");
-		SendClientMessage(playerid, 0xC8C8C8C8, "/abusinessentrance - /abusinessexit - /abusinessprice - /abusinesslock - /abusinesstill - /abusinessprodprice");
-		SendClientMessage(playerid, 0xC8C8C8C8, "/abusinessproducts - /abusinesssell - /abusinesstype - /abusinessname - /abusinessvowner - /abusinessowner");
-		SendClientMessage(playerid, 0x00B6FFFF, "____________________________________________________________________________");
+		SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Business Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		SendClientMessage(playerid, COLOR_SUB_TITLE, "/abusinessentrance - /abusinessexit - /abusinessprice - /abusinesslock - /abusinesstill - /abusinessprodprice");
+		SendClientMessage(playerid, COLOR_SUB_TITLE, "/abusinessproducts - /abusinesssell - /abusinesstype - /abusinessname - /abusinessvowner - /abusinessowner");
+		SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	}
 	return 1;
 }

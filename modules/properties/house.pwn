@@ -1312,10 +1312,10 @@ YCMD:ahousecmds(playerid, params[], help)
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	else
 	{
-		SendClientMessage(playerid, 0xFAD669FF, "~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~");
-		SendClientMessage(playerid, -1, "* /ahouseentrance - /ahouseexit - /ahouseprice - /ahouselock - /ahouseowner");
-		SendClientMessage(playerid, -1, "* /ahousesell - /ahousedescription - /ahouseid - /ahousegarages - /ahousebeds - /ahouserooms");
-		SendClientMessage(playerid, 0xFAD669FF, "~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~");
+		SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~");
+		SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ahouseentrance - /ahouseexit - /ahouseprice - /ahouselock - /ahouseowner");
+		SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ahousesell - /ahousedescription - /ahouseid - /ahousegarages - /ahousebeds - /ahouserooms");
+		SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~");
 	}
 	return 1;
 }
