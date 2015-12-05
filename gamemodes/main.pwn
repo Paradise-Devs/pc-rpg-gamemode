@@ -102,6 +102,7 @@
 // ID of the model list for text draw of skins
 new maleskinlist = mS_INVALID_LISTID;
 new femaleskinlist = mS_INVALID_LISTID;
+new g_RegisteredPlayers;
 
 //------------------------------------------------------------------------------
 
@@ -225,6 +226,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/visual/stats.pwn"
 #include "../modules/visual/gps.pwn"
 #include "../modules/visual/logo.pwn"
+#include "../modules/visual/login.pwn"
 
 /* NPCs */
 #include "../modules/npcs/actors.pwn"

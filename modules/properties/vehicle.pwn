@@ -300,7 +300,7 @@ ResetPlayerVehicleData(playerid)
 /*
 	Gets the vehicle 2D position
 */
-/*
+
 GetDealershipVehicle2DPos(playerid, i, &Float:x, &Float:y)
 {
 	x = g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_X];
@@ -317,7 +317,7 @@ GetDealershipVehicleModel(playerid, i)
 	return g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_MODEL];
 }
 
-GetDealershipVehicleFuel(playerid, i)
+Float:GetDealershipVehicleFuel(playerid, i)
 {
 	return g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FUEL];
 }
@@ -332,7 +332,7 @@ GetDealershipVehicleColor(playerid, i, &col1, &col2)
 	col1 = g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_COLOR1];
 	col2 = g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_COLOR2];
 }
-*/
+
 
 //--------------------------------------------------------------------
 
@@ -976,6 +976,7 @@ public OnLoadPlayerVehicle(playerid)
 			cache_get_field_content(i, "Owner", g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_OWNER], mysql, MAX_PLAYER_NAME);
 		}
 	}
+	VSL_ShowPlayerTextdraw(playerid);
 }
 
 //--------------------------------------------------------------------

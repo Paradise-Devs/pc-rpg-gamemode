@@ -117,7 +117,8 @@ static gPlayerItemData[MAX_PLAYERS][e_player_idata];
 enum E_PLAYER_STATE (<<= 1)
 {
     E_PLAYER_STATE_NONE,
-    E_PLAYER_STATE_LOGGED = 1
+    E_PLAYER_STATE_LOGGED = 1,
+    E_PLAYER_STATE_REGISTERED
 }
 static E_PLAYER_STATE:gPlayerStates[MAX_PLAYERS];
 
@@ -216,6 +217,11 @@ GetPlayerFactionID(playerid)
     return gPlayerCharacterData[playerid][e_player_faction];
 }
 
+GetPlayerFactionRankID(playerid)
+{
+    return gPlayerCharacterData[playerid][e_player_frank];
+}
+
 //------------------------------------------------------------------------------
 
 GetPlayerSpawnPosition(playerid)
@@ -264,6 +270,17 @@ IsPlayerLogged(playerid)
     return false;
 }
 
+IsPlayerRegistered(playerid)
+{
+    if(!IsPlayerConnected(playerid))
+        return false;
+
+    if(gPlayerStates[playerid] & E_PLAYER_STATE_REGISTERED)
+        return true;
+
+    return false;
+}
+
 //------------------------------------------------------------------------------
 
 SetPlayerLogged(playerid, bool:set)
@@ -272,6 +289,14 @@ SetPlayerLogged(playerid, bool:set)
         gPlayerStates[playerid] |= E_PLAYER_STATE_LOGGED;
     else
         gPlayerStates[playerid] &= ~E_PLAYER_STATE_LOGGED;
+}
+
+SetPlayerRegistered(playerid, bool:set)
+{
+    if(set)
+        gPlayerStates[playerid] |= E_PLAYER_STATE_REGISTERED;
+    else
+        gPlayerStates[playerid] &= ~E_PLAYER_STATE_REGISTERED;
 }
 
 //------------------------------------------------------------------------------
@@ -536,9 +561,24 @@ stock My_SetPlayerSkin(playerid, skin, bool:save_skin = false)
 #endif
 #define SetPlayerSkin My_SetPlayerSkin
 
+GetPlayerSavedSkin(playerid)
+{
+    return gPlayerCharacterData[playerid][e_player_skin];
+}
+
 GetPlayerGender(playerid)
 {
     return gPlayerCharacterData[playerid][e_player_gender];
+}
+
+GetPlayerGenderName(playerid)
+{
+	new genderName[10];
+	if(!GetPlayerGender(playerid))
+		genderName = "Masculino";
+	else
+		genderName = "Feminino";
+	return genderName;
 }
 
 //------------------------------------------------------------------------------
@@ -812,7 +852,7 @@ public OnAccountLoad(playerid)
 
         LoadPlayerWeapons(playerid);
         LoadPlayerPets(playerid);
-        LoadPlayerVehicles(playerid);
+        // LoadPlayerVehicles(playerid);
 
         SetPlayerColor(playerid, 0xFFFFFFFF);
         SetPlayerLogged(playerid, true);
@@ -894,19 +934,40 @@ public OnAccountCheck(playerid)
         cache_get_field_content(0, "password", gPlayerAccountData[playerid][e_player_password], mysql, MAX_PLAYER_PASSWORD);
         gPlayerAccountData[playerid][e_player_database_id] = cache_get_field_content_int(0, "ID", mysql);
 
-        new info[130];
+        gPlayerCharacterData[playerid][e_player_skin]               = cache_get_field_content_int(0, "skin", mysql);
+        gPlayerCharacterData[playerid][e_player_faction]            = cache_get_field_content_int(0, "faction", mysql);
+        gPlayerCharacterData[playerid][e_player_frank]              = cache_get_field_content_int(0, "faction_rank", mysql);
+        gPlayerCharacterData[playerid][e_player_jobid]              = Job:cache_get_field_content_int(0, "jobid", mysql);
+        gPlayerCharacterData[playerid][e_player_level]              = cache_get_field_content_int(0, "xp", mysql);
+        gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "level", mysql);
+        gPlayerPhoneData[playerid][e_player_phone_number]           = cache_get_field_content_int(0, "phone_number", mysql);
+
+        SetPlayerRankVar(playerid, cache_get_field_content_int(0, "rank", mysql));
+        SetPlayerHouseID(playerid, cache_get_field_content_int(0, "housekey", mysql));
+        SetPlayerBusinessID(playerid, cache_get_field_content_int(0, "businesskey", mysql));
+        SetPlayerApartmentKey(playerid, cache_get_field_content_int(0, "apartkey", mysql));
+
+        SetPlayerRegistered(playerid, true);
+        LoadPlayerVehicles(playerid);
+        // VSL_ShowPlayerTextdraw(playerid); ^
+
+        /*new info[130];
         format(info, sizeof(info), "Bem-vindo de volta %s!\n\nSua conta já está registrada em nosso banco de dados.\nDigite sua senha para se conectar.", GetPlayerFirstName(playerid));
         ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "Conta Registrada", info, "Conectar", "Sair");
-        PlaySelectSound(playerid);
+        PlaySelectSound(playerid);*/
 	}
     else
     {
-        new info[130];
+        /*new info[130];
         format(info, sizeof(info), "Bem-vindo %s!\n\nSua conta não está registrada em nosso banco de dados.\nDigite sua senha para se registrar.", GetPlayerFirstName(playerid));
         ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Conta Registrada", info, "Registrar", "Sair");
-        PlaySelectSound(playerid);
+        PlaySelectSound(playerid);*/
+
+        SetPlayerRegistered(playerid, false);
+        VSL_ShowPlayerTextdraw(playerid);
     }
 	SendClientMessage(playerid, COLOR_SUCCESS, "Conectado.");
+    ClearPlayerScreen(playerid, 20);
     return 1;
 }
 
