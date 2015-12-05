@@ -13,8 +13,6 @@ static PlayerText:textUnGPS[MAX_PLAYERS];
 static PlayerText:textBuy[MAX_PLAYERS];
 static PlayerText:textBGGPS[MAX_PLAYERS];
 
-static bool:isVisible[MAX_PLAYERS];
-
 static zone;
 
 hook OnGameModeInit()
@@ -25,7 +23,6 @@ hook OnGameModeInit()
 
 hook OnPlayerConnect(playerid)
 {
-    isVisible[playerid] = true;
     textDistrict[playerid] = CreatePlayerTextDraw(playerid, 85.333351, 320.237060, "Los Santos");
 	PlayerTextDrawLetterSize(playerid, textDistrict[playerid], 0.449999, 1.600000);
 	PlayerTextDrawAlignment(playerid, textDistrict[playerid], 2);
@@ -69,9 +66,6 @@ hook OnPlayerConnect(playerid)
 
 UpdatePlayerGPS(playerid)
 {
-    if(!isVisible[playerid])
-        return 1;
-
 	new districtString[28];
 	GetPlayer2DZone(playerid, districtString, 28);
 	PlayerTextDrawSetString(playerid, textDistrict[playerid], districtString);
@@ -80,10 +74,6 @@ UpdatePlayerGPS(playerid)
 
 HidePlayerGPS(playerid)
 {
-    if(!isVisible[playerid])
-        return 1;
-
-    isVisible[playerid] = false;
 	PlayerTextDrawHide(playerid, textDistrict[playerid]);
 	PlayerTextDrawShow(playerid, textBGGPS[playerid]);
 	PlayerTextDrawShow(playerid, textBuy[playerid]);
@@ -94,10 +84,6 @@ HidePlayerGPS(playerid)
 
 ShowPlayerGPS(playerid)
 {
-    if(isVisible[playerid])
-        return 1;
-
-    isVisible[playerid] = true;
 	PlayerTextDrawShow(playerid, textDistrict[playerid]);
 	PlayerTextDrawHide(playerid, textBGGPS[playerid]);
 	PlayerTextDrawHide(playerid, textUnGPS[playerid]);
