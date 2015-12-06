@@ -135,6 +135,16 @@ hook OnGameModeInit()
 	printf("Creating objects...");
 	CreateDynamicObject(3089, 2160.5, 1603.3000488281, 1000.299987793, 0, 0, 270, -1, 1, -1, 25); // Phone Network inside door
 	CreateDynamicObject(1506, 365.80, 196.24, 1007.37,   0.00, 0.00, 0.00, 26);//CNN News inside door
+
+	// Door at SF-PD for advertising business
+	CreateDynamicObject(1535, 220.32, 115.85, 1002.22,   0.00, 0.00, 0.00);
+	CreateDynamicObject(1535, 223.34, 115.88, 1002.22,   0.00, 0.00, 180.00);
+
+	// Ground at The Welcome Pump
+	CreateDynamicObject(8664, 682.94452, -467.08691, -26.69240, 0.00000, 0.00000, 0.00000, -1, 1);
+	CreateDynamicObject(1501, 680.72339, -450.72391, -26.51500, 0.00000, 0.00000, 0.00000, -1, 1);
+	new ground = CreateDynamicObject(19377, 681.45459, -450.60699, -26.61890, 0.00000, 0.00000, 90.00000, -1, 1);
+	SetDynamicObjectMaterial(ground, 0, 14655, "ab_trukstpa", "bbar_wall1");
 	return 1;
 }
 
