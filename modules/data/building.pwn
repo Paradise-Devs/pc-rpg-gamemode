@@ -173,6 +173,14 @@ public OnPlayerEnterBuilding(playerid, building)
 
 public OnPlayerExitBuilding(playerid, building)
 {
+    if(building == 1)
+    {
+        if(GetPlayerFirstTime(playerid, FIRST_TIME_CITY_HALL) == false)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Você não pode sair antes de completar a missão.");
+            return 0;
+        }
+    }
     return 1;
 }
 

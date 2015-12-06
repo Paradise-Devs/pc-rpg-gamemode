@@ -207,6 +207,7 @@ ResetPlayerData(playerid)
     gPlayerItemData[playerid][e_player_cigaretts]       = 0;
     gPlayerItemData[playerid][e_player_walkietalkie]    = 0;
 
+    SetPlayerRankVar(playerid, 0);
     SetPlayerHouseID(playerid, INVALID_HOUSE_ID);
     SetPlayerBusinessID(playerid, INVALID_BUSINESS_ID);
     SetPlayerApartmentKey(playerid, INVALID_APARTMENT_ID);

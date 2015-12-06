@@ -39,6 +39,17 @@ ptask UpdatePlayerData[1000](playerid)
 		PlayerTextDrawSetString(playerid, gpt_data_hud[24][playerid], time_played_str);
 	}
 
+	if(GetPlayerMoney(playerid) != GetPlayerCash(playerid))
+	{
+		if(GetPlayerCash(playerid) > GetPlayerMoney(playerid) && GetPlayerCash(playerid) < (GetPlayerMoney(playerid) + 500))
+			SetPlayerCash(playerid, GetPlayerMoney(playerid));
+		else
+		{
+			ResetPlayerMoney(playerid);
+			GivePlayerMoney(playerid, GetPlayerCash(playerid));
+		}
+	}
+
 	SetPlayerPlayedTime(playerid, GetPlayerPlayedTime(playerid) + 1);
 	UpdatePlayerGPS(playerid);
     return 1;

@@ -73,7 +73,7 @@ GetFactionName(factionid)
         format(factionName, sizeof(factionName), "%s", gFactionData[factionid][e_faction_name]);
         return factionName;
     }
-    factionName = "desconhecida";
+    factionName = "Nenhuma";
     return factionName;
 }
 
@@ -89,7 +89,7 @@ GetFactionRankName(factionid, rank)
         format(factionName, sizeof(factionName), "%s", gFactionRankNames[factionid][rank]);
         return factionName;
     }
-    factionName = "desconhecido";
+    factionName = "Nenhum";
     return factionName;
 }
 

@@ -219,9 +219,6 @@ new	Iterator:Business<MAX_HOUSES>;
 /* Factions */
 #include "../modules/faction/cnn.pwn"
 
-/* Cutscenes */
-#include "../modules/cutscenes/cityhall.pwn"
-
 /* Visual */
 #include "../modules/visual/speedo.pwn"
 #include "../modules/visual/subtitles.pwn"
@@ -235,6 +232,9 @@ new	Iterator:Business<MAX_HOUSES>;
 /* NPCs */
 #include "../modules/npcs/actors.pwn"
 #include "../modules/npcs/npcs.pwn"
+
+/* Cutscenes */
+#include "../modules/cutscenes/cityhall.pwn"
 
 /* Jobs */
 #include "../modules/job/pilot.pwn"

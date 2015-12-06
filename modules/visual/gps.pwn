@@ -91,10 +91,11 @@ HidePlayerGPS(playerid)
     return 1;
 }
 
-ShowPlayerGPS(playerid)
+ShowPlayerGPS(playerid, bool:partial = false)
 {
     isVisible[playerid] = true;
-	PlayerTextDrawShow(playerid, textDistrict[playerid]);
+	if(partial == false) PlayerTextDrawShow(playerid, textDistrict[playerid]);
+    else PlayerTextDrawHide(playerid, textDistrict[playerid]);
 	PlayerTextDrawHide(playerid, textBGGPS[playerid]);
 	PlayerTextDrawHide(playerid, textUnGPS[playerid]);
 	PlayerTextDrawHide(playerid, textBuy[playerid]);
