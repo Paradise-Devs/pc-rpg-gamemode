@@ -797,7 +797,7 @@ YCMD:apartbounds(playerid, params[], help)
 
 	new apartmentid;
 	if(sscanf(params, "i", apartmentid))
-		return SendClientMessage(playerid, COLOR_INFO, "* /apartvender [apartamento id]");
+		return SendClientMessage(playerid, COLOR_INFO, "* /apartbounds [apartamento id]");
 
 	if(apartmentid > (MAX_APARTMENTS-1) || apartmentid < 0)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Não existe um apartamento com este ID.");
