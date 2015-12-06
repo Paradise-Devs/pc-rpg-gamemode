@@ -85,7 +85,8 @@ CREATE TABLE IF NOT EXISTS `players` (
   `gps` int(10) signed NOT NULL DEFAULT '0',
   `lighter` int(10) signed NOT NULL DEFAULT '0',
   `cigaretts` int(10) signed NOT NULL DEFAULT '0',
-  `walkietalkie` int(10) signed NOT NULL DEFAULT '0'
+  `walkietalkie` int(10) signed NOT NULL DEFAULT '0',
+  `isOnline` int(10) signed NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --

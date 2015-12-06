@@ -302,6 +302,10 @@ SetPlayerLogged(playerid, bool:set)
         gPlayerStates[playerid] |= E_PLAYER_STATE_LOGGED;
     else
         gPlayerStates[playerid] &= ~E_PLAYER_STATE_LOGGED;
+
+    new query[56];
+	mysql_format(mysql, query, sizeof(query), "UPDATE `players` SET `isOnline`=%d WHERE `ID`=%d", set, GetPlayerDatabaseID(playerid));
+	mysql_tquery(mysql, query);
 }
 
 SetPlayerRegistered(playerid, bool:set)
