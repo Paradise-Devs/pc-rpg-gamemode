@@ -52,7 +52,8 @@ static gCreatedFaction;
 enum
 {
     FACTION_TYPE_NONE,
-    FACTION_TYPE_NEWS
+    FACTION_TYPE_NEWS,
+    FACTION_TYPE_POLICE
 }
 
 enum

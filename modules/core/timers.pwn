@@ -50,6 +50,22 @@ ptask UpdatePlayerData[1000](playerid)
 		}
 	}
 
+	// If the player is a cop and is near LSPD garage barrier, open it
+	else if(IsPlayerInRangeOfPoint(playerid, 7.5, 1544.71570, -1630.83972, 13.21490) && GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE && IsPlayerInAnyVehicle(playerid)) {
+		if(!GetLSPDBarrierGateState())
+			OpenLSPDBarrierGate();
+	}
+	// If the player is a cop and is near LSPD garage gate, open it
+	else if(IsPlayerInRangeOfPoint(playerid, 7.5, 1589.67029, -1638.29895, 14.25740) && GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE && IsPlayerInAnyVehicle(playerid)) {
+		if(!GetPoliceGarageGateState())
+			OpenPoliceGarageGate();
+	}
+	// If the player is a cop and is near LSPD garage door, open it
+	else if(IsPlayerInRangeOfPoint(playerid, 5.0, 1584.12744, -1637.90173, 12.38100) && GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE && !IsPlayerInAnyVehicle(playerid)) {
+		if(!GetPoliceGarageDoorState())
+			OpenPoliceGarageDoor();
+	}
+
 	SetPlayerPlayedTime(playerid, GetPlayerPlayedTime(playerid) + 1);
 	UpdatePlayerGPS(playerid);
     return 1;

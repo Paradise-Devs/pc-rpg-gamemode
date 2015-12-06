@@ -261,6 +261,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/objects/hospital.pwn"
 #include "../modules/objects/airport.pwn"
 #include "../modules/objects/player.pwn" // a.k.a attachments
+#include "../modules/objects/lspd.pwn"
 
 /* Core */
 #include "../modules/core/timers.pwn"
