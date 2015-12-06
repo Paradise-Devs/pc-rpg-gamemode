@@ -78,27 +78,30 @@ StartCityHallSchoolCutscene(playerid)
 
 //------------------------------------------------------------------------------
 
-timer PlayCityHallSound[6500](playerid)
+timer PlayCityHallSound[4000](playerid)
 {
     switch(gPlayerSoundPart[playerid])
     {
         case 0:
         {
-            PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/cityhall_01.mp3");
-            CreatePlayerSubtitle(playerid, ConvertToGameText("Olá, Bem-vindo a prefeitura, você apareceu bem na hora!"), true);
+            //PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/cityhall_01.mp3");
+            PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/PC-RPG%20Voices/CityHall/city-hall-01.mp3");
+            CreatePlayerSubtitle(playerid, ConvertToGameText("Olá, bem-vindo a prefeitura, você apareceu bem na hora!"), true);
             ClearPlayerScreen(playerid, 20);
             defer PlayCityHallSound(playerid);
         }
         case 1:
         {
-            PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/cityhall_02.mp3");
-            SetPlayerSubtitle(playerid, ConvertToGameText("Estou precisando de ajuda, para organizar alguns livros."));
+            //PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/cityhall_02.mp3");
+            PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/PC-RPG%20Voices/CityHall/city-hall-02.mp3");
+            SetPlayerSubtitle(playerid, ConvertToGameText("Estou precisando de ajuda para organizar alguns livros..."));
             ClearPlayerScreen(playerid, 20);
             defer PlayCityHallSound(playerid);
         }
         case 2:
         {
-            PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/cityhall_03.mp3");
+            //PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/cityhall_03.mp3");
+            PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/88802402/PC-RPG%20Voices/CityHall/city-hall-03.mp3");
             SetPlayerSubtitle(playerid, ConvertToGameText("Vá até a sala a direita, irei paga-lo ao terminar."));
             ClearPlayerScreen(playerid, 20);
             defer PlayCityHallSound(playerid);
@@ -153,6 +156,9 @@ hook OnPlayerEnterRaceCPT(playerid)
 				DisablePlayerRaceCheckpoint(playerid);
                 SetPlayerFirstTime(playerid, FIRST_TIME_CITY_HALL, true);
 
+				SendClientMessage(playerid, 0xB6B6B6FF, "Secretaria diz: Obrigada!.");
+				SendClientMessage(playerid, 0xB6B6B6FF, "Secretaria diz: Caso você esteja perdido, vá comprar um GPS em alguma 24/7.");
+				SendClientMessage(playerid, 0xB6B6B6FF, "Secretaria diz: Ouvi dizer que a pizzaria está contratando motoboys, arranje uma carta para motos e vá para lá.");
 				GivePlayerCash(playerid, 800);
 				foreach(new i: Player)
 				{

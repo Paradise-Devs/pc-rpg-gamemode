@@ -264,7 +264,7 @@ hook OnGameModeInit()
 	ApplyActorAnimation(gActorData[ACTOR_SCHOOL][E_ID], "PED", "SEAT_IDLE", 4.0, 1, 0, 0, 0, 0);
 
 	// City Hall Actors
-	gActorData[ACTOR_CITYHALL][E_ID] = CreateActor(150, 359.61, 173.62, 1008.38, 271.98);// Inside City Hall actor
+	gActorData[ACTOR_CITYHALL][E_ID] = CreateActor(240, 359.61, 173.62, 1008.38, 271.98);// Inside City Hall actor skin: 150
 	ApplyActorAnimation(gActorData[ACTOR_CITYHALL][E_ID], "PED", "SEAT_IDLE", 4.0, 1, 0, 0, 0, 0);
 
 	// Lottery Actors
