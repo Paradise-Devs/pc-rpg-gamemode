@@ -262,7 +262,7 @@ stock IsPlayerInCube(playerid, Float:minx, Float:miny, Float:minz, Float:maxx, F
 {
     new Float:x, Float:y, Float:z;
     GetPlayerPos(playerid, x, y, z);
-    if(x <= maxx && x >= minx && y <= maxy && y >= miny && z <= minz && z >= maxz)
+    if(x <= maxx && x >= minx && y <= maxy && y >= miny && z <= maxz && z >= minz)
         return 1;
     return 0;
 }

@@ -989,7 +989,7 @@ YCMD:comprarmobilia(playerid, params[], help)
 
 	new apartmentid = gPlayerKey[playerid];
 	if(!IsPlayerInCube(playerid, gApartmentData[apartmentid][E_APARTMENT_MIN_X], gApartmentData[apartmentid][E_APARTMENT_MIN_Y], gApartmentData[apartmentid][E_APARTMENT_MIN_Z], gApartmentData[apartmentid][E_APARTMENT_MAX_X], gApartmentData[apartmentid][E_APARTMENT_MAX_Y], gApartmentData[apartmentid][E_APARTMENT_MAX_Z]))
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo dentro de seu apartamento.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está dentro de seu apartamento.");
 
 	if(gApartmentData[apartmentid][E_APARTMENT_OBJS] >= MAX_APARTMENT_OBJECTS)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Seu apartamento já possui o limite de objetos.");
