@@ -1424,11 +1424,11 @@ hook OnGameModeInit()
 	for(new i; i < sizeof(gBusinessAmmuCheckpoint); i++)
 		gBusinessAmmuCheckpointID[i] = CreateDynamicCP(gBusinessAmmuCheckpoint[i][0], gBusinessAmmuCheckpoint[i][1], gBusinessAmmuCheckpoint[i][2], 1.0);
 
-	gBusinessPizzaCheckpointID = CreateDynamicCP(gBusinessPizzaCheckpoint[0][0], gBusinessPizzaCheckpoint[0][1], gBusinessPizzaCheckpoint[0][2], 1.0);
-	gBusinessPhoneCheckpointID = CreateDynamicCP(gBusinessPhoneCheckpoint[0][0], gBusinessPhoneCheckpoint[0][1], gBusinessPhoneCheckpoint[0][2], 1.0);
-	gBusinessBurgerCheckpointID = CreateDynamicCP(gBusinessBurgerCheckpoint[0][0], gBusinessBurgerCheckpoint[0][1], gBusinessBurgerCheckpoint[0][2], 1.0);
-	gBusinessCluckinCheckpointID = CreateDynamicCP(gBusinessCluckinCheckpoint[0][0], gBusinessCluckinCheckpoint[0][1], gBusinessCluckinCheckpoint[0][2], 1.0);
-	gBusinessAdvertisesCheckpointID = CreateDynamicCP(gBusinessAdvertisesCheckpoint[0][0], gBusinessAdvertisesCheckpoint[0][1], gBusinessAdvertisesCheckpoint[0][2], 1.0);
+	gBusinessPizzaCheckpointID = CreateDynamicCP(gBusinessPizzaCheckpoint[0][0], gBusinessPizzaCheckpoint[0][1], gBusinessPizzaCheckpoint[0][2], 1.0, -1, 5);
+	gBusinessPhoneCheckpointID = CreateDynamicCP(gBusinessPhoneCheckpoint[0][0], gBusinessPhoneCheckpoint[0][1], gBusinessPhoneCheckpoint[0][2], 1.0, -1, 1);
+	gBusinessBurgerCheckpointID = CreateDynamicCP(gBusinessBurgerCheckpoint[0][0], gBusinessBurgerCheckpoint[0][1], gBusinessBurgerCheckpoint[0][2], 1.0, -1, 10);
+	gBusinessCluckinCheckpointID = CreateDynamicCP(gBusinessCluckinCheckpoint[0][0], gBusinessCluckinCheckpoint[0][1], gBusinessCluckinCheckpoint[0][2], 1.0, -1, 9);
+	gBusinessAdvertisesCheckpointID = CreateDynamicCP(gBusinessAdvertisesCheckpoint[0][0], gBusinessAdvertisesCheckpoint[0][1], gBusinessAdvertisesCheckpoint[0][2], 1.0, -1, 10);
 	return 1;
 }
 
