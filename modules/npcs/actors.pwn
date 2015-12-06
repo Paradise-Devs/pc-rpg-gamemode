@@ -429,7 +429,7 @@ hook OnGameModeInit()
 	gActorData[ACTOR_ALHAMBRA_1][E_ID] = CreateActor(194, 501.75, -20.56, 1000.67, 86.25);// Attendant
 	ApplyActorAnimation(gActorData[ACTOR_ALHAMBRA_1][E_ID], "BAR", "BARMAN_IDLE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_ALHAMBRA_1][E_ID], 9);
-	SetActorInvulnerable(gActorData[ACTOR_ALHAMBRA_1E_ID], false);
+	SetActorInvulnerable(gActorData[ACTOR_ALHAMBRA_1][E_ID], false);
 
 	/*gActorData[ACTOR_ALHAMBRA_2][E_ID] = CreateActor(164, 1833.1362, -1675.5209, 13.4859, 89.1208);// Body guard (White)
 	ApplyActorAnimation(gActorData[ACTOR_ALHAMBRA_2][E_ID], "COP_AMBIENT", "COPLOOK_LOOP", 4.1, 1, 0, 0, 1, 0);
@@ -441,101 +441,101 @@ hook OnGameModeInit()
 	gActorData[ACTOR_BURGER_1][E_ID] = CreateActor(205, 376.5526, -65.7010, 1001.5078, 176.8552);// Burger woman
 	ApplyActorAnimation(gActorData[ACTOR_BURGER_1][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_BURGER_1][E_ID], 16);
-	SetActorInvulnerable(gActorData[ACTOR_BURGER_1], false);
+	SetActorInvulnerable(gActorData[ACTOR_BURGER_1][E_ID], false);
 
 	gActorData[ACTOR_BURGER_2][E_ID] = CreateActor(205, 376.5526, -65.7010, 1001.5078, 176.8552);// Burger woman
 	ApplyActorAnimation(gActorData[ACTOR_BURGER_2][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_BURGER_2][E_ID], 7);
-	SetActorInvulnerable(gActorData[ACTOR_BURGER_2], false);
+	SetActorInvulnerable(gActorData[ACTOR_BURGER_2][E_ID], false);
 
 	gActorData[ACTOR_BURGER_3][E_ID] = CreateActor((random(4) + 159), 371.0302, -57.9299, 1001.5209, 4.4001);// Pissing in w.C
 	ApplyActorAnimation(gActorData[ACTOR_BURGER_3][E_ID], "PAULNMAC", "PISS_LOOP", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_BURGER_3][E_ID], 6);
-	SetActorInvulnerable(gActorData[ACTOR_BURGER_3], false);
+	SetActorInvulnerable(gActorData[ACTOR_BURGER_3][E_ID], false);
 
 	// Pro laps
 	gActorData[ACTOR_PROLAPS_1][E_ID] = CreateActor(217, 207.0583, -127.7238, 1003.5078, 180.5150);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_PROLAPS_1][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_PROLAPS_1][E_ID], 17);
-	SetActorInvulnerable(gActorData[ACTOR_PROLAPS_1], false);
+	SetActorInvulnerable(gActorData[ACTOR_PROLAPS_1][E_ID], false);
 
 	gActorData[ACTOR_PROLAPS_2][E_ID] = CreateActor(22, 204.1797, -134.7139, 1002.8672, 15.0735);// Client
 	ApplyActorAnimation(gActorData[ACTOR_PROLAPS_2][E_ID], "INT_SHOP", "SHOP_LOOKA", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_PROLAPS_2][E_ID], 17);
-	SetActorInvulnerable(gActorData[ACTOR_PROLAPS_2], false);
+	SetActorInvulnerable(gActorData[ACTOR_PROLAPS_2][E_ID], false);
 
 	// Victim
 	gActorData[ACTOR_VICTIM][E_ID] = CreateActor(211, 204.8538, -8.0557, 1001.2109, 271.5751);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_VICTIM][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_VICTIM][E_ID], 21);
-	SetActorInvulnerable(gActorData[ACTOR_VICTIM], false);
+	SetActorInvulnerable(gActorData[ACTOR_VICTIM][E_ID], false);
 
 	// Zip
 	gActorData[ACTOR_ZIP][E_ID] = CreateActor(223, 161.3302, -81.1898, 1001.8047, 182.0250);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_ZIP][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_ZIP][E_ID], 20);
-	SetActorInvulnerable(gActorData[ACTOR_ZIP], false);
+	SetActorInvulnerable(gActorData[ACTOR_ZIP][E_ID], false);
 
 	// Binco
 	gActorData[ACTOR_BINCO][E_ID] = CreateActor(72, 207.6847, -98.7046, 1005.2578, 178.5483);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_BINCO][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_BINCO][E_ID], 6);
-	SetActorInvulnerable(gActorData[ACTOR_BINCO], false);
+	SetActorInvulnerable(gActorData[ACTOR_BINCO][E_ID], false);
 
 	// SubUrban
 	gActorData[ACTOR_SUBURBAN][E_ID] = CreateActor(183, 203.7608, -41.6708, 1001.8047, 178.6716);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_SUBURBAN][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_SUBURBAN][E_ID], 22);
-	SetActorInvulnerable(gActorData[ACTOR_SUBURBAN], false);
+	SetActorInvulnerable(gActorData[ACTOR_SUBURBAN][E_ID], false);
 
 	// Cluckin Bell
 	gActorData[ACTOR_CLUCKIN_1][E_ID] = CreateActor(167, 370.8767, -4.4925, 1001.8589, 176.5984);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_CLUCKIN_1][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_CLUCKIN_1][E_ID], 15);
-	SetActorInvulnerable(gActorData[ACTOR_CLUCKIN_1], false);
+	SetActorInvulnerable(gActorData[ACTOR_CLUCKIN_1][E_ID], false);
 
 	gActorData[ACTOR_CLUCKIN_2][E_ID] = CreateActor(167, 370.8767, -4.4925, 1001.8589, 176.5984);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_CLUCKIN_2][E_ID], "FOOD", "SHP_TRAY_POSE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_CLUCKIN_2][E_ID], 12);
-	SetActorInvulnerable(gActorData[ACTOR_CLUCKIN_2], false);
+	SetActorInvulnerable(gActorData[ACTOR_CLUCKIN_2][E_ID], false);
 
 	// 10 Green Bottles
 	gActorData[ACTOR_GREENBOTTLE][E_ID] = CreateActor(65, 498.4849, -77.5766, 998.7651, 356.6049);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_GREENBOTTLE][E_ID], "BAR", "BARMAN_IDLE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_GREENBOTTLE][E_ID], 11);
-	SetActorInvulnerable(gActorData[ACTOR_GREENBOTTLE], false);
+	SetActorInvulnerable(gActorData[ACTOR_GREENBOTTLE][E_ID], false);
 
 	// The Welcome Pump Actor
 	gActorData[ACTOR_WELCOME_PUMP][E_ID] = CreateActor(128, 681.4562, -455.4612, -25.6099, 0.3538);// Bartender
 	ApplyActorAnimation(gActorData[ACTOR_WELCOME_PUMP][E_ID], "BAR", "BARMAN_IDLE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_WELCOME_PUMP][E_ID], 30);
-	SetActorInvulnerable(gActorData[ACTOR_WELCOME_PUMP], false);
+	SetActorInvulnerable(gActorData[ACTOR_WELCOME_PUMP][E_ID], false);
 
 	// 24-7
 	gActorData[ACTOR_247_1][E_ID] = CreateActor(60, -23.5164, -57.2337, 1003.5469, 357.9266);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_247_1][E_ID], "SHOP", "SHP_SERVE_IDLE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_247_1][E_ID], 0);
-	SetActorInvulnerable(gActorData[ACTOR_247_1], false);
+	SetActorInvulnerable(gActorData[ACTOR_247_1][E_ID], false);
 
 	gActorData[ACTOR_247_2][E_ID] = CreateActor(58, -22.3399, -140.3120, 1003.5469, 359.0399);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_247_2][E_ID], "SHOP", "SHP_SERVE_IDLE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_247_2][E_ID], 8);
-	SetActorInvulnerable(gActorData[ACTOR_247_2], false);
+	SetActorInvulnerable(gActorData[ACTOR_247_2][E_ID], false);
 
 	gActorData[ACTOR_247_3][E_ID] = CreateActor(53, -28.3135, -91.6430, 1003.5469, 358.2400);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_247_3][E_ID], "SHOP", "SHP_SERVE_IDLE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_247_3][E_ID], 24);
-	SetActorInvulnerable(gActorData[ACTOR_247_3], false);
+	SetActorInvulnerable(gActorData[ACTOR_247_3][E_ID], false);
 
 	gActorData[ACTOR_247_4][E_ID] = CreateActor(38, -30.8284, -30.7034, 1003.5573, 8.1167);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_247_4][E_ID], "SHOP", "SHP_SERVE_IDLE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_247_4][E_ID], 18);
-	SetActorInvulnerable(gActorData[ACTOR_247_4], false);
+	SetActorInvulnerable(gActorData[ACTOR_247_4][E_ID], false);
 
 	gActorData[ACTOR_247_5][E_ID] = CreateActor(39, -29.1237, -186.8168, 1003.5469, 358.2968);// Seller
 	ApplyActorAnimation(gActorData[ACTOR_247_5][E_ID], "SHOP", "SHP_SERVE_IDLE", 4.0, 1, 0, 0, 0, 0);
 	SetActorVirtualWorld(gActorData[ACTOR_247_5][E_ID], 25);
-	SetActorInvulnerable(gActorData[ACTOR_247_5], false);
+	SetActorInvulnerable(gActorData[ACTOR_247_5][E_ID], false);
 	return 1;
 }
 

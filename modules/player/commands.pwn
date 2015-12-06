@@ -85,9 +85,59 @@ YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /fumar - /gps");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /fumar - /gps - /relatorio - /reportar");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo - /ajudaapartamento - /ajudacasa - /ajudaempresa - /ajudawalkie");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:relatorio(playerid, params[], help)
+{
+	if(isnull(params))
+		return SendClientMessage(playerid, COLOR_INFO, "* /relatorio [mensagem]");
+
+	foreach(new i: Player)
+	{
+		if(GetPlayerHighestRank(i) < PLAYER_RANK_BACKUP)
+			continue;
+
+		new message[150 + MAX_PLAYER_NAME];
+		format(message, 150 + MAX_PLAYER_NAME, "* Relatório de %s: %s", GetPlayerNamef(playerid), params);
+		SendMultiMessage(i, 0xff8a00ff, message);
+	}
+	SendClientMessage(playerid, 0xff8a00ff, "* Relatório enviado com sucesso.");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:reportar(playerid, params[], help)
+{
+	new targetid, reason[128];
+	if(sscanf(params, "us", targetid, reason))
+		return SendClientMessage(playerid, COLOR_INFO, "* /reportar [playerid] [motivo]");
+
+	if(playerid == targetid)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode reportar você mesmo.");
+
+	if(IsPlayerNPC(targetid) || !IsPlayerLogged(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Jogador não conectado.");
+
+	if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BACKUP)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode reportar administradores, use o forum.");
+
+	foreach(new i: Player)
+	{
+		if(GetPlayerHighestRank(i) < PLAYER_RANK_BACKUP)
+			continue;
+
+		new message[150 + MAX_PLAYER_NAME];
+		format(message, 150 + MAX_PLAYER_NAME, "* %s reportou %s. Motivo: %s", GetPlayerNamef(playerid), GetPlayerNamef(targetid), reason);
+		SendMultiMessage(i, 0x750b0bff, message);
+	}
+	SendClientMessage(playerid, 0x750b0bff, "* Jogador reportado com sucesso.");
 	return 1;
 }
 
@@ -203,7 +253,7 @@ YCMD:fumar(playerid, params[], help)
 
 YCMD:admins(playerid, params[], help)
 {
-	new count = 0, string[64];
+	new count = 0, string[74];
 	SendClientMessage(playerid, COLOR_TITLE, "- Membros da moderação online -");
 
 	foreach(new i: Player)
