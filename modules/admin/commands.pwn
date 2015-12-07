@@ -707,13 +707,14 @@ YCMD:setjob(playerid, params[], help)
    if(sscanf(params, "ui", targetid, value))
    {
        SendClientMessage(playerid, COLOR_INFO, "* /setjob [playerid] [emprego]");
-       SendClientMessagef(playerid, COLOR_SUB_TITLE, "* (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s",
+       SendClientMessagef(playerid, COLOR_SUB_TITLE, "* (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s",
        _:INVALID_JOB_ID, GetJobName(INVALID_JOB_ID),
        _:PILOT_JOB_ID, GetJobName(PILOT_JOB_ID),
        _:TRUCKER_JOB_ID, GetJobName(TRUCKER_JOB_ID),
        _:LUMBERJACK_JOB_ID, GetJobName(LUMBERJACK_JOB_ID),
        _:NAVIGATOR_JOB_ID, GetJobName(NAVIGATOR_JOB_ID),
-       _:PARAMEDIC_JOB_ID, GetJobName(PARAMEDIC_JOB_ID));
+       _:PARAMEDIC_JOB_ID, GetJobName(PARAMEDIC_JOB_ID),
+       _:GARBAGE_JOB_ID, GetJobName(GARBAGE_JOB_ID));
        return 1;
    }
 
@@ -731,6 +732,33 @@ YCMD:setjob(playerid, params[], help)
 
    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o emprego de %s para %s.", GetPlayerNamef(targetid), GetJobName(job));
    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:setjoblvl(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    new targetid, level;
+    if(sscanf(params, "ui", targetid, level))
+    {
+        SendClientMessage(playerid, COLOR_INFO, "* /setjoblvl [playerid] [level]");
+        return 1;
+    }
+
+    else if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+    SetPlayerJobLV(playerid, level);
+
+    if(playerid != targetid)
+        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou seu level de emprego para %d.", GetPlayerNamef(playerid), level);
+
+    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o level do emprego de %s para %d.", GetPlayerNamef(targetid), level);
+    
+    return 1;
 }
 
 //------------------------------------------------------------------------------
