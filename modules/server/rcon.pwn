@@ -55,6 +55,55 @@ hook OnRconCommand(cmd[])
         defer RestartServer();
         return 1;
     }
+    else
+    {
+        new command[16];
+     	if(sscanf(cmd, "s[16] ", command))
+     		return 1;
+
+        if(!strcmp(command, "pban", true))
+        {
+            new playerName[MAX_PLAYER_NAME], adminName[MAX_PLAYER_NAME], reason[128];
+         	if(sscanf(cmd, "s[16]s["#MAX_PLAYER_NAME"]s["#MAX_PLAYER_NAME"]s[128]", command, playerName, adminName, reason))
+                return 1;
+
+            new playerNameIG[MAX_PLAYER_NAME];
+            foreach(new i: Player)
+            {
+                GetPlayerName(i, playerNameIG, MAX_PLAYER_NAME);
+                if(!strcmp(playerNameIG, playerName, true))
+                {
+                    new output[144];
+                    format(output, sizeof(output), "* %s foi banido por %s. Motivo: %s", playerName, adminName, reason);
+                    SendClientMessageToAll(0xf26363ff, output);
+                    Ban(i);
+                    return 1;
+                }
+            }
+            return 1;
+        }
+        else if(!strcmp(command, "pkick", true))
+        {
+            new playerName[MAX_PLAYER_NAME], adminName[MAX_PLAYER_NAME], reason[128];
+         	if(sscanf(cmd, "s[16]s["#MAX_PLAYER_NAME"]s["#MAX_PLAYER_NAME"]s[128]", command, playerName, adminName, reason))
+                return 1;
+
+            new playerNameIG[MAX_PLAYER_NAME];
+            foreach(new i: Player)
+            {
+                GetPlayerName(i, playerNameIG, MAX_PLAYER_NAME);
+                if(!strcmp(playerNameIG, playerName, true))
+                {
+                    new output[144];
+                    format(output, sizeof(output), "* %s foi kickado por %s. Motivo: %s", playerName, adminName, reason);
+                    SendClientMessageToAll(0xf26363ff, output);
+                    Kick(i);
+                    return 1;
+                }
+            }
+            return 1;
+        }
+    }
     return 0;
 }
 
