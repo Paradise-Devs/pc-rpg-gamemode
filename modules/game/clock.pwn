@@ -34,6 +34,7 @@ hook OnPlayerSpawn(playerid)
 {
     if(IsPlayerNPC(playerid))
         return 1;
+    
     if(!gplClockLoaded[playerid])
     {
         TextDrawShowForPlayer(playerid, gClockTD);

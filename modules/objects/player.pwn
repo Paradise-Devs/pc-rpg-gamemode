@@ -330,7 +330,8 @@ public OnLoadPlayerAttachments(playerid)
 hook OnPlayerSpawn(playerid)
 {
 	if(IsPlayerNPC(playerid))
-        return 1;
+		return 1;
+
     if(!gPlayerAlreadySpawned[playerid])
     {
         LoadPlayerAttachments(playerid);
@@ -364,6 +365,7 @@ hook OnPlayerDisconnect(playerid, reason)
 	SavePlayerAttachments(playerid);
     ResetPlayerAttachments(playerid);
     gIsPlayerEditing[playerid] = false;
+	gPlayerAlreadySpawned[playerid] = false;
     return 1;
 }
 

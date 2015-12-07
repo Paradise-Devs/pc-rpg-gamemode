@@ -55,6 +55,7 @@ hook OnPlayerSpawn(playerid)
 {
     if(IsPlayerNPC(playerid))
         return 1;
+    
     if(gPHdata[playerid][e_ph_time] > 0)
     {
         SendClientMessage(playerid, COLOR_INFO, "* Você está se recuperando, aguarde...");
@@ -78,7 +79,7 @@ hook OnPlayerSpawn(playerid)
 
         defer OnPlayerHospitalUpdate(playerid);
     }
-    return -1;
+    return 1;
 }
 
 //------------------------------------------------------------------------------

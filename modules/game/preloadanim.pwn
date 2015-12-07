@@ -38,6 +38,7 @@ hook OnPlayerSpawn(playerid)
 {
 	if(IsPlayerNPC(playerid))
         return 1;
+	
     if(!gplAnimationsPreLoaded[playerid])
 	{
    		PreloadAnimLib(playerid,"SWAT");
