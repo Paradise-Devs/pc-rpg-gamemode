@@ -22,6 +22,8 @@ hook OnRconCommand(cmd[])
         GameTextForAll("~b~~h~~h~~h~Desligando servidor...", 10000, 3);
         printf("\n\n============================================================\n");
     	printf("Shutting down %s %s.%s%s...\n", SCRIPT_VERSION_NAME, SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
+        printf("Saving clock...");
+        SaveClock();
         printf("Saving vehicles...");
         SaveVehicles();
         printf("Saving player accounts...");
@@ -41,6 +43,8 @@ hook OnRconCommand(cmd[])
         GameTextForAll("~b~~h~~h~~h~Reiniciando servidor...", 10000, 3);
         printf("\n\n============================================================\n");
     	printf("Restarting %s %s.%s%s...\n", SCRIPT_VERSION_NAME, SCRIPT_VERSION_MAJOR, SCRIPT_VERSION_MINOR, SCRIPT_VERSION_PATCH);
+        printf("Saving clock...");
+        SaveClock();
         printf("Saving vehicles...");
         SaveVehicles();
         printf("Saving player accounts...");

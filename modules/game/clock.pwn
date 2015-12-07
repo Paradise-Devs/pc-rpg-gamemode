@@ -15,10 +15,12 @@
 
 //------------------------------------------------------------------------------
 
-new gCurrentHour = 03;
+new gCurrentHour = 05;
 new gCurrentMinute = 00;
 new Text:gClockTD;
 new bool:gplClockLoaded[MAX_PLAYERS];
+
+forward OnLoadClock();
 
 //------------------------------------------------------------------------------
 
@@ -34,7 +36,7 @@ hook OnPlayerSpawn(playerid)
 {
     if(IsPlayerNPC(playerid))
         return 1;
-    
+
     if(!gplClockLoaded[playerid])
     {
         TextDrawShowForPlayer(playerid, gClockTD);
@@ -61,7 +63,9 @@ HidePlayerClock(playerid)
 
 hook OnGameModeInit()
 {
-    gClockTD = TextDrawCreate(545.000000, 20.000000, "03:00");
+    new sCT[12];
+    format(sCT, sizeof(sCT), "%02d:%02d", gCurrentHour, gCurrentMinute);
+    gClockTD = TextDrawCreate(545.000000, 20.000000, sCT);
     TextDrawBackgroundColor(gClockTD, 255);
     TextDrawFont(gClockTD, 3);
     TextDrawLetterSize(gClockTD, 0.6, 2.0);
@@ -70,6 +74,8 @@ hook OnGameModeInit()
     TextDrawSetOutline(gClockTD, 2);
     TextDrawSetShadow(gClockTD, 0);
     TextDrawSetProportional(gClockTD, 1);
+
+    mysql_tquery(mysql, "SELECT * FROM `clock`", "OnLoadClock");
     return 1;
 }
 
@@ -79,6 +85,40 @@ GetServerClock(&hour, &minute)
 {
     hour = gCurrentHour;
     minute = gCurrentMinute;
+}
+
+//------------------------------------------------------------------------------
+
+/*
+	OnLoadClock
+		Called when the server loads the clock from database
+*/
+public OnLoadClock()
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows)
+	{
+		gCurrentHour      = cache_get_field_content_int(0, "hour");
+		gCurrentMinute    = cache_get_field_content_int(0, "minute");
+	}
+	else
+	{
+		new query[64];
+		mysql_format(mysql, query, sizeof(query), "INSERT INTO `clock` (`hour`, `minute`) VALUES (%d, %d)", gCurrentHour, gCurrentMinute);
+		mysql_tquery(mysql, query);
+	}
+}
+
+/*
+	SaveClock
+		Called when the server saves the clock to database
+*/
+SaveClock()
+{
+	new query[120];
+	mysql_format(mysql, query, sizeof(query), "UPDATE `clock` SET `hour`=%d, `minute`=%d WHERE `ID`=1", gCurrentHour, gCurrentMinute);
+	mysql_tquery(mysql, query);
 }
 
 //------------------------------------------------------------------------------
