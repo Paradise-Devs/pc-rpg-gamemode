@@ -559,9 +559,9 @@ public OnInsertAttachmentOnDatabase(playerid, index)
 
 YCMD:ajudaacessorio(playerid, params[], help)
 {
-	SendClientMessage(playerid, 0xFAD669FF, "~~~~~~~~~~~~~~~~~~~~ Comandos Acessorio ~~~~~~~~~~~~~~~~~~~~");
-	SendClientMessage(playerid, -1, "* /compraracessorio - /editaracessorio - /removeracessorio");
-	SendClientMessage(playerid, 0xFAD669FF, "~~~~~~~~~~~~~~~~~~~~ Comandos Acessorio ~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos Acessorio ~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /compraracessorio - /editaracessorio - /removeracessorio");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos Acessorio ~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
 
