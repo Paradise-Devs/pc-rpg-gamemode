@@ -160,7 +160,8 @@ public OnFactionLoad()
             cache_get_row(i, (h + 10), gFactionRankNames[i][h], mysql);
 
         for(new h = 0; h < MAX_FACTION_RANKS; h++)
-            gFactionData[i][e_faction_skin][h]    = cache_get_row_int(i, (h + 11 + MAX_FACTION_RANKS), mysql);
+            gFactionData[i][e_faction_skin][h]    = cache_get_row_int(i, (h + 11 + (MAX_FACTION_RANKS-1)), mysql);
+            //gFactionData[i][e_faction_skin][h]    = cache_get_row_int(i, (h + 11 + MAX_FACTION_RANKS), mysql);
 
         gCreatedFaction++;
 	}
