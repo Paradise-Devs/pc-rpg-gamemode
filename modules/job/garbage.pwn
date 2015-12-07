@@ -352,12 +352,13 @@ timer Recycle[15000](playerid, f, i, last)
     if(rand == 1 || last == 1)
     {
         ClearAnimations(playerid);
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* Reciclagem completa, vá para a próxima etapa...");
         SetPlayerRaceCheckpoint(playerid, 2, gGarbageCheckpoints[f][i][0], gGarbageCheckpoints[f][i][1], gGarbageCheckpoints[f][i][2], gGarbageCheckpoints[f][i+1][0], gGarbageCheckpoints[f][i+1][1], gGarbageCheckpoints[f][i+1][2], 1.0);
     }
     else
     {
         defer Recycle(playerid, f, i, 0);
         GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~g~reciclando...", 15000, 3);
-        SendClientMessage(playerid, COLOR_SPECIAL, "* Você falhou a reciclagem, tentando novamente...");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* Você falhou a reciclagem, tentando novamente...");
     }
 }
