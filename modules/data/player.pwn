@@ -182,7 +182,6 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_jobxp]      = 0;
     gPlayerCharacterData[playerid][e_player_joblv]      = 1;
     gPlayerCharacterData[playerid][e_player_xp]         = 0;
-    gPlayerCharacterData[playerid][e_player_level]      = 1;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
     gPlayerCharacterData[playerid][e_player_hunger]     = 50.0;
@@ -207,6 +206,7 @@ ResetPlayerData(playerid)
     gPlayerItemData[playerid][e_player_cigaretts]       = 0;
     gPlayerItemData[playerid][e_player_walkietalkie]    = 0;
 
+    SetPlayerLevel(playerid, 1);
     SetPlayerRankVar(playerid, 0);
     SetPlayerHouseID(playerid, INVALID_HOUSE_ID);
     SetPlayerBusinessID(playerid, INVALID_BUSINESS_ID);
@@ -827,7 +827,6 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_jobid]              = Job:cache_get_field_content_int(0, "jobid", mysql);
         gPlayerCharacterData[playerid][e_player_joblv]              = cache_get_field_content_int(0, "joblv", mysql);
         gPlayerCharacterData[playerid][e_player_jobxp]              = cache_get_field_content_int(0, "jobxp", mysql);
-        gPlayerCharacterData[playerid][e_player_level]              = cache_get_field_content_int(0, "xp", mysql);
         gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "level", mysql);
         gPlayerCharacterData[playerid][e_player_hunger]             = cache_get_field_content_float(0, "hunger", mysql);
         gPlayerCharacterData[playerid][e_player_thirst]             = cache_get_field_content_float(0, "thirst", mysql);
@@ -867,6 +866,7 @@ public OnAccountLoad(playerid)
         if(GetPlayerGPS(playerid) > gettime()) ShowPlayerGPS(playerid); else HidePlayerGPS(playerid);
         ShowPlayerLogo(playerid);
 
+        SetPlayerLevel(playerid,        cache_get_field_content_int(0, "xp", mysql));
         SetPlayerHealth(playerid,       gPlayerCharacterData[playerid][e_player_health]);
         SetPlayerArmour(playerid,       gPlayerCharacterData[playerid][e_player_armour]);
         SetPlayerCash(playerid,         gPlayerCharacterData[playerid][e_player_money]);
