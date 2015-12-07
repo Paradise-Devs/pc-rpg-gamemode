@@ -50,6 +50,12 @@ YCMD:venderhotdog(playerid, params[], help)
     else if(GetVehicleModel(GetPlayerVehicleID(playerid)) != g_nVehicleModel)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você deve estar em um veículo apropriado para vender hotdog.");
 
+    else if(playerid == targetid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode vender hotdog para si mesmo.");
+
+    else if(gplSellerID[targetid] == playerid)
+        return SendClientMessagef(playerid, COLOR_INFO, "* Você já ofereceu um hotdog para %s.", GetPlayerNamef(targetid));
+
     else if(!IsPlayerLogged(targetid))
         return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 

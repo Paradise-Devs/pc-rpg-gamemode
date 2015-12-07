@@ -50,6 +50,12 @@ YCMD:vendersorvete(playerid, params[], help)
     else if(GetVehicleModel(GetPlayerVehicleID(playerid)) != g_nVehicleModel)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você deve estar em um veículo apropriado para vender sorvete.");
 
+    else if(playerid == targetid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode vender sorvete para si mesmo.");
+
+    else if(gplSellerID[targetid] == playerid)
+        return SendClientMessagef(playerid, COLOR_INFO, "* Você já ofereceu um sorvete para %s.", GetPlayerNamef(targetid));
+
     else if(!IsPlayerLogged(targetid))
         return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 
@@ -62,7 +68,7 @@ YCMD:vendersorvete(playerid, params[], help)
     if(!IsPlayerInRangeOfPoint(playerid, 3.5, targetPos[0], targetPos[1], targetPos[2]))
         return SendClientMessage(playerid, COLOR_ERROR, "* Você deve estar perto do jogador para poder vender.");
 
-    else if(gplSellerID[targetid] != INVALID_PLAYER_ID && gplSellerID[targetid] != playerid)
+    else if(gplSellerID[targetid] != INVALID_PLAYER_ID)
         return SendClientMessagef(playerid, COLOR_INFO, "* Outro jogador já está vendendo um sorvete para %s.", GetPlayerNamef(targetid));
 
     gplSellerID[targetid] = playerid;
