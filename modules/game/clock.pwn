@@ -63,9 +63,9 @@ HidePlayerClock(playerid)
 
 hook OnGameModeInit()
 {
-    new sCT[12];
-    format(sCT, sizeof(sCT), "%02d:%02d", gCurrentHour, gCurrentMinute);
-    gClockTD = TextDrawCreate(545.000000, 20.000000, sCT);
+    mysql_tquery(mysql, "SELECT * FROM `clock`", "OnLoadClock");
+
+    gClockTD = TextDrawCreate(545.000000, 20.000000, "05:00");
     TextDrawBackgroundColor(gClockTD, 255);
     TextDrawFont(gClockTD, 3);
     TextDrawLetterSize(gClockTD, 0.6, 2.0);
@@ -74,8 +74,6 @@ hook OnGameModeInit()
     TextDrawSetOutline(gClockTD, 2);
     TextDrawSetShadow(gClockTD, 0);
     TextDrawSetProportional(gClockTD, 1);
-
-    mysql_tquery(mysql, "SELECT * FROM `clock`", "OnLoadClock");
     return 1;
 }
 
@@ -101,6 +99,10 @@ public OnLoadClock()
 	{
 		gCurrentHour      = cache_get_field_content_int(0, "hour");
 		gCurrentMinute    = cache_get_field_content_int(0, "minute");
+
+        new sCT[12];
+        format(sCT, sizeof(sCT), "%02d:%02d", gCurrentHour, gCurrentMinute);
+        TextDrawSetString(gClockTD, sCT);
 	}
 	else
 	{
