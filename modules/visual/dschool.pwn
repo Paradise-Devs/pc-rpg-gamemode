@@ -67,6 +67,9 @@ HidePlayerSchoolTV(playerid)
     ShowPlayerClock(playerid);
     for(new i = 0; i < sizeof(gDrivingSchoolTV); i++)
         TextDrawHideForPlayer(playerid, gDrivingSchoolTV[i]);
+
+    if(GetPlayerGPS(playerid) > gettime()) ShowPlayerGPS(playerid); else HidePlayerGPS(playerid);
+    ShowPlayerLogo(playerid);
     return 1;
 }
 
@@ -299,6 +302,9 @@ ShowPlayerSchoolTV(playerid)
         TextDrawShowForPlayer(playerid, gDrivingSchoolTV[i]);
     InterpolateCameraPos(playerid, -2023.7064, -97.8283, 54.4462, -2020.9050, -290.2478, 53.7949, 20000, CAMERA_MOVE);
     InterpolateCameraLookAt(playerid, -2024.3069, -98.6351, 53.8811, -2021.2629, -289.3084, 53.4247, 20000, CAMERA_MOVE);
+
+    ShowPlayerGPS(playerid, true);
+    HidePlayerLogo(playerid);
     return 1;
 }
 
