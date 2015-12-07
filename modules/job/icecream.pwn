@@ -16,7 +16,7 @@
 //------------------------------------------------------------------------------
 
 // Vehicle model
-static const g_nVehicleModel = 588;
+static const g_nVehicleModel = 423;
 
 //------------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ static gplSellerPrice[MAX_PLAYERS];
 
 hook OnGameModeInit()
 {
-    print("Loading hotdog seller job.");
+    print("Loading icecream seller job.");
 }
 
 //------------------------------------------------------------------------------
@@ -41,14 +41,14 @@ hook OnPlayerDisconnect(playerid, reason)
 
 //------------------------------------------------------------------------------
 
-YCMD:venderhotdog(playerid, params[], help)
+YCMD:vendersorvete(playerid, params[], help)
 {
     new targetid, price;
     if(sscanf(params, "ud", targetid, price))
-        return SendClientMessage(playerid, COLOR_INFO, "* /venderhotdog [playerid] [valor]");
+        return SendClientMessage(playerid, COLOR_INFO, "* /vendersorvete [playerid] [valor]");
 
     else if(GetVehicleModel(GetPlayerVehicleID(playerid)) != g_nVehicleModel)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você deve estar em um veículo apropriado para vender hotdog.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você deve estar em um veículo apropriado para vender sorvete.");
 
     else if(!IsPlayerLogged(targetid))
         return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
@@ -63,28 +63,28 @@ YCMD:venderhotdog(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você deve estar perto do jogador para poder vender.");
 
     else if(gplSellerID[targetid] != INVALID_PLAYER_ID && gplSellerID[targetid] != playerid)
-        return SendClientMessagef(playerid, COLOR_INFO, "* Outro jogador já está vendendo um hotdog para %s.", GetPlayerNamef(targetid));
+        return SendClientMessagef(playerid, COLOR_INFO, "* Outro jogador já está vendendo um sorvete para %s.", GetPlayerNamef(targetid));
 
     gplSellerID[targetid] = playerid;
     gplSellerPrice[targetid] = price;
 
-    SendClientMessagef(playerid, COLOR_SPECIAL, "* Você ofereceu um hotdog para %s por $%d.", GetPlayerNamef(targetid), price);
-    SendClientMessagef(targetid, COLOR_SPECIAL, "* %s está lhe oferencendo um hotdog por $%d.", GetPlayerNamef(playerid), price);
-    SendClientMessage(targetid, COLOR_SUB_TITLE, "* Use /aceitarhotdog para aceitar ou /recusarhotdog para recusar.");
+    SendClientMessagef(playerid, COLOR_SPECIAL, "* Você ofereceu um sorvete para %s por $%d.", GetPlayerNamef(targetid), price);
+    SendClientMessagef(targetid, COLOR_SPECIAL, "* %s está lhe oferencendo um sorvete por $%d.", GetPlayerNamef(playerid), price);
+    SendClientMessage(targetid, COLOR_SUB_TITLE, "* Use /aceitarsorvete para aceitar ou /recusarsorvete para recusar.");
 
-    defer CancelHotdog(targetid);
+    defer CancelIcecream(targetid);
 	return 1;
 }
 
 //------------------------------------------------------------------------------
 
-YCMD:aceitarhotdog(playerid, params[], help)
+YCMD:aceitarsorvete(playerid, params[], help)
 {
     if(gplSellerID[playerid] == INVALID_PLAYER_ID)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Nenhum jogador lhe ofereceu um hotdog.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Nenhum jogador lhe ofereceu um sorvete.");
 
     else if(GetVehicleModel(GetPlayerVehicleID(gplSellerID[playerid])) != g_nVehicleModel)
-        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está mais no veículo para vender hotdog.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está mais no veículo para vender sorvete.");
 
     else if(GetPlayerCash(playerid) < gplSellerPrice[playerid])
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não possuí dinheiro suficiente.");
@@ -103,12 +103,12 @@ YCMD:aceitarhotdog(playerid, params[], help)
     GetPlayerHealth(playerid, health);
     SetPlayerHealth(playerid, health + 10.0);
 
-    SetPlayerHunger(playerid, GetPlayerHunger(playerid) + 10.0);
+    SetPlayerThirst(playerid, GetPlayerThirst(playerid) + 10.0);
 
-    SendClientMessagef(playerid, COLOR_SPECIAL, "* Você comprou um hotdog de %s por $%d.", GetPlayerNamef(gplSellerID[playerid]), gplSellerPrice[playerid]);
-    SendClientMessagef(gplSellerID[playerid], COLOR_SPECIAL, "* Você vendeu um hotdog para %s por $%d.", GetPlayerNamef(playerid), gplSellerPrice[playerid]);
+    SendClientMessagef(playerid, COLOR_SPECIAL, "* Você comprou um sorvete de %s por $%d.", GetPlayerNamef(gplSellerID[playerid]), gplSellerPrice[playerid]);
+    SendClientMessagef(gplSellerID[playerid], COLOR_SPECIAL, "* Você vendeu um sorvete para %s por $%d.", GetPlayerNamef(playerid), gplSellerPrice[playerid]);
 
-    SendClientActionMessage(playerid, 15.0, "comeu um cachorro quente.");
+    SendClientActionMessage(playerid, 15.0, "tomou um sorvete.");
 
     gplSellerID[playerid]    = INVALID_PLAYER_ID;
     gplSellerPrice[playerid] = 0;
@@ -118,13 +118,13 @@ YCMD:aceitarhotdog(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
-YCMD:recusarhotdog(playerid, params[], help)
+YCMD:recusarsorvete(playerid, params[], help)
 {
     if(gplSellerID[playerid] == INVALID_PLAYER_ID)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Nenhum jogador lhe ofereceu um hotdog.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Nenhum jogador lhe ofereceu um sorvete.");
 
-    SendClientMessagef(playerid, COLOR_SPECIAL, "* Você recusou um hotdog de %s.", GetPlayerNamef(gplSellerID[playerid]));
-    SendClientMessagef(gplSellerID[playerid], COLOR_SPECIAL, "* %s recusou seu hotdog.", GetPlayerNamef(playerid));
+    SendClientMessagef(playerid, COLOR_SPECIAL, "* Você recusou um sorvete de %s.", GetPlayerNamef(gplSellerID[playerid]));
+    SendClientMessagef(gplSellerID[playerid], COLOR_SPECIAL, "* %s recusou seu sorvete.", GetPlayerNamef(playerid));
 
     gplSellerID[playerid]    = INVALID_PLAYER_ID;
     gplSellerPrice[playerid] = 0;
@@ -134,7 +134,7 @@ YCMD:recusarhotdog(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
-timer CancelHotdog[60000](playerid)
+timer CancelIcecream[60000](playerid)
 {
     gplSellerID[playerid]    = INVALID_PLAYER_ID;
     gplSellerPrice[playerid] = 0;
