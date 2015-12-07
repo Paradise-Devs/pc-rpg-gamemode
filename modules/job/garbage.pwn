@@ -334,7 +334,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 if(listitem == 2)
                     gplStartTime[playerid] = tickcount() + MINIMUM_SERVICE_TIME;
 
-                SetPlayerRaceCheckpoint(playerid, 0, gGarbageCheckpoints[listitem][0][0], gGarbageCheckpoints[listitem][0][1], gGarbageCheckpoints[listitem][0][2], gGarbageCheckpoints[listitem][1][0], gGarbageCheckpoints[listitem][1][1], gGarbageCheckpoints[listitem][1][2], 2.5);
+                SetPlayerRaceCheckpoint(playerid, 0, gGarbageCheckpoints[listitem][0][0], gGarbageCheckpoints[listitem][0][1], gGarbageCheckpoints[listitem][0][2], gGarbageCheckpoints[listitem][1][0], gGarbageCheckpoints[listitem][1][1], gGarbageCheckpoints[listitem][1][2], (listitem == 1) ? 1.0 : 2.5);
                 SetPlayerCPID(playerid, CHECKPOINT_GARBAGE);
             }
             return -2;
