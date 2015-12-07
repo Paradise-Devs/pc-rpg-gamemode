@@ -107,6 +107,7 @@ hook OnPlayerDisconnect(playerid, reason)
         DestroyVehicle(gplTruck[playerid]);
         gplTruck[playerid] = INVALID_VEHICLE_ID;
     }
+    gplCurrentSC[playerid] = 0;
     return 1;
 }
 
@@ -226,6 +227,7 @@ hook OnPlayerEnterRaceCPT(playerid)
 
             DestroyVehicle(gplTruck[playerid]);
             gplTruck[playerid] = INVALID_VEHICLE_ID;
+            gplCurrentSC[playerid] = 0;
 
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
             SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + (GetPlayerJobLV(playerid) * XP_SCALE));
@@ -309,7 +311,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         {
             if(!response)
                 PlayCancelSound(playerid);
-            else if(gplTruck[playerid] != INVALID_VEHICLE_ID)
+            else if(gplTruck[playerid] != INVALID_VEHICLE_ID || gplCurrentSC[playerid] != 0)
                 SendClientMessage(playerid, COLOR_ERROR, "* Você já está em um serviço.");
             else if(GetPlayerJobLV(playerid) < listitem+1)
             {
@@ -352,7 +354,7 @@ timer Recycle[15000](playerid, f, i, last)
     if(rand == 1 || last == 1)
     {
         ClearAnimations(playerid);
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* Reciclagem completa, vá para a próxima etapa...");
+        SendClientMessage(playerid, COLOR_TITLE, "* Reciclagem completa, vá para a próxima etapa...");
         SetPlayerRaceCheckpoint(playerid, 2, gGarbageCheckpoints[f][i][0], gGarbageCheckpoints[f][i][1], gGarbageCheckpoints[f][i][2], gGarbageCheckpoints[f][i+1][0], gGarbageCheckpoints[f][i+1][1], gGarbageCheckpoints[f][i+1][2], 1.0);
     }
     else
