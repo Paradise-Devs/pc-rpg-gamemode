@@ -197,6 +197,21 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 //------------------------------------------------------------------------------
 
+hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
+{
+    foreach(new i: Player)
+    {
+        if(vehicleid == gplTruck[i] && !ispassenger && playerid != i)
+        {
+            SendClientMessagef(playerid, COLOR_ERROR, "* Caminhão reservado para %s.", GetPlayerNamef(i));
+            ClearAnimations(playerid);
+        }
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 hook OnPlayerEnterRaceCPT(playerid)
 {
     if(GetPlayerCPID(playerid) == CHECKPOINT_GARBAGE)
