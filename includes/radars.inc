@@ -273,7 +273,7 @@ stock Float:_getPlayerSpeed(playerid)
 		GetPlayerVelocity(playerid, VelocityX, VelocityY, VelocityZ);
 
 	#if !defined USE_MPH
-		return (VelocityX*VelocityX+VelocityY*VelocityY+VelocityZ*VelocityZ)*(427833329/5871364);
+		return (VelocityX*VelocityX+VelocityY*VelocityY+VelocityZ*VelocityZ)*(427833329/2935682);
 	#else
 		return (VelocityX*VelocityX+VelocityY*VelocityY+VelocityZ*VelocityZ)*(427833329/9449044);
 	#endif
