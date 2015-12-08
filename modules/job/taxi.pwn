@@ -58,13 +58,13 @@ ptask OnPlayerTaxiUpdate[TAXIMETER_INTERVAL](playerid)
 
         g_playerDistTraveled[i]++;
         if((g_playerDistTraveled[i] * g_playerFarePrice[playerid]) > GetPlayerCash(i))
-            SendClientMessagef(playerid, 0xFFFF00FF, "* O passageiro %s não tem mais dinheiro para pagar a viagem.");
+            SendClientMessagef(playerid, 0xFFFF00FF, "* O passageiro %s não tem mais dinheiro para pagar a viagem.", GetPlayerNamef(i));
 
         if(!g_isVisible[i])
             ShowPassengerTaximeter(i);
 
         new string[32];
-        format(string, sizeof(string), "$%06d", (g_playerDistTraveled[i] * g_playerFarePrice[playerid]));
+        format(string, sizeof(string), "~g~$~w~%06d", (g_playerDistTraveled[i] * g_playerFarePrice[playerid]));
         PlayerTextDrawSetString(i, g_txdTaximeter[i], string);
 
         passengerid[GetPlayerVehicleSeat(i)] = i;
@@ -78,8 +78,8 @@ ptask OnPlayerTaxiUpdate[TAXIMETER_INTERVAL](playerid)
     if(passengerid[2] != INVALID_PLAYER_ID)
         cash[2] = (g_playerDistTraveled[passengerid[2]] * g_playerFarePrice[playerid]);
 
-    new string[94];
-    format(string, sizeof(string), "~r~Passageiro 1: $%07d~n~~y~Passageiro 2: $%07d~n~~g~Passageiro 3: $%07d", cash[0], cash[1], cash[2]);
+    new string[128];
+    format(string, sizeof(string), "~r~Passageiro 1: ~g~$~w~%07d~n~~y~Passageiro 2: ~g~$~w~%07d~n~~b~Passageiro 3: ~g~$~w~%07d", cash[0], cash[1], cash[2]);
     PlayerTextDrawSetString(playerid, g_txdTaximeter[playerid], string);
     return 1;
 }
@@ -92,7 +92,7 @@ ShowPassengerTaximeter(playerid)
         return 1;
 
     g_isVisible[playerid] = true;
-    g_txdTaximeter[playerid] = CreatePlayerTextDraw(playerid, 556.000000, 127.000000, "$0000000");
+    g_txdTaximeter[playerid] = CreatePlayerTextDraw(playerid, 556.000000, 127.000000, "~g~$~w~0000000");
     PlayerTextDrawBackgroundColor(playerid, g_txdTaximeter[playerid], 255);
     PlayerTextDrawFont(playerid, g_txdTaximeter[playerid], 2);
     PlayerTextDrawLetterSize(playerid, g_txdTaximeter[playerid], 0.270000, 1.799999);
@@ -124,7 +124,7 @@ ShowDriverTaximeter(playerid)
         return 1;
 
     g_isVisible[playerid] = true;
-    g_txdTaximeter[playerid] = CreatePlayerTextDraw(playerid, 501.000000, 127.000000, "~r~Passageiro 1: $0000000~n~~y~Passageiro 2: $0000000~n~~g~Passageiro 3: $0000000");
+    g_txdTaximeter[playerid] = CreatePlayerTextDraw(playerid, 501.000000, 127.000000, "~r~Passageiro 1: ~g~$~w~0000000~n~~y~Passageiro 2: ~g~$~w~0000000~n~~b~Passageiro 3: ~g~$~w~0000000");
     PlayerTextDrawBackgroundColor(playerid, g_txdTaximeter[playerid], 255);
     PlayerTextDrawFont(playerid, g_txdTaximeter[playerid], 2);
     PlayerTextDrawLetterSize(playerid, g_txdTaximeter[playerid], 0.180000, 1.499999);
