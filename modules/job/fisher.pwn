@@ -1,8 +1,8 @@
 /*******************************************************************************
-* FILENAME :        modules/job/hotdog.pwn
+* FILENAME :        modules/job/fisher.pwn
 *
 * DESCRIPTION :
-*       Adds icecream seller job to the server.
+*       Adds fisher job to the server.
 *
 * NOTES :
 *       -

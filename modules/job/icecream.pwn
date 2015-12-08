@@ -1,5 +1,5 @@
 /*******************************************************************************
-* FILENAME :        modules/job/hotdog.pwn
+* FILENAME :        modules/job/icecream.pwn
 *
 * DESCRIPTION :
 *       Adds icecream seller job to the server.

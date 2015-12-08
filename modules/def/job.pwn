@@ -21,7 +21,8 @@ enum Job (+=1)
     NAVIGATOR_JOB_ID,
     PARAMEDIC_JOB_ID,
     GARBAGE_JOB_ID,
-    FISHER_JOB_ID
+    FISHER_JOB_ID,
+    TECHNICAL_JOB_ID
 }
 
 //------------------------------------------------------------------------------
