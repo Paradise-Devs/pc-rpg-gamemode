@@ -96,16 +96,20 @@ YCMD:comandos(playerid, params[], help)
 YCMD:ejetar(playerid, params[], help)
 {
 	if(!IsPlayerInAnyVehicle(playerid))
-		return SendErrorMessage(playerid, "Você não está em um veículo.");
-	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
-		return SendErrorMessage(playerid, "Você não é o motorista.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+
+	else if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não é o motorista.");
+
 	new targetid;
 	if(sscanf(params, "u", targetid))
-		return SendInfoMessage(playerid, "/ejetar [playerid]");
-	if(!IsPlayerInVehicle(targetid, GetPlayerVehicleID(playerid)))
-		return SendErrorMessage(playerid, "O jogador não está em seu veículo.");
-	if(playerid == targetid)
-		return SendErrorMessage(playerid, "Você não pode ejetar você mesmo.");
+		return SendClientMessage(playerid, COLOR_INFO, "* /ejetar [playerid]");
+
+	else if(!IsPlayerInVehicle(targetid, GetPlayerVehicleID(playerid)))
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está em seu veículo.");
+
+	else if(playerid == targetid)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode ejetar você mesmo.");
 
 	SendClientMessagef(playerid, 0xFFFFFFFF, "* Você ejetou {00ACE6}%s{FFFFFF} do veículo.", GetPlayerNamef(targetid));
 	SendClientMessagef(targetid, 0xFFFFFFFF, "* Você foi ejetado do veículo por {00ACE6}%s{FFFFFF}.", GetPlayerNamef(playerid));

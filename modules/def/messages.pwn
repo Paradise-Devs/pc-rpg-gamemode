@@ -27,6 +27,13 @@ SendClientMessagef(playerid, color, const message[], va_args<>)
    return SendClientMessage(playerid, color, string);
 }
 
+SendClientMessageToAllf(color, const message[], va_args<>)
+{
+   new string[145];
+   va_format(string, sizeof(string), message, va_start<2>);
+   return SendClientMessageToAll(color, string);
+}
+
 //------------------------------------------------------------------------------
 
 SendAdminMessage(PLAYER_RANK:rank, color, const message[], va_args<>)
