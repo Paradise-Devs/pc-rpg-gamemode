@@ -255,6 +255,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/job/garbage.pwn"
 #include "../modules/job/hotdog.pwn"
 #include "../modules/job/icecream.pwn"
+#include "../modules/job/fisher.pwn"
 
 /* Missions */
 #include "../modules/missions/gta.pwn"

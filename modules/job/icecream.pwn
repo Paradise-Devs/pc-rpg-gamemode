@@ -2,7 +2,7 @@
 * FILENAME :        modules/job/hotdog.pwn
 *
 * DESCRIPTION :
-*       Adds hotdog seller job to the server.
+*       Adds icecream seller job to the server.
 *
 * NOTES :
 *       -

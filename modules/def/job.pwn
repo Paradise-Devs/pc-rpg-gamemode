@@ -20,7 +20,8 @@ enum Job (+=1)
     LUMBERJACK_JOB_ID,
     NAVIGATOR_JOB_ID,
     PARAMEDIC_JOB_ID,
-    GARBAGE_JOB_ID
+    GARBAGE_JOB_ID,
+    FISHER_JOB_ID
 }
 
 //------------------------------------------------------------------------------
@@ -42,6 +43,8 @@ GetJobName(Job:id, bool:capitalize = false)
       jobName = "paramedico";
     case GARBAGE_JOB_ID:
         jobName= "lixeiro";
+    case FISHER_JOB_ID:
+        jobName= "pescador";
     default:
       jobName = "desempregado";
   }
