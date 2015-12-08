@@ -64,7 +64,7 @@ ptask OnPlayerTaxiUpdate[TAXIMETER_INTERVAL](playerid)
             ShowPassengerTaximeter(i);
 
         new string[32];
-        format(string, sizeof(string), "$%07d", (g_playerDistTraveled[i] * g_playerFarePrice[playerid]));
+        format(string, sizeof(string), "$%06d", (g_playerDistTraveled[i] * g_playerFarePrice[playerid]));
         PlayerTextDrawSetString(i, g_txdTaximeter[i], string);
 
         passengerid[GetPlayerVehicleSeat(i)] = i;
@@ -79,7 +79,7 @@ ptask OnPlayerTaxiUpdate[TAXIMETER_INTERVAL](playerid)
         cash[2] = (g_playerDistTraveled[passengerid[2]] * g_playerFarePrice[playerid]);
 
     new string[94];
-    format(string, sizeof(string), "Passageiro 1: $%07d~n~Passageiro 2: $%07d~n~Passageiro 3: $%07d", cash[0], cash[1], cash[2]);
+    format(string, sizeof(string), "~r~Passageiro 1: $%07d~n~~y~Passageiro 2: $%07d~n~~g~Passageiro 3: $%07d", cash[0], cash[1], cash[2]);
     PlayerTextDrawSetString(playerid, g_txdTaximeter[playerid], string);
     return 1;
 }
@@ -124,7 +124,7 @@ ShowDriverTaximeter(playerid)
         return 1;
 
     g_isVisible[playerid] = true;
-    g_txdTaximeter[playerid] = CreatePlayerTextDraw(playerid, 501.000000, 127.000000, "Passageiro 1: $0000000~n~Passageiro 2: $0000000~n~Passageiro 3: $0000000");
+    g_txdTaximeter[playerid] = CreatePlayerTextDraw(playerid, 501.000000, 127.000000, "~r~Passageiro 1: $0000000~n~~y~Passageiro 2: $0000000~n~~g~Passageiro 3: $0000000");
     PlayerTextDrawBackgroundColor(playerid, g_txdTaximeter[playerid], 255);
     PlayerTextDrawFont(playerid, g_txdTaximeter[playerid], 2);
     PlayerTextDrawLetterSize(playerid, g_txdTaximeter[playerid], 0.180000, 1.499999);
@@ -152,64 +152,72 @@ HideDriverTaximeter(playerid)
 
 //------------------------------------------------------------------------------
 
-hook OnPlayerExitVehicle(playerid, vehicleid)
+hook OnPlayerStateChange(playerid, newstate, oldstate)
 {
-    if(g_playerDistTraveled[playerid] > 0)
-    {
-        foreach(new i: Player)
-		{
-			if(GetPlayerVehicleID(i) == vehicleid && GetPlayerState(i) == PLAYER_STATE_DRIVER)
-			{
-                new cash = g_playerDistTraveled[playerid] * g_playerFarePrice[i];
-                HidePassengerTaximeter(playerid);
-                g_playerDistTraveled[playerid] = 0;
-				if(GetPlayerCash(playerid) >= cash)
-				{
-					SendClientMessagef(playerid, 0xFFFF00FF, "* Você pagou a corrida. {FFD700}($%i)", cash);
-					SendClientMessagef(i, 0xFFFF00FF, "* O passageiro {FFD700}%s{FFFF00} pagou a corrida. {FFD700}($%i)", GetPlayerNamef(playerid), cash);
-					GivePlayerCash(playerid, cash);
-					GivePlayerCash(i, -cash);
-				}
-				else
-				{
-					SendClientMessagef(playerid, 0xFFFF00FF, "* Você pagou {FFD700}$%i{FFFF00}, faltam {FFD700}$%i{FFFF00} negocie com o motorista.", GetPlayerCash(playerid), cash - GetPlayerCash(playerid));
-					SendClientMessagef(i, 0xFFFF00FF, "* O passageiro {FFD700}%s{FFFF00} pagou {FFD700}$%i{FFFF00}, faltam {FFD700}$%i{FFFF00} negocie com ele.", GetPlayerNamef(playerid), GetPlayerCash(playerid), cash - GetPlayerCash(playerid));
+    if(newstate == PLAYER_STATE_DRIVER || newstate == PLAYER_STATE_PASSENGER)
+        SetPVarInt(playerid, "last_vehicle", GetPlayerVehicleID(playerid));
 
-					GivePlayerCash(i, GetPlayerCash(playerid));
-					GivePlayerCash(playerid, -GetPlayerCash(playerid));
-				}
-			}
-        }
-    }
-    else if(g_isPlayerOnDuty[playerid])
+    else if(oldstate == PLAYER_STATE_DRIVER || oldstate == PLAYER_STATE_PASSENGER)
     {
-        foreach(new i: Player)
-		{
-            if(IsPlayerInVehicle(i, GetPlayerVehicleID(playerid)) && i != playerid && g_playerDistTraveled[i] > 0)
-            {
-                new cash = g_playerDistTraveled[i] * g_playerFarePrice[playerid];
-                g_playerDistTraveled[i] = 0;
-                if(GetPlayerCash(i) >= cash)
-                {
-                    SendClientMessagef(i, 0xFFFF00FF, "* Você pagou a corrida. {FFD700}($%i)", cash);
-                    SendClientMessagef(playerid, 0xFFFF00FF, "* O passageiro {FFD700}%s{FFFF00} pagou a corrida. {FFD700}($%i)", GetPlayerNamef(i), cash);
-                    GivePlayerCash(playerid, cash);
-                    GivePlayerCash(i, -cash);
-                }
-                else
-                {
-                    SendClientMessagef(i, 0xFFFF00FF, "* Você pagou {FFD700}$%i{FFFF00}, faltam {FFD700}$%i{FFFF00} negocie com o motorista.", GetPlayerCash(i), cash - GetPlayerCash(i));
-                    SendClientMessagef(playerid, 0xFFFF00FF, "* O passageiro {FFD700}%s{FFFF00} pagou {FFD700}$%i{FFFF00}, faltam {FFD700}$%i{FFFF00} negocie com ele.", GetPlayerNamef(i), GetPlayerCash(i), cash - GetPlayerCash(i));
+        new vehicleid = GetPVarInt(playerid, "last_vehicle");
+        if(g_playerDistTraveled[playerid] > 0)
+        {
+            foreach(new i: Player)
+    		{
+    			if(GetPlayerVehicleID(i) == vehicleid && GetPlayerState(i) == PLAYER_STATE_DRIVER)
+    			{
+                    new cash = g_playerDistTraveled[playerid] * g_playerFarePrice[i];
+                    HidePassengerTaximeter(playerid);
+                    g_playerDistTraveled[playerid] = 0;
+    				if(GetPlayerCash(playerid) >= cash)
+    				{
+    					SendClientMessagef(playerid, 0xFFFF00FF, "* Você pagou a corrida. {FFD700}($%i)", cash);
+    					SendClientMessagef(i, 0xFFFF00FF, "* O passageiro {FFD700}%s{FFFF00} pagou a corrida. {FFD700}($%i)", GetPlayerNamef(playerid), cash);
+    					GivePlayerCash(playerid, cash);
+    					GivePlayerCash(i, -cash);
+    				}
+    				else
+    				{
+    					SendClientMessagef(playerid, 0xFFFF00FF, "* Você pagou {FFD700}$%i{FFFF00}, faltam {FFD700}$%i{FFFF00} negocie com o motorista.", GetPlayerCash(playerid), cash - GetPlayerCash(playerid));
+    					SendClientMessagef(i, 0xFFFF00FF, "* O passageiro {FFD700}%s{FFFF00} pagou {FFD700}$%i{FFFF00}, faltam {FFD700}$%i{FFFF00} negocie com ele.", GetPlayerNamef(playerid), GetPlayerCash(playerid), cash - GetPlayerCash(playerid));
 
-                    GivePlayerCash(playerid, GetPlayerCash(i));
-                    GivePlayerCash(i, -GetPlayerCash(i));
-                }
+    					GivePlayerCash(i, GetPlayerCash(playerid));
+    					GivePlayerCash(playerid, -GetPlayerCash(playerid));
+    				}
+    			}
             }
         }
-        HideDriverTaximeter(playerid);
-        g_playerFarePrice[playerid] = 0;
-        g_isPlayerOnDuty[playerid] = false;
-		SendClientMessage(playerid, 0xAFAFAFAF, "* Você não está mais em serviço.");
+        else if(g_isPlayerOnDuty[playerid])
+        {
+            foreach(new i: Player)
+    		{
+                if(IsPlayerInVehicle(i, GetPlayerVehicleID(playerid)) && i != playerid && g_playerDistTraveled[i] > 0)
+                {
+                    new cash = g_playerDistTraveled[i] * g_playerFarePrice[playerid];
+                    HidePassengerTaximeter(i);
+                    g_playerDistTraveled[i] = 0;
+                    if(GetPlayerCash(i) >= cash)
+                    {
+                        SendClientMessagef(i, 0xFFFF00FF, "* Você pagou a corrida. {FFD700}($%i)", cash);
+                        SendClientMessagef(playerid, 0xFFFF00FF, "* O passageiro {FFD700}%s{FFFF00} pagou a corrida. {FFD700}($%i)", GetPlayerNamef(i), cash);
+                        GivePlayerCash(playerid, cash);
+                        GivePlayerCash(i, -cash);
+                    }
+                    else
+                    {
+                        SendClientMessagef(i, 0xFFFF00FF, "* Você pagou {FFD700}$%i{FFFF00}, faltam {FFD700}$%i{FFFF00} negocie com o motorista.", GetPlayerCash(i), cash - GetPlayerCash(i));
+                        SendClientMessagef(playerid, 0xFFFF00FF, "* O passageiro {FFD700}%s{FFFF00} pagou {FFD700}$%i{FFFF00}, faltam {FFD700}$%i{FFFF00} negocie com ele.", GetPlayerNamef(i), GetPlayerCash(i), cash - GetPlayerCash(i));
+
+                        GivePlayerCash(playerid, GetPlayerCash(i));
+                        GivePlayerCash(i, -GetPlayerCash(i));
+                    }
+                }
+            }
+            HideDriverTaximeter(playerid);
+            g_playerFarePrice[playerid] = 0;
+            g_isPlayerOnDuty[playerid] = false;
+    		SendClientMessage(playerid, 0xAFAFAFAF, "* Você não está mais em serviço.");
+        }
     }
     return 1;
 }
