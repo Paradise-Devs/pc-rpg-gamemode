@@ -70,6 +70,7 @@ enum e_player_cdata
     e_player_joblv,
     e_player_level,
     e_player_xp,
+    e_player_fstyle,
     Float:e_player_health,
     Float:e_player_armour,
     Float:e_player_hunger,
@@ -196,6 +197,7 @@ ResetPlayerData(playerid)
     gPlayerCharacterData[playerid][e_player_jobxp]      = 0;
     gPlayerCharacterData[playerid][e_player_joblv]      = 1;
     gPlayerCharacterData[playerid][e_player_xp]         = 0;
+    gPlayerCharacterData[playerid][e_player_fstyle]     = FIGHT_STYLE_NORMAL;
     gPlayerCharacterData[playerid][e_player_health]     = 100.0;
     gPlayerCharacterData[playerid][e_player_armour]     = 0.0;
     gPlayerCharacterData[playerid][e_player_hunger]     = 50.0;
@@ -499,7 +501,7 @@ SetPlayerLevel(playerid, val)
 
 GetPlayerXP(playerid)
 {
-    return gPlayerCharacterData[playerid][e_player_level];
+    return gPlayerCharacterData[playerid][e_player_xp];
 }
 
 SetPlayerXP(playerid, val)
@@ -742,7 +744,8 @@ SavePlayerAccount(playerid)
     `WeaponSkillPistol`=%d, `WeaponSkillSilenced`=%d, `WeaponSkillDeagle`=%d, `WeaponSkillShotgun`=%d, `WeaponSkillSawnoff`=%d, \
     `WeaponSkillSpas12`=%d, `WeaponSkillUzi`=%d, `WeaponSkillMP5`=%d, `WeaponSkillAK47`=%d, `WeaponSkillM4`=%d, `WeaponSkillSniper`=%d, \
     `agenda`=%d, `gps`=%d, `lighter`=%d, `cigaretts`=%d, `walkietalkie`=%d, \
-    `carlic`=%d, `bikelic`=%d, `trucklic`=%d, `helilic`=%d, `planelic`=%d, `boatlic`=%d \
+    `carlic`=%d, `bikelic`=%d, `trucklic`=%d, `helilic`=%d, `planelic`=%d, `boatlic`=%d, \
+    `fstyle`=%d \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSpawnPosition(playerid),
     GetPlayerRankVar(playerid), gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
@@ -763,6 +766,7 @@ SavePlayerAccount(playerid)
     gPlayerItemData[playerid][e_player_agenda], gPlayerItemData[playerid][e_player_gps], gPlayerItemData[playerid][e_player_cigaretts], gPlayerItemData[playerid][e_player_lighter], gPlayerItemData[playerid][e_player_walkietalkie],
     gPlayerLicenseData[playerid][e_player_car_license], gPlayerLicenseData[playerid][e_player_bike_license], gPlayerLicenseData[playerid][e_player_truck_license],
     gPlayerLicenseData[playerid][e_player_heli_license], gPlayerLicenseData[playerid][e_player_plane_license], gPlayerLicenseData[playerid][e_player_boat_license],
+    GetPlayerFightingStyle(playerid),
     gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_pquery(mysql, query);
     printf("PLAYER QUERY LENGTH: %d", strlen(query));
@@ -885,7 +889,9 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_jobid]              = Job:cache_get_field_content_int(0, "jobid", mysql);
         gPlayerCharacterData[playerid][e_player_joblv]              = cache_get_field_content_int(0, "joblv", mysql);
         gPlayerCharacterData[playerid][e_player_jobxp]              = cache_get_field_content_int(0, "jobxp", mysql);
-        gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "level", mysql);
+        gPlayerCharacterData[playerid][e_player_level]              = cache_get_field_content_int(0, "level", mysql);
+        gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "xp", mysql);
+        gPlayerCharacterData[playerid][e_player_fstyle]             = cache_get_field_content_int(0, "fstyle", mysql);
         gPlayerCharacterData[playerid][e_player_hunger]             = cache_get_field_content_float(0, "hunger", mysql);
         gPlayerCharacterData[playerid][e_player_thirst]             = cache_get_field_content_float(0, "thirst", mysql);
         gPlayerCharacterData[playerid][e_player_sleep]              = cache_get_field_content_float(0, "sleep", mysql);
@@ -952,6 +958,8 @@ public OnAccountLoad(playerid)
     	SetPlayerSkillLevel(playerid, WEAPONSKILL_AK47,				gPlayerWeaponData[playerid][e_player_weapon_skill][8]);
     	SetPlayerSkillLevel(playerid, WEAPONSKILL_M4,				gPlayerWeaponData[playerid][e_player_weapon_skill][9]);
     	SetPlayerSkillLevel(playerid, WEAPONSKILL_SNIPERRIFLE,		gPlayerWeaponData[playerid][e_player_weapon_skill][10]);
+
+        SetPlayerFightingStyle(playerid, gPlayerCharacterData[playerid][e_player_fstyle]);
 
         LoadPlayerWeapons(playerid);
         LoadPlayerPets(playerid);
@@ -1041,8 +1049,8 @@ public OnAccountCheck(playerid)
         gPlayerCharacterData[playerid][e_player_faction]            = cache_get_field_content_int(0, "faction", mysql);
         gPlayerCharacterData[playerid][e_player_frank]              = cache_get_field_content_int(0, "faction_rank", mysql);
         gPlayerCharacterData[playerid][e_player_jobid]              = Job:cache_get_field_content_int(0, "jobid", mysql);
-        gPlayerCharacterData[playerid][e_player_level]              = cache_get_field_content_int(0, "xp", mysql);
-        gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "level", mysql);
+        gPlayerCharacterData[playerid][e_player_level]              = cache_get_field_content_int(0, "level", mysql);
+        gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "xp", mysql);
         gPlayerPhoneData[playerid][e_player_phone_number]           = cache_get_field_content_int(0, "phone_number", mysql);
 
         gPlayerLicenseData[playerid][e_player_car_license]          = cache_get_field_content_int(0, "carlic", mysql);

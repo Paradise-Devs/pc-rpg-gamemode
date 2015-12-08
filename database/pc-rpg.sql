@@ -542,7 +542,8 @@ CREATE TABLE `players` (
   `trucklic` int(10) signed NOT NULL DEFAULT '0',
   `helilic` int(10) signed NOT NULL DEFAULT '0',
   `planelic` int(10) signed NOT NULL DEFAULT '0',
-  `boatlic` int(10) signed NOT NULL DEFAULT '0'
+  `boatlic` int(10) signed NOT NULL DEFAULT '0',
+  `fstyle` int(10) signed NOT NULL DEFAULT '4'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

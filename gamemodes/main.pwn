@@ -213,6 +213,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/shtrange.pwn"
 #include "../modules/gameplay/gps.pwn"
 #include "../modules/gameplay/radars.pwn"
+#include "../modules/gameplay/fighting.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
