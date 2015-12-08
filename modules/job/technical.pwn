@@ -57,23 +57,22 @@ static const Float:g_fAtmObjectSpawns[][] =
 static const Float:g_fAtmCheckpoints[][] =
 {
     {1240.4446, -1734.3862, 13.2760},
-    {1497.1085, -1660.6584, 13.6919},
+    {1497.1085, -1660.4584, 13.6919},
     {1929.6310, -1782.2368, 13.2235},
     {2405.9868, -1512.9456, 23.6609},
     {2140.2046, -1165.9263, 23.6658},
+    {2695.6824, -1970.3691, 13.5469},
     {0.0,       0.0,        0.0}
 };
 
 //------------------------------------------------------------------------------
 
 static gplCar[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
+static gplObject[MAX_PLAYERS] = {INVALID_OBJECT_ID, ...};
+static gplOldObject[MAX_PLAYERS] = {INVALID_OBJECT_ID, ...};
 static gplCurrentCP[MAX_PLAYERS];
 static gplCurrentSC[MAX_PLAYERS];
-static gplFixing[MAX_PLAYERS];
-static gplObject[MAX_PLAYERS];
-static gplOldObject[MAX_PLAYERS];
 static bool:g_isOnDuty[MAX_PLAYERS];
-static bool:g_pGetCheckpoint[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
@@ -96,11 +95,11 @@ hook OnPlayerDisconnect(playerid, reason)
     }
     gplCurrentSC[playerid] = 0;
 
-    if(gplObject[playerid])
-        DestroyDynamicObject(gplObject[playerid]);
+    if(gplObject[playerid] != INVALID_OBJECT_ID)
+        DestroyDynamicObject(gplObject[playerid]), gplObject[playerid] = INVALID_OBJECT_ID;
 
-    if(gplOldObject[playerid])
-        DestroyDynamicObject(gplOldObject[playerid]);
+    if(gplOldObject[playerid] != INVALID_OBJECT_ID)
+        DestroyDynamicObject(gplOldObject[playerid]), gplOldObject[playerid] = INVALID_OBJECT_ID;
     return 1;
 }
 
@@ -116,11 +115,12 @@ hook OnPlayerDeath(playerid, killerid, reason)
         DisablePlayerRaceCheckpoint(playerid);
         SetPlayerCPID(playerid, CHECKPOINT_NONE);
 
-        if(gplObject[playerid])
-            DestroyDynamicObject(gplObject[playerid]);
+        if(gplObject[playerid] != INVALID_OBJECT_ID)
+            DestroyDynamicObject(gplObject[playerid]), gplObject[playerid] = INVALID_OBJECT_ID;
 
-        if(gplOldObject[playerid])
-            DestroyDynamicObject(gplOldObject[playerid]);
+        if(gplOldObject[playerid] != INVALID_OBJECT_ID)
+            DestroyDynamicObject(gplOldObject[playerid]), gplOldObject[playerid] = INVALID_OBJECT_ID;
+        return 1;
     }
     return 1;
 }
@@ -196,11 +196,12 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 {
                     SendClientMessage(playerid, COLOR_SPECIAL, "* Siga os checkpoints e concerte os caixas eletrônicos.");
                     new rand = random(sizeof(g_fCarSpawns));
-                    gplCar[playerid] = CreateVehicle(g_nCarModel, g_fCarSpawns[rand][0], g_fCarSpawns[rand][1], g_fCarSpawns[rand][2], g_fCarSpawns[rand][3], -1, -1, -1);
+                    gplCar[playerid] = CreateVehicle(g_nCarModel, g_fCarSpawns[rand][0], g_fCarSpawns[rand][1], g_fCarSpawns[rand][2], g_fCarSpawns[rand][3], 1, 3, -1);
                     PutPlayerInVehicle(playerid, gplCar[playerid], 0);
                     SetVehicleFuel(gplCar[playerid], 100.0);
+
                     gplObject[playerid] = CreateDynamicObject(2943, g_fAtmObjectSpawns[0][0], g_fAtmObjectSpawns[0][1], g_fAtmObjectSpawns[0][2], g_fAtmObjectSpawns[0][3], g_fAtmObjectSpawns[0][4], g_fAtmObjectSpawns[0][5], 0, 0, playerid);
-                    SetPlayerRaceCheckpoint(playerid, 2, g_fAtmCheckpoints[0][0], g_fAtmCheckpoints[0][1], g_fAtmCheckpoints[0][2], 0.0, 0.0, 0.0, 1.0);
+                    SetPlayerRaceCheckpoint(playerid, 2, g_fAtmCheckpoints[0][0], g_fAtmCheckpoints[0][1], g_fAtmCheckpoints[0][2], g_fAtmCheckpoints[0][0], g_fAtmCheckpoints[0][1],g_fAtmCheckpoints[0][2], 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_TECHNICAL);
                 }
                 gplCurrentSC[playerid] = listitem;
@@ -236,6 +237,12 @@ hook OnPlayerEnterRaceCPT(playerid)
             gplCar[playerid] = INVALID_VEHICLE_ID;
             gplCurrentSC[playerid] = 0;
 
+            if(gplObject[playerid] != INVALID_OBJECT_ID)
+                DestroyDynamicObject(gplObject[playerid]), gplObject[playerid] = INVALID_OBJECT_ID;
+
+            if(gplOldObject[playerid] != INVALID_OBJECT_ID)
+                DestroyDynamicObject(gplOldObject[playerid]), gplOldObject[playerid] = INVALID_OBJECT_ID;
+
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
             SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + (GetPlayerJobLV(playerid) * XP_SCALE));
             if(GetPlayerJobXP(playerid) > (GetPlayerJobLV(playerid) * REQUIRED_XP))
@@ -249,46 +256,30 @@ hook OnPlayerEnterRaceCPT(playerid)
                 PlayConfirmSound(playerid);
             }
         }
+        else if(i == sizeof(g_fAtmCheckpoints[])-1)
+        {
+            if(f == 0)
+            {
+                SetPlayerRaceCheckpoint(playerid, 2, g_fAtmCheckpoints[i][0], g_fAtmCheckpoints[i][1], g_fAtmCheckpoints[i][2], 0.0, 0.0, 0.0, 1.0);
+                ApplyAnimation(playerid, "INT_SHOP", "SHOP_LOOP", 4.1, 1, 1, 1, 0, 0, 1);
+                GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~g~concertando...", 5000, 3);
+                SendClientMessage(playerid, COLOR_TITLE, "* Volte para a empresa para receber.");
+                defer Fix(playerid, i);
+            }
+        }
         else
         {
             if(f == 0)
             {
-                g_pGetCheckpoint[playerid] = true;
+                SetPlayerRaceCheckpoint(playerid, 2, g_fAtmCheckpoints[i][0], g_fAtmCheckpoints[i][1], g_fAtmCheckpoints[i][2], 0.0, 0.0, 0.0, 1.0);
+                ApplyAnimation(playerid, "INT_SHOP", "SHOP_LOOP", 4.1, 1, 1, 1, 0, 0, 1);
+                GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~g~concertando...", 5000, 3);
+
+                defer Fix(playerid, i);
             }
         }
         return -2;
     }
-    return 1;
-}
-
-//------------------------------------------------------------------------------
-
-YCMD:concertar(playerid, params[], help)
-{
-    if(GetPlayerJobID(playerid) != TECHNICAL_JOB_ID)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não é um técnico.");
-
-    else if(gplCar[playerid] == INVALID_VEHICLE_ID || !g_isOnDuty[playerid])
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um serviço.");
-
-    else if(gplFixing[playerid])
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você já está concertando esse caixa.");
-
-    else if(!g_pGetCheckpoint[playerid])
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você deve pegar o checkpoint primeiro.");
-
-    else if(!IsPlayerInATM(playerid))
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está no caixa eletrônico.");
-
-    new i = gplCurrentCP[playerid];
-    SetPlayerFacingAngle(playerid, -g_fAtmObjectSpawns[i][4]);
-
-    GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~y~concertando...", 10000, 3);
-    ApplyAnimation(playerid, "INT_SHOP", "SHOP_LOOP", 4.1, 1, 1, 1, 0, 0, 1);
-
-    gplFixing[playerid] = true;
-
-    defer Fixer(playerid);
     return 1;
 }
 
@@ -306,42 +297,34 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 //------------------------------------------------------------------------------
 
-IsPlayerInATM(playerid)
+
+timer Fix[5000](playerid, f)
 {
-   for(new i = 0, j = sizeof(g_fAtmObjectSpawns); i < j; i++)
-   {
-       if(IsPlayerInRangeOfPoint(playerid, 2.0, g_fAtmObjectSpawns[i][0], g_fAtmObjectSpawns[i][1], g_fAtmObjectSpawns[i][2]))
-       {
-           return 1;
-       }
-   }
-   return 0;
-}
-
-//------------------------------------------------------------------------------
-
-timer Fixer[10000](playerid)
-{
-    new i = gplCurrentCP[playerid];
-    new f = --i;
-
-    g_pGetCheckpoint[playerid] = false;
-    gplFixing[playerid] = false;
+    f--;
 
     DestroyDynamicObject(gplObject[playerid]);
-    gplOldObject[playerid] = CreateDynamicObject(2781, g_fAtmObjectSpawns[f][0], g_fAtmObjectSpawns[f][1], g_fAtmObjectSpawns[f][2], g_fAtmObjectSpawns[f][3], g_fAtmObjectSpawns[f][4], g_fAtmObjectSpawns[f][5], 0, 0, playerid);
-    gplObject[playerid] = CreateDynamicObject(2943, g_fAtmObjectSpawns[i][0], g_fAtmObjectSpawns[i][1], g_fAtmObjectSpawns[i][2], g_fAtmObjectSpawns[i][3], g_fAtmObjectSpawns[i][4], g_fAtmObjectSpawns[i][5], 0, 0, playerid);
+    gplObject[playerid] = INVALID_OBJECT_ID;
 
-    SetPlayerRaceCheckpoint(playerid, 2, g_fAtmCheckpoints[i][0], g_fAtmCheckpoints[i][1], g_fAtmCheckpoints[i][2], 0.0, 0.0, 0.0, 1.0);
+    if(!IsPlayerConnected(playerid))
+        return 0;
+
+    if(f != sizeof(g_fAtmObjectSpawns))
+    {
+        gplOldObject[playerid] = CreateDynamicObject(19324, g_fAtmObjectSpawns[f][0], g_fAtmObjectSpawns[f][1], g_fAtmObjectSpawns[f][2], g_fAtmObjectSpawns[f][3], g_fAtmObjectSpawns[f][4], g_fAtmObjectSpawns[f][5], 0, 0, playerid);
+        gplObject[playerid] = CreateDynamicObject(2943, g_fAtmObjectSpawns[f+1][0], g_fAtmObjectSpawns[f+1][1], g_fAtmObjectSpawns[f+1][2], g_fAtmObjectSpawns[f+1][3], g_fAtmObjectSpawns[f+1][4], g_fAtmObjectSpawns[f+1][5], 0, 0, playerid);
+    }
+
     ClearAnimations(playerid);
-    SendClientMessage(playerid, COLOR_SPECIAL, "* Você concertou um caixa eletrônico, vá para o próximo");
-
-    defer DestroyATM(playerid);
+    defer Reset(playerid);
+    return 1;
 }
 
 //------------------------------------------------------------------------------
 
-timer DestroyATM[15000](playerid)
+timer Reset[10000](playerid)
 {
-    DestroyDynamicObject(gplOldObject[playerid]);
+    if(gplOldObject[playerid] != INVALID_OBJECT_ID) {
+        DestroyDynamicObject(gplOldObject[playerid]);
+        gplOldObject[playerid] = INVALID_OBJECT_ID;
+    }
 }
