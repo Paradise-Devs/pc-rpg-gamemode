@@ -28,7 +28,7 @@ YCMD:acmds(playerid, params[], help)
     {
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos - /fuelveh");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check");
     }
 
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
@@ -53,6 +53,24 @@ YCMD:acmds(playerid, params[], help)
  *     #    #  ####  #####  ###### #    # #    #   #    ####  #    #
  *
  */
+
+ YCMD:check(playerid, params[], help)
+ {
+ 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+ 	new targetid;
+ 	if(sscanf(params, "u", targetid))
+ 		return SendClientMessage(playerid, COLOR_INFO, "* /check [playerid]");
+
+ 	else if(!IsPlayerLogged(targetid))
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+    ShowPlayerDataHud(targetid, playerid);
+ 	return 1;
+ }
+
+//------------------------------------------------------------------------------
 
  YCMD:ir(playerid, params[], help)
  {
@@ -757,7 +775,7 @@ YCMD:setjoblvl(playerid, params[], help)
         SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou seu level de emprego para %d.", GetPlayerNamef(playerid), level);
 
     SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o level do emprego de %s para %d.", GetPlayerNamef(targetid), level);
-    
+
     return 1;
 }
 

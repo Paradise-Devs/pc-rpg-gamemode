@@ -28,10 +28,13 @@ new PlayerText:gpt_data_hud[32][MAX_PLAYERS];
 
 //--------------------------------------------------------------------
 
-ShowPlayerDataHud(playerid)
+ShowPlayerDataHud(playerid, targetid = INVALID_PLAYER_ID)
 {
-	if(GetPVarInt(playerid, "isDataHudVisible"))
+	if(GetPVarInt(targetid, "isDataHudVisible"))
 		return false;
+
+	if(targetid == INVALID_PLAYER_ID)
+		targetid = playerid;
 
 	new stats_color[12] = "~b~~h~";
 	if(GetPlayerStatsColor(playerid) == PLAYER_STATS_COLOR_YELLOW)
@@ -43,117 +46,117 @@ ShowPlayerDataHud(playerid)
 	else if(GetPlayerStatsColor(playerid) == PLAYER_STATS_COLOR_PURPLE)
 		format(stats_color, sizeof(stats_color), "~p~");
 
-	SetPVarInt(playerid, "isDataHudVisible", true);
-	gpt_data_hud[0][playerid] = CreatePlayerTextDraw(playerid, 531.667907, 108.937042, "usebox");
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[0][playerid], 0.000000, 21.655763);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[0][playerid], 146.333526, 0.000000);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[0][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[0][playerid], 0);
-	PlayerTextDrawUseBox(playerid, gpt_data_hud[0][playerid], true);
-	PlayerTextDrawBoxColor(playerid, gpt_data_hud[0][playerid], 102);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[0][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[0][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[0][playerid], 0);
+	SetPVarInt(targetid, "isDataHudVisible", true);
+	gpt_data_hud[0][targetid] = CreatePlayerTextDraw(targetid, 531.667907, 108.937042, "usebox");
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[0][targetid], 0.000000, 21.655763);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[0][targetid], 146.333526, 0.000000);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[0][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[0][targetid], 0);
+	PlayerTextDrawUseBox(targetid, gpt_data_hud[0][targetid], true);
+	PlayerTextDrawBoxColor(targetid, gpt_data_hud[0][targetid], 102);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[0][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[0][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[0][targetid], 0);
 
-	gpt_data_hud[1][playerid] = CreatePlayerTextDraw(playerid, 233.666305, 108.937042, "usebox");
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[1][playerid], 0.000000, 21.622430);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[1][playerid], 146.000213, 0.000000);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[1][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[1][playerid], 0);
-	PlayerTextDrawUseBox(playerid, gpt_data_hud[1][playerid], true);
-	PlayerTextDrawBoxColor(playerid, gpt_data_hud[1][playerid], 102);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[1][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[1][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[1][playerid], 0);
+	gpt_data_hud[1][targetid] = CreatePlayerTextDraw(targetid, 233.666305, 108.937042, "usebox");
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[1][targetid], 0.000000, 21.622430);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[1][targetid], 146.000213, 0.000000);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[1][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[1][targetid], 0);
+	PlayerTextDrawUseBox(targetid, gpt_data_hud[1][targetid], true);
+	PlayerTextDrawBoxColor(targetid, gpt_data_hud[1][targetid], 102);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[1][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[1][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[1][targetid], 0);
 
-	gpt_data_hud[8][playerid] = CreatePlayerTextDraw(playerid, 233.666625, 108.937057, "usebox");
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[8][playerid], 0.000000, 1.463167);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[8][playerid], 528.999694, 0.000000);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[8][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[8][playerid], 0);
-	PlayerTextDrawUseBox(playerid, gpt_data_hud[8][playerid], true);
-	PlayerTextDrawBoxColor(playerid, gpt_data_hud[8][playerid], 102);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[8][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[8][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[8][playerid], 0);
+	gpt_data_hud[8][targetid] = CreatePlayerTextDraw(targetid, 233.666625, 108.937057, "usebox");
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[8][targetid], 0.000000, 1.463167);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[8][targetid], 528.999694, 0.000000);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[8][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[8][targetid], 0);
+	PlayerTextDrawUseBox(targetid, gpt_data_hud[8][targetid], true);
+	PlayerTextDrawBoxColor(targetid, gpt_data_hud[8][targetid], 102);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[8][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[8][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[8][targetid], 0);
 
 	new string[64];
 	format(string, sizeof(string), "Nome: %s%s", stats_color, GetPlayerFirstName(playerid));
-	gpt_data_hud[3][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 107.437034, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[3][playerid], 0.219999, 1.419999);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[3][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[3][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[3][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[3][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[3][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[3][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[3][playerid], 1);
+	gpt_data_hud[3][targetid] = CreatePlayerTextDraw(targetid, 232.999923, 107.437034, string);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[3][targetid], 0.219999, 1.419999);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[3][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[3][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[3][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[3][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[3][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[3][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[3][targetid], 1);
 
 	format(string, sizeof(string), "Sobrenome: %s%s", stats_color, GetPlayerLastName(playerid));
 	gpt_data_hud[4][playerid] = CreatePlayerTextDraw(playerid, 368.000122, 107.851852, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[4][playerid], 0.219999, 1.419999);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[4][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[4][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[4][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[4][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[4][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[4][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[4][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[4][targetid], 0.219999, 1.419999);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[4][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[4][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[4][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[4][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[4][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[4][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[4][targetid], 1);
 
 	format(string, sizeof(string), "Conta: %s%s", stats_color, GetPlayerRankName(playerid));
 	gpt_data_hud[5][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 121.540756, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[5][playerid], 0.184999, 1.391703);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[5][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[5][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[5][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[5][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[5][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[5][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[5][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[5][targetid], 0.184999, 1.391703);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[5][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[5][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[5][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[5][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[5][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[5][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[5][targetid], 1);
 
 	format(string, sizeof(string), "Nivel: %s%d", stats_color, GetPlayerLevel(playerid));
 	gpt_data_hud[6][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 135.644393, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[6][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[6][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[6][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[6][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[6][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[6][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[6][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[6][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[6][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[6][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[6][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[6][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[6][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[6][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[6][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[6][targetid], 1);
 
 	format(string, sizeof(string), "Exp.: %s%d/%d", stats_color, GetPlayerXP(playerid), GetPlayerRequiredXP(playerid));
 	gpt_data_hud[7][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 151.407379, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[7][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[7][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[7][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[7][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[7][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[7][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[7][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[7][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[7][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[7][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[7][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[7][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[7][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[7][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[7][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[7][targetid], 1);
 
 	format(string, sizeof(string), "Dinheiro: %s$%d", stats_color, GetPlayerCash(playerid));
 	gpt_data_hud[9][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 165.511108, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[9][playerid], 0.180233, 1.346070);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[9][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[9][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[9][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[9][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[9][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[9][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[9][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[9][targetid], 0.180233, 1.346070);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[9][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[9][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[9][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[9][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[9][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[9][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[9][targetid], 1);
 
 	/*format(string, sizeof(string), "Banco: %s$%d", stats_color, GetPlayerBankCash(playerid));
 	gpt_data_hud[10][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 179.614929, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[10][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[10][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[10][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[10][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[10][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[10][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[10][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[10][playerid], 1);*/
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[10][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[10][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[10][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[10][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[10][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[10][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[10][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[10][targetid], 1);*/
 
 	new phoneNumber[16] = "N/A";
 	if(GetPlayerPhoneNumber(playerid))
@@ -161,14 +164,14 @@ ShowPlayerDataHud(playerid)
 
 	format(string, sizeof(string), "Tel.: %s%s", stats_color, phoneNumber);
 	gpt_data_hud[11][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 194.962921, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[11][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[11][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[11][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[11][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[11][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[11][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[11][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[11][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[11][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[11][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[11][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[11][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[11][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[11][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[11][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[11][targetid], 1);
 
 	new	phoneNetworkName[32] = "N/A";
 	if(GetPlayerPhoneNumber(playerid))
@@ -176,36 +179,36 @@ ShowPlayerDataHud(playerid)
 
 	format(string, sizeof(string), "Oper.: %s%s", stats_color, phoneNetworkName);
 	gpt_data_hud[12][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 208.651840, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[12][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[12][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[12][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[12][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[12][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[12][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[12][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[12][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[12][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[12][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[12][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[12][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[12][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[12][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[12][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[12][targetid], 1);
 
 	/*format(string, sizeof(string), "Nascimento: %s%s", stats_color, gPlayerData[playerid][E_PLAYER_BIRTHDAY]);
 	gpt_data_hud[13][playerid] = CreatePlayerTextDraw(playerid, 232.999923, 223.170364, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[13][playerid], 0.180566, 1.346070);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[13][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[13][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[13][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[13][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[13][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[13][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[13][playerid], 1);*/
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[13][targetid], 0.180566, 1.346070);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[13][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[13][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[13][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[13][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[13][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[13][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[13][targetid], 1);*/
 
 	format(string, sizeof(string), "Emprego: %s%s", stats_color, ConvertToGameText(GetJobName(GetPlayerJobID(playerid), true)));
 	gpt_data_hud[14][playerid] = CreatePlayerTextDraw(playerid, 368.000122, 121.540733, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[14][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[14][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[14][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[14][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[14][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[14][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[14][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[14][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[14][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[14][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[14][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[14][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[14][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[14][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[14][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[14][targetid], 1);
 
 	new jobNvl[8] = "N/A";
 	if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
@@ -213,14 +216,14 @@ ShowPlayerDataHud(playerid)
 
 	format(string, sizeof(string), "Nvl. Emprego: %s%s", stats_color, jobNvl);
 	gpt_data_hud[15][playerid] = CreatePlayerTextDraw(playerid, 367.999938, 134.400009, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[15][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[15][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[15][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[15][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[15][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[15][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[15][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[15][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[15][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[15][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[15][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[15][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[15][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[15][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[15][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[15][targetid], 1);
 
 	new jobXP[32] = "N/A";
 	if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
@@ -228,36 +231,36 @@ ShowPlayerDataHud(playerid)
 
 	format(string, sizeof(string), "XP. Emprego: %s%s", stats_color, jobXP);
 	gpt_data_hud[16][playerid] = CreatePlayerTextDraw(playerid, 367.666717, 148.503707, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[16][playerid], 0.162566, 1.437329);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[16][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[16][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[16][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[16][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[16][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[16][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[16][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[16][targetid], 0.162566, 1.437329);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[16][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[16][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[16][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[16][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[16][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[16][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[16][targetid], 1);
 
 	format(string, sizeof(string), "Org.: %s%s", stats_color, ConvertToGameText(GetFactionName(GetPlayerFactionID(playerid))));
 	gpt_data_hud[17][playerid] = CreatePlayerTextDraw(playerid, 367.333374, 163.851837, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[17][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[17][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[17][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[17][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[17][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[17][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[17][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[17][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[17][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[17][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[17][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[17][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[17][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[17][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[17][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[17][targetid], 1);
 
 	format(string, sizeof(string), "Cargo: %s%s", stats_color, ConvertToGameText(GetFactionRankName(GetPlayerFactionID(playerid), GetPlayerFactionRankID(playerid))));
 	gpt_data_hud[18][playerid] = CreatePlayerTextDraw(playerid, 366.999847, 178.785217, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[18][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[18][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[18][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[18][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[18][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[18][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[18][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[18][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[18][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[18][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[18][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[18][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[18][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[18][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[18][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[18][targetid], 1);
 
 	new house_str[4] = "Nao";
 	if(GetPlayerHouseID(playerid) != INVALID_HOUSE_ID)
@@ -265,14 +268,14 @@ ShowPlayerDataHud(playerid)
 
 	format(string, sizeof(string), "Casa: %s%s", stats_color, house_str);
 	gpt_data_hud[19][playerid] = CreatePlayerTextDraw(playerid, 367.000000, 193.718505, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[19][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[19][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[19][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[19][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[19][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[19][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[19][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[19][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[19][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[19][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[19][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[19][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[19][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[19][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[19][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[19][targetid], 1);
 
 	new business_str[32] = "Nao";
 	if(GetPlayerBusinessID(playerid) != INVALID_BUSINESS_ID)
@@ -280,14 +283,14 @@ ShowPlayerDataHud(playerid)
 
 	format(string, sizeof(string), "Empresa: %s%s", stats_color, business_str);
 	gpt_data_hud[20][playerid] = CreatePlayerTextDraw(playerid, 367.000030, 209.066650, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[20][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[20][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[20][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[20][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[20][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[20][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[20][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[20][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[20][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[20][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[20][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[20][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[20][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[20][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[20][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[20][targetid], 1);
 
 	new vehicle_count = 0;
 	for(new i = 0; i < MAX_VEHICLES_PER_PLAYER; i++)
@@ -296,25 +299,25 @@ ShowPlayerDataHud(playerid)
 
 	format(string, sizeof(string), "Veiculos: %s%d/%d", stats_color, vehicle_count, MAX_VEHICLES_PER_PLAYER);
 	gpt_data_hud[21][playerid] = CreatePlayerTextDraw(playerid, 367.333343, 222.755554, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[21][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[21][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[21][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[21][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[21][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[21][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[21][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[21][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[21][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[21][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[21][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[21][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[21][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[21][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[21][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[21][targetid], 1);
 
 	format(string, sizeof(string), "Membro desde: %s%s", stats_color, convertTimestamp(GetPlayerRegDataUnix(playerid)));
 	gpt_data_hud[22][playerid] = CreatePlayerTextDraw(playerid, 190.333084, 303.644317, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[22][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[22][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[22][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[22][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[22][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[22][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[22][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[22][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[22][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[22][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[22][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[22][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[22][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[22][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[22][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[22][targetid], 1);
 
 	new lastLogin[32] = "Nunca";
 	if(GetPlayerLastLoginUnix(playerid) != 0)
@@ -322,114 +325,114 @@ ShowPlayerDataHud(playerid)
 
 	format(string, sizeof(string), "Ultimo Login: %s%s", stats_color, lastLogin);
 	gpt_data_hud[23][playerid] = CreatePlayerTextDraw(playerid, 355.999969, 303.229583, string);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[23][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[23][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[23][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[23][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[23][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[23][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[23][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[23][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[23][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[23][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[23][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[23][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[23][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[23][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[23][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[23][targetid], 1);
 
 	format(string, sizeof(string), "Tempo Jogado: %s%s", stats_color, GetPlayerPlayedTimeStamp(playerid));
 	gpt_data_hud[24][playerid] = CreatePlayerTextDraw(playerid, 280.333343, 95.822250, string);// 364
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[24][playerid], 0.184900, 1.391700);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[24][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[24][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[24][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[24][playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[24][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[24][playerid], 2);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[24][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[24][targetid], 0.184900, 1.391700);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[24][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[24][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[24][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[24][targetid], 1);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[24][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[24][targetid], 2);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[24][targetid], 1);
 
 	gpt_data_hud[25][playerid] = CreatePlayerTextDraw(playerid, 514.333312, 107.022224, "ld_chat:thumbdn");
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[25][playerid], 0.000000, 0.000000);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[25][playerid], 15.666687, 14.103698);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[25][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[25][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[25][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[25][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[25][playerid], 4);
-	PlayerTextDrawSetSelectable(playerid, gpt_data_hud[25][playerid], true);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[25][targetid], 0.000000, 0.000000);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[25][targetid], 15.666687, 14.103698);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[25][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[25][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[25][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[25][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[25][targetid], 4);
+	PlayerTextDrawSetSelectable(targetid, gpt_data_hud[25][targetid], true);
 
 	gpt_data_hud[26][playerid] = CreatePlayerTextDraw(playerid, 85.000000, 95.000000, "PlayerSkinModel");
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[26][playerid], 0x00000000);
-	PlayerTextDrawFont(playerid, gpt_data_hud[26][playerid], 5);
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[26][playerid], 0.500000, 1.000000);
-	PlayerTextDrawColor(playerid, gpt_data_hud[26][playerid], -1);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[26][playerid], 0);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[26][playerid], 1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[26][playerid], 1);
-	PlayerTextDrawUseBox(playerid, gpt_data_hud[26][playerid], 1);
-	PlayerTextDrawBoxColor(playerid, gpt_data_hud[26][playerid], 0x00000000);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[26][playerid], 205.000000, 204.000000);
-	PlayerTextDrawSetPreviewModel(playerid, gpt_data_hud[26][playerid], GetPlayerSkin(playerid));
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[26][targetid], 0x00000000);
+	PlayerTextDrawFont(targetid, gpt_data_hud[26][targetid], 5);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[26][targetid], 0.500000, 1.000000);
+	PlayerTextDrawColor(targetid, gpt_data_hud[26][targetid], -1);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[26][targetid], 0);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[26][targetid], 1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[26][targetid], 1);
+	PlayerTextDrawUseBox(targetid, gpt_data_hud[26][targetid], 1);
+	PlayerTextDrawBoxColor(targetid, gpt_data_hud[26][targetid], 0x00000000);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[26][targetid], 205.000000, 204.000000);
+	PlayerTextDrawSetPreviewModel(targetid, gpt_data_hud[26][targetid], GetPlayerSkin(playerid));
 
 	gpt_data_hud[2][playerid] = CreatePlayerTextDraw(playerid, 141.666625, 86.281486, "Stats");
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[2][playerid], 0.763333, 3.093333);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[2][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[2][playerid], -1);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[2][playerid], -1);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[2][playerid], 0);
-	PlayerTextDrawBackgroundColor(playerid, gpt_data_hud[2][playerid], 51);
-	PlayerTextDrawFont(playerid, gpt_data_hud[2][playerid], 0);
-	PlayerTextDrawSetProportional(playerid, gpt_data_hud[2][playerid], 1);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[2][targetid], 0.763333, 3.093333);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[2][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[2][targetid], -1);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[2][targetid], -1);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[2][targetid], 0);
+	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[2][targetid], 51);
+	PlayerTextDrawFont(targetid, gpt_data_hud[2][targetid], 0);
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[2][targetid], 1);
 
 	gpt_data_hud[27][playerid] = CreatePlayerTextDraw(playerid, 518.000244, 292.859222, "LD_SPAC:white");// Yellow change color
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[27][playerid], 0.000000, 0.000000);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[27][playerid], 12.000000, 12.000000);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[27][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[27][playerid], -65281);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[27][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[27][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[27][playerid], 4);
-	PlayerTextDrawSetSelectable(playerid, gpt_data_hud[27][playerid], true);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[27][targetid], 0.000000, 0.000000);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[27][targetid], 12.000000, 12.000000);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[27][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[27][targetid], -65281);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[27][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[27][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[27][targetid], 4);
+	PlayerTextDrawSetSelectable(targetid, gpt_data_hud[27][targetid], true);
 
 	gpt_data_hud[28][playerid] = CreatePlayerTextDraw(playerid, 518.000244, 280.859222, "LD_SPAC:white");// Blue change color
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[28][playerid], 0.000000, 0.000000);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[28][playerid], 12.000000, 12.000000);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[28][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[28][playerid], 0x4099FFFF);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[28][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[28][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[28][playerid], 4);
-	PlayerTextDrawSetSelectable(playerid, gpt_data_hud[28][playerid], true);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[28][targetid], 0.000000, 0.000000);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[28][targetid], 12.000000, 12.000000);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[28][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[28][targetid], 0x4099FFFF);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[28][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[28][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[28][targetid], 4);
+	PlayerTextDrawSetSelectable(targetid, gpt_data_hud[28][targetid], true);
 
 	gpt_data_hud[29][playerid] = CreatePlayerTextDraw(playerid, 518.000244, 268.859222, "LD_SPAC:white");// Green change color
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[29][playerid], 0.000000, 0.000000);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[29][playerid], 12.000000, 12.000000);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[29][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[29][playerid], 0x6DC066FF);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[29][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[29][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[29][playerid], 4);
-	PlayerTextDrawSetSelectable(playerid, gpt_data_hud[29][playerid], true);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[29][targetid], 0.000000, 0.000000);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[29][targetid], 12.000000, 12.000000);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[29][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[29][targetid], 0x6DC066FF);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[29][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[29][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[29][targetid], 4);
+	PlayerTextDrawSetSelectable(targetid, gpt_data_hud[29][targetid], true);
 
 	gpt_data_hud[30][playerid] = CreatePlayerTextDraw(playerid, 518.000244, 256.859222, "LD_SPAC:white");// Red change color
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[30][playerid], 0.000000, 0.000000);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[30][playerid], 12.000000, 12.000000);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[30][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[30][playerid], 0xCC0000FF);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[30][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[30][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[30][playerid], 4);
-	PlayerTextDrawSetSelectable(playerid, gpt_data_hud[30][playerid], true);
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[30][targetid], 0.000000, 0.000000);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[30][targetid], 12.000000, 12.000000);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[30][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[30][targetid], 0xCC0000FF);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[30][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[30][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[30][targetid], 4);
+	PlayerTextDrawSetSelectable(targetid, gpt_data_hud[30][targetid], true);
 
-	gpt_data_hud[31][playerid] = CreatePlayerTextDraw(playerid, 518.000244, 244.859222, "LD_SPAC:white");// Purple change color
-	PlayerTextDrawLetterSize(playerid, gpt_data_hud[31][playerid], 0.000000, 0.000000);
-	PlayerTextDrawTextSize(playerid, gpt_data_hud[31][playerid], 12.000000, 12.000000);
-	PlayerTextDrawAlignment(playerid, gpt_data_hud[31][playerid], 1);
-	PlayerTextDrawColor(playerid, gpt_data_hud[31][playerid], 0x7D26CDFF);
-	PlayerTextDrawSetShadow(playerid, gpt_data_hud[31][playerid], 0);
-	PlayerTextDrawSetOutline(playerid, gpt_data_hud[31][playerid], 0);
-	PlayerTextDrawFont(playerid, gpt_data_hud[31][playerid], 4);
-	PlayerTextDrawSetSelectable(playerid, gpt_data_hud[31][playerid], true);
+	gpt_data_hud[31][playerid] = CreatePlayerTextDraw(targetid, 518.000244, 244.859222, "LD_SPAC:white");// Purple change color
+	PlayerTextDrawLetterSize(targetid, gpt_data_hud[31][targetid], 0.000000, 0.000000);
+	PlayerTextDrawTextSize(targetid, gpt_data_hud[31][targetid], 12.000000, 12.000000);
+	PlayerTextDrawAlignment(targetid, gpt_data_hud[31][targetid], 1);
+	PlayerTextDrawColor(targetid, gpt_data_hud[31][targetid], 0x7D26CDFF);
+	PlayerTextDrawSetShadow(targetid, gpt_data_hud[31][targetid], 0);
+	PlayerTextDrawSetOutline(targetid, gpt_data_hud[31][targetid], 0);
+	PlayerTextDrawFont(targetid, gpt_data_hud[31][targetid], 4);
+	PlayerTextDrawSetSelectable(targetid, gpt_data_hud[31][targetid], true);
 
 	for(new i = 0; i < sizeof(gpt_data_hud); i++)
-		PlayerTextDrawShow(playerid, gpt_data_hud[i][playerid]);
+		PlayerTextDrawShow(targetid, gpt_data_hud[i][targetid]);
 
-	SelectTextDraw(playerid, 0xC7E9FFAA);
-	PlaySelectSound(playerid);
+	SelectTextDraw(targetid, 0xC7E9FFAA);
+	PlaySelectSound(targetid);
 	return 1;
 }
 
