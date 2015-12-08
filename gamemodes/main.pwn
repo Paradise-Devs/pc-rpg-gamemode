@@ -96,6 +96,7 @@
 #include <vcolor>
 #include <zones>
 #include <mSelection>
+#include <radars>
 
 //------------------------------------------------------------------------------
 
@@ -210,6 +211,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/paintball.pwn"
 #include "../modules/gameplay/shtrange.pwn"
 #include "../modules/gameplay/gps.pwn"
+#include "../modules/gameplay/radars.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"

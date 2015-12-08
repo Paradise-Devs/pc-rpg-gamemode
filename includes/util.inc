@@ -248,7 +248,8 @@ enum
 	VEHICLE_CATEGORY_BIKE,
 	VEHICLE_CATEGORY_HELICOPTER,
 	VEHICLE_CATEGORY_BOAT,
-	VEHICLE_CATEGORY_TAXI
+	VEHICLE_CATEGORY_TAXI,
+	VEHICLE_CATEGORY_POLICE
 }
 
 //------------------------------------------------------------------------------
@@ -561,6 +562,8 @@ stock GetVehicleCategory(vehicleid)
             return VEHICLE_CATEGORY_BOAT;
         case 420, 438:
             return VEHICLE_CATEGORY_TAXI;
+        case 596, 597, 598, 599, 601:
+            return VEHICLE_CATEGORY_POLICE;
     }
     return VEHICLE_CATEGORY_INVALID;
 }

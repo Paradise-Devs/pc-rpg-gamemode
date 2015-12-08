@@ -4,12 +4,7 @@
 * DESCRIPTION :
 *       Adds lottery to the server.
 *
-* NOTES :
-*       -
-*
 *       Copyright Paradise Devs 2015.  All rights reserved.
-*
-* AUTHOR :    Larceny           START DATE :    25 Jul 15
 *
 */
 
