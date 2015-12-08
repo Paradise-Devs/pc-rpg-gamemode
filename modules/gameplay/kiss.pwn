@@ -146,18 +146,18 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				{
 					case 1:
 					{
-						ApplyAnimation(playerid, "KISSING", "Playa_Kiss_01", 4.1, 0, 1, 1, 0, 0, 1);
-						ApplyAnimation(targetid, "KISSING", "Grlfrd_Kiss_01", 4.1, 0, 1, 1, 0, 0, 1);
+						ApplyAnimation(playerid, "KISSING", (GetPlayerSkinGender(playerid) == SKIN_GENDER_MALE) ? "Playa_Kiss_01" : "Grlfrd_Kiss_01", 4.1, 0, 1, 1, 0, 0, 1);
+						ApplyAnimation(targetid, "KISSING", (GetPlayerSkinGender(targetid) == SKIN_GENDER_MALE) ? "Playa_Kiss_01" : "Grlfrd_Kiss_01", 4.1, 0, 1, 1, 0, 0, 1);
 					}
 					case 2:
 					{
-						ApplyAnimation(playerid, "KISSING", "Playa_Kiss_02", 4.1, 0, 1, 1, 0, 0, 1);
-						ApplyAnimation(targetid, "KISSING", "Grlfrd_Kiss_02", 4.1, 0, 1, 1, 0, 0, 1);
+						ApplyAnimation(playerid, "KISSING", (GetPlayerSkinGender(playerid) == SKIN_GENDER_MALE) ? "Playa_Kiss_02" : "Grlfrd_Kiss_02", 4.1, 0, 1, 1, 0, 0, 1);
+						ApplyAnimation(targetid, "KISSING", (GetPlayerSkinGender(targetid) == SKIN_GENDER_MALE) ? "Playa_Kiss_02" : "Grlfrd_Kiss_02", 4.1, 0, 1, 1, 0, 0, 1);
 					}
 					case 3:
 					{
-						ApplyAnimation(playerid, "KISSING", "Playa_Kiss_03", 4.1, 0, 1, 1, 0, 0, 1);
-						ApplyAnimation(targetid, "KISSING", "Grlfrd_Kiss_03", 4.1, 0, 1, 1, 0, 0, 1);
+						ApplyAnimation(playerid, "KISSING", (GetPlayerSkinGender(playerid) == SKIN_GENDER_MALE) ? "Playa_Kiss_03" : "Grlfrd_Kiss_03", 4.1, 0, 1, 1, 0, 0, 1);
+						ApplyAnimation(targetid, "KISSING", (GetPlayerSkinGender(targetid) == SKIN_GENDER_MALE) ? "Playa_Kiss_03" : "Grlfrd_Kiss_03", 4.1, 0, 1, 1, 0, 0, 1);
 					}
 				}
 				g_p_kiss[targetid] = INVALID_PLAYER_ID;
@@ -196,7 +196,7 @@ YCMD:beijar(playerid, params[], help)
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não pode estar em um veículo.");
 	else if(sscanf(params, "ui", targetid, style))
 		SendClientMessage(playerid, COLOR_INFO, "* /beijar [playerid] [estilo <1-3>]");
-	else if(style < 1 || style > 8)
+	else if(style < 1 || style > 3)
 		SendClientMessage(playerid, COLOR_ERROR, "* Apenas estilos entre 1 e 3.");
 	else if(playerid == targetid)
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não pode beijar você mesmo.");
