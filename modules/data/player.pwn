@@ -427,6 +427,8 @@ Job:GetPlayerJobID(playerid)
 SetPlayerJobID(playerid, Job:id)
 {
     gPlayerCharacterData[playerid][e_player_jobid] = id;
+    gPlayerCharacterData[playerid][e_player_joblv] = 1;
+    gPlayerCharacterData[playerid][e_player_jobxp] = 0;
 }
 
 GetPlayerJobLV(playerid)

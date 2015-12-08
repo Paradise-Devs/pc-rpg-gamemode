@@ -68,6 +68,7 @@ static gplBoat[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
 static gplCurrentSC[MAX_PLAYERS];
 static gplFishs[MAX_PLAYERS];
 static gplFishing[MAX_PLAYERS];
+static bool:g_isOnDuty[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
@@ -102,6 +103,8 @@ hook OnPlayerDeath(playerid, killerid, reason)
         DestroyVehicle(gplBoat[playerid]);
         gplBoat[playerid] = INVALID_VEHICLE_ID;
         SendClientMessage(playerid, COLOR_ERROR, "* Você não conseguiu completar o serviço.");
+        DisablePlayerRaceCheckpoint(playerid);
+        SetPlayerCPID(playerid, CHECKPOINT_NONE);
     }
     return 1;
 }
@@ -138,7 +141,7 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-	if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 3.0, 2195.4722, -1973.8459, 13.5590))
+	if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 3.0, 391.8892, -2050.9883, 7.8359))
 	{
         ShowPlayerDialog(playerid, DIALOG_FISHER_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Pescador", "Você deseja ser um pescador?", "Sim", "Não");
 		return 1;
@@ -199,6 +202,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     SendClientMessage(playerid, COLOR_SPECIAL, "* Vá até o pier e digite /pescar para começar a pescar.");
                 }
                 gplCurrentSC[playerid] = listitem;
+                g_isOnDuty[playerid] = true;
             }
             return -2;
         }
@@ -210,7 +214,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 YCMD:pescar(playerid, params[], help)
 {
-    if(!gplCurrentSC[playerid])
+    if(!g_isOnDuty[playerid])
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
 
     if(gplFishing[playerid])
@@ -223,7 +227,7 @@ YCMD:pescar(playerid, params[], help)
 
         GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~r~Pescando...", 10000, 3);
         SetPlayerFacingAngle(playerid, 180.1535);
-        ApplyAnimation(playerid, "INT_SHOP", "SHOP_LOOP", 4.1, 1, 1, 1, 0, 0, 1);
+        ApplyAnimation(playerid, "SAMP", "FishingIdle", 4.1, 1, 1, 1, 1, 0, 1);
         gplFishing[playerid] = true;
 
         defer FishTimer(playerid);
@@ -289,6 +293,8 @@ hook OnPlayerEnterRaceCPT(playerid)
         GivePlayerCash(playerid, g_sFisherServices[f][0][0]);
 
         DisablePlayerRaceCheckpoint(playerid);
+        g_isOnDuty[playerid] = false;
+        gplFishs[playerid] = 0;
 
         if(f == 2)
             SetPlayerPos(playerid, 396.7126, -2058.4263, 7.8359);
@@ -321,9 +327,12 @@ timer FishTimer[10000](playerid)
     gplFishs[playerid] += rand;
 
     if(gplFishs[playerid] >= 10)
+        gplFishs[playerid] = 10, rand = 1;
+
+    SendClientMessagef(playerid, COLOR_TITLE, "* Você pescou %d peixes, agora você possuí %d peixes!", rand, gplFishs[playerid]);
+    if(gplFishs[playerid] == 10)
     {
-        gplFishs[playerid] = 10;
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* Você já pescou o máximo de peixes que consegue carregar (10), volte e entregue os peixes.");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* Você pescou o máximo de peixes que consegue carregar (10), volte e entregue os peixes.");
 
         if(gplCurrentSC[playerid] != 2)
             SetPlayerRaceCheckpoint(playerid, 2, 396.7126, -2058.4263, 7.8359, 396.7126, -2058.4263, 7.8359, 1.0);
@@ -334,7 +343,5 @@ timer FishTimer[10000](playerid)
     }
 
     ClearAnimations(playerid);
-    SendClientMessagef(playerid, COLOR_TITLE, "* Você pescou %d peixes, agora você possuí %d peixes!", rand, gplFishs[playerid]);
-
     gplFishing[playerid] = false;
 }
