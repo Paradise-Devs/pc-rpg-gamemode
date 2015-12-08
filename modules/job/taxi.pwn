@@ -64,7 +64,7 @@ ptask OnPlayerTaxiUpdate[TAXIMETER_INTERVAL](playerid)
             ShowPassengerTaximeter(i);
 
         new string[32];
-        format(string, sizeof(string), "~g~$~w~%06d", (g_playerDistTraveled[i] * g_playerFarePrice[playerid]));
+        format(string, sizeof(string), "~g~$~w~%05d", (g_playerDistTraveled[i] * g_playerFarePrice[playerid]));
         PlayerTextDrawSetString(i, g_txdTaximeter[i], string);
 
         passengerid[GetPlayerVehicleSeat(i)] = i;
@@ -92,7 +92,7 @@ ShowPassengerTaximeter(playerid)
         return 1;
 
     g_isVisible[playerid] = true;
-    g_txdTaximeter[playerid] = CreatePlayerTextDraw(playerid, 556.000000, 127.000000, "~g~$~w~0000000");
+    g_txdTaximeter[playerid] = CreatePlayerTextDraw(playerid, 556.000000, 127.000000, "~g~$~w~00000");
     PlayerTextDrawBackgroundColor(playerid, g_txdTaximeter[playerid], 255);
     PlayerTextDrawFont(playerid, g_txdTaximeter[playerid], 2);
     PlayerTextDrawLetterSize(playerid, g_txdTaximeter[playerid], 0.270000, 1.799999);
@@ -191,7 +191,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
         {
             foreach(new i: Player)
     		{
-                if(IsPlayerInVehicle(i, GetPlayerVehicleID(playerid)) && i != playerid && g_playerDistTraveled[i] > 0)
+                if(IsPlayerInVehicle(i, vehicleid) && i != playerid && g_playerDistTraveled[i] > 0)
                 {
                     new cash = g_playerDistTraveled[i] * g_playerFarePrice[playerid];
                     HidePassengerTaximeter(i);
@@ -283,9 +283,10 @@ YCMD:corrida(playerid, params[], help)
 
 			else
 			{
-                ShowDriverTaximeter(playerid);
                 g_isPlayerOnDuty[playerid] = true;
+                g_playerDistTraveled[playerid] = 0;
 				g_playerFarePrice[playerid] = strval(params);
+                ShowDriverTaximeter(playerid);
 				SendClientMessageToAllf(0x00D900C8, "Anúncio: O Taxista %s está trabalhando, Corrida: $%i, Contato: %i.", GetPlayerNamef(playerid), g_playerFarePrice[playerid], GetPlayerPhoneNumber(playerid));
 			}
 		}

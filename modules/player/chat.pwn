@@ -68,7 +68,7 @@ hook OnPlayerText(playerid, text[])
             format(message, 172, "%s diz: %s", GetPlayerNamef(playerid), text);
             SendClientMessage(i, 0xA3A3A3FF, message);
         }
-        SendPetLocalMessage(playerid, text);
     }
+    SendPetLocalMessage(playerid, text);
     return -1;
 }
