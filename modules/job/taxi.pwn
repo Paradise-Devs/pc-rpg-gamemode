@@ -23,7 +23,7 @@ static bool:g_isPlayerOnDuty[MAX_PLAYERS];
 static g_playerDistTraveled[MAX_PLAYERS];
 
 // Common vars
-static g_isVisible[MAX_PLAYERS];
+static bool:g_isVisible[MAX_PLAYERS];
 static PlayerText:g_txdTaximeter[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
@@ -103,6 +103,8 @@ ShowPassengerTaximeter(playerid)
     PlayerTextDrawBoxColor(playerid, g_txdTaximeter[playerid], 77);
     PlayerTextDrawTextSize(playerid, g_txdTaximeter[playerid], 607.000000, 0.000000);
     PlayerTextDrawSetSelectable(playerid, g_txdTaximeter[playerid], 0);
+
+    PlayerTextDrawShow(playerid, g_txdTaximeter[playerid]);
     return 1;
 }
 
@@ -133,6 +135,8 @@ ShowDriverTaximeter(playerid)
     PlayerTextDrawBoxColor(playerid, g_txdTaximeter[playerid], 77);
     PlayerTextDrawTextSize(playerid, g_txdTaximeter[playerid], 607.000000, 0.000000);
     PlayerTextDrawSetSelectable(playerid, g_txdTaximeter[playerid], 0);
+
+    PlayerTextDrawShow(playerid, g_txdTaximeter[playerid]);
     return 1;
 }
 
