@@ -179,7 +179,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         {
             if(!response)
                 PlayCancelSound(playerid);
-            else if(gplBoat[playerid] != INVALID_VEHICLE_ID || gplCurrentSC[playerid] != 0)
+            else if(gplBoat[playerid] != INVALID_VEHICLE_ID || gplCurrentSC[playerid] != 0 || g_isOnDuty[playerid])
                 SendClientMessage(playerid, COLOR_ERROR, "* Você já está em um serviço.");
             else if(GetPlayerJobLV(playerid) < listitem+1)
             {
@@ -254,7 +254,7 @@ IsPlayerInFishArea(playerid)
     new Float:playerPos[3];
     GetPlayerPos(playerid, playerPos[0], playerPos[1], playerPos[2]);
 
-    if((playerPos[0] < 1136.71875) && (playerPos[0] < 304.6875) && (playerPos[1] < -2613.28125) && (playerPos[1] > -2871.09375))
+    if((playerPos[0] < 1136.71875) && (playerPos[0] > 304.6875) && (playerPos[1] < -2613.28125) && (playerPos[1] > -2871.09375))
         return 1;
 
     return 0;
@@ -342,6 +342,8 @@ timer FishTimer[10000](playerid)
         SetPlayerCPID(playerid, CHECKPOINT_FISHER);
     }
 
-    ClearAnimations(playerid);
+    if(!IsPlayerInAnyVehicle(playerid))
+        ClearAnimations(playerid);
+
     gplFishing[playerid] = false;
 }
