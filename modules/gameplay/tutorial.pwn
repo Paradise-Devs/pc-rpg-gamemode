@@ -73,6 +73,7 @@ OnPlayerClickTutorialButton(playerid, BUTTON:button)
         gPlayerTutorialPart[playerid] = 0;
         HideTutorialTextForPlayer(playerid);
         TogglePlayerSpectating(playerid, false);
+        SetPlayerFightingStyle(playerid, FIGHT_STYLE_NORMAL);
 
         SendClientMessage(playerid, 0xFFFFFFFF, "Para visualizar o stats de seu personagem digite {88aa62}/stats{ffffff}.");
         SendClientMessage(playerid, 0xFFFFFFFF, "Apenas jogadores próximo a você irão ouvir o que você diz.");

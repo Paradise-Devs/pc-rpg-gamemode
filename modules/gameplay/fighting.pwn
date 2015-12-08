@@ -19,8 +19,8 @@ static STREAMER_TAG_CP gCheckpointid;
 static g_fightingStyles[][][] =
 {
     {500,    FIGHT_STYLE_NORMAL,     "Briga de rua"},
-    {2500,   FIGHT_STYLE_BOXING,     "Boxe"},
-    {5000,   FIGHT_STYLE_GRABKICK,   "GrabKick"},
+    {2500,   FIGHT_STYLE_GRABKICK,   "GrabKick"},
+    {5000,   FIGHT_STYLE_BOXING,     "Boxe"},
     {7500,   FIGHT_STYLE_ELBOW,      "Elbow"},
     {10000,  FIGHT_STYLE_KNEEHEAD,   "KneeHead"},
     {15000,  FIGHT_STYLE_KUNGFU,     "Kungfu"}
