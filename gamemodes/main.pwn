@@ -204,6 +204,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/motocross.pwn"
 #include "../modules/gameplay/handshake.pwn"
 #include "../modules/gameplay/blowjob.pwn"
+#include "../modules/gameplay/kiss.pwn"
 #include "../modules/gameplay/hospital.pwn"
 #include "../modules/gameplay/lottery.pwn"
 #include "../modules/gameplay/tutorial.pwn"
