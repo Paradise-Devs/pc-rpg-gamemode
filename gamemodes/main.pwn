@@ -170,6 +170,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/def/messages.pwn"
 #include "../modules/def/missions.pwn"
 #include "../modules/def/statscol.pwn"
+#include "../modules/def/licenses.pwn"
 
 /* Data */
 #include "../modules/data/connection.pwn"
@@ -240,6 +241,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/visual/logo.pwn"
 #include "../modules/visual/login.pwn"
 #include "../modules/visual/businfo.pwn"
+#include "../modules/visual/licenses.pwn"
 
 /* NPCs */
 #include "../modules/npcs/actors.pwn"

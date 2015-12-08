@@ -75,7 +75,7 @@ YCMD:id(playerid, params[], help)
 
     new output[40];
 	format(output, sizeof(output), "* %s(ID: %i)", GetPlayerNamef(targetid), targetid);
-	SendClientMessage(playerid, 0xAFAFAFAF, output);
+	SendClientMessage(playerid, COLOR_INFO, output);
 	return 1;
 }
 
@@ -85,11 +85,149 @@ YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /fumar - /gps - /relatorio - /reportar - /ejetar");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /fumar - /gps - /relatorio - /reportar - /ejetar - /mostrarlicenca");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo - /ajudaapartamento - /ajudacasa - /ajudaempresa - /ajudawalkie");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
+
+//------------------------------------------------------------------------------
+
+YCMD:mostrarlicenca(playerid, params[], help)
+{
+	new
+		item,
+		targetid;
+
+	if(sscanf(params, "ui", targetid, item))
+	{
+		SendClientMessage(playerid, COLOR_INFO, "* /mostrarlicenca [playerid] [item]");
+		SendClientMessage(playerid, COLOR_INFO, "(1)Carro - (2)Moto - (3)Caminhão - (4)Helicoptero - (5)Aviao - (6)Barco");
+		return 1;
+	}
+
+	else if(!IsPlayerLogged(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Jogador não conectado.");
+
+	else if(GetPlayerDistanceFromPlayer(playerid, targetid) > 5.0)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo do jogador.");
+
+	else if(GetPVarInt(targetid, "isLicenseVisible"))
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já está vendo uma licença.");
+
+	switch(item)
+	{
+		case 1:
+		{
+			if(GetPlayerCarLicense(playerid) == 0)
+				return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui essa licença.");
+
+			ShowPlayerLicense(playerid, targetid, LICENSE_CAR);
+
+			if(playerid != targetid)
+			{
+				SendClientMessagef(playerid, COLOR_INFO, "* Você mostrou sua licença para %s.", GetPlayerNamef(targetid));
+				foreach(new i: Player)
+				{
+					if(GetPlayerDistanceFromPlayer(playerid, i) < 15.0 && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
+						SendClientMessagef(i, 0xDA70D6FF, "* %s mostrou a carteira de motorista para %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+				}
+			}
+		}
+		case 2:
+		{
+			if(GetPlayerBikeLicense(playerid) == 0)
+				return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui essa licença.");
+
+			ShowPlayerLicense(playerid, targetid, LICENSE_BIKE);
+			SendClientMessagef(playerid, COLOR_INFO, "* Você mostrou sua licença para %s.", GetPlayerNamef(targetid));
+
+			if(playerid != targetid)
+			{
+				foreach(new i: Player)
+				{
+					if(GetPlayerDistanceFromPlayer(playerid, i) < 15.0 && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
+						SendClientMessagef(i, 0xDA70D6FF, "* %s mostrou a carteira de motorista para %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+				}
+			}
+		}
+		case 3:
+		{
+			if(GetPlayerTruckLicense(playerid) == 0)
+				return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui essa licença.");
+
+			ShowPlayerLicense(playerid, targetid, LICENSE_TRUCK);
+
+			if(playerid != targetid)
+			{
+				SendClientMessagef(playerid, COLOR_INFO, "* Você mostrou sua licença para %s.", GetPlayerNamef(targetid));
+				foreach(new i: Player)
+				{
+					if(GetPlayerDistanceFromPlayer(playerid, i) < 15.0 && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
+						SendClientMessagef(i, 0xDA70D6FF, "* %s mostrou a carteira de motorista para %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+				}
+			}
+		}
+		case 4:
+		{
+			if(GetPlayerHeliLicense(playerid) == 0)
+				return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui essa licença.");
+
+			ShowPlayerLicense(playerid, targetid, LICENSE_HELI);
+
+			if(playerid != targetid)
+			{
+				SendClientMessagef(playerid, COLOR_INFO, "* Você mostrou sua licença para %s.", GetPlayerNamef(targetid));
+				foreach(new i: Player)
+				{
+					if(GetPlayerDistanceFromPlayer(playerid, i) < 15.0 && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
+						SendClientMessagef(i, 0xDA70D6FF, "* %s mostrou a carteira de motorista para %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+				}
+			}
+		}
+		case 5:
+		{
+			if(GetPlayerPlaneLicense(playerid) == 0)
+				return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui essa licença.");
+
+			ShowPlayerLicense(playerid, targetid, LICENSE_PLANE);
+
+			if(playerid != targetid)
+			{
+				SendClientMessagef(playerid, COLOR_INFO, "* Você mostrou sua licença para %s.", GetPlayerNamef(targetid));
+				foreach(new i: Player)
+				{
+					if(GetPlayerDistanceFromPlayer(playerid, i) < 15.0 && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
+						SendClientMessagef(i, 0xDA70D6FF, "* %s mostrou a carteira de motorista para %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+				}
+			}
+		}
+		case 6:
+		{
+			if(GetPlayerBoatLicense(playerid) == 0)
+				return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui essa licença.");
+
+			ShowPlayerLicense(playerid, targetid, LICENSE_BOAT);
+
+			if(playerid != targetid)
+			{
+				SendClientMessagef(playerid, COLOR_INFO, "* Você mostrou sua licença para %s.", GetPlayerNamef(targetid));
+				foreach(new i: Player)
+				{
+					if(GetPlayerDistanceFromPlayer(playerid, i) < 15.0 && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
+						SendClientMessagef(i, 0xDA70D6FF, "* %s mostrou a carteira de motorista para %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+				}
+			}
+		}
+		default:
+		{
+			SendClientMessage(playerid, COLOR_INFO, "* /mostrarlicenca [playerid] [item]");
+			SendClientMessage(playerid, COLOR_INFO, "(1)Carro - (2)Moto - (3)Caminhão - (4)Helicoptero - (5)Aviao - (6)Barco");
+		}
+	}
+	return 1;
+}
+
 
 //------------------------------------------------------------------------------
 
@@ -251,7 +389,7 @@ YCMD:fumar(playerid, params[], help)
 {
 	/*
 	if(IsPlayerCuffed(playerid))
-		return SendErrorMessage(playerid, "Você não pode fumar enquanto está algemado.");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode fumar enquanto está algemado.");
 	*/
 
 	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_SMOKE_CIGGY)

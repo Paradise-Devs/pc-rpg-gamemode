@@ -536,16 +536,14 @@ CREATE TABLE `players` (
   `lighter` int(10) NOT NULL DEFAULT '0',
   `cigaretts` int(10) NOT NULL DEFAULT '0',
   `walkietalkie` int(10) NOT NULL DEFAULT '0',
-  `isOnline` int(10) signed NOT NULL DEFAULT '0'
+  `isOnline` int(10) signed NOT NULL DEFAULT '0',
+  `carlic` int(10) signed NOT NULL DEFAULT '0',
+  `bikelic` int(10) signed NOT NULL DEFAULT '0',
+  `trucklic` int(10) signed NOT NULL DEFAULT '0',
+  `helilic` int(10) signed NOT NULL DEFAULT '0',
+  `planelic` int(10) signed NOT NULL DEFAULT '0',
+  `boatlic` int(10) signed NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `players`
---
-
-INSERT INTO `players` (`ID`, `username`, `password`, `ip`, `email`, `x`, `y`, `z`, `a`, `interior`, `virtual_world`, `spawn`, `health`, `armour`, `skin`, `rank`, `faction`, `faction_rank`, `last_login`, `regdate`, `gender`, `money`, `hospital`, `achievements`, `ticket`, `jobid`, `jobxp`, `joblv`, `xp`, `level`, `ftime`, `hunger`, `thirst`, `sleep`, `addiction`, `phone_number`, `phone_network`, `phone_credits`, `phone_state`, `apartkey`, `housekey`, `businesskey`, `WeaponSkillPistol`, `WeaponSkillSilenced`, `WeaponSkillDeagle`, `WeaponSkillShotgun`, `WeaponSkillSawnoff`, `WeaponSkillSpas12`, `WeaponSkillUzi`, `WeaponSkillMP5`, `WeaponSkillAK47`, `WeaponSkillM4`, `WeaponSkillSniper`, `agenda`, `gps`, `lighter`, `cigaretts`, `walkietalkie`) VALUES
-(1, 'Eduardo', 'pw3t4000', '127.0.0.1', NULL, 0, 0, 0, 0, 0, 0, 0, 100, 0, 299, 0, 0, 0, 0, 1449274293, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 100, 100, 100, 100, 0, -1, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(2, 'Sync_Cnys', '216487', '189.29.224.120', NULL, 0, 0, 0, 0, 0, 0, 0, 100, 0, 299, 0, 0, 0, 0, 1449274324, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 100, 100, 100, 100, 0, -1, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 

@@ -233,7 +233,7 @@ VSL_ShowPlayerTextdraw(playerid)
     PlayerTextDrawSetProportional(playerid, gptLogin[playerid][15], 1);
     PlayerTextDrawSetShadow(playerid, gptLogin[playerid][15], 0);
 
-	/*new helilic = GetPlayerHeliLicense(playerid);
+	new helilic = GetPlayerHeliLicense(playerid);
     gptLogin[playerid][16] = CreatePlayerTextDraw(playerid, 67.299781, 373.177947, "");
     PlayerTextDrawLetterSize(playerid, gptLogin[playerid][16], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, gptLogin[playerid][16], 40.666667, 55.570346);
@@ -312,8 +312,8 @@ VSL_ShowPlayerTextdraw(playerid)
     PlayerTextDrawSetPreviewModel(playerid, gptLogin[playerid][20], 513);
     PlayerTextDrawSetPreviewRot(playerid, gptLogin[playerid][20], 0.000000, 0.000000, -90.000000, 1.000000);
     PlayerTextDrawSetPreviewVehCol(playerid, gptLogin[playerid][20], (planelic) ? 3 : 1, (planelic) ? 3 : 1);
-    */
 
+	new boatlic = GetPlayerBoatLicense(playerid);
     gptLogin[playerid][21] = CreatePlayerTextDraw(playerid, 106.433204, 366.437438, "");
     PlayerTextDrawLetterSize(playerid, gptLogin[playerid][21], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, gptLogin[playerid][21], 60.666675, 68.429611);
@@ -327,7 +327,7 @@ VSL_ShowPlayerTextdraw(playerid)
     PlayerTextDrawSetShadow(playerid, gptLogin[playerid][21], 0);
     PlayerTextDrawSetPreviewModel(playerid, gptLogin[playerid][21], 473);
     PlayerTextDrawSetPreviewRot(playerid, gptLogin[playerid][21], 0.000000, 0.000000, -90.000000, 1.000000);
-    PlayerTextDrawSetPreviewVehCol(playerid, gptLogin[playerid][21], 1, 1);
+    PlayerTextDrawSetPreviewVehCol(playerid, gptLogin[playerid][21], (boatlic) ? 3 : 1, (boatlic) ? 3 : 1);
 
     gptLogin[playerid][22] = CreatePlayerTextDraw(playerid, 159.701889, 231.151916, GetPlayerRankName(playerid, true));
     PlayerTextDrawLetterSize(playerid, gptLogin[playerid][22], 0.139666, 0.687407);

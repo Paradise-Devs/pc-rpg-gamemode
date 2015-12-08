@@ -93,6 +93,20 @@ static gPlayerPhoneData[MAX_PLAYERS][e_player_phdata];
 
 //------------------------------------------------------------------------------
 
+enum e_player_ldata
+{
+    e_player_car_license,
+    e_player_bike_license,
+    e_player_truck_license,
+    e_player_heli_license,
+    e_player_plane_license,
+    e_player_boat_license
+}
+
+static gPlayerLicenseData[MAX_PLAYERS][e_player_ldata];
+
+//------------------------------------------------------------------------------
+
 enum e_player_wdata
 {
     e_player_weapon[13],
@@ -193,6 +207,13 @@ ResetPlayerData(playerid)
     gPlayerPhoneData[playerid][e_player_phone_network]  = -1;
     gPlayerPhoneData[playerid][e_player_phone_credits]  = 0;
     gPlayerPhoneData[playerid][e_player_phone_state]    = 0;
+
+    gPlayerLicenseData[playerid][e_player_car_license]  = 0;
+    gPlayerLicenseData[playerid][e_player_bike_license]  = 0;
+    gPlayerLicenseData[playerid][e_player_truck_license]  = 0;
+    gPlayerLicenseData[playerid][e_player_heli_license]  = 0;
+    gPlayerLicenseData[playerid][e_player_plane_license]  = 0;
+    gPlayerLicenseData[playerid][e_player_boat_license]  = 0;
 
     for (new i = 0; i < sizeof(gPlayerWeaponData[][]); i++)
         gPlayerWeaponData[playerid][e_player_weapon][i] = 0;
@@ -493,6 +514,38 @@ stock GetPlayerRequiredXP(playerid)
 
 //------------------------------------------------------------------------------
 
+GetPlayerCarLicense(playerid)
+{
+    return gPlayerLicenseData[playerid][e_player_car_license];
+}
+
+GetPlayerBikeLicense(playerid)
+{
+    return gPlayerLicenseData[playerid][e_player_bike_license];
+}
+
+GetPlayerTruckLicense(playerid)
+{
+    return gPlayerLicenseData[playerid][e_player_truck_license];
+}
+
+GetPlayerHeliLicense(playerid)
+{
+    return gPlayerLicenseData[playerid][e_player_heli_license];
+}
+
+GetPlayerPlaneLicense(playerid)
+{
+    return gPlayerLicenseData[playerid][e_player_plane_license];
+}
+
+GetPlayerBoatLicense(playerid)
+{
+    return gPlayerLicenseData[playerid][e_player_boat_license];
+}
+
+//------------------------------------------------------------------------------
+
 GetPlayerPhoneNumber(playerid)
 {
     return gPlayerPhoneData[playerid][e_player_phone_number];
@@ -672,7 +725,7 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     // Account saving
-    new query[1024];
+    new query[1280];
 	mysql_format(mysql, query, sizeof(query),
 	"UPDATE `players` SET \
     `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `spawn`=%d, \
@@ -688,7 +741,8 @@ SavePlayerAccount(playerid)
     `hunger`=%.3f, `thirst`=%.3f, `sleep`=%.3f, `addiction`=%.3f, `apartkey`=%d, `housekey`=%d, `businesskey`=%d, \
     `WeaponSkillPistol`=%d, `WeaponSkillSilenced`=%d, `WeaponSkillDeagle`=%d, `WeaponSkillShotgun`=%d, `WeaponSkillSawnoff`=%d, \
     `WeaponSkillSpas12`=%d, `WeaponSkillUzi`=%d, `WeaponSkillMP5`=%d, `WeaponSkillAK47`=%d, `WeaponSkillM4`=%d, `WeaponSkillSniper`=%d, \
-    `agenda`=%d, `gps`=%d, `lighter`=%d, `cigaretts`=%d, `walkietalkie`=%d \
+    `agenda`=%d, `gps`=%d, `lighter`=%d, `cigaretts`=%d, `walkietalkie`=%d, \
+    `carlic`=%d, `bikelic`=%d, `trucklic`=%d, `helilic`=%d, `planelic`=%d, `boatlic`=%d \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSpawnPosition(playerid),
     GetPlayerRankVar(playerid), gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
@@ -707,6 +761,8 @@ SavePlayerAccount(playerid)
     gPlayerWeaponData[playerid][e_player_weapon_skill][6], gPlayerWeaponData[playerid][e_player_weapon_skill][7], gPlayerWeaponData[playerid][e_player_weapon_skill][8],
     gPlayerWeaponData[playerid][e_player_weapon_skill][9], gPlayerWeaponData[playerid][e_player_weapon_skill][10],
     gPlayerItemData[playerid][e_player_agenda], gPlayerItemData[playerid][e_player_gps], gPlayerItemData[playerid][e_player_cigaretts], gPlayerItemData[playerid][e_player_lighter], gPlayerItemData[playerid][e_player_walkietalkie],
+    gPlayerLicenseData[playerid][e_player_car_license], gPlayerLicenseData[playerid][e_player_bike_license], gPlayerLicenseData[playerid][e_player_truck_license],
+    gPlayerLicenseData[playerid][e_player_heli_license], gPlayerLicenseData[playerid][e_player_plane_license], gPlayerLicenseData[playerid][e_player_boat_license],
     gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_pquery(mysql, query);
     printf("PLAYER QUERY LENGTH: %d", strlen(query));
@@ -839,7 +895,13 @@ public OnAccountLoad(playerid)
         gPlayerPhoneData[playerid][e_player_phone_network]          = cache_get_field_content_int(0, "phone_network", mysql);
         gPlayerPhoneData[playerid][e_player_phone_credits]          = cache_get_field_content_int(0, "phone_credits", mysql);
         gPlayerPhoneData[playerid][e_player_phone_state]            = cache_get_field_content_int(0, "phone_state", mysql);
-        gPlayerCharacterData[playerid][e_player_addiction]          = cache_get_field_content_float(0, "addiction", mysql);
+
+        gPlayerLicenseData[playerid][e_player_car_license]          = cache_get_field_content_int(0, "carlic", mysql);
+        gPlayerLicenseData[playerid][e_player_bike_license]         = cache_get_field_content_int(0, "bikelic", mysql);
+        gPlayerLicenseData[playerid][e_player_truck_license]        = cache_get_field_content_int(0, "trucklic", mysql);
+        gPlayerLicenseData[playerid][e_player_heli_license]         = cache_get_field_content_int(0, "helilic", mysql);
+        gPlayerLicenseData[playerid][e_player_plane_license]        = cache_get_field_content_int(0, "planelic", mysql);
+        gPlayerLicenseData[playerid][e_player_boat_license]         = cache_get_field_content_int(0, "boatlic", mysql);
 
         gPlayerItemData[playerid][e_player_agenda]                  = cache_get_field_content_int(0, "agenda", mysql);
         gPlayerItemData[playerid][e_player_gps]                     = cache_get_field_content_int(0, "gps", mysql);
@@ -982,6 +1044,13 @@ public OnAccountCheck(playerid)
         gPlayerCharacterData[playerid][e_player_level]              = cache_get_field_content_int(0, "xp", mysql);
         gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "level", mysql);
         gPlayerPhoneData[playerid][e_player_phone_number]           = cache_get_field_content_int(0, "phone_number", mysql);
+
+        gPlayerLicenseData[playerid][e_player_car_license]          = cache_get_field_content_int(0, "carlic", mysql);
+        gPlayerLicenseData[playerid][e_player_bike_license]         = cache_get_field_content_int(0, "bikelic", mysql);
+        gPlayerLicenseData[playerid][e_player_truck_license]        = cache_get_field_content_int(0, "trucklic", mysql);
+        gPlayerLicenseData[playerid][e_player_heli_license]         = cache_get_field_content_int(0, "helilic", mysql);
+        gPlayerLicenseData[playerid][e_player_plane_license]        = cache_get_field_content_int(0, "planelic", mysql);
+        gPlayerLicenseData[playerid][e_player_boat_license]         = cache_get_field_content_int(0, "boatlic", mysql);
 
         SetPlayerRankVar(playerid, cache_get_field_content_int(0, "rank", mysql));
         SetPlayerHouseID(playerid, cache_get_field_content_int(0, "housekey", mysql));
