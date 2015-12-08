@@ -85,10 +85,36 @@ YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /fumar - /gps - /relatorio - /reportar");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /fumar - /gps - /relatorio - /reportar - /ejetar");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo - /ajudaapartamento - /ajudacasa - /ajudaempresa - /ajudawalkie");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:ejetar(playerid, params[], help)
+{
+	if(!IsPlayerInAnyVehicle(playerid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+
+	else if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não é o motorista.");
+
+	new targetid;
+	if(sscanf(params, "u", targetid))
+		return SendClientMessage(playerid, COLOR_INFO, "* /ejetar [playerid]");
+
+	else if(!IsPlayerInVehicle(targetid, GetPlayerVehicleID(playerid)))
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está em seu veículo.");
+
+	else if(playerid == targetid)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode ejetar você mesmo.");
+
+	SendClientMessagef(playerid, 0xFFFFFFFF, "* Você ejetou {00ACE6}%s{FFFFFF} do veículo.", GetPlayerNamef(targetid));
+	SendClientMessagef(targetid, 0xFFFFFFFF, "* Você foi ejetado do veículo por {00ACE6}%s{FFFFFF}.", GetPlayerNamef(playerid));
+	RemovePlayerFromVehicle(targetid);
+	return true;
 }
 
 //------------------------------------------------------------------------------
@@ -306,9 +332,9 @@ YCMD:sussurrar(playerid, params[], help)
 	if(GetPlayerDistanceFromPoint(targetid, fDist[0], fDist[1], fDist[2]) < 3.0 && GetPlayerVirtualWorld(targetid) == GetPlayerVirtualWorld(playerid))
 	{
         new output[145];
-        format(output, sizeof(output), "* [SS] para %s(ID: %d): %s", GetPlayerNamef(targetid), message);
+        format(output, sizeof(output), "* Sussuro para %s(ID: %d): %s", GetPlayerNamef(targetid), targetid, message);
 		SendClientMessage(playerid, 0x26b4cdff, output);
-        format(output, sizeof(output), "* [SS] %s(ID: %d): %s", GetPlayerNamef(playerid), message);
+        format(output, sizeof(output), "* Sussuro de %s(ID: %d): %s", GetPlayerNamef(playerid), playerid, message);
 		SendClientMessage(targetid, 0x26b4cdff, output);
         format(output, sizeof(output), "sussurou algo para %s.", GetPlayerNamef(targetid));
         SendClientActionMessage(playerid, 15.0, output);

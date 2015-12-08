@@ -242,6 +242,17 @@ new aVehicleNames[212][] = {	// Vehicle Names - Betamaster
 
 //------------------------------------------------------------------------------
 
+enum
+{
+	VEHICLE_CATEGORY_INVALID,
+	VEHICLE_CATEGORY_BIKE,
+	VEHICLE_CATEGORY_HELICOPTER,
+	VEHICLE_CATEGORY_BOAT,
+	VEHICLE_CATEGORY_TAXI
+}
+
+//------------------------------------------------------------------------------
+
 /*
     Clear player's chat
 */
@@ -534,6 +545,24 @@ stock Float:GetPlayerHealthf(playerid)
     new Float:health;
     GetPlayerHealth(playerid, health);
     return health;
+}
+
+//------------------------------------------------------------------------------
+
+stock GetVehicleCategory(vehicleid)
+{
+    switch(GetVehicleModel(vehicleid))
+    {
+        case 509, 510, 481, 461..463, 448, 581, 521..523, 586, 468, 471:
+            return VEHICLE_CATEGORY_BIKE;
+        case 417, 425, 447, 469, 487, 488, 497, 563, 548:
+            return VEHICLE_CATEGORY_HELICOPTER;
+        case 430, 446, 452, 453, 454, 472, 473, 484, 493, 595:
+            return VEHICLE_CATEGORY_BOAT;
+        case 420, 438:
+            return VEHICLE_CATEGORY_TAXI;
+    }
+    return VEHICLE_CATEGORY_INVALID;
 }
 
 //------------------------------------------------------------------------------
