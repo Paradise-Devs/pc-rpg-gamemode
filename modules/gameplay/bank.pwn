@@ -30,7 +30,7 @@ static bool:g_isVisible[MAX_PLAYERS];
 static g_pSelectedField[MAX_PLAYERS];
 static g_plInputValue[MAX_PLAYERS][10];
 static g_plInputAccount[MAX_PLAYERS][10];
-static PlayerText:g_ptBank[MAX_PLAYERS][22];
+static PlayerText:g_ptBank[MAX_PLAYERS][23];
 
 //------------------------------------------------------------------------------
 
@@ -227,7 +227,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
                         PlayerTextDrawSetString(playerid, g_ptBank[playerid][17], g_plInputAccount[playerid]);
 
                         new account = strval(g_plInputAccount[playerid]);
-                        if(account < 1000000 || account > 9999999)
+                        if(account > 1000000 && account < 9999999)
                         {
                             foreach(new j: Player)
                             {
@@ -680,6 +680,19 @@ ShowPlayerBankTextDraw(playerid)
     PlayerTextDrawSetProportional(playerid, g_ptBank[playerid][21], 1);
     PlayerTextDrawSetShadow(playerid, g_ptBank[playerid][21], 1);
     PlayerTextDrawSetSelectable(playerid, g_ptBank[playerid][21], 0);
+
+    g_ptBank[playerid][22] = CreatePlayerTextDraw(playerid, 250.000000, 160.000000, "_");
+    PlayerTextDrawBackgroundColor(playerid, g_ptBank[playerid][22], 255);
+    PlayerTextDrawFont(playerid, g_ptBank[playerid][22], 1);
+    PlayerTextDrawLetterSize(playerid, g_ptBank[playerid][22], 0.500000, 1.900002);
+    PlayerTextDrawColor(playerid, g_ptBank[playerid][22], -129);
+    PlayerTextDrawSetOutline(playerid, g_ptBank[playerid][22], 0);
+    PlayerTextDrawSetProportional(playerid, g_ptBank[playerid][22], 1);
+    PlayerTextDrawSetShadow(playerid, g_ptBank[playerid][22], 1);
+    PlayerTextDrawUseBox(playerid, g_ptBank[playerid][22], 1);
+    PlayerTextDrawBoxColor(playerid, g_ptBank[playerid][22], 64);
+    PlayerTextDrawTextSize(playerid, g_ptBank[playerid][22], 163.000000, 0.000000);
+    PlayerTextDrawSetSelectable(playerid, g_ptBank[playerid][22], 0);
 
     for(new i = 0; i < sizeof(g_ptBank[]); i++)
         PlayerTextDrawShow(playerid, g_ptBank[playerid][i]);
