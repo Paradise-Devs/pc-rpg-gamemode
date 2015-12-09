@@ -16,10 +16,10 @@
 #include <YSI\y_hooks>
 
 // ID of the players who is giving/getting handshake
-new g_p_hshake[MAX_PLAYERS] = { INVALID_PLAYER_ID, ... };
+static g_p_hshake[MAX_PLAYERS] = { INVALID_PLAYER_ID, ... };
 
 // The style of handshake
-new g_p_hshakestyle[MAX_PLAYERS] = 0;
+static g_p_hshakestyle[MAX_PLAYERS] = 0;
 
 /***
  *    ######## ##     ## ##    ##  ######  ######## ####  #######  ##    ##  ######

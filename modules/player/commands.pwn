@@ -85,11 +85,38 @@ YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /beijar - /fumar - /gps - /relatorio - /reportar - /ejetar - /mostrarlicenca - /abrirconta");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /beijar - /fumar - /gps - /relatorio - /reportar - /ejetar - /mostrarlicenca - /abrirconta - /pagar - /desafiar");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo - /ajudaapartamento - /ajudacasa - /ajudaempresa - /ajudawalkie");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
+
+//------------------------------------------------------------------------------
+
+YCMD:pagar(playerid, params[], help)
+{
+	new	targetid, value;
+	if(sscanf(params, "ui", targetid, value))
+		return SendClientMessage(playerid, COLOR_INFO, "* /pagar [playerid] [valor]");
+
+	else if(!IsPlayerLogged(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Jogador não conectado.");
+
+	else if(GetPlayerDistanceFromPlayer(playerid, targetid) > 5.0)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo do jogador.");
+
+	else if(GetPlayerCash(playerid) < value)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem essa quantia de dinheiro.");
+
+	SendClientMessagef(playerid, COLOR_SPECIAL, "* Você deu $%s para %s.", formatnumber(value), GetPlayerNamef(targetid));
+	SendClientMessagef(playerid, COLOR_SPECIAL, "* %s deu $%s para você.", GetPlayerNamef(playerid), formatnumber(value));
+
+	new message[38 + MAX_PLAYER_NAME];
+	format(message, sizeof(message), "deu uma quantia de dinheiro para %s.", GetPlayerNamef(targetid));
+	SendClientActionMessage(playerid, 20.0, message);
+	return 1;
+}
+
 
 //------------------------------------------------------------------------------
 

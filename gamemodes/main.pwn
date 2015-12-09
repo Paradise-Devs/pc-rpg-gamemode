@@ -24,6 +24,14 @@
 
 //------------------------------------------------------------------------------
 
+// Undefining samp's default values
+#if defined MAX_PLAYERS
+	#undef MAX_PLAYERS
+#endif
+#define MAX_PLAYERS	101
+
+//------------------------------------------------------------------------------
+
 #define MAX_PLAYER_PASSWORD								32
 #define MAX_BUILDINGS									32
 #define MAX_PICKUP_RANGE								40.0
@@ -216,6 +224,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/radars.pwn"
 #include "../modules/gameplay/fighting.pwn"
 #include "../modules/gameplay/bank.pwn"
+#include "../modules/gameplay/boxing.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
