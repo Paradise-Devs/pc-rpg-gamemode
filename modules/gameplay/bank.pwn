@@ -84,7 +84,7 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
 
 hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
-    if(playertextid == g_ptBank[playerid][15])// Withdraw
+    if(playertextid == g_ptBank[playerid][22])// Withdraw
     {
         new cash = strval(g_plInputValue[playerid]);
         if(GetPlayerBankCash(playerid) < cash)

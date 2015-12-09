@@ -18,7 +18,7 @@ static PlayerText:g_pt_boxinginfo[2][MAX_PLAYERS];
 
 hook OnGameModeInit()
 {
-    gPickupID = CreateDynamicPickup(1239, 1, 761.2108, 5.5640, 1000.7095, 0, 0, -1, MAX_PICKUP_RANGE);
+    gPickupID = CreateDynamicPickup(1239, 1, 761.2108, 5.5640, 1000.7095, -1, 5, -1, MAX_PICKUP_RANGE);
     return 1;
 }
 

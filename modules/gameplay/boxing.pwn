@@ -158,6 +158,7 @@ hook OnPlayerDisconnect(playerid, reason)
                 SetPlayerArmour(i, g_fpOldArmour[i]);
                 SetPlayerPos(i, 764.8925, -1.1472, 1000.7144);
                 SetPlayerFacingAngle(i, 263.7900);
+				ClearAnimations(i);
             }
 
             if(IsPlayerInCube(i, 755.4205, -5.0985, 1000.0000, 774.6574, 16.0326, 1004.0000))
@@ -189,6 +190,7 @@ hook OnPlayerUpdate(playerid)
             SetPlayerArmour(playerid, g_fpOldArmour[playerid]);
             SetPlayerPos(playerid, 764.7237, 1.4060, 1000.7152);
             SetPlayerFacingAngle(playerid, 263.7900);
+			ClearAnimations(playerid);
 
             new winnerid;
             foreach(new i: Player)
@@ -203,6 +205,7 @@ hook OnPlayerUpdate(playerid)
                     SetPlayerArmour(i, g_fpOldArmour[i]);
                     SetPlayerPos(i, 764.8925, -1.1472, 1000.7144);
                     SetPlayerFacingAngle(i, 263.7900);
+					ClearAnimations(i);
                 }
             }
 
