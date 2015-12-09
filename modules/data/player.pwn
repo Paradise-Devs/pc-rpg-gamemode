@@ -62,6 +62,8 @@ enum e_player_cdata
     e_player_skin,
     e_player_gender,
     e_player_money,
+    e_player_bank,
+    e_player_baccount,
     e_player_faction,
     e_player_frank,
     e_player_ticket,
@@ -189,6 +191,8 @@ ResetPlayerData(playerid)
 
     gPlayerCharacterData[playerid][e_player_gender]     = 0;
     gPlayerCharacterData[playerid][e_player_money]      = 350;
+    gPlayerCharacterData[playerid][e_player_bank]       = 0;
+    gPlayerCharacterData[playerid][e_player_baccount]   = 0;
     gPlayerCharacterData[playerid][e_player_skin]       = 299;
     gPlayerCharacterData[playerid][e_player_faction]    = 0;
     gPlayerCharacterData[playerid][e_player_frank]      = 0;
@@ -277,6 +281,26 @@ SetPlayerSpawnPosition(playerid, pos)
 GetPlayerCash(playerid)
 {
     return gPlayerCharacterData[playerid][e_player_money];
+}
+
+GetPlayerBankAccount(playerid)
+{
+    return gPlayerCharacterData[playerid][e_player_baccount];
+}
+
+SetPlayerBankAccount(playerid, val)
+{
+    gPlayerCharacterData[playerid][e_player_baccount] = val;
+}
+
+GetPlayerBankCash(playerid)
+{
+    return gPlayerCharacterData[playerid][e_player_bank];
+}
+
+SetPlayerBankCash(playerid, val)
+{
+    gPlayerCharacterData[playerid][e_player_bank] = val;
 }
 
 GivePlayerCash(playerid, money)
@@ -732,7 +756,7 @@ SavePlayerAccount(playerid)
 	"UPDATE `players` SET \
     `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `spawn`=%d, \
     `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, \
-    `gender`=%d, `money`=%d, \
+    `gender`=%d, `money`=%d, `bank`=%d, `baccount`=%d, \
     `hospital`=%d, `health`=%.2f, `armour`=%.2f, \
     `ip`='%s', `last_login`=%d, `played_time`=%d, \
     `achievements`=%d, `ticket`=%d, \
@@ -749,7 +773,7 @@ SavePlayerAccount(playerid)
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSpawnPosition(playerid),
     GetPlayerRankVar(playerid), gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
-    gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid),
+    gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid), gPlayerCharacterData[playerid][e_player_bank], gPlayerCharacterData[playerid][e_player_baccount],
     GetPlayerHospitalTime(playerid), health, armour,
     GetPlayerIPf(playerid), gettime(), gPlayerAccountData[playerid][e_player_playedtime],
     GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket],
@@ -885,6 +909,8 @@ public OnAccountLoad(playerid)
         gPlayerCharacterData[playerid][e_player_frank]              = cache_get_field_content_int(0, "faction_rank", mysql);
         gPlayerCharacterData[playerid][e_player_gender]             = cache_get_field_content_int(0, "gender", mysql);
         gPlayerCharacterData[playerid][e_player_money]              = cache_get_field_content_int(0, "money", mysql);
+        gPlayerCharacterData[playerid][e_player_bank]               = cache_get_field_content_int(0, "bank", mysql);
+        gPlayerCharacterData[playerid][e_player_baccount]           = cache_get_field_content_int(0, "baccount", mysql);
         gPlayerCharacterData[playerid][e_player_ticket]             = cache_get_field_content_int(0, "ticket", mysql);
         gPlayerCharacterData[playerid][e_player_jobid]              = Job:cache_get_field_content_int(0, "jobid", mysql);
         gPlayerCharacterData[playerid][e_player_joblv]              = cache_get_field_content_int(0, "joblv", mysql);

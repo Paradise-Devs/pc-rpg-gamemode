@@ -215,6 +215,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/gps.pwn"
 #include "../modules/gameplay/radars.pwn"
 #include "../modules/gameplay/fighting.pwn"
+#include "../modules/gameplay/bank.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
@@ -274,6 +275,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/objects/airport.pwn"
 #include "../modules/objects/player.pwn" // a.k.a attachments
 #include "../modules/objects/lspd.pwn"
+#include "../modules/objects/bank.pwn"
 
 /* Core */
 #include "../modules/core/timers.pwn"

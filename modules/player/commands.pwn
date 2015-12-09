@@ -85,9 +85,27 @@ YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /beijar - /fumar - /gps - /relatorio - /reportar - /ejetar - /mostrarlicenca");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /beijar - /fumar - /gps - /relatorio - /reportar - /ejetar - /mostrarlicenca - /abrirconta");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo - /ajudaapartamento - /ajudacasa - /ajudaempresa - /ajudawalkie");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:abrirconta(playerid, params[], help)
+{
+	if(IsPlayerInRangeOfPoint(playerid, 15.0, 1598.7216, -1034.4863, 23.9140) && GetPlayerInterior(playerid) == 1 && GetPlayerVirtualWorld(playerid) == 17)
+	{
+		if(GetPlayerBankAccount(playerid) != 0)
+			return SendClientMessage(playerid, COLOR_ERROR, "* Você já possui uma conta bancária.");
+
+		new baccount = 1000000 + GetPlayerDatabaseID(playerid);
+		SendClientMessagef(playerid, 0x87ff00ff, "* Sua conta bancária foi aberta! Conta: {4aff00}%d{87ff00}.", baccount);
+		SetPlayerBankAccount(playerid, baccount);
+	}
+	else
+		SendClientMessage(playerid, COLOR_ERROR, "* Você não está no banco.");
 	return 1;
 }
 
@@ -227,7 +245,6 @@ YCMD:mostrarlicenca(playerid, params[], help)
 	}
 	return 1;
 }
-
 
 //------------------------------------------------------------------------------
 

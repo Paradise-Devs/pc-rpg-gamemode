@@ -37,7 +37,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			switch(listitem)
 			{
 				case 0:
-					ShowPlayerDialog(playerid, DIALOG_GPS_INTEREST, DIALOG_STYLE_LIST, "GPS -> Pontos de Interesse", "1.\tPrefeitura\n2.\tAuto Escola\n3.\tCaixa eletrônico\n4.\tLotérica", "Marcar", "Voltar");
+					ShowPlayerDialog(playerid, DIALOG_GPS_INTEREST, DIALOG_STYLE_LIST, "GPS -> Pontos de Interesse", "1.\tPrefeitura\n2.\tAuto Escola\n3.\tCaixa eletrônico\n4.\tLotérica\n5.\tBanco", "Marcar", "Voltar");
 				case 1:
 					ShowPlayerDialog(playerid, DIALOG_GPS_BUSINESS, DIALOG_STYLE_LIST, "GPS -> Empresa", "1.\t24-7\n2.\tTelefone\n3.\tRestaurante\n4.\tAmmunation\n5.\tRoupas\n6.\tPosto de Gasolina\n7.\tAnuncios\n8.\tBar/Club\n9.\tBurger Shot\n10.\tCluckin' Bell\n11.\tPizzaria", "Marcar", "Voltar");
 				case 2:
@@ -127,7 +127,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 }
 				case 2:
 				{
-					/*new Float:distance = Float:0x7F800000;
+					new Float:distance = Float:0x7F800000;
 					new closestID = 0;
 					for(new i = 0; i < sizeof(gBankPositions); i++)
 					{
@@ -137,15 +137,19 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							closestID = i;
 						}
 					}
-					SetPlayerCheckpoint(playerid, gBankPositions[closestID][0], gBankPositions[closestID][1], gBankPositions[closestID][2], 1.0);
+					SetPlayerRaceCheckpoint(playerid, 2, gBankPositions[closestID][0], gBankPositions[closestID][1], gBankPositions[closestID][2], 0.0, 0.0, 0.0, 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_GPS);
-                    */
 				}
 				case 3:
                 {
 					SetPlayerRaceCheckpoint(playerid, 1, 1631.6721, -1170.2147, 24.0781, 0.0, 0.0, 0.0, 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_GPS);
                 }
+				case 4:
+				{
+					SetPlayerRaceCheckpoint(playerid, 1, 914.4920, -999.6552, 38.0790, 0.0, 0.0, 0.0, 1.0);
+                    SetPlayerCPID(playerid, CHECKPOINT_GPS);
+				}
 			}
 		}
 		case DIALOG_GPS_BUSINESS:

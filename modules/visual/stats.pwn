@@ -147,7 +147,7 @@ ShowPlayerDataHud(playerid, targetid = INVALID_PLAYER_ID)
 	PlayerTextDrawFont(targetid, gpt_data_hud[9][targetid], 2);
 	PlayerTextDrawSetProportional(targetid, gpt_data_hud[9][targetid], 1);
 
-	/*format(string, sizeof(string), "Banco: %s$%d", stats_color, GetPlayerBankCash(playerid));
+	format(string, sizeof(string), "Banco: %s$%d", stats_color, GetPlayerBankCash(playerid));
 	gpt_data_hud[10][targetid] = CreatePlayerTextDraw(targetid, 232.999923, 179.614929, string);
 	PlayerTextDrawLetterSize(targetid, gpt_data_hud[10][targetid], 0.184900, 1.391700);
 	PlayerTextDrawAlignment(targetid, gpt_data_hud[10][targetid], 1);
@@ -156,7 +156,7 @@ ShowPlayerDataHud(playerid, targetid = INVALID_PLAYER_ID)
 	PlayerTextDrawSetOutline(targetid, gpt_data_hud[10][targetid], 1);
 	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[10][targetid], 51);
 	PlayerTextDrawFont(targetid, gpt_data_hud[10][targetid], 2);
-	PlayerTextDrawSetProportional(targetid, gpt_data_hud[10][targetid], 1);*/
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[10][targetid], 1);
 
 	new phoneNumber[16] = "N/A";
 	if(GetPlayerPhoneNumber(playerid))

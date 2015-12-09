@@ -14,6 +14,17 @@
 #include <YSI\y_hooks>
 
 //------------------------------------------------------------------------------
+
+// Bank positions
+new Float:gBankPositions[][] =
+{
+	// WHEN ADDING MORE NEED TO ADD MORE IN /modules/gameplay/bank.pwn CP
+	{1545.8734, -1770.8802, 13.1970}, // Near City Hall
+	{2140.0452, -1164.1554, 23.6275},
+	{1102.8614, -1460.4182, 15.4615}, // Near Hospital
+	{375.0207, -2055.4102, 7.6778}
+};
+
 hook OnGameModeInit()
 {
     printf("Creating mapicons...");
@@ -31,5 +42,8 @@ hook OnGameModeInit()
 	CreateDynamicMapIcon(1310.1067, -1367.2267, 13.5247, 55, 0x0000FFFF, -1, -1, -1, MAX_MAPICON_RANGE); // Auto Escola
 	CreateDynamicMapIcon(559.15270, -1292.2704, 17.2482, 55, 0x0000FFFF, -1, -1, -1, MAX_MAPICON_RANGE); // Concessionaria
 	CreateDynamicMapIcon(560.8210,	-1506.7863,	14.5440, 18, 0x0000FFFF, -1, -1, -1, MAX_MAPICON_RANGE); // Paintball
+
+    for(new i; i < sizeof(gBankPositions); i++)
+		CreateDynamicMapIcon(gBankPositions[i][0], gBankPositions[i][1], gBankPositions[i][2], 52, 0x00FFFFFF, -1, -1, -1, MAX_MAPICON_RANGE);// ATM
     return 1;
 }
