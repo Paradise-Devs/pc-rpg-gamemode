@@ -308,7 +308,7 @@ timer Fix[5000](playerid, f)
     if(!IsPlayerConnected(playerid))
         return 0;
 
-    if((f+1) < sizeof(g_fAtmObjectSpawns) && f > 0)
+    if((f+1) < sizeof(g_fAtmObjectSpawns) && f > -1)
     {
         gplOldObject[playerid] = CreateDynamicObject(19324, g_fAtmObjectSpawns[f][0], g_fAtmObjectSpawns[f][1], g_fAtmObjectSpawns[f][2], g_fAtmObjectSpawns[f][3], g_fAtmObjectSpawns[f][4], g_fAtmObjectSpawns[f][5], 0, 0, playerid);
         gplObject[playerid] = CreateDynamicObject(2943, g_fAtmObjectSpawns[f+1][0], g_fAtmObjectSpawns[f+1][1], g_fAtmObjectSpawns[f+1][2], g_fAtmObjectSpawns[f+1][3], g_fAtmObjectSpawns[f+1][4], g_fAtmObjectSpawns[f+1][5], 0, 0, playerid);
