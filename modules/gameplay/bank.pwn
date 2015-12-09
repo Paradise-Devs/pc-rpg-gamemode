@@ -133,7 +133,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             SendClientMessage(playerid, COLOR_ERROR, "* Você não tem esta quantia em sua conta bancária.");
             PlayerPlaySound(playerid, 21001, 0.0, 0.0, 0.0);
         }
-        else if(account < 1000000 || account > 9999999)
+        else if(account < 1000 || account > 9999)
         {
             SendClientMessage(playerid, COLOR_ERROR, "* Conta inválida para transferência.");
             PlayerPlaySound(playerid, 21001, 0.0, 0.0, 0.0);
@@ -227,7 +227,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
                         PlayerTextDrawSetString(playerid, g_ptBank[playerid][17], g_plInputAccount[playerid]);
 
                         new account = strval(g_plInputAccount[playerid]);
-                        if(account > 1000000 && account < 9999999)
+                        if(account > 1000 && account < 9999)
                         {
                             foreach(new j: Player)
                             {

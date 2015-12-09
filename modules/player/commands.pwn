@@ -100,7 +100,7 @@ YCMD:abrirconta(playerid, params[], help)
 		if(GetPlayerBankAccount(playerid) != 0)
 			return SendClientMessage(playerid, COLOR_ERROR, "* Você já possui uma conta bancária.");
 
-		new baccount = 1000000 + GetPlayerDatabaseID(playerid);
+		new baccount = 1000 + GetPlayerDatabaseID(playerid);
 		SendClientMessagef(playerid, 0x87ff00ff, "* Sua conta bancária foi aberta! Conta: {4aff00}%d{87ff00}.", formatnumber(baccount));
 		SetPlayerBankAccount(playerid, baccount);
 	}
