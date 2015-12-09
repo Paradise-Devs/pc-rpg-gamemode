@@ -67,7 +67,7 @@ ptask OnPlayerTaxiUpdate[TAXIMETER_INTERVAL](playerid)
         format(string, sizeof(string), "~g~$~w~%05d", (g_playerDistTraveled[i] * g_playerFarePrice[playerid]));
         PlayerTextDrawSetString(i, g_txdTaximeter[i], string);
 
-        passengerid[GetPlayerVehicleSeat(i)] = i;
+        passengerid[GetPlayerVehicleSeat(i) - 1] = i;
     }
 
     new cash[3];
