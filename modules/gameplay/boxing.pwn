@@ -204,16 +204,19 @@ hook OnPlayerUpdate(playerid)
                     SetPlayerPos(i, 764.8925, -1.1472, 1000.7144);
                     SetPlayerFacingAngle(i, 263.7900);
                 }
-
-                if(IsPlayerInCube(i, 755.4205, -5.0985, 1000.0000, 774.6574, 16.0326, 1004.0000))
-                {
-                    PlayerPlaySound(i, 17802, 763.8630, 3.7559, 1000.7145);
-                    if(GetPlayerWeapon(playerid) == 0)
-                        SendClientMessagef(i, 0x21afdbff, "* %s venceu %s em uma partida de boxe.", GetPlayerNamef(winnerid), GetPlayerNamef(playerid));
-                    else
-                        SendClientMessagef(i, 0x21afdbff, "* %s foi desclassificado por tentar utilizar uma arma na disputa.", GetPlayerNamef(playerid));
-                }
             }
+
+			foreach(new i: Player)
+            {
+				if(IsPlayerInCube(i, 755.4205, -5.0985, 1000.0000, 774.6574, 16.0326, 1004.0000))
+				{
+					PlayerPlaySound(i, 17802, 763.8630, 3.7559, 1000.7145);
+					if(GetPlayerWeapon(playerid) == 0)
+						SendClientMessagef(i, 0x21afdbff, "* %s venceu %s em uma partida de boxe.", GetPlayerNamef(winnerid), GetPlayerNamef(playerid));
+					else
+						SendClientMessagef(i, 0x21afdbff, "* %s foi desclassificado por tentar utilizar uma arma na disputa.", GetPlayerNamef(playerid));
+				}
+			}
         }
     }
     return 1;
