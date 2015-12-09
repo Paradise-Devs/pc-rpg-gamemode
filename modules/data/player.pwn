@@ -494,7 +494,7 @@ GetPlayerJobRequiredXP(playerid)
     {
         case TRUCKER_JOB_ID:
             return 90 * gPlayerCharacterData[playerid][e_player_joblv];
-        case PILOT_JOB_ID, LUMBERJACK_JOB_ID, NAVIGATOR_JOB_ID, PARAMEDIC_JOB_ID, GARBAGE_JOB_ID:
+        case PILOT_JOB_ID, LUMBERJACK_JOB_ID, NAVIGATOR_JOB_ID, PARAMEDIC_JOB_ID, GARBAGE_JOB_ID, FISHER_JOB_ID, TECHNICAL_JOB_ID:
             return 125 * gPlayerCharacterData[playerid][e_player_joblv];
     }
     return 125;

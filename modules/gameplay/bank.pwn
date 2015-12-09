@@ -601,16 +601,18 @@ ShowPlayerBankTextDraw(playerid)
     PlayerTextDrawSetShadow(playerid, g_ptBank[playerid][14], 1);
     PlayerTextDrawSetSelectable(playerid, g_ptBank[playerid][14], 0);
 
-    g_ptBank[playerid][15] = CreatePlayerTextDraw(playerid, 179.000000, 170.000000, "Sacar");
+    g_ptBank[playerid][15] = CreatePlayerTextDraw(playerid, 250.000000, 160.000000, "_");
     PlayerTextDrawBackgroundColor(playerid, g_ptBank[playerid][15], 255);
-    PlayerTextDrawFont(playerid, g_ptBank[playerid][15], 2);
-    PlayerTextDrawLetterSize(playerid, g_ptBank[playerid][15], 0.400000, 1.700000);
-    PlayerTextDrawColor(playerid, g_ptBank[playerid][15], -1);
+    PlayerTextDrawFont(playerid, g_ptBank[playerid][15], 1);
+    PlayerTextDrawLetterSize(playerid, g_ptBank[playerid][15], 0.500000, 1.900002);
+    PlayerTextDrawColor(playerid, g_ptBank[playerid][15], -129);
     PlayerTextDrawSetOutline(playerid, g_ptBank[playerid][15], 0);
     PlayerTextDrawSetProportional(playerid, g_ptBank[playerid][15], 1);
     PlayerTextDrawSetShadow(playerid, g_ptBank[playerid][15], 1);
-    PlayerTextDrawTextSize(playerid, g_ptBank[playerid][15], 235.000000, 25.000000);
-    PlayerTextDrawSetSelectable(playerid, g_ptBank[playerid][15], 1);
+    PlayerTextDrawUseBox(playerid, g_ptBank[playerid][15], 1);
+    PlayerTextDrawBoxColor(playerid, g_ptBank[playerid][15], 64);
+    PlayerTextDrawTextSize(playerid, g_ptBank[playerid][15], 163.000000, 0.000000);
+    PlayerTextDrawSetSelectable(playerid, g_ptBank[playerid][15], 0);
 
     g_ptBank[playerid][16] = CreatePlayerTextDraw(playerid, 313.000000, 223.000000, "_");
     PlayerTextDrawBackgroundColor(playerid, g_ptBank[playerid][16], 255);
@@ -681,18 +683,16 @@ ShowPlayerBankTextDraw(playerid)
     PlayerTextDrawSetShadow(playerid, g_ptBank[playerid][21], 1);
     PlayerTextDrawSetSelectable(playerid, g_ptBank[playerid][21], 0);
 
-    g_ptBank[playerid][22] = CreatePlayerTextDraw(playerid, 250.000000, 160.000000, "_");
+    g_ptBank[playerid][22] = CreatePlayerTextDraw(playerid, 179.000000, 170.000000, "Sacar");
     PlayerTextDrawBackgroundColor(playerid, g_ptBank[playerid][22], 255);
-    PlayerTextDrawFont(playerid, g_ptBank[playerid][22], 1);
-    PlayerTextDrawLetterSize(playerid, g_ptBank[playerid][22], 0.500000, 1.900002);
-    PlayerTextDrawColor(playerid, g_ptBank[playerid][22], -129);
+    PlayerTextDrawFont(playerid, g_ptBank[playerid][22], 2);
+    PlayerTextDrawLetterSize(playerid, g_ptBank[playerid][22], 0.400000, 1.700000);
+    PlayerTextDrawColor(playerid, g_ptBank[playerid][22], -1);
     PlayerTextDrawSetOutline(playerid, g_ptBank[playerid][22], 0);
     PlayerTextDrawSetProportional(playerid, g_ptBank[playerid][22], 1);
     PlayerTextDrawSetShadow(playerid, g_ptBank[playerid][22], 1);
-    PlayerTextDrawUseBox(playerid, g_ptBank[playerid][22], 1);
-    PlayerTextDrawBoxColor(playerid, g_ptBank[playerid][22], 64);
-    PlayerTextDrawTextSize(playerid, g_ptBank[playerid][22], 163.000000, 0.000000);
-    PlayerTextDrawSetSelectable(playerid, g_ptBank[playerid][22], 0);
+    PlayerTextDrawTextSize(playerid, g_ptBank[playerid][22], 235.000000, 25.000000);
+    PlayerTextDrawSetSelectable(playerid, g_ptBank[playerid][22], 1);
 
     for(new i = 0; i < sizeof(g_ptBank[]); i++)
         PlayerTextDrawShow(playerid, g_ptBank[playerid][i]);

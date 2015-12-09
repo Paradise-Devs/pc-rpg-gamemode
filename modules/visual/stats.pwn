@@ -188,7 +188,7 @@ ShowPlayerDataHud(playerid, targetid = INVALID_PLAYER_ID)
 	PlayerTextDrawFont(targetid, gpt_data_hud[12][targetid], 2);
 	PlayerTextDrawSetProportional(targetid, gpt_data_hud[12][targetid], 1);
 
-	/*format(string, sizeof(string), "Nascimento: %s%s", stats_color, gPlayerData[playerid][E_PLAYER_BIRTHDAY]);
+	format(string, sizeof(string), "Conta Banc.: %s%s", stats_color, formatnumber(GetPlayerBankAccount(playerid)));
 	gpt_data_hud[13][targetid] = CreatePlayerTextDraw(targetid, 232.999923, 223.170364, string);
 	PlayerTextDrawLetterSize(targetid, gpt_data_hud[13][targetid], 0.180566, 1.346070);
 	PlayerTextDrawAlignment(targetid, gpt_data_hud[13][targetid], 1);
@@ -197,7 +197,7 @@ ShowPlayerDataHud(playerid, targetid = INVALID_PLAYER_ID)
 	PlayerTextDrawSetOutline(targetid, gpt_data_hud[13][targetid], 1);
 	PlayerTextDrawBackgroundColor(targetid, gpt_data_hud[13][targetid], 51);
 	PlayerTextDrawFont(targetid, gpt_data_hud[13][targetid], 2);
-	PlayerTextDrawSetProportional(targetid, gpt_data_hud[13][targetid], 1);*/
+	PlayerTextDrawSetProportional(targetid, gpt_data_hud[13][targetid], 1);
 
 	format(string, sizeof(string), "Emprego: %s%s", stats_color, ConvertToGameText(GetJobName(GetPlayerJobID(playerid), true)));
 	gpt_data_hud[14][targetid] = CreatePlayerTextDraw(targetid, 368.000122, 121.540733, string);
@@ -485,11 +485,11 @@ SetPlayerStatsColor(playerid, color)
 		format(string, sizeof(string), "Exp.: %s%d/%d", stats_color, GetPlayerXP(playerid), GetPlayerRequiredXP(playerid));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[7][playerid], string);
 
-		format(string, sizeof(string), "Dinheiro: %s$%d", stats_color, GetPlayerCash(playerid));
+		format(string, sizeof(string), "Dinheiro: %s$%s", stats_color, formatnumber(GetPlayerCash(playerid)));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[9][playerid], string);
 
-		/*format(string, sizeof(string), "Banco: %s$%d", stats_color, GetPlayerBankCash(playerid));
-		PlayerTextDrawSetString(playerid, gpt_data_hud[10][playerid], string);*/
+		format(string, sizeof(string), "Banco: %s$%s", stats_color, formatnumber(GetPlayerBankCash(playerid)));
+		PlayerTextDrawSetString(playerid, gpt_data_hud[10][playerid], string);
 
 		new phoneNumber[16] = "N/A";
 		if(GetPlayerPhoneNumber(playerid))
@@ -505,8 +505,8 @@ SetPlayerStatsColor(playerid, color)
 		format(string, sizeof(string), "Oper.: %s%s", stats_color, phoneNetworkName);
 		PlayerTextDrawSetString(playerid, gpt_data_hud[12][playerid], string);
 
-		/*format(string, sizeof(string), "Nascimento: %s%s", stats_color, gPlayerData[playerid][E_PLAYER_BIRTHDAY]);
-		PlayerTextDrawSetString(playerid, gpt_data_hud[13][playerid], string);*/
+		format(string, sizeof(string), "Conta Banc.: %s%s", stats_color, formatnumber(GetPlayerBankAccount(playerid)));
+		PlayerTextDrawSetString(playerid, gpt_data_hud[13][playerid], string);
 
 		format(string, sizeof(string), "Emprego: %s%s", stats_color, GetJobName(GetPlayerJobID(playerid)));
 		PlayerTextDrawSetString(playerid, gpt_data_hud[14][playerid], string);
