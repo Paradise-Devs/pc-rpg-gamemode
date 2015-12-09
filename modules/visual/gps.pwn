@@ -8,7 +8,7 @@
 
 #include <YSI\y_hooks>
 
-new PlayerText:td_debug[MAX_PLAYERS];
+// new PlayerText:td_debug[MAX_PLAYERS];
 static PlayerText:textDistrict[MAX_PLAYERS];
 static PlayerText:textUnGPS[MAX_PLAYERS];
 static PlayerText:textBuy[MAX_PLAYERS];
@@ -26,7 +26,7 @@ hook OnGameModeInit()
 hook OnPlayerConnect(playerid)
 {
     isVisible[playerid] = false;
-    td_debug[playerid] = CreatePlayerTextDraw(playerid, 85.333351, 320.237060, "_");
+    // td_debug[playerid] = CreatePlayerTextDraw(playerid, 85.333351, 320.237060, "_");
 
     textDistrict[playerid] = CreatePlayerTextDraw(playerid, 85.333351, 320.237060, "Los Santos");
 	PlayerTextDrawLetterSize(playerid, textDistrict[playerid], 0.449999, 1.600000);

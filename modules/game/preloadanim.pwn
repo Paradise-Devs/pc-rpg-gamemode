@@ -63,6 +63,9 @@ hook OnPlayerSpawn(playerid)
    		PreloadAnimLib(playerid,"CLOTHES");
    		PreloadAnimLib(playerid,"INT_SHOP");
    		PreloadAnimLib(playerid,"KISSING");
+   		PreloadAnimLib(playerid,"GYMNASIUM");
+   		PreloadAnimLib(playerid,"FREEWEIGHTS");
+   		PreloadAnimLib(playerid,"BENCHPRESS");
    		PreloadAnimLib(playerid,"MISC");
    		PreloadAnimLib(playerid,"PED");
 		gplAnimationsPreLoaded[playerid] = true;
