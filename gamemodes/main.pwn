@@ -254,6 +254,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/visual/logo.pwn"
 #include "../modules/visual/login.pwn"
 #include "../modules/visual/businfo.pwn"
+#include "../modules/visual/boxing.pwn"
 #include "../modules/visual/licenses.pwn"
 
 /* NPCs */
