@@ -124,6 +124,9 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 GameTextForPlayer(playerid, "~r~Lutem!", 3000, 3);
                 GameTextForPlayer(targetid, "~r~Lutem!", 3000, 3);
 
+				ClearAnimations(playerid);
+				ClearAnimations(targetid);
+
                 foreach(new i: Player)
                 {
                     if(IsPlayerInCube(i, 755.4205, -5.0985, 1000.0000, 774.6574, 16.0326, 1004.0000))
