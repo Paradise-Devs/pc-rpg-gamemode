@@ -13,7 +13,7 @@
 //------------------------------------------------------------------------------
 
 // Checkpointid
-static STREAMER_TAG_CP gCheckpointid[4];
+static STREAMER_TAG_CP gCheckpointid[sizeof gBankPositions];
 
 //------------------------------------------------------------------------------
 

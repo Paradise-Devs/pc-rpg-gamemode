@@ -18,7 +18,6 @@
 // Bank positions
 new Float:gBankPositions[][] =
 {
-	// WHEN ADDING MORE NEED TO ADD MORE IN /modules/gameplay/bank.pwn CP
 	{1545.8734, -1770.8802, 13.1970}, // Near City Hall
 	{2140.0452, -1164.1554, 23.6275},
 	{1102.8614, -1460.4182, 15.4615}, // Near Hospital
