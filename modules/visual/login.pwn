@@ -1886,6 +1886,17 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 			GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~r~~h~Essa conta nao esta~n~~r~registrada", 5000, 3);
 			return 1;
 		}
+
+		if(GetPlayerLoginExpire(playerid) > 0)
+		{
+			PlayConfirmSound(playerid);
+			ClearPlayerScreen(playerid);
+			LoadPlayerAccount(playerid);
+			VSL_HidePlayerTextdraw(playerid);
+			SendClientMessage(playerid, COLOR_SUCCESS, "Conectado com sucesso!");
+			return 1;
+		}
+
 		new	string[580 + MAX_PLAYER_NAME];
 		format(string, sizeof(string),
 			"{FFFFFF}Olá {00aeff}%s!\n\n{FFFFFF}Você já tem uma conta no {00aeff}Paradise City{FFFFFF}, faça login\ncom sua senha que você cadastrou no primeiro acesso.\

@@ -37,7 +37,8 @@ enum e_player_adata
     e_player_regdate,
     e_player_ip[16],
     e_player_lastlogin,
-    e_player_playedtime
+    e_player_playedtime,
+    e_player_login_expire
 }
 static gPlayerAccountData[MAX_PLAYERS][e_player_adata];
 
@@ -180,6 +181,7 @@ ResetPlayerData(playerid)
     gPlayerAccountData[playerid][e_player_regdate]      = ct;
     gPlayerAccountData[playerid][e_player_lastlogin]    = ct;
     gPlayerAccountData[playerid][e_player_playedtime]   = 0;
+    gPlayerAccountData[playerid][e_player_login_expire] = 0;
 
     gPlayerPositionData[playerid][e_player_x]           = 1449.01;
     gPlayerPositionData[playerid][e_player_y]           = -2287.10;
@@ -380,6 +382,11 @@ GetPlayerRegDataUnix(playerid)
 GetPlayerLastLoginUnix(playerid)
 {
     return gPlayerAccountData[playerid][e_player_lastlogin];
+}
+
+GetPlayerLoginExpire(playerid)
+{
+    return gPlayerAccountData[playerid][e_player_login_expire];
 }
 
 GetPlayerPlayedTimeStamp(playerid)
@@ -1069,7 +1076,8 @@ public OnAccountCheck(playerid)
 	if(rows > 0)
 	{
         cache_get_field_content(0, "password", gPlayerAccountData[playerid][e_player_password], mysql, MAX_PLAYER_PASSWORD);
-        gPlayerAccountData[playerid][e_player_database_id] = cache_get_field_content_int(0, "ID", mysql);
+        gPlayerAccountData[playerid][e_player_database_id]          = cache_get_field_content_int(0, "ID", mysql);
+        gPlayerAccountData[playerid][e_player_login_expire]         = cache_get_field_content_int(0, "login_expire", mysql);
 
         gPlayerCharacterData[playerid][e_player_skin]               = cache_get_field_content_int(0, "skin", mysql);
         gPlayerCharacterData[playerid][e_player_faction]            = cache_get_field_content_int(0, "faction", mysql);

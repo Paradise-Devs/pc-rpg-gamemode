@@ -95,7 +95,8 @@ CREATE TABLE IF NOT EXISTS `players` (
   `helilic` int(10) signed NOT NULL DEFAULT '0',
   `planelic` int(10) signed NOT NULL DEFAULT '0',
   `boatlic` int(10) signed NOT NULL DEFAULT '0',
-  `fstyle` int(10) signed NOT NULL DEFAULT '4'
+  `fstyle` int(10) signed NOT NULL DEFAULT '4',
+  `login_expire` int(11) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --

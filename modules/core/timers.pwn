@@ -1,7 +1,7 @@
 /* *************************************************************************** *
-*  Description: Business module file.
+*  Description: Timers module file.
 *
-*  Assignment: A script to make business available to players buy & sell.
+*  Assignment: A script to handle global timers.
 *
 *           Copyright Paradise Devs 2015.  All rights reserved.
 * *************************************************************************** */
@@ -69,4 +69,9 @@ ptask UpdatePlayerData[1000](playerid)
 	SetPlayerPlayedTime(playerid, GetPlayerPlayedTime(playerid) + 1);
 	UpdatePlayerGPS(playerid);
     return 1;
+}
+
+task OnServerUpdate[30000]()
+{
+	mysql_tquery(mysql, "UPDATE players SET login_expire = login_expire-1 WHERE login_expire > 0");
 }
