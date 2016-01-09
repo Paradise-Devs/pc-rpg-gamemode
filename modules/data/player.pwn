@@ -746,23 +746,29 @@ SavePlayerAccount(playerid)
         return 0;
 
     new Float:x, Float:y, Float:z, Float:a;
-    if(!GetPlayerSpawnPosition(playerid)) {
+    if(!GetPlayerSpawnPosition(playerid))
+    {
         GetPlayerPos(playerid, x, y, z);
         GetPlayerFacingAngle(playerid, a);
-    } else {
-        GetApartmentEntrance(GetPlayerApartmentKey(playerid), x, y, z, a);
     }
+    else GetApartmentEntrance(GetPlayerApartmentKey(playerid), x, y, z, a);
 
     new Float:health, Float:armour;
     GetPlayerHealth(playerid, health);
     GetPlayerArmour(playerid, armour);
+
+    new rankname[32];
+    if(GetPlayerHighestRank(playerid) > PLAYER_RANK_PLAYER)
+        rankname = GetPlayerRankName(playerid, true);
+    else
+        rankname = GetJobName(GetPlayerJobID(playerid), true);
 
     // Account saving
     new query[1280];
 	mysql_format(mysql, query, sizeof(query),
 	"UPDATE `players` SET \
     `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `spawn`=%d, \
-    `rank`=%d, `skin`=%d, `faction`=%d, `faction_rank`=%d, \
+    `rank`=%d, `rankname`='%s', `skin`=%d, `faction`=%d, `faction_rank`=%d, \
     `gender`=%d, `money`=%d, `bank`=%d, `baccount`=%d, \
     `hospital`=%d, `health`=%.2f, `armour`=%.2f, \
     `ip`='%s', `last_login`=%d, `played_time`=%d, \
@@ -779,7 +785,7 @@ SavePlayerAccount(playerid)
     `fstyle`=%d \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSpawnPosition(playerid),
-    GetPlayerRankVar(playerid), gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
+    GetPlayerRankVar(playerid), rankname, gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
     gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid), gPlayerCharacterData[playerid][e_player_bank], gPlayerCharacterData[playerid][e_player_baccount],
     GetPlayerHospitalTime(playerid), health, armour,
     GetPlayerIPf(playerid), gettime(), gPlayerAccountData[playerid][e_player_playedtime],

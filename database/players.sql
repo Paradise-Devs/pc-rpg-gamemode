@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `armour` float DEFAULT '0',
   `skin` int(11) DEFAULT '299',
   `rank` int(10) unsigned NOT NULL DEFAULT '0',
+  `rankname` varchar(32) NOT NULL DEFAULT 'Desempregado',
   `faction` int(11) NOT NULL DEFAULT '0',
   `faction_rank` int(11) NOT NULL DEFAULT '0',
   `last_login` int(11) DEFAULT '0',
