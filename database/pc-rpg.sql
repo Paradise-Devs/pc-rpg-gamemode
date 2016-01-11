@@ -127,6 +127,27 @@ CREATE TABLE `attachments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `launcher`
+--
+
+CREATE TABLE `launcher` (
+  `version` varchar(8) NOT NULL,
+  `ip` varchar(16) NOT NULL,
+  `port` varchar(4) NOT NULL,
+  `website` varchar(32) NOT NULL,
+  `frontpage` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `launcher`
+--
+
+INSERT INTO `launcher` (`version`, `ip`, `port`, `website`, `frontpage`) VALUES
+('0.1.0', '127.0.0.1', '7777', 'www.pc-rpg.com', 'www.pc-rpg.com/launcher');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `buildings`
 --
 
