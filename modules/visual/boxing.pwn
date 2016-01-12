@@ -46,7 +46,7 @@ ShowPlayerboxingInfo(playerid)
 		PlayerTextDrawSetOutline(playerid, g_pt_boxinginfo[0][playerid], 0);
 		PlayerTextDrawFont(playerid, g_pt_boxinginfo[0][playerid], 0);
 
-		g_pt_boxinginfo[1][playerid] = CreatePlayerTextDraw(playerid, 28.000001, 177.540725, ConvertToGameText("Você pode ~r~desafiar outros jogadores,~n~~w~através do comando~n~/desafiar"));
+		g_pt_boxinginfo[1][playerid] = CreatePlayerTextDraw(playerid, 28.000001, 177.540725, ConvertToGameText("Você pode ~n~~r~desafiar outro jogador,~n~~w~através do comando~n~/desafiar"));
 		PlayerTextDrawLetterSize(playerid, g_pt_boxinginfo[1][playerid], 0.160666, 0.778666);
 		PlayerTextDrawAlignment(playerid, g_pt_boxinginfo[1][playerid], 1);
 		PlayerTextDrawColor(playerid, g_pt_boxinginfo[1][playerid], -1);
