@@ -1915,7 +1915,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							{
 								case 0: // GPS
 								{
-									if(GetPlayerGPS(playerid) > 0)
+									if(GetPlayerGPS(playerid) > gettime())
 									{
 										SendClientMessage(playerid, COLOR_ERROR, "* Você já possui um GPS.");
 										SetCameraBehindPlayer(playerid);
@@ -2060,7 +2060,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 								}
 								case 5: // Agenda Telefonica
 								{
-									if(GetPlayerAgenda(playerid) > 0)
+									if(GetPlayerAgenda(playerid) > gettime())
 									{
 										SendClientMessage(playerid, COLOR_ERROR, "* Você já tem uma agenda.");
 										PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);

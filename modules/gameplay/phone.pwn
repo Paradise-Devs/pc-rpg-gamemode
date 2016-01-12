@@ -508,6 +508,9 @@ YCMD:telefone(playerid, params[], help)
 	if(GetPlayerAgenda(playerid) < 1)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem uma agenda.");
 
+	else if(GetPlayerAgenda(playerid) < gettime())
+		return SendClientMessage(playerid, COLOR_ERROR, "* Sua agenda telefônica está desatualizada.");
+
 	new targetid;
 	if(sscanf(params, "u", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "/telefone [jogador]");
@@ -530,7 +533,7 @@ YCMD:telefone(playerid, params[], help)
 YCMD:anuncio(playerid, params[], help)
 {
 	if(GetPlayerPlayedTime(playerid)/3600 < 3)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ter pelo menos 3 horas de jogo.");	
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ter pelo menos 3 horas de jogo.");
 
 	foreach(new b: Business)
 	{
