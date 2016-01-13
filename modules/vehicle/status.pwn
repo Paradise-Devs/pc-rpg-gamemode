@@ -22,7 +22,7 @@ task OnVehicleUpdate[1000]()
     {
         GetVehicleParamsEx(i, engine, lights, alarm, doors, bonnet, boot, objective);
         if(engine == VEHICLE_PARAMS_ON)
-            SetVehicleFuel(i, GetVehicleFuel(i) - 0.2);
+            SetVehicleFuel(i, GetVehicleFuel(i) - 0.02);
 
         if(GetVehicleFuel(i) <= 0 && engine == VEHICLE_PARAMS_ON)
             SetVehicleParamsEx(i, VEHICLE_PARAMS_OFF, lights, alarm, doors, bonnet, boot, objective);
