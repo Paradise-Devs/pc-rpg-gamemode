@@ -92,6 +92,11 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             SendClientMessage(playerid, COLOR_ERROR, "* Você não tem esta quantia em sua conta.");
             PlayerPlaySound(playerid, 21001, 0.0, 0.0, 0.0);
         }
+        else if(cash < 1)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Quantia inválida.");
+            PlayErrorSound(playerid);
+        }
         else
         {
             GivePlayerCash(playerid, cash);
@@ -111,6 +116,11 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         {
             SendClientMessage(playerid, COLOR_ERROR, "* Você não tem esta quantia com você.");
             PlayerPlaySound(playerid, 21001, 0.0, 0.0, 0.0);
+        }
+        else if(cash < 1)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Quantia inválida.");
+            PlayErrorSound(playerid);
         }
         else
         {
@@ -132,6 +142,11 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         {
             SendClientMessage(playerid, COLOR_ERROR, "* Você não tem esta quantia em sua conta bancária.");
             PlayerPlaySound(playerid, 21001, 0.0, 0.0, 0.0);
+        }
+        else if(cash < 1)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Quantia inválida.");
+            PlayErrorSound(playerid);
         }
         else if(account < 1000 || account > 9999)
         {
