@@ -74,7 +74,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if(newkeys & KEY_ACTION)
 	{
-		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && !gIsPlayerStartingEngine[playerid])
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && !gIsPlayerStartingEngine[playerid] && !IsPlayerFuelingVehicle(playerid))
 		{
             new engine, lights, alarm, doors, bonnet, boot, objective, vehicleid;
             vehicleid = GetPlayerVehicleID(playerid);
@@ -210,6 +210,8 @@ YCMD:motor(playerid, params[], help)
         SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
     else if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
         SendClientMessage(playerid, COLOR_ERROR, "* Você não é o motorista.");
+    else if(IsPlayerFuelingVehicle(playerid))
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não pode ligar o motor agora.");
     else if(gIsPlayerStartingEngine[playerid])
         SendClientMessage(playerid, COLOR_ERROR, "* Você já está dando partida no veículo.");
     else
