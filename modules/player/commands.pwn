@@ -24,6 +24,7 @@ hook OnGameModeInit()
 	Command_AddAltNamed("comandos",		"cmds");
 	Command_AddAltNamed("anuncio",		"an");
 	Command_AddAltNamed("radio",		"r");
+	Command_AddAltNamed("stats",		"rg");
 	return 1;
 }
 
