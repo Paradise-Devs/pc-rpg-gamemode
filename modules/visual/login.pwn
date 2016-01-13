@@ -580,7 +580,7 @@ VSL_ShowPlayerTextdraw(playerid)
     PlayerTextDrawSetShadow(playerid, gptLogin[playerid][38], 0);
 
     new sFuelStr[10];
-    format(sFuelStr, sizeof(sFuelStr), "%d%%", GetDealershipVehicleFuel(playerid, 0));
+    format(sFuelStr, sizeof(sFuelStr), "%.2f%%", GetDealershipVehicleFuel(playerid, 0));
     gptLogin[playerid][39] = CreatePlayerTextDraw(playerid, 304.968475, 201.913574, (h) ? sFuelStr : "-");
     PlayerTextDrawLetterSize(playerid, gptLogin[playerid][39], 0.122000, 0.749629);
     PlayerTextDrawAlignment(playerid, gptLogin[playerid][39], 3);
@@ -1814,7 +1814,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             PlayerTextDrawSetString(playerid, gptLogin[playerid][36], sCarData);
 
             new sFuelStr[10];
-            format(sFuelStr, sizeof(sFuelStr), "%d%%", GetDealershipVehicleFuel(playerid, i));
+            format(sFuelStr, sizeof(sFuelStr), "%.2f%%", GetDealershipVehicleFuel(playerid, i));
             PlayerTextDrawSetString(playerid, gptLogin[playerid][39], sFuelStr);
 
             new sHealthStr[10];
@@ -1856,7 +1856,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             PlayerTextDrawSetString(playerid, gptLogin[playerid][36], sCarData);
 
             new sFuelStr[10];
-            format(sFuelStr, sizeof(sFuelStr), "%d%%", GetDealershipVehicleFuel(playerid, i));
+            format(sFuelStr, sizeof(sFuelStr), "%.2f%%", GetDealershipVehicleFuel(playerid, i));
             PlayerTextDrawSetString(playerid, gptLogin[playerid][39], sFuelStr);
 
             new sHealthStr[10];
