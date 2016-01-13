@@ -243,7 +243,9 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/admin/commands.pwn"
 
 /* Factions */
+#include "../modules/faction/general.pwn"
 #include "../modules/faction/cnn.pwn"
+#include "../modules/faction/lspd.pwn"
 
 /* Visual */
 #include "../modules/visual/speedo.pwn"

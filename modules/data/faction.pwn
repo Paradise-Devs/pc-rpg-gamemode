@@ -176,17 +176,3 @@ hook OnGameModeInit()
     mysql_pquery(mysql, "SELECT * FROM `factions`", "OnFactionLoad");
     return 1;
 }
-
-//------------------------------------------------------------------------------
-
-YCMD:radio(playerid, params[], help)
-{
-	if(GetPlayerFactionID(playerid) == FACTION_NONE)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pertence a uma organização.");
-
-	if(isnull(params))
-	  return SendClientMessage(playerid, COLOR_INFO, "* /radio [mensagem]");
-
-	SendPlayerFactionMessage(playerid, params);
-	return 1;
-}
