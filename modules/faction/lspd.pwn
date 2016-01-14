@@ -117,7 +117,7 @@ YCMD:prender(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Tempo de prisão não pode ser inferior a 5 minutos.");
 
 	new output[17 + (MAX_PLAYER_NAME * 2)];
-	format(output, sizeof(output), "* %s prendeu %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+	format(output, sizeof(output), "prendeu %s.", GetPlayerNamef(targetid));
 	SendClientActionMessage(playerid, 20.0, output);
 
 	PutPlayerInPrision(targetid, time * 60);
@@ -157,7 +157,7 @@ YCMD:ajustarpena(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Tempo de prisão não pode ser inferior a 5 minutos.");
 
 	new output[27 + (MAX_PLAYER_NAME * 2)];
-	format(output, sizeof(output), "* %s ajustou a pena de %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+	format(output, sizeof(output), "ajustou a pena de %s.", GetPlayerNamef(targetid));
 	SendClientActionMessage(playerid, 20.0, output);
 
 	SetPlayerPrisionTime(targetid, time * 60);
@@ -194,9 +194,128 @@ YCMD:libertar(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está preso.");
 
 	new output[27 + (MAX_PLAYER_NAME * 2)];
-	format(output, sizeof(output), "* %s libertou %s da prisão.", GetPlayerNamef(playerid), GetPlayerNamef(targetid));
+	format(output, sizeof(output), "libertou %s da prisão.", GetPlayerNamef(targetid));
 	SendClientActionMessage(playerid, 20.0, output);
 
 	SetPlayerPrisionTime(targetid, 1);
 	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:algemar(playerid, params[], help)
+{
+	if(GetFactionType(GetPlayerFactionID(playerid)) != FACTION_TYPE_POLICE)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+	else if(!IsPlayerOnDuty(playerid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
+
+	new targetid;
+	if(sscanf(params, "u", targetid))
+		return SendClientMessage(playerid, COLOR_INFO, "* /algemar [playerid]");
+
+	else if(!IsPlayerLogged(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+	else if(IsPlayerNPC(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Jogador inválido.");
+
+	else if(GetPlayerDistanceFromPlayer(playerid, targetid) > 5.0)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo do jogador.");
+
+	else if(GetPlayerState(targetid) == PLAYER_STATE_DRIVER)
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não pode ser um motorista.");
+
+	else if(IsPlayerCuffed(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já está algemado.");
+
+	if(playerid == targetid)
+	{
+		SendClientActionMessage(playerid, 20.0, "algemou si mesmo.");
+		SetPlayerCuffed(targetid, true);
+	}
+	else
+	{
+		new output[14 + MAX_PLAYER_NAME];
+		format(output, sizeof(output), "tenta algemar %s.", GetPlayerNamef(targetid));
+		SendClientActionMessage(playerid, 20.0, output);
+
+		GameTextForPlayer(playerid, "~w~algemando...", 1250, 3);
+		GameTextForPlayer(targetid, "~w~algemando...", 1250, 3);
+
+		new Float:playerPos[3], Float:targetPos[3];
+		GetPlayerPos(playerid, playerPos[0], playerPos[1], playerPos[2]);
+		GetPlayerPos(targetid, targetPos[0], targetPos[1], targetPos[2]);
+		defer OnPlayerHandCuffPlayer(playerid, targetid, playerPos[0], playerPos[1], playerPos[2], targetPos[0], targetPos[1], targetPos[2]);
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:desalgemar(playerid, params[], help)
+{
+	if(GetFactionType(GetPlayerFactionID(playerid)) != FACTION_TYPE_POLICE)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+	else if(!IsPlayerOnDuty(playerid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
+
+	new targetid;
+	if(sscanf(params, "u", targetid))
+		return SendClientMessage(playerid, COLOR_INFO, "* /desalgemar [playerid]");
+
+	else if(!IsPlayerLogged(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+	else if(playerid == targetid)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode desalgemar você mesmo.");
+
+	else if(IsPlayerNPC(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Jogador inválido.");
+
+	else if(GetPlayerDistanceFromPlayer(playerid, targetid) > 5.0)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo do jogador.");
+
+	else if(!IsPlayerCuffed(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está algemado.");
+
+	new output[27 + (MAX_PLAYER_NAME * 2)];
+	format(output, sizeof(output), "desalgemou %s.", GetPlayerNamef(targetid));
+	SendClientActionMessage(playerid, 20.0, output);
+
+	SetPlayerCuffed(targetid, false);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+timer OnPlayerHandCuffPlayer[1250](playerid, targetid, Float:pPosX, Float:pPosY, Float:pPosZ, Float:tPosX, Float:tPosY, Float:tPosZ)
+{
+	new Float:playerPos[3], Float:targetPos[3];
+	GetPlayerPos(playerid, playerPos[0], playerPos[1], playerPos[2]);
+	GetPlayerPos(targetid, targetPos[0], targetPos[1], targetPos[2]);
+
+	if(pPosX == playerPos[0] && pPosY == playerPos[1] && pPosZ == playerPos[2] &&
+		tPosX == targetPos[0] && tPosY == targetPos[1] && tPosZ == targetPos[2])
+	{
+		GameTextForPlayer(playerid, "~g~algemado...", 1250, 3);
+		GameTextForPlayer(targetid, "~r~algemado...", 1250, 3);
+
+		new output[14 + MAX_PLAYER_NAME];
+		format(output, sizeof(output), "algemou %s.", GetPlayerNamef(targetid));
+		SendClientActionMessage(playerid, 20.0, output);
+
+		SetPlayerCuffed(targetid, true);
+	}
+	else
+	{
+		GameTextForPlayer(playerid, "~r~falhou...", 1250, 3);
+		GameTextForPlayer(targetid, "~g~falhou...", 1250, 3);
+
+		new output[29 + MAX_PLAYER_NAME];
+		format(output, sizeof(output), "falhou ao tentar algemar %s.", GetPlayerNamef(targetid));
+		SendClientActionMessage(playerid, 20.0, output);
+	}
 }

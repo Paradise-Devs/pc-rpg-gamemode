@@ -432,21 +432,19 @@ YCMD:w(playerid, params[], help)
 
 YCMD:fumar(playerid, params[], help)
 {
-	/*
 	if(IsPlayerCuffed(playerid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode fumar enquanto está algemado.");
-	*/
 
-	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_SMOKE_CIGGY)
+	else if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_SMOKE_CIGGY)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você já está fumando um cigarro.");
 
-	if(GetPlayerCigaretts(playerid) < 1)
+	else if(GetPlayerCigaretts(playerid) < 1)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um cigarro.");
 
-	if(GetPlayerLighter(playerid) < 1)
+	else if(GetPlayerLighter(playerid) < 1)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um isqueiro.");
 
-	if(GetPlayerLighter(playerid) == 1)
+	else if(GetPlayerLighter(playerid) == 1)
 		return SendClientMessage(playerid, COLOR_ERROR, "* O gás do seu isqueiro acabou.");
 
 	SendClientActionMessage(playerid, 20.0, "acendeu um cigarro.");

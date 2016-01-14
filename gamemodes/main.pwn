@@ -106,6 +106,7 @@
 #include <mSelection>
 #include <radars>
 #include <vending>
+#include <cuffs>
 
 //------------------------------------------------------------------------------
 
