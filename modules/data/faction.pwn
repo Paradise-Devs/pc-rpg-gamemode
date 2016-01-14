@@ -116,15 +116,34 @@ GetFactionCount() { return gCreatedFaction; }
 GetFactionType(factionid){ return gFactionData[factionid][e_faction_type]; }
 GetFactionMaxRanks(factionid) { return gFactionData[factionid][e_faction_max_ranks]; }
 
-/*SetPlayerFactionSkin(playerid)
+SetPlayerFactionSkin(playerid)
 {
-    if(GetPlayerFactionID(playerid) = FACTION_NONE)
+    if(GetPlayerFactionID(playerid) == FACTION_NONE)
         return 0;
 
+    new j = GetPlayerFactionID(playerid);
     new i = GetPlayerFactionRankID(playerid);
-    SetPlayerSkin(playerid, gFactionData[playerid][e_faction_skin][i]);
+    SetPlayerSkin(playerid, gFactionData[j][e_faction_skin][i]);
     return 1;
-}*/
+}
+
+IsPlayerUsingFactionSkin(playerid)
+{
+    if(GetPlayerFactionID(playerid) == FACTION_NONE)
+        return false;
+
+    new skinid = GetPlayerSkin(playerid);
+    new j = GetPlayerFactionID(playerid);
+    new i = GetPlayerFactionRankID(playerid);
+    if(gFactionData[j][e_faction_skin][i] == skinid)
+        return true;
+    return false;
+}
+
+IsPlayerOnDuty(playerid)
+{
+    return (IsPlayerUsingFactionSkin(playerid));
+}
 
 SendPlayerFactionMessage(playerid, message[])
 {

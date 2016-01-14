@@ -226,6 +226,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/bank.pwn"
 #include "../modules/gameplay/boxing.pwn"
 #include "../modules/gameplay/gym.pwn"
+#include "../modules/gameplay/prision.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"

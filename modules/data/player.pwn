@@ -782,7 +782,7 @@ SavePlayerAccount(playerid)
     `WeaponSkillSpas12`=%d, `WeaponSkillUzi`=%d, `WeaponSkillMP5`=%d, `WeaponSkillAK47`=%d, `WeaponSkillM4`=%d, `WeaponSkillSniper`=%d, \
     `agenda`=%d, `gps`=%d, `lighter`=%d, `cigaretts`=%d, `walkietalkie`=%d, \
     `carlic`=%d, `bikelic`=%d, `trucklic`=%d, `helilic`=%d, `planelic`=%d, `boatlic`=%d, \
-    `fstyle`=%d \
+    `fstyle`=%d, `prision_time`=%d \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSpawnPosition(playerid),
     GetPlayerRankVar(playerid), rankname, gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
@@ -803,7 +803,7 @@ SavePlayerAccount(playerid)
     gPlayerItemData[playerid][e_player_agenda], gPlayerItemData[playerid][e_player_gps], gPlayerItemData[playerid][e_player_cigaretts], gPlayerItemData[playerid][e_player_lighter], gPlayerItemData[playerid][e_player_walkietalkie],
     gPlayerLicenseData[playerid][e_player_car_license], gPlayerLicenseData[playerid][e_player_bike_license], gPlayerLicenseData[playerid][e_player_truck_license],
     gPlayerLicenseData[playerid][e_player_heli_license], gPlayerLicenseData[playerid][e_player_plane_license], gPlayerLicenseData[playerid][e_player_boat_license],
-    GetPlayerFightingStyle(playerid),
+    GetPlayerFightingStyle(playerid), GetPlayerPrisionTime(playerid),
     gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_pquery(mysql, query);
     printf("PLAYER QUERY LENGTH: %d", strlen(query));
@@ -985,6 +985,7 @@ public OnAccountLoad(playerid)
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
         SetPlayerRankVar(playerid,      cache_get_field_content_int(0, "rank", mysql));
         SetPlayerFirstTimeVar(playerid, cache_get_field_content_int(0, "ftime", mysql));
+        SetPlayerPrisionTime(playerid,  cache_get_field_content_int(0, "prision_time", mysql));
 
         SetPlayerSkillLevel(playerid, WEAPONSKILL_PISTOL,			gPlayerWeaponData[playerid][e_player_weapon_skill][0]);
     	SetPlayerSkillLevel(playerid, WEAPONSKILL_PISTOL_SILENCED,	gPlayerWeaponData[playerid][e_player_weapon_skill][1]);

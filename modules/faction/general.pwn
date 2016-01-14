@@ -39,7 +39,7 @@ YCMD:ajudafaccao(playerid, params[], help)
     if(GetPlayerFactionID(playerid) == FACTION_TYPE_NEWS)
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(n)oticia");
     else if(GetPlayerFactionID(playerid) == FACTION_TYPE_POLICE)
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /megafone");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /servico - /megafone - /prender - /ajustarpena - /libertar");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }

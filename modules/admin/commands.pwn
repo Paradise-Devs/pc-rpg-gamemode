@@ -28,7 +28,7 @@ YCMD:acmds(playerid, params[], help)
     {
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos - /fuelveh");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check - /aprision - /alibertar");
     }
 
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
@@ -338,6 +338,68 @@ YCMD:kick(playerid, params[], help)
    SendClientMessageToAll(0xf26363ff, output);
    Kick(targetid);
    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:aprision(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    new targetid, time, reason[128];
+    if(sscanf(params, "uis[128]", targetid, time, reason))
+        return SendClientMessage(playerid, COLOR_INFO, "* /aprision [playerid] [tempo(minutos)] [motivo]");
+
+    else if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+    else if(playerid == targetid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender você mesmo.");
+
+    else if(IsPlayerNPC(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender um NPC.");
+
+    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender um membro da administração.");
+
+    else if(time < 5)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Tempo de prisão não pode ser inferior a 5 minutos.");
+
+    new output[144];
+    format(output, sizeof(output), "* %s foi preso por %s. Motivo: %s", GetPlayerNamef(targetid), GetPlayerNamef(playerid), reason);
+    SendClientMessageToAll(0xf26363ff, output);
+
+    PutPlayerInPrision(targetid, time * 60);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:alibertar(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    new targetid;
+    if(sscanf(params, "u", targetid))
+        return SendClientMessage(playerid, COLOR_INFO, "* /alibertar [playerid]");
+
+    else if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+    else if(IsPlayerNPC(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Jogador inválido.");
+
+    else if(!IsPlayerInPrision(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está preso.");
+
+    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você libertou %s da prisão.", GetPlayerNamef(targetid));
+    if(playerid != targetid)
+        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* Você foi liberto da prisão por %s.", GetPlayerNamef(playerid));
+
+    SetPlayerPrisionTime(targetid, 1);
+    return 1;
 }
 
 //------------------------------------------------------------------------------
