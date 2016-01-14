@@ -286,7 +286,7 @@ YCMD:updatebuilding(playerid, params[], help)
         SendClientMessagef(playerid, COLOR_ERROR, "* Building inválido, valores de 0 à %i.", MAX_BUILDINGS);
     else if(gBuildingData[bid][e_building_db] == 0)
         SendClientMessage(playerid, COLOR_ERROR, "* Este building não existe.");
-    else if(strcmp(option, "entrada"))
+    else if(!strcmp(option, "entrada"))
     {
         new Float:x, Float:y, Float:z, Float:a;
         new i = GetPlayerInterior(playerid);
@@ -310,7 +310,7 @@ YCMD:updatebuilding(playerid, params[], help)
         mysql_format(mysql, query, sizeof(query), "UPDATE `buildings` SET `building_out_x`=%f, `building_out_y`=%f, `building_out_z`=%f, `building_out_a`=%f, `building_out_i`=%i, `building_out_v`=%i WHERE `ID`=%d", x, y, z, a, i, v, gBuildingData[bid][e_building_db]);
         mysql_pquery(mysql, query);
     }
-    else if(strcmp(option, "saida"))
+    else if(!strcmp(option, "saida"))
     {
         new Float:x, Float:y, Float:z, Float:a;
         new i = GetPlayerInterior(playerid);
@@ -334,7 +334,7 @@ YCMD:updatebuilding(playerid, params[], help)
         mysql_format(mysql, query, sizeof(query), "UPDATE `buildings` SET `building_in_x`=%f, `building_in_y`=%f, `building_in_z`=%f, `building_in_a`=%f, `building_in_i`=%i, `building_in_v`=%i WHERE `ID`=%d", x, y, z, a, i, v, gBuildingData[bid][e_building_db]);
         mysql_pquery(mysql, query);
     }
-    else if(strcmp(option, "porta"))
+    else if(!strcmp(option, "porta"))
     {
         if(gBuildingData[bid][e_building_locked])
         {
