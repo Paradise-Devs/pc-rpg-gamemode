@@ -2,7 +2,7 @@
 * FILENAME :        modules/game/vending.pwn
 *
 * DESCRIPTION :
-*       Changes the vending machies to server-sided.
+*       Changes the vending machines to server-sided.
 *
 * NOTES :
 *       -

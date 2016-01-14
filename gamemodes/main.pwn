@@ -105,6 +105,7 @@
 #include <zones>
 #include <mSelection>
 #include <radars>
+#include <vending>
 
 //------------------------------------------------------------------------------
 
@@ -206,6 +207,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/game/pause.pwn"
 #include "../modules/game/clock.pwn"
 #include "../modules/game/preloadanim.pwn"
+#include "../modules/game/vending.pwn"
 
 /* Gameplay */
 #include "../modules/gameplay/8track.pwn"
