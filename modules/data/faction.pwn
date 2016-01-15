@@ -145,6 +145,34 @@ IsPlayerOnDuty(playerid)
     return (IsPlayerUsingFactionSkin(playerid));
 }
 
+SendPlayerFactionTypeMessage(playerid, message[])
+{
+    new factionid = GetPlayerFactionID(playerid);
+    if(factionid == FACTION_NONE)
+        return;
+
+    foreach(new i: Player)
+	{
+		if(GetFactionType(GetPlayerFactionID(i)) == GetFactionType(factionid))
+		{
+			new radioMessage[181];
+			format(radioMessage, sizeof(radioMessage), "(Depart.) %s %s diz: %s", GetFactionRankName(GetPlayerFactionID(playerid), GetPlayerFactionRankID(playerid)), GetPlayerNamef(playerid), message);
+			SendMultiMessage(i, 0xEE7878FF, radioMessage);
+		}
+		else if(GetFactionType(GetPlayerFactionID(i)) != GetFactionType(factionid) && i != playerid)
+		{
+			new Float:x, Float:y, Float:z;
+			GetPlayerPos(playerid, x, y, z);
+			if(IsPlayerInRangeOfPoint(i, 8.0, x, y, z))
+			{
+				new localMessage[181];
+				format(localMessage, sizeof(localMessage), "(Radio) %s diz: %s", GetPlayerNamef(playerid), message);
+				SendMultiMessage(i, 0xB6B6B6FF, localMessage);
+			}
+		}
+	}
+}
+
 SendPlayerFactionMessage(playerid, message[])
 {
 	new factionid = GetPlayerFactionID(playerid);
