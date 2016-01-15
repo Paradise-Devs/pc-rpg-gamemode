@@ -202,6 +202,17 @@ SendPlayerFactionMessage(playerid, message[])
 	return 1;
 }
 
+SendFactionMessage(factionid, color, message[])
+{
+	if(factionid == FACTION_NONE)
+		return 0;
+
+	foreach(new i: Player)
+		if(GetPlayerFactionID(i) == factionid)
+			SendMultiMessage(i, color, message);
+	return 1;
+}
+
 //------------------------------------------------------------------------------
 
 public OnFactionLoad()
