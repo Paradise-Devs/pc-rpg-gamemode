@@ -114,6 +114,15 @@ stock bool:IsPlayerDonator(playerid)
 
 //------------------------------------------------------------------------------
 
+stock bool:IsPlayerBetaTester(playerid)
+{
+    if(gPlayerRanks[playerid] & PLAYER_RANK_BETATESTER)
+        return true;
+    return false;
+}
+
+//------------------------------------------------------------------------------
+
 stock SetPlayerRankVar(playerid, val)
     gPlayerRanks[playerid] = PLAYER_RANK:val;
 

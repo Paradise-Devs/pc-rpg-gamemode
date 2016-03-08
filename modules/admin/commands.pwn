@@ -974,10 +974,11 @@ YCMD:setrank(playerid, params[], help)
         {
             if(!strcmp(option, "add", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para donator com sucesso.");
-                else
-                {
+                } else if(IsPlayerDonator(targetid)) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é donator.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi alterada para donator com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para donator.", GetPlayerNamef(playerid));
                 }
@@ -985,10 +986,11 @@ YCMD:setrank(playerid, params[], help)
             }
             else if(!strcmp(option, "remover", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de donator com sucesso.");
-                else
-                {
+                } else if(!IsPlayerDonator(targetid)) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é donator.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de donator com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de donator.", GetPlayerNamef(playerid));
                 }
@@ -1001,10 +1003,11 @@ YCMD:setrank(playerid, params[], help)
         {
             if(!strcmp(option, "add", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para designer com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_DESIGNER) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é designer.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para designer com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para designer.", GetPlayerNamef(playerid));
                 }
@@ -1012,10 +1015,11 @@ YCMD:setrank(playerid, params[], help)
             }
             else if(!strcmp(option, "remover", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de designer com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_DESIGNER) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é designer.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de designer com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de designer.", GetPlayerNamef(playerid));
                 }
@@ -1028,10 +1032,11 @@ YCMD:setrank(playerid, params[], help)
         {
             if(!strcmp(option, "add", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para beta-tester com sucesso.");
-                else
-                {
+                } else if(IsPlayerBetaTester(targetid)) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é beta tester.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para beta-tester com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para beta-tester.", GetPlayerNamef(playerid));
                 }
@@ -1039,10 +1044,11 @@ YCMD:setrank(playerid, params[], help)
             }
             else if(!strcmp(option, "remover", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de beta-tester com sucesso.");
-                else
-                {
+                } else if(!IsPlayerBetaTester(targetid)) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é beta tester.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de beta-tester com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de beta-tester.", GetPlayerNamef(playerid));
                 }
@@ -1055,10 +1061,11 @@ YCMD:setrank(playerid, params[], help)
         {
             if(!strcmp(option, "add", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para moderador com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_MODERATOR) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é moderador.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para moderador com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para moderador.", GetPlayerNamef(playerid));
                 }
@@ -1066,10 +1073,11 @@ YCMD:setrank(playerid, params[], help)
             }
             else if(!strcmp(option, "remover", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de moderador com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_MODERATOR) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é moderador.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de moderador com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de moderador.", GetPlayerNamef(playerid));
                 }
@@ -1082,10 +1090,11 @@ YCMD:setrank(playerid, params[], help)
         {
             if(!strcmp(option, "add", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para supervisor com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_SUPERVISOR) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é moderador.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para supervisor com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para supervisor.", GetPlayerNamef(playerid));
                 }
@@ -1093,10 +1102,11 @@ YCMD:setrank(playerid, params[], help)
             }
             else if(!strcmp(option, "remover", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de supervisor com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_MODERATOR) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é moderador.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de supervisor com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de supervisor.", GetPlayerNamef(playerid));
                 }
@@ -1109,10 +1119,11 @@ YCMD:setrank(playerid, params[], help)
         {
             if(!strcmp(option, "add", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para administrador com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_ADMIN) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é administrador.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para administrador com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para administrador.", GetPlayerNamef(playerid));
                 }
@@ -1120,10 +1131,11 @@ YCMD:setrank(playerid, params[], help)
             }
             else if(!strcmp(option, "remover", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de administrador com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_ADMIN) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é administrador.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de administrador com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de administrador.", GetPlayerNamef(playerid));
                 }
@@ -1136,10 +1148,11 @@ YCMD:setrank(playerid, params[], help)
         {
             if(!strcmp(option, "add", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para developer com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_DEVELOPER) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é dev.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para developer com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para developer.", GetPlayerNamef(playerid));
                 }
@@ -1147,10 +1160,11 @@ YCMD:setrank(playerid, params[], help)
             }
             else if(!strcmp(option, "remover", true))
             {
-                if(targetid == playerid)
+                if(targetid == playerid) {
                     SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de developer com sucesso.");
-                else
-                {
+                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_DEVELOPER) {
+                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é dev.");
+                } else {
                     SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de developer com sucesso.", GetPlayerNamef(targetid));
                     SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de developer.", GetPlayerNamef(playerid));
                 }
