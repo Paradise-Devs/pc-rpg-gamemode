@@ -78,3 +78,80 @@ DestroyAdminCars(playerid)
     gAdminCCarsCount[playerid] = 0;
 	return 1;
 }
+
+//------------------------------------------------------------------------------
+
+KickEx(playerid, admin, reason[]) {
+	new outputAll[144];
+	format(outputAll, sizeof(outputAll), "* %s foi kickado por %s. Motivo: %s", GetPlayerNamef(playerid), GetPlayerNamef(admin), reason);
+
+	new outputPlayer[144];
+	format(outputPlayer, sizeof(outputPlayer), "* Você foi kickado do servidor por %s. Motivo: %s", GetPlayerNamef(admin), reason);
+
+	foreach(new i: Player) {
+		if(i != playerid) {
+			SendClientMessage(i, COLOR_SERVER_ANN, outputAll);
+		} else {
+			SendClientMessage(i, COLOR_SERVER_ANN, outputPlayer);
+		}
+	}
+	SetTimerEx("KickPlayer", 800, false, "i", playerid);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+PermaBan(playerid, admin, reason[]) {
+	new outputAll[144];
+	format(outputAll, sizeof(outputAll), "* %s foi banido permanentemente por %s. Motivo: %s", GetPlayerNamef(playerid), GetPlayerNamef(admin), reason);
+
+	new outputPlayer[144];
+	format(outputPlayer, sizeof(outputPlayer), "* Você foi banido permanentemente do servidor por %s. Motivo: %s", GetPlayerNamef(admin), reason);
+
+	foreach(new i: Player) {
+		if(i != playerid) {
+			SendClientMessage(i, COLOR_SERVER_ANN, outputAll);
+		} else {
+			SendClientMessage(i, COLOR_SERVER_ANN, outputPlayer);
+		}
+	}
+	SetTimerEx("PermaBanPlayer", 800, false, "i", playerid);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+TempBan(playerid, admin, reason[], days) {
+	new outputAll[144];
+	format(outputAll, sizeof(outputAll), "* %s foi banido durante %d dias por %s. Motivo: %s", GetPlayerNamef(playerid), days, GetPlayerNamef(admin), reason);
+
+	new outputPlayer[144];
+	format(outputPlayer, sizeof(outputPlayer), "* Você foi banido durante %d dias por %s. Motivo: %s", days, GetPlayerNamef(admin), reason);
+
+	foreach(new i: Player) {
+		if(i != playerid) {
+			SendClientMessage(i, COLOR_SERVER_ANN, outputAll);
+		} else {
+			SendClientMessage(i, COLOR_SERVER_ANN, outputPlayer);
+		}
+	}
+	SetTimerEx("TempBanPlayer", 800, false, "ii", playerid, days);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+forward KickPlayer(playerid);
+public KickPlayer(playerid) {
+	return Kick(playerid);
+}
+
+forward PermaBanPlayer(playerid);
+public PermaBanPlayer(playerid) {
+	return Ban(playerid);
+}
+
+forward TempBanPlayer(playerid, days);
+public TempBanPlayer(playerid, days) {
+	return Kick(playerid);
+}

@@ -1180,6 +1180,12 @@ hook OnPlayerConnect(playerid)
 {
     if(IsPlayerNPC(playerid))
         return 1;
+
+    if(!IsAValidName(GetPlayerNamef(playerid))) {
+        SendClientMessage(playerid, COLOR_ERROR, "* Seu nome está de maneira incorreta, utilize padrão Nome_Sobrenome");
+        return SetTimerEx("KickPlayer", 800, false, "i", playerid);
+    }
+
     SetPlayerColor(playerid, 0xacacacff);
     ClearPlayerScreen(playerid);
     SendClientMessage(playerid, COLOR_INFO, "Conectando ao banco de dados, por favor aguarde...");

@@ -34,6 +34,7 @@ YCMD:acmds(playerid, params[], help)
 	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /setfaction - /setfrank - /lotto - /jetpack - /fakeban");
 
+
     if(IsPlayerAdmin(playerid))
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /avehcmds - /abuildingcmds - /apartcmds - /ahousecmds - /abusinesscmds - /afactioncmds");
 
@@ -314,30 +315,28 @@ YCMD:sairdohospital(playerid, params[], help)
 
 YCMD:kick(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
-   new targetid, reason[128];
-   if(sscanf(params, "us[128]", targetid, reason))
-       return SendClientMessage(playerid, COLOR_INFO, "* /kick [playerid] [motivo]");
+    new targetid, reason[128];
 
-   else if(!IsPlayerLogged(targetid))
-       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+    if(sscanf(params, "us[128]", targetid, reason))
+        return SendClientMessage(playerid, COLOR_INFO, "* /kick [playerid] [motivo]");
 
-   else if(playerid == targetid)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar você mesmo.");
+    else if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 
-   else if(IsPlayerNPC(targetid))
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um NPC.");
+    else if(playerid == targetid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar você mesmo.");
 
-   else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um membro da administração.");
+    else if(IsPlayerNPC(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um NPC.");
 
-   new output[144];
-   format(output, sizeof(output), "* %s foi kickado por %s. Motivo: %s", GetPlayerNamef(targetid), GetPlayerNamef(playerid), reason);
-   SendClientMessageToAll(0xf26363ff, output);
-   Kick(targetid);
-   return 1;
+    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um membro da administração.");
+
+    KickEx(targetid, playerid, reason);
+    return 1;
 }
 
 //------------------------------------------------------------------------------
@@ -368,7 +367,7 @@ YCMD:aprision(playerid, params[], help)
 
     new output[144];
     format(output, sizeof(output), "* %s foi preso por %s. Motivo: %s", GetPlayerNamef(targetid), GetPlayerNamef(playerid), reason);
-    SendClientMessageToAll(0xf26363ff, output);
+    SendClientMessageToAll(COLOR_SERVER_ANN, output);
 
     PutPlayerInPrision(targetid, time * 60);
     return 1;
@@ -404,32 +403,65 @@ YCMD:alibertar(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
-YCMD:ban(playerid, params[], help)
+YCMD:permaban(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
-   new targetid, reason[128];
-   if(sscanf(params, "us", targetid, reason))
-       return SendClientMessage(playerid, COLOR_INFO, "* /kick [playerid] [motivo]");
+    new targetid, reason[128];
+    if(sscanf(params, "us", targetid, reason))
+        return SendClientMessage(playerid, COLOR_INFO, "* /permaban [playerid] [motivo]");
 
-   else if(!IsPlayerLogged(targetid))
-       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+    else if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 
-   else if(playerid == targetid)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir você mesmo.");
+    else if(playerid == targetid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir você mesmo.");
 
-   else if(IsPlayerNPC(targetid))
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um NPC.");
+    else if(IsPlayerNPC(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um NPC.");
 
-   else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
+    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
 
-   new output[144];
-   format(output, sizeof(output), "* %s foi banido por %s. Motivo: %s", GetPlayerNamef(targetid), GetPlayerNamef(playerid), reason);
-   SendClientMessageToAll(0xf26363ff, output);
-   Ban(targetid);
-   return 1;
+    PermaBan(targetid, playerid, reason);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:tempban(playerid, params[], help)
+{
+    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    new targetid, reason[128], days;
+    if(sscanf(params, "usd", targetid, reason, days)) {
+        SendClientMessage(playerid, COLOR_INFO, "* /tempban [playerid] [dias] [motivo]");
+        SendClientMessage(playerid, COLOR_INFO, "* DICA: Utilize prisão para punir por horas.");
+        return 1;
+    }
+
+    if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+    else if(playerid == targetid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir você mesmo.");
+
+    else if(IsPlayerNPC(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um NPC.");
+
+    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
+
+    else if(days <= 0)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Dias não pode ser negativo ou 0.");
+
+    else if(days > 30)
+
+    TempBan(targetid, playerid, reason, days);
+
+    return 1;
 }
 
 //------------------------------------------------------------------------------
@@ -936,8 +968,8 @@ YCMD:fakeban(playerid, params[], help)
 
    new output[144];
    format(output, sizeof(output), "* %s foi banido por %s. Motivo: %s", GetPlayerNamef(targetid), GetPlayerNamef(playerid), reason);
-   SendClientMessage(playerid, 0xf26363ff, output);
-   SendClientMessage(targetid, 0xf26363ff, output);
+   SendClientMessage(playerid, COLOR_SERVER_ANN, output);
+   SendClientMessage(targetid, COLOR_SERVER_ANN, output);
    SendClientMessage(targetid, 0xA9C4E4FF, "Server closed the connection.");
    return 1;
 }

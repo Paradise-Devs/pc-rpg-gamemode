@@ -78,6 +78,7 @@
 #define COLOR_SUB_TITLE									0xe6e6e6ff
 #define COLOR_SERVER									0xa5f413ff
 #define COLOR_WALKIE_TALKIE								0x4FBBE0FF
+#define COLOR_SERVER_ANN								0xf26363ff
 
 #define COLOR_RANK_DEVELOPER							0x35a700ff
 #define COLOR_RANK_ADMIN								0x00AEFFFF

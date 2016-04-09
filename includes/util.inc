@@ -320,6 +320,75 @@ enum
 
 //------------------------------------------------------------------------------
 
+/* *************************************************************************** *
+*  Assignment: Checks if the player name is a valid roleplay name
+*
+*  Params:
+*			name[]: Player's name
+*
+*  Returns:
+*			0 if player's name has not underline (_)
+*			1 if player's name is okay
+*			2 if player's name has numbers
+*			3 if player's name has not the first letter capitalized
+*			4 if player's name has not the first surname letter capitalized
+*			5 if player's name has capitalized letters
+*			6 if player's name has more than one underline
+* *************************************************************************** */
+stock IsAValidName(const name[])
+{
+	// bypassing custom names
+	if((!strcmp(name, "Los", true)) || (!strcmp(name, "Larceny", true)) || (!strcmp(name, "Eduardo", true)) || (!strcmp(name, "SyNC", true)) || (!strcmp(name, "ReDKiiL", true)))
+		return 1;
+
+	new
+		ch = name[0],
+		sur_ch,
+		underlines
+	;
+
+
+	// checking if name has underline
+	if(strfind(name, "_") == -1)
+		return 0;
+
+	// checking if first letter is capitalized
+	if(ch < 'A' || ch > 'Z')
+		return 3;
+
+	for(new i = 0; i < strlen(name); i++)
+	{
+		// checking if name has numbers
+		if(name[i] >= '0' && name[i] <= '9')
+			return 2;
+
+		// looking for more underlines
+		if(name[i] == '_')
+			underlines++;
+
+		if(!strfind(name[i], "_"))
+		{
+			name[++i];
+			sur_ch = i;
+
+			// checking if first surname letter is capitalized
+			if(name[i] < 'A' || name[i] > 'Z')
+				return 4;
+		}
+
+		// looking for (others) capitalized letters
+		if(name[i] >= 'A' && name[i] <= 'Z' && i != 0 && sur_ch != i)
+			return 5;
+		else
+			continue;
+	}
+
+	// if name has more than one underline
+	if(underlines > 1)
+		return 6;
+	return 1;
+}
+
 /*
     Clear player's chat
 */
@@ -463,7 +532,7 @@ stock convertTimestamp( timestamp, _form=0 )
     new year=1970, day=0, month=0, hour=0, mins=0, sec=0;
 
     new days_of_month[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-    new names_of_month[12][10] = {"Janeiro","Fevereiro","Mar�o","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};
+    new names_of_month[12][10] = {"Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};
     new returnstring[32];
 
     while(timestamp>31622400){
