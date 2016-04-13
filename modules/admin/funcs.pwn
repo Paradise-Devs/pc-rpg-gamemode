@@ -135,7 +135,7 @@ TempBan(playerid, admin, reason[], days) {
 			SendClientMessage(i, COLOR_SERVER_ANN, outputPlayer);
 		}
 	}
-	SetTimerEx("TempBanPlayer", 800, false, "ii", playerid, days);
+	SetTimerEx("TempBanPlayer", 800, false, "ii", playerid, admin, reason, days);
 	return 1;
 }
 
@@ -146,12 +146,30 @@ public KickPlayer(playerid) {
 	return Kick(playerid);
 }
 
-forward PermaBanPlayer(playerid);
-public PermaBanPlayer(playerid) {
-	return Ban(playerid);
+forward PermaBanPlayer(playerid, adminid, reason[], days);
+public PermaBanPlayer(playerid, adminid, reason[], days) {
+	new r = gettime();
+	new query[250], playerIP[16];
+	GetPlayerIp(playerid, playerIP, 16);
+	mysql_format(mysql, query, sizeof(query), "INSERT INTO `bans` (`username`, `IP`, `reason`, `initial_unix`, `final_unix`, `admin`) VALUES ('%e', '%e', '%e', %d, '-255', '%e')", GetPlayerNamef(playerid), playerIP, reason, r, GetPlayerNamef(adminid));
+	mysql_tquery(mysql, query, "OnPlayerAccountBanned", "i", playerid);
+	return Kick(playerid);
 }
 
-forward TempBanPlayer(playerid, days);
-public TempBanPlayer(playerid, days) {
+forward TempBanPlayer(playerid, adminid, reason[], days);
+public TempBanPlayer(playerid, adminid, reason[], days) {
+	new r = gettime();
+	new totald = r + (86400 * days);
+	new query[250], playerIP[16];
+	GetPlayerIp(playerid, playerIP, 16);
+	mysql_format(mysql, query, sizeof(query), "INSERT INTO `bans` (`username`, `IP`, `reason`, `initial_unix`, `final_unix`, `admin`) VALUES ('%e', '%e', '%e', %d, %d, '%e')", GetPlayerNamef(playerid), playerIP, reason, r, totald, GetPlayerNamef(adminid));
+	mysql_tquery(mysql, query, "OnPlayerAccountBanned", "i", playerid);
 	return Kick(playerid);
+}
+
+forward OnPlayerAccountBanned(playerid);
+public OnPlayerAccountBanned(playerid) {
+	cache_insert_id();
+	printf("[mysql] new account banned on database. Username: %s", GetPlayerNamef(playerid));
+	return 1;
 }

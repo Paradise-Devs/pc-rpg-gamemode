@@ -146,6 +146,7 @@ static E_PLAYER_STATE:gPlayerStates[MAX_PLAYERS];
 forward OnWeaponsLoad(playerid);
 forward OnAccountLoad(playerid);
 forward OnAccountCheck(playerid);
+forward OnBanCheck(playerid);
 forward OnAccountRegister(playerid);
 
 //------------------------------------------------------------------------------
@@ -1076,6 +1077,33 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 //------------------------------------------------------------------------------
 
+public OnBanCheck(playerid)
+{
+    new rows, fields;
+	cache_get_data(rows, fields, mysql);
+    if(rows > 0)
+    {
+        new tempCheck = cache_get_field_content_int(0, "final_unix", mysql);
+        new adminName[32];
+        cache_get_field_content(0, "admin", adminName, mysql, MAX_PLAYER_NAME);
+
+        if(tempCheck != -255) {
+            if(tempCheck < gettime()) {
+                new hourLeft = (gettime() - tempCheck) / 3600;
+
+                SendClientMessagef(playerid, COLOR_INFO, "Você ainda tem %d hora(s) de banimento. ", hourLeft);
+                SendClientMessagef(playerid, COLOR_INFO, "Administrador Responsável: %s", adminName);
+                return SetTimerEx("KickPlayer", 800, false, "i", playerid);
+            }
+        } else {
+            SendClientMessage(playerid, COLOR_INFO, "Você está banido permanentemente do servidor.");
+            SendClientMessagef(playerid, COLOR_INFO, "Administrador Responsável: %s", adminName);
+            return SetTimerEx("KickPlayer", 800, false, "i", playerid);
+        }
+    }
+    return 1;
+}
+
 public OnAccountCheck(playerid)
 {
 	new rows, fields;
@@ -1136,6 +1164,7 @@ hook OnPlayerRequestClass(playerid, classid)
 {
     if(IsPlayerNPC(playerid))
         return 1;
+
     // Checks if the player account is registered
     new query[57 + MAX_PLAYER_NAME + 1], playerName[MAX_PLAYER_NAME + 1];
     GetPlayerName(playerid, playerName, sizeof(playerName));
@@ -1180,6 +1209,11 @@ hook OnPlayerConnect(playerid)
 {
     if(IsPlayerNPC(playerid))
         return 1;
+
+    // Checks if the player account is banned
+    new query[57 + MAX_PLAYER_NAME + 1];
+    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `bans` WHERE `username` = '%e' LIMIT 1", GetPlayerNamef(playerid));
+    mysql_tquery(mysql, query, "OnBanCheck", "i", playerid);
 
     if(!IsAValidName(GetPlayerNamef(playerid))) {
         SendClientMessage(playerid, COLOR_ERROR, "* Seu nome está de maneira incorreta, utilize padrão Nome_Sobrenome");
