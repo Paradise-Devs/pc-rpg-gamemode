@@ -42,6 +42,7 @@ enum FurniData
     furni_model_id,
     furni_model_type[32],
     furni_model_caption[32],
+    furni_model_description[32],
     Float:furni_pos_x,
     Float:furni_pos_y,
     Float:furni_pos_z,
@@ -51,3 +52,4 @@ enum FurniData
     furni_actions_id[5]
 };
 new Furni[MAX_FURNIS][FurniData];
+
