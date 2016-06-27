@@ -143,11 +143,21 @@ static E_PLAYER_STATE:gPlayerStates[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
-forward OnWeaponsLoad(playerid);
+
 forward OnAccountLoad(playerid);
 forward OnAccountCheck(playerid);
 forward OnBanCheck(playerid);
 forward OnAccountRegister(playerid);
+forward OnAccountWeaponsLoad(playerid);
+forward OnAccountNeedsLoad(playerid);
+forward OnAccountFactionsLoad(playerid);
+forward OnAccountJobsLoad(playerid);
+forward OnAccountKeysLoad(playerid);
+forward OnAccountLicensesLoad(playerid);
+forward OnAcccountNeedsLoad(playerid);
+forward OnAccountPhoneLoad(playerid);
+forward OnAccountToolsLoad(playerid);
+forward OnAccountWeaponSkillsLoad(playerid);
 
 //------------------------------------------------------------------------------
 
@@ -165,7 +175,7 @@ LoadPlayerWeapons(playerid)
 {
     new query[66];
     mysql_format(mysql, query, sizeof(query), "SELECT weaponid, ammo FROM player_weapons WHERE userid = %d;", gPlayerAccountData[playerid][e_player_database_id]);
-    mysql_tquery(mysql, query, "OnWeaponsLoad", "i", playerid);
+    mysql_tquery(mysql, query, "OnAccountWeaponsLoad", "i", playerid);
 }
 
 //------------------------------------------------------------------------------
@@ -845,27 +855,6 @@ public OnAccountRegister(playerid)
 
 //------------------------------------------------------------------------------
 
-public OnWeaponsLoad(playerid)
-{
-	new weaponid, ammo;
-	for(new i, j = cache_get_row_count(mysql); i < j; i++)
-	{
-	    weaponid 	= cache_get_row_int(i, 0, mysql);
-	    ammo    	= cache_get_row_int(i, 1, mysql);
-
-		if(!(0 <= weaponid <= 46))
-		{
-			printf("[info] Warning: OnWeaponsLoad - Unknown weaponid '%d'. Skipping.", weaponid);
-			continue;
-		}
-
-		GivePlayerWeapon(playerid, weaponid, ammo);
-	}
-	return;
-}
-
-//------------------------------------------------------------------------------
-
 GivePlayerWeapons(playerid)
 {
     for(new j = 0; j < 13; j++)
@@ -898,6 +887,137 @@ GetPlayerWeaponSkill(playerid, id)
 
 //------------------------------------------------------------------------------
 
+public OnAccountFactionsLoad(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		gPlayerCharacterData[playerid][e_player_faction]            = cache_get_field_content_int(0, "faction", mysql);
+        gPlayerCharacterData[playerid][e_player_frank]              = cache_get_field_content_int(0, "faction_rank", mysql);
+	}
+	return 1;
+}
+public OnAccountJobsLoad(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		gPlayerCharacterData[playerid][e_player_jobid]              = Job:cache_get_field_content_int(0, "jobid", mysql);
+        gPlayerCharacterData[playerid][e_player_joblv]              = cache_get_field_content_int(0, "joblv", mysql);
+        gPlayerCharacterData[playerid][e_player_jobxp]              = cache_get_field_content_int(0, "jobxp", mysql);
+	}
+	return 1;
+}
+public OnAccountKeysLoad(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		SetPlayerApartmentKey(playerid, cache_get_field_content_int(0, "apartkey", mysql));
+	}
+	return 1;
+}
+public OnAccountLicensesLoad(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		gPlayerLicenseData[playerid][e_player_car_license]          = cache_get_field_content_int(0, "carlic", mysql);
+        gPlayerLicenseData[playerid][e_player_bike_license]         = cache_get_field_content_int(0, "bikelic", mysql);
+        gPlayerLicenseData[playerid][e_player_truck_license]        = cache_get_field_content_int(0, "trucklic", mysql);
+        gPlayerLicenseData[playerid][e_player_heli_license]         = cache_get_field_content_int(0, "helilic", mysql);
+        gPlayerLicenseData[playerid][e_player_plane_license]        = cache_get_field_content_int(0, "planelic", mysql);
+        gPlayerLicenseData[playerid][e_player_boat_license]         = cache_get_field_content_int(0, "boatlic", mysql);
+	}
+	return 1;
+}
+
+public OnAccountNeedsLoad(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		gPlayerCharacterData[playerid][e_player_hunger]             = cache_get_field_content_float(0, "hunger", mysql);
+        gPlayerCharacterData[playerid][e_player_thirst]             = cache_get_field_content_float(0, "thirst", mysql);
+        gPlayerCharacterData[playerid][e_player_sleep]              = cache_get_field_content_float(0, "sleep", mysql);
+        gPlayerCharacterData[playerid][e_player_addiction]          = cache_get_field_content_float(0, "addiction", mysql);
+	}
+	return 1;
+}
+
+public OnAccountPhoneLoad(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		gPlayerPhoneData[playerid][e_player_phone_number]           = cache_get_field_content_int(0, "phone_number", mysql);
+        gPlayerPhoneData[playerid][e_player_phone_network]          = cache_get_field_content_int(0, "phone_network", mysql);
+        gPlayerPhoneData[playerid][e_player_phone_credits]          = cache_get_field_content_int(0, "phone_credits", mysql);
+        gPlayerPhoneData[playerid][e_player_phone_state]            = cache_get_field_content_int(0, "phone_state", mysql);
+	}
+	return 1;
+}
+public OnAccountToolsLoad(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		gPlayerItemData[playerid][e_player_agenda]                  = cache_get_field_content_int(0, "agenda", mysql);
+        gPlayerItemData[playerid][e_player_gps]                     = cache_get_field_content_int(0, "gps", mysql);
+        gPlayerItemData[playerid][e_player_lighter]                 = cache_get_field_content_int(0, "lighter", mysql);
+        gPlayerItemData[playerid][e_player_cigaretts]               = cache_get_field_content_int(0, "cigaretts", mysql);
+        gPlayerItemData[playerid][e_player_walkietalkie]            = cache_get_field_content_int(0, "walkietalkie", mysql);
+	}
+	return 1;
+}
+
+public OnAccountWeaponsLoad(playerid)
+{
+	new weaponid, ammo;
+	for(new i, j = cache_get_row_count(mysql); i < j; i++)
+	{
+	    weaponid 	= cache_get_row_int(i, 0, mysql);
+	    ammo    	= cache_get_row_int(i, 1, mysql);
+
+		if(!(0 <= weaponid <= 46))
+		{
+			printf("[info] Warning: OnAccountWeaponsLoad - Unknown weaponid '%d'. Skipping.", weaponid);
+			continue;
+		}
+
+		GivePlayerWeapon(playerid, weaponid, ammo);
+	}
+	return;
+}
+
+public OnAccountWeaponSkillsLoad(playerid)
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+		gPlayerWeaponData[playerid][e_player_weapon_skill][0]      = cache_get_field_content_int(0, "WeaponSkillPistol");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][1]      = cache_get_field_content_int(0, "WeaponSkillSilenced");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][2]      = cache_get_field_content_int(0, "WeaponSkillDeagle");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][3]      = cache_get_field_content_int(0, "WeaponSkillShotgun");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][4]      = cache_get_field_content_int(0, "WeaponSkillSawnoff");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][5]      = cache_get_field_content_int(0, "WeaponSkillSpas12");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][6]      = cache_get_field_content_int(0, "WeaponSkillUzi");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][7]      = cache_get_field_content_int(0, "WeaponSkillMP5");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][8]      = cache_get_field_content_int(0, "WeaponSkillAK47");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][9]      = cache_get_field_content_int(0, "WeaponSkillM4");
+    	gPlayerWeaponData[playerid][e_player_weapon_skill][10]     = cache_get_field_content_int(0, "WeaponSkillSniper");
+	}
+	return 1;
+}
+
 public OnAccountLoad(playerid)
 {
 	new rows, fields;
@@ -915,57 +1035,21 @@ public OnAccountLoad(playerid)
         gPlayerPositionData[playerid][e_player_int]                 = cache_get_field_content_int(0, "interior", mysql);
         gPlayerPositionData[playerid][e_player_vw]                  = cache_get_field_content_int(0, "virtual_world", mysql);
         gPlayerPositionData[playerid][e_player_spawn]               = cache_get_field_content_int(0, "spawn", mysql);
-
         gPlayerCharacterData[playerid][e_player_skin]               = cache_get_field_content_int(0, "skin", mysql);
         gPlayerCharacterData[playerid][e_player_health]             = cache_get_field_content_int(0, "health", mysql);
         gPlayerCharacterData[playerid][e_player_armour]             = cache_get_field_content_int(0, "armour", mysql);
-        gPlayerCharacterData[playerid][e_player_faction]            = cache_get_field_content_int(0, "faction", mysql);
-        gPlayerCharacterData[playerid][e_player_frank]              = cache_get_field_content_int(0, "faction_rank", mysql);
         gPlayerCharacterData[playerid][e_player_gender]             = cache_get_field_content_int(0, "gender", mysql);
         gPlayerCharacterData[playerid][e_player_money]              = cache_get_field_content_int(0, "money", mysql);
         gPlayerCharacterData[playerid][e_player_bank]               = cache_get_field_content_int(0, "bank", mysql);
         gPlayerCharacterData[playerid][e_player_baccount]           = cache_get_field_content_int(0, "baccount", mysql);
         gPlayerCharacterData[playerid][e_player_ticket]             = cache_get_field_content_int(0, "ticket", mysql);
-        gPlayerCharacterData[playerid][e_player_jobid]              = Job:cache_get_field_content_int(0, "jobid", mysql);
-        gPlayerCharacterData[playerid][e_player_joblv]              = cache_get_field_content_int(0, "joblv", mysql);
-        gPlayerCharacterData[playerid][e_player_jobxp]              = cache_get_field_content_int(0, "jobxp", mysql);
         gPlayerCharacterData[playerid][e_player_level]              = cache_get_field_content_int(0, "level", mysql);
         gPlayerCharacterData[playerid][e_player_xp]                 = cache_get_field_content_int(0, "xp", mysql);
         gPlayerCharacterData[playerid][e_player_fstyle]             = cache_get_field_content_int(0, "fstyle", mysql);
-        gPlayerCharacterData[playerid][e_player_hunger]             = cache_get_field_content_float(0, "hunger", mysql);
-        gPlayerCharacterData[playerid][e_player_thirst]             = cache_get_field_content_float(0, "thirst", mysql);
-        gPlayerCharacterData[playerid][e_player_sleep]              = cache_get_field_content_float(0, "sleep", mysql);
-        gPlayerCharacterData[playerid][e_player_addiction]          = cache_get_field_content_float(0, "addiction", mysql);
 
-        gPlayerPhoneData[playerid][e_player_phone_number]           = cache_get_field_content_int(0, "phone_number", mysql);
-        gPlayerPhoneData[playerid][e_player_phone_network]          = cache_get_field_content_int(0, "phone_network", mysql);
-        gPlayerPhoneData[playerid][e_player_phone_credits]          = cache_get_field_content_int(0, "phone_credits", mysql);
-        gPlayerPhoneData[playerid][e_player_phone_state]            = cache_get_field_content_int(0, "phone_state", mysql);
+        
 
-        gPlayerLicenseData[playerid][e_player_car_license]          = cache_get_field_content_int(0, "carlic", mysql);
-        gPlayerLicenseData[playerid][e_player_bike_license]         = cache_get_field_content_int(0, "bikelic", mysql);
-        gPlayerLicenseData[playerid][e_player_truck_license]        = cache_get_field_content_int(0, "trucklic", mysql);
-        gPlayerLicenseData[playerid][e_player_heli_license]         = cache_get_field_content_int(0, "helilic", mysql);
-        gPlayerLicenseData[playerid][e_player_plane_license]        = cache_get_field_content_int(0, "planelic", mysql);
-        gPlayerLicenseData[playerid][e_player_boat_license]         = cache_get_field_content_int(0, "boatlic", mysql);
-
-        gPlayerItemData[playerid][e_player_agenda]                  = cache_get_field_content_int(0, "agenda", mysql);
-        gPlayerItemData[playerid][e_player_gps]                     = cache_get_field_content_int(0, "gps", mysql);
-        gPlayerItemData[playerid][e_player_lighter]                 = cache_get_field_content_int(0, "lighter", mysql);
-        gPlayerItemData[playerid][e_player_cigaretts]               = cache_get_field_content_int(0, "cigaretts", mysql);
-        gPlayerItemData[playerid][e_player_walkietalkie]            = cache_get_field_content_int(0, "walkietalkie", mysql);
-
-        gPlayerWeaponData[playerid][e_player_weapon_skill][0]      = cache_get_field_content_int(0, "WeaponSkillPistol");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][1]      = cache_get_field_content_int(0, "WeaponSkillSilenced");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][2]      = cache_get_field_content_int(0, "WeaponSkillDeagle");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][3]      = cache_get_field_content_int(0, "WeaponSkillShotgun");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][4]      = cache_get_field_content_int(0, "WeaponSkillSawnoff");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][5]      = cache_get_field_content_int(0, "WeaponSkillSpas12");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][6]      = cache_get_field_content_int(0, "WeaponSkillUzi");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][7]      = cache_get_field_content_int(0, "WeaponSkillMP5");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][8]      = cache_get_field_content_int(0, "WeaponSkillAK47");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][9]      = cache_get_field_content_int(0, "WeaponSkillM4");
-    	gPlayerWeaponData[playerid][e_player_weapon_skill][10]     = cache_get_field_content_int(0, "WeaponSkillSniper");
+       
 
         SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
         SpawnPlayer(playerid);
@@ -980,7 +1064,7 @@ public OnAccountLoad(playerid)
         SetPlayerHealth(playerid,       gPlayerCharacterData[playerid][e_player_health]);
         SetPlayerArmour(playerid,       gPlayerCharacterData[playerid][e_player_armour]);
         SetPlayerCash(playerid,         gPlayerCharacterData[playerid][e_player_money]);
-        SetPlayerApartmentKey(playerid, cache_get_field_content_int(0, "apartkey", mysql));
+        
 
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
