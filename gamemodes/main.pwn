@@ -86,7 +86,7 @@
 #define COLOR_RANK_MODERATOR							0x008BCCFF
 #define COLOR_RANK_BETATESER							0x992A2AFF
 #define COLOR_RANK_DESIGNER								0xe48200ff
-#define COLOR_RANK_BACKUP								0xCE8500FF
+#define COLOR_RANK_PARADISER							0xCE8500FF
 
 //------------------------------------------------------------------------------
 
@@ -220,9 +220,9 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/hospital.pwn"
 #include "../modules/gameplay/lottery.pwn"
 #include "../modules/gameplay/tutorial.pwn"
+#include "../modules/gameplay/paintball.pwn"
 #include "../modules/gameplay/weather.pwn"
 #include "../modules/gameplay/phone.pwn"
-#include "../modules/gameplay/paintball.pwn"
 #include "../modules/gameplay/shtrange.pwn"
 #include "../modules/gameplay/gps.pwn"
 #include "../modules/gameplay/radars.pwn"

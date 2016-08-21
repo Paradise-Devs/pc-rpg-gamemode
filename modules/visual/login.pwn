@@ -1344,9 +1344,9 @@ VSL_ShowPlayerTextdraw(playerid)
 	new online_backups = 0;
 	foreach(new i: Player)
 	{
-		if(GetPlayerHighestRank(i) > PLAYER_RANK_BACKUP)
+		if(GetPlayerRank(i) > PLAYER_RANK_PARADISER)
 			online_admins++;
-		else if(GetPlayerHighestRank(i) == PLAYER_RANK_BACKUP)
+		else if(GetPlayerRank(i) == PLAYER_RANK_PARADISER)
 			online_backups++;
 		online_players++;
 	}

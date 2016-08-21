@@ -12,41 +12,33 @@
 
 //------------------------------------------------------------------------------
 
-// Maximum 32 ranks
-enum PLAYER_RANK (<<=1)
+enum
 {
     PLAYER_RANK_PLAYER,
-    PLAYER_RANK_DONATOR = 1,
-    PLAYER_RANK_BACKUP,
-    PLAYER_RANK_DESIGNER,
-    PLAYER_RANK_BETATESTER,
+    PLAYER_RANK_PARADISER,
     PLAYER_RANK_MODERATOR,
 	PLAYER_RANK_SUPERVISOR,
 	PLAYER_RANK_ADMIN,
 	PLAYER_RANK_DEVELOPER
 }
 
-static PLAYER_RANK:gPlayerRanks[MAX_PLAYERS];
+static gPlayerRanks[MAX_PLAYERS];
+static gPlayerDonator[MAX_PLAYERS];
+
 //------------------------------------------------------------------------------
 
-stock PLAYER_RANK:GetPlayerHighestRank(playerid)
+stock GetPlayerRank(playerid)
 {
-    if(gPlayerRanks[playerid] & PLAYER_RANK_DEVELOPER)
+    if(gPlayerRanks[playerid] == PLAYER_RANK_DEVELOPER)
         return PLAYER_RANK_DEVELOPER;
-    else if(gPlayerRanks[playerid] & PLAYER_RANK_ADMIN)
+    else if(gPlayerRanks[playerid] == PLAYER_RANK_ADMIN)
         return PLAYER_RANK_ADMIN;
-    else if(gPlayerRanks[playerid] & PLAYER_RANK_SUPERVISOR)
+    else if(gPlayerRanks[playerid] == PLAYER_RANK_SUPERVISOR)
         return PLAYER_RANK_SUPERVISOR;
-    else if(gPlayerRanks[playerid] & PLAYER_RANK_MODERATOR)
+    else if(gPlayerRanks[playerid] == PLAYER_RANK_MODERATOR)
         return PLAYER_RANK_MODERATOR;
-    else if(gPlayerRanks[playerid] & PLAYER_RANK_BETATESTER)
-        return PLAYER_RANK_BETATESTER;
-    else if(gPlayerRanks[playerid] & PLAYER_RANK_DESIGNER)
-        return PLAYER_RANK_DESIGNER;
-    else if(gPlayerRanks[playerid] & PLAYER_RANK_BACKUP)
-        return PLAYER_RANK_BACKUP;
-    else if(gPlayerRanks[playerid] & PLAYER_RANK_DONATOR)
-        return PLAYER_RANK_DONATOR;
+    else if(gPlayerRanks[playerid] == PLAYER_RANK_PARADISER)
+        return PLAYER_RANK_PARADISER;
     else
         return PLAYER_RANK_PLAYER;
 }
@@ -56,20 +48,16 @@ stock PLAYER_RANK:GetPlayerHighestRank(playerid)
 stock GetPlayerRankColor(playerid)
 {
     new rankColor = 0xFFFFFFFF;
-    if(GetPlayerHighestRank(playerid) == PLAYER_RANK_DEVELOPER)
+    if(GetPlayerRank(playerid) == PLAYER_RANK_DEVELOPER)
         rankColor = COLOR_RANK_DEVELOPER;
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_ADMIN)
+    else if(GetPlayerRank(playerid) == PLAYER_RANK_ADMIN)
         rankColor = COLOR_RANK_ADMIN;
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_SUPERVISOR)
+    else if(GetPlayerRank(playerid) == PLAYER_RANK_SUPERVISOR)
         rankColor = COLOR_RANK_SUPERVISOR;
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_MODERATOR)
+    else if(GetPlayerRank(playerid) == PLAYER_RANK_MODERATOR)
         rankColor = COLOR_RANK_MODERATOR;
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_BETATESTER)
-        rankColor = COLOR_RANK_BETATESER;
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_DESIGNER)
-        rankColor = COLOR_RANK_DESIGNER;
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_BACKUP)
-        rankColor = COLOR_RANK_BACKUP;
+    else if(GetPlayerRank(playerid) == PLAYER_RANK_PARADISER)
+        rankColor = COLOR_RANK_PARADISER;
     return rankColor;
 }
 
@@ -78,65 +66,33 @@ stock GetPlayerRankColor(playerid)
 stock GetPlayerRankName(playerid, bool:capitalize = false)
 {
     new rankName[12];
-    if(GetPlayerHighestRank(playerid) == PLAYER_RANK_DEVELOPER)
+    if(GetPlayerRank(playerid) == PLAYER_RANK_DEVELOPER)
         rankName = "developer";
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_ADMIN)
+    else if(GetPlayerRank(playerid) == PLAYER_RANK_ADMIN)
         rankName = "admin";
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_SUPERVISOR)
+    else if(GetPlayerRank(playerid) == PLAYER_RANK_SUPERVISOR)
         rankName = "supervisor";
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_MODERATOR)
+    else if(GetPlayerRank(playerid) == PLAYER_RANK_MODERATOR)
         rankName = "moderador";
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_BETATESTER)
-        rankName = "beta tester";
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_DESIGNER)
-        rankName = "designer";
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_BACKUP)
-        rankName = "backup";
-    else if(GetPlayerHighestRank(playerid) == PLAYER_RANK_DONATOR)
-        rankName = "donator";
+    else if(GetPlayerRank(playerid) == PLAYER_RANK_PARADISER)
+        rankName = "paradiser";
     else
         rankName = "comum";
     if(capitalize == true)
         rankName[0] = toupper(rankName[0]);
-    if(capitalize == true && GetPlayerHighestRank(playerid) == PLAYER_RANK_BETATESTER)
-        rankName[5] = toupper(rankName[5]);
     return rankName;
 }
 
 //------------------------------------------------------------------------------
 
-stock bool:IsPlayerDonator(playerid)
+stock SetPlayerRank(playerid, rank)
 {
-    if(gPlayerRanks[playerid] & PLAYER_RANK_DONATOR)
-        return true;
-    return false;
+    gPlayerRanks[playerid] = rank;
 }
 
 //------------------------------------------------------------------------------
 
-stock bool:IsPlayerBetaTester(playerid)
+IsPlayerDonator(playerid)
 {
-    if(gPlayerRanks[playerid] & PLAYER_RANK_BETATESTER)
-        return true;
-    return false;
-}
-
-//------------------------------------------------------------------------------
-
-stock SetPlayerRankVar(playerid, val)
-    gPlayerRanks[playerid] = PLAYER_RANK:val;
-
-//------------------------------------------------------------------------------
-
-stock GetPlayerRankVar(playerid)
-    return _:gPlayerRanks[playerid];
-
-//------------------------------------------------------------------------------
-
-stock SetPlayerRank(PLAYER_RANK:rank, playerid, bool:set)
-{
-    if(set)
-        gPlayerRanks[playerid] |= rank;
-    else
-        gPlayerRanks[playerid] &= ~rank;
+    return gPlayerDonator[playerid];
 }

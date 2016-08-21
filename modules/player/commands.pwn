@@ -310,7 +310,7 @@ YCMD:relatorio(playerid, params[], help)
 
 	foreach(new i: Player)
 	{
-		if(GetPlayerHighestRank(i) < PLAYER_RANK_BACKUP)
+		if(GetPlayerRank(i) < PLAYER_RANK_PARADISER)
 			continue;
 
 		new message[150 + MAX_PLAYER_NAME];
@@ -335,12 +335,12 @@ YCMD:reportar(playerid, params[], help)
 	if(IsPlayerNPC(targetid) || !IsPlayerLogged(targetid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* Jogador não conectado.");
 
-	if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BACKUP)
+	if(GetPlayerRank(targetid) > PLAYER_RANK_PARADISER)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode reportar administradores, use o forum.");
 
 	foreach(new i: Player)
 	{
-		if(GetPlayerHighestRank(i) < PLAYER_RANK_BACKUP)
+		if(GetPlayerRank(i) < PLAYER_RANK_PARADISER)
 			continue;
 
 		new message[150 + MAX_PLAYER_NAME];
@@ -466,7 +466,7 @@ YCMD:admins(playerid, params[], help)
 
 	foreach(new i: Player)
 	{
-		if(GetPlayerHighestRank(i) >= PLAYER_RANK_MODERATOR)
+		if(GetPlayerRank(i) >= PLAYER_RANK_MODERATOR)
 		{
 			format(string, sizeof string, "* {FFFFFF}[{%06x}%s{FFFFFF}] %s {A6A6A6}(ID: %i)", GetPlayerRankColor(i) >>> 8, GetPlayerRankName(i, true), GetPlayerNamef(i), i);
 			SendClientMessage(playerid, COLOR_INFO, string);
@@ -575,7 +575,7 @@ public e_COMMAND_ERRORS:OnPlayerCommandReceived(playerid, cmdtext[], e_COMMAND_E
 		SendClientMessage(playerid, COLOR_ERROR, "* Você precisa estar logado para usar algum comando.");
 		return COMMAND_DENIED;
 	}
-	else if(GetPlayerHospitalTime(playerid) > 0 && GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+	else if(GetPlayerHospitalTime(playerid) > 0 && GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você está em coma.");
 		return COMMAND_DENIED;

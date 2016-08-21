@@ -20,18 +20,18 @@ static Float:gplMarkPos[MAX_PLAYERS][3];
 
 YCMD:acmds(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_MODERATOR)
+	if(GetPlayerRank(playerid) >= PLAYER_RANK_MODERATOR)
     {
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos - /fuelveh");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check - /aprision - /alibertar");
     }
 
-	if(GetPlayerHighestRank(playerid) >= PLAYER_RANK_ADMIN)
+	if(GetPlayerRank(playerid) >= PLAYER_RANK_ADMIN)
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /criarcar - /setmoney - /setjob - /setfaction - /setfrank - /lotto - /jetpack - /fakeban");
 
 
@@ -57,7 +57,7 @@ YCMD:acmds(playerid, params[], help)
 
  YCMD:check(playerid, params[], help)
  {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid;
@@ -75,7 +75,7 @@ YCMD:acmds(playerid, params[], help)
 
  YCMD:ir(playerid, params[], help)
  {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid;
@@ -114,7 +114,7 @@ YCMD:acmds(playerid, params[], help)
 
  YCMD:puxar(playerid, params[], help)
  {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid;
@@ -153,7 +153,7 @@ YCMD:acmds(playerid, params[], help)
 
  YCMD:flip(playerid, params[], help)
  {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     else if(!IsPlayerInAnyVehicle(playerid))
@@ -170,7 +170,7 @@ YCMD:acmds(playerid, params[], help)
 
 YCMD:reparar(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	if(IsPlayerInAnyVehicle(playerid))
@@ -210,7 +210,7 @@ YCMD:reparar(playerid, params[], help)
 
 YCMD:ls(playerid, params[], help)
 {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
@@ -227,7 +227,7 @@ YCMD:ls(playerid, params[], help)
 
 YCMD:sf(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
@@ -244,7 +244,7 @@ YCMD:sf(playerid, params[], help)
 
 YCMD:lv(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
@@ -276,7 +276,7 @@ YCMD:vehicleid(playerid, params[], help)
 
 YCMD:sairdohospital(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     else if(GetPlayerHospitalTime(playerid) < 1)
@@ -290,7 +290,7 @@ YCMD:sairdohospital(playerid, params[], help)
 
  YCMD:setskin(playerid, params[], help)
  {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid, skinid;
@@ -315,7 +315,7 @@ YCMD:sairdohospital(playerid, params[], help)
 
 YCMD:kick(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, reason[128];
@@ -332,7 +332,7 @@ YCMD:kick(playerid, params[], help)
     else if(IsPlayerNPC(targetid))
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um NPC.");
 
-    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+    else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um membro da administração.");
 
     KickEx(targetid, playerid, reason);
@@ -343,7 +343,7 @@ YCMD:kick(playerid, params[], help)
 
 YCMD:aprision(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, time, reason[128];
@@ -359,7 +359,7 @@ YCMD:aprision(playerid, params[], help)
     else if(IsPlayerNPC(targetid))
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender um NPC.");
 
-    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+    else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender um membro da administração.");
 
     else if(time < 5)
@@ -377,7 +377,7 @@ YCMD:aprision(playerid, params[], help)
 
 YCMD:alibertar(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid;
@@ -405,7 +405,7 @@ YCMD:alibertar(playerid, params[], help)
 
 YCMD:permaban(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
     return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, reason[128];
@@ -421,7 +421,7 @@ YCMD:permaban(playerid, params[], help)
     else if(IsPlayerNPC(targetid))
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um NPC.");
 
-    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+    else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
 
     PermaBan(targetid, playerid, reason);
@@ -432,7 +432,7 @@ YCMD:permaban(playerid, params[], help)
 
 YCMD:tempban(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
     return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, reason[128], days;
@@ -451,7 +451,7 @@ YCMD:tempban(playerid, params[], help)
     else if(IsPlayerNPC(targetid))
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um NPC.");
 
-    else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+    else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
 
     else if(days <= 0)
@@ -468,7 +468,7 @@ YCMD:tempban(playerid, params[], help)
 
 YCMD:irpos(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	new Float:x, Float:y, Float:z, i, w;
@@ -487,7 +487,7 @@ YCMD:irpos(playerid, params[], help)
 
 YCMD:fuelveh(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     else if(!IsPlayerInAnyVehicle(playerid))
@@ -500,7 +500,7 @@ YCMD:fuelveh(playerid, params[], help)
 
 YCMD:rtc(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     else if(!IsPlayerInAnyVehicle(playerid))
@@ -514,7 +514,7 @@ YCMD:rtc(playerid, params[], help)
 
 YCMD:ircar(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	new vehicleid;
@@ -537,7 +537,7 @@ YCMD:ircar(playerid, params[], help)
 
 YCMD:puxarcar(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	new vehicleid;
@@ -562,7 +562,7 @@ YCMD:puxarcar(playerid, params[], help)
 
 YCMD:tdist(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid;
@@ -579,7 +579,7 @@ YCMD:tdist(playerid, params[], help)
 
 YCMD:marcar(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     gplMarkExt[playerid][0] = GetPlayerInterior(playerid);
@@ -592,7 +592,7 @@ YCMD:marcar(playerid, params[], help)
 
 YCMD:irmarca(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     SetPlayerInterior(playerid, gplMarkExt[playerid][0]);
@@ -609,7 +609,7 @@ YCMD:irmarca(playerid, params[], help)
 
  YCMD:sethp(playerid, params[], help)
  {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid, Float:health;
@@ -629,7 +629,7 @@ YCMD:irmarca(playerid, params[], help)
 
  YCMD:setarmour(playerid, params[], help)
  {
- 	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid, Float:armour;
@@ -650,7 +650,7 @@ YCMD:irmarca(playerid, params[], help)
 
 YCMD:dararma(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, weaponid, ammo;
@@ -679,7 +679,7 @@ YCMD:dararma(playerid, params[], help)
 
 YCMD:tirardohospital(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid;
@@ -703,7 +703,7 @@ YCMD:tirardohospital(playerid, params[], help)
 
 YCMD:pm(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, message[128];
@@ -727,7 +727,7 @@ YCMD:pm(playerid, params[], help)
 
 YCMD:say(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_MODERATOR)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new message[128];
@@ -755,7 +755,7 @@ YCMD:say(playerid, params[], help)
 
 YCMD:criarcar(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new
@@ -789,7 +789,7 @@ YCMD:criarcar(playerid, params[], help)
 
 YCMD:setmoney(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, value;
@@ -812,7 +812,7 @@ YCMD:setmoney(playerid, params[], help)
 
 YCMD:setjob(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, value;
@@ -850,7 +850,7 @@ YCMD:setjob(playerid, params[], help)
 
 YCMD:setjoblvl(playerid, params[], help)
 {
-    if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, level;
@@ -877,7 +877,7 @@ YCMD:setjoblvl(playerid, params[], help)
 
 YCMD:setfaction(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, fid;
@@ -907,7 +907,7 @@ YCMD:setfaction(playerid, params[], help)
 
 YCMD:setfrank(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, fid;
@@ -939,7 +939,7 @@ YCMD:setfrank(playerid, params[], help)
 
 YCMD:jetpack(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    SetPlayerSpecialAction(playerid, SPECIAL_ACTION_USEJETPACK);
@@ -950,7 +950,7 @@ YCMD:jetpack(playerid, params[], help)
 
 YCMD:fakeban(playerid, params[], help)
 {
-   if(GetPlayerHighestRank(playerid) < PLAYER_RANK_ADMIN)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, reason[128];
@@ -963,7 +963,7 @@ YCMD:fakeban(playerid, params[], help)
    else if(playerid == targetid)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir você mesmo.");
 
-   else if(GetPlayerHighestRank(targetid) > PLAYER_RANK_BETATESTER)
+   else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode banir um membro da administração.");
 
    new output[144];
@@ -989,224 +989,30 @@ YCMD:fakeban(playerid, params[], help)
 
 YCMD:setrank(playerid, params[], help)
 {
-	if(IsPlayerAdmin(playerid) || GetPlayerHighestRank(playerid) >= PLAYER_RANK_DEVELOPER)
+	if(IsPlayerAdmin(playerid) || GetPlayerRank(playerid) >= PLAYER_RANK_DEVELOPER)
 	{
-    	new	targetid, rankName[9], option[8];
-    	if(sscanf(params, "us[9]s[8]", targetid, rankName, option))
+    	new	targetid, rank;
+    	if(sscanf(params, "ui", targetid, rank))
         {
-    		SendClientMessage(playerid, COLOR_INFO, "* /setrank [playerid] [nome do rank] [add / remover]");
-    		SendClientMessage(playerid, COLOR_INFO, "* Ranks: donator, designer, beta, mod, super, admin, dev");
+    		SendClientMessage(playerid, COLOR_INFO, "* /setrank [playerid] [rankid]");
             return 1;
         }
 
         else if(!IsPlayerLogged(targetid))
-            return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+        }
 
-        else if(!strcmp(rankName, "donator", true))
+        else
         {
-            if(!strcmp(option, "add", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para donator com sucesso.");
-                } else if(IsPlayerDonator(targetid)) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é donator.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi alterada para donator com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para donator.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_DONATOR, targetid, true);
-            }
-            else if(!strcmp(option, "remover", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de donator com sucesso.");
-                } else if(!IsPlayerDonator(targetid)) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é donator.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de donator com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de donator.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_DONATOR, targetid, false);
-            }
-            else
-                SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
-        }
-        else if(!strcmp(rankName, "designer", true))
-        {
-            if(!strcmp(option, "add", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para designer com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_DESIGNER) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é designer.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para designer com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para designer.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_DESIGNER, targetid, true);
-            }
-            else if(!strcmp(option, "remover", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de designer com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_DESIGNER) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é designer.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de designer com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de designer.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_DESIGNER, targetid, false);
-            }
-            else
-                SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
-        }
-        else if(!strcmp(rankName, "beta", true))
-        {
-            if(!strcmp(option, "add", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para beta-tester com sucesso.");
-                } else if(IsPlayerBetaTester(targetid)) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é beta tester.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para beta-tester com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para beta-tester.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_BETATESTER, targetid, true);
-            }
-            else if(!strcmp(option, "remover", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de beta-tester com sucesso.");
-                } else if(!IsPlayerBetaTester(targetid)) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é beta tester.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de beta-tester com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de beta-tester.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_BETATESTER, targetid, false);
-            }
-            else
-                SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
-        }
-        else if(!strcmp(rankName, "mod", true))
-        {
-            if(!strcmp(option, "add", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para moderador com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_MODERATOR) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é moderador.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para moderador com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para moderador.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_MODERATOR, targetid, true);
-            }
-            else if(!strcmp(option, "remover", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de moderador com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_MODERATOR) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é moderador.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de moderador com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de moderador.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_MODERATOR, targetid, false);
-            }
-            else
-                SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
-        }
-        else if(!strcmp(rankName, "super", true))
-        {
-            if(!strcmp(option, "add", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para supervisor com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_SUPERVISOR) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é moderador.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para supervisor com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para supervisor.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_SUPERVISOR, targetid, true);
-            }
-            else if(!strcmp(option, "remover", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de supervisor com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_MODERATOR) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é moderador.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de supervisor com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de supervisor.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_SUPERVISOR, targetid, false);
-            }
-            else
-                SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
-        }
-        else if(!strcmp(rankName, "admin", true))
-        {
-            if(!strcmp(option, "add", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para administrador com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_ADMIN) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é administrador.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para administrador com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para administrador.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_ADMIN, targetid, true);
-            }
-            else if(!strcmp(option, "remover", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de administrador com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_ADMIN) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é administrador.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de administrador com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de administrador.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_ADMIN, targetid, false);
-            }
-            else
-                SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
-        }
-        else if(!strcmp(rankName, "dev", true))
-        {
-            if(!strcmp(option, "add", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você alterou sua conta para developer com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) >= PLAYER_RANK_DEVELOPER) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já é dev.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s alterada para developer com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s alterou sua conta para developer.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_DEVELOPER, targetid, true);
-            }
-            else if(!strcmp(option, "remover", true))
-            {
-                if(targetid == playerid) {
-                    SendClientMessage(playerid, COLOR_SUCCESS, "* Você removeu seu rank de developer com sucesso.");
-                } else if(GetPlayerHighestRank(targetid) < PLAYER_RANK_DEVELOPER) {
-                    return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não é dev.");
-                } else {
-                    SendClientMessagef(playerid, COLOR_SUCCESS, "* Conta de %s foi removida de developer com sucesso.", GetPlayerNamef(targetid));
-                    SendClientMessagef(targetid, COLOR_SUCCESS, "* %s removeu seu rank de developer.", GetPlayerNamef(playerid));
-                }
-                SetPlayerRank(PLAYER_RANK_DEVELOPER, targetid, false);
-            }
-            else
-                SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
+            SetPlayerRank(targetid, rank);
+            SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou seu rank para %s.", GetPlayerNamef(playerid), GetPlayerRankName(targetid));
+            SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o rank de %s para %s.", GetPlayerNamef(targetid), GetPlayerRankName(targetid));
         }
     }
     else
+    {
         SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+    }
 	return 1;
 }

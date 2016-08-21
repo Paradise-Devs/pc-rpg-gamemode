@@ -36,7 +36,7 @@ SendClientMessageToAllf(color, const message[], va_args<>)
 
 //------------------------------------------------------------------------------
 
-SendAdminMessage(PLAYER_RANK:rank, color, const message[], va_args<>)
+SendAdminMessage(rank, color, const message[], va_args<>)
 {
 	if(numargs() > 3)
 	{
@@ -44,7 +44,7 @@ SendAdminMessage(PLAYER_RANK:rank, color, const message[], va_args<>)
 		va_format(string, sizeof(string), message, va_start<3>);
 		foreach(new i: Player)
 		{
-			if(GetPlayerHighestRank(i) < rank || !IsPlayerLogged(i))
+			if(GetPlayerRank(i) < rank || !IsPlayerLogged(i))
 	            continue;
 
 	        SendClientMessage(i, color, string);
@@ -54,7 +54,7 @@ SendAdminMessage(PLAYER_RANK:rank, color, const message[], va_args<>)
 	{
 		foreach(new i: Player)
 		{
-			if(GetPlayerHighestRank(i) < rank || !IsPlayerLogged(i))
+			if(GetPlayerRank(i) < rank || !IsPlayerLogged(i))
 	            continue;
 
 	        SendClientMessage(i, color, message);

@@ -259,7 +259,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	{
 		SetPlayerFacingAngle(playerid, 90.0627);
 		ApplyAnimation(playerid, "HEIST9", "Use_SwipeCard", 4.1, 0, 0, 0, 0, 0);
-		if(GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE || GetPlayerHighestRank(playerid) > PLAYER_RANK_BACKUP)
+		if(GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE || GetPlayerRank(playerid) > PLAYER_RANK_PARADISER)
 		{
 			new Float:X, Float:Y, Float:Z;
 			GetPlayerPos(playerid, X, Y, Z);
@@ -311,7 +311,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	{
 		SetPlayerFacingAngle(playerid, 90.0627);
 		ApplyAnimation(playerid, "HEIST9", "Use_SwipeCard", 4.1, 0, 0, 0, 0, 0);
-		if(GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE || GetPlayerHighestRank(playerid) > PLAYER_RANK_BACKUP)
+		if(GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE || GetPlayerRank(playerid) > PLAYER_RANK_PARADISER)
 		{
 			new Float:X, Float:Y, Float:Z;
 			GetPlayerPos(playerid, X, Y, Z);
@@ -382,7 +382,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	{
 		SetPlayerFacingAngle(playerid, 0.0);
 		ApplyAnimation(playerid, "HEIST9", "Use_SwipeCard", 4.1, 0, 0, 0, 0, 0, 0);
-		if(GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE || GetPlayerHighestRank(playerid) > PLAYER_RANK_BACKUP)
+		if(GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE || GetPlayerRank(playerid) > PLAYER_RANK_PARADISER)
 		{
 			new Float:X, Float:Y, Float:Z;
 			GetPlayerPos(playerid, X, Y, Z);

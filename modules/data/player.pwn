@@ -237,7 +237,7 @@ ResetPlayerData(playerid)
     gPlayerItemData[playerid][e_player_walkietalkie]    = 0;
 
     SetPlayerLevel(playerid, 1);
-    SetPlayerRankVar(playerid, 0);
+    SetPlayerRank(playerid, PLAYER_RANK_PLAYER);
     SetPlayerHouseID(playerid, INVALID_HOUSE_ID);
     SetPlayerBusinessID(playerid, INVALID_BUSINESS_ID);
     SetPlayerApartmentKey(playerid, INVALID_APARTMENT_ID);
@@ -759,7 +759,7 @@ SavePlayerAccount(playerid)
     GetPlayerArmour(playerid, armour);
 
     new rankname[32];
-    if(GetPlayerHighestRank(playerid) > PLAYER_RANK_PLAYER)
+    if(GetPlayerRank(playerid) > PLAYER_RANK_PLAYER)
         rankname = GetPlayerRankName(playerid, true);
     else
         rankname = GetJobName(GetPlayerJobID(playerid), true);
@@ -786,7 +786,7 @@ SavePlayerAccount(playerid)
     `fstyle`=%d, `prision_time`=%d \
     WHERE `id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSpawnPosition(playerid),
-    GetPlayerRankVar(playerid), rankname, gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
+    GetPlayerRank(playerid), rankname, gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
     gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid), gPlayerCharacterData[playerid][e_player_bank], gPlayerCharacterData[playerid][e_player_baccount],
     GetPlayerHospitalTime(playerid), health, armour,
     GetPlayerIPf(playerid), gettime(), gPlayerAccountData[playerid][e_player_playedtime],
@@ -984,7 +984,7 @@ public OnAccountLoad(playerid)
 
         SetPlayerHospitalTime(playerid, cache_get_field_content_int(0, "hospital", mysql));
         SetPlayerAchievements(playerid, cache_get_field_content_int(0, "achievements", mysql));
-        SetPlayerRankVar(playerid,      cache_get_field_content_int(0, "rank", mysql));
+        SetPlayerRank(playerid,         cache_get_field_content_int(0, "rank", mysql));
         SetPlayerFirstTimeVar(playerid, cache_get_field_content_int(0, "ftime", mysql));
         SetPlayerPrisionTime(playerid,  cache_get_field_content_int(0, "prision_time", mysql));
 
@@ -1129,9 +1129,9 @@ public OnAccountCheck(playerid)
         gPlayerLicenseData[playerid][e_player_plane_license]        = cache_get_field_content_int(0, "planelic", mysql);
         gPlayerLicenseData[playerid][e_player_boat_license]         = cache_get_field_content_int(0, "boatlic", mysql);
 
-        SetPlayerRankVar(playerid, cache_get_field_content_int(0, "rank", mysql));
-        SetPlayerHouseID(playerid, cache_get_field_content_int(0, "housekey", mysql));
-        SetPlayerBusinessID(playerid, cache_get_field_content_int(0, "businesskey", mysql));
+        SetPlayerRank(playerid,         cache_get_field_content_int(0, "rank", mysql));
+        SetPlayerHouseID(playerid,      cache_get_field_content_int(0, "housekey", mysql));
+        SetPlayerBusinessID(playerid,   cache_get_field_content_int(0, "businesskey", mysql));
         SetPlayerApartmentKey(playerid, cache_get_field_content_int(0, "apartkey", mysql));
 
         SetPlayerRegistered(playerid, true);

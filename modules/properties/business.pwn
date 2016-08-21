@@ -4299,7 +4299,7 @@ YCMD:infoempresa(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinesscmds(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4327,7 +4327,7 @@ YCMD:abusinesscmds(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinessentrance(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4383,7 +4383,7 @@ YCMD:abusinessentrance(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinessexit(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4432,7 +4432,7 @@ YCMD:abusinessexit(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinessprice(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4481,7 +4481,7 @@ YCMD:abusinessprice(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinesslock(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4531,7 +4531,7 @@ YCMD:abusinesslock(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinesstill(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4579,7 +4579,7 @@ YCMD:abusinesstill(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinessprodprice(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4627,7 +4627,7 @@ YCMD:abusinessprodprice(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinessproducts(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4675,7 +4675,7 @@ YCMD:abusinessproducts(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinesstype(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4727,7 +4727,7 @@ YCMD:abusinesstype(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinesssell(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4777,7 +4777,7 @@ YCMD:abusinesssell(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinessname(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
@@ -4821,7 +4821,7 @@ YCMD:abusinessname(playerid, params[], help)
 * *************************************************************************** */
 YCMD:abusinessowner(playerid, params[], help)
 {
-	if(GetPlayerHighestRank(playerid) < PLAYER_RANK_DEVELOPER)
+	if(GetPlayerRank(playerid) < PLAYER_RANK_DEVELOPER)
 	{
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 	}
