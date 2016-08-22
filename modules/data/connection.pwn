@@ -13,10 +13,10 @@
 
 #include <YSI\y_hooks>
 
-#define MySQL_HOST		"localhost"
+#define MySQL_HOST		"127.0.0.1"
 #define MySQL_USER		"root"
-#define MySQL_DB		"pc-rpg"
-#define MySQL_PASS		"pcdb784612"
+#define MySQL_DB		"pcrpg"
+#define MySQL_PASS		""
 new mysql;
 
 //------------------------------------------------------------------------------

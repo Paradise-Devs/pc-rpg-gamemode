@@ -11,8 +11,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Copiando estrutura do banco de dados para pc-rpg
-CREATE DATABASE IF NOT EXISTS `pc-rpg` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `pc-rpg`;
+CREATE DATABASE IF NOT EXISTS `pcrpg` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `pcrpg`;
 
 
 -- Copiando estrutura para tabela pc-rpg.apartments
@@ -466,11 +466,9 @@ CREATE TABLE IF NOT EXISTS `pets` (
 
 -- Copiando estrutura para tabela pc-rpg.players
 CREATE TABLE IF NOT EXISTS `players` (
-  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(25) DEFAULT '0',
-  `password` varchar(32) DEFAULT NULL,
+  `ID` int(11) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   `ip` varchar(16) DEFAULT NULL,
-  `email` varchar(128) DEFAULT NULL,
   `x` float DEFAULT '0',
   `y` float DEFAULT '0',
   `z` float DEFAULT '0',
@@ -506,41 +504,39 @@ CREATE TABLE IF NOT EXISTS `players` (
   `sleep` float unsigned NOT NULL DEFAULT '100',
   `addiction` float unsigned NOT NULL DEFAULT '100',
   `phone_number` int(10) unsigned NOT NULL DEFAULT '0',
-  `phone_network` int(10) NOT NULL DEFAULT '-1',
+  `phone_network` int(10) signed NOT NULL DEFAULT '-1',
   `phone_credits` int(10) unsigned NOT NULL DEFAULT '0',
   `phone_state` int(10) unsigned NOT NULL DEFAULT '0',
-  `apartkey` int(10) NOT NULL DEFAULT '-1',
-  `housekey` int(10) NOT NULL DEFAULT '-1',
-  `businesskey` int(10) NOT NULL DEFAULT '-1',
-  `WeaponSkillPistol` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillSilenced` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillDeagle` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillShotgun` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillSawnoff` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillSpas12` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillUzi` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillMP5` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillAK47` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillM4` int(10) NOT NULL DEFAULT '0',
-  `WeaponSkillSniper` int(10) NOT NULL DEFAULT '0',
-  `agenda` int(10) NOT NULL DEFAULT '0',
-  `gps` int(10) NOT NULL DEFAULT '0',
-  `lighter` int(10) NOT NULL DEFAULT '0',
-  `cigaretts` int(10) NOT NULL DEFAULT '0',
-  `walkietalkie` int(10) NOT NULL DEFAULT '0',
-  `isOnline` int(10) NOT NULL DEFAULT '0',
-  `carlic` int(10) NOT NULL DEFAULT '0',
-  `bikelic` int(10) NOT NULL DEFAULT '0',
-  `trucklic` int(10) NOT NULL DEFAULT '0',
-  `helilic` int(10) NOT NULL DEFAULT '0',
-  `planelic` int(10) NOT NULL DEFAULT '0',
-  `boatlic` int(10) NOT NULL DEFAULT '0',
-  `fstyle` int(10) NOT NULL DEFAULT '4',
-  `prision_time` int(10) NOT NULL DEFAULT '0',
-  `login_expire` int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
-  KEY `ID` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `apartkey` int(10) signed NOT NULL DEFAULT '-1',
+  `housekey` int(10) signed NOT NULL DEFAULT '-1',
+  `businesskey` int(10) signed NOT NULL DEFAULT '-1',
+  `WeaponSkillPistol` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillSilenced` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillDeagle` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillShotgun` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillSawnoff` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillSpas12` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillUzi` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillMP5` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillAK47` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillM4` int(10) signed NOT NULL DEFAULT '0',
+  `WeaponSkillSniper` int(10) signed NOT NULL DEFAULT '0',
+  `agenda` int(10) signed NOT NULL DEFAULT '0',
+  `gps` int(10) signed NOT NULL DEFAULT '0',
+  `lighter` int(10) signed NOT NULL DEFAULT '0',
+  `cigaretts` int(10) signed NOT NULL DEFAULT '0',
+  `walkietalkie` int(10) signed NOT NULL DEFAULT '0',
+  `isOnline` int(10) signed NOT NULL DEFAULT '0',
+  `carlic` int(10) signed NOT NULL DEFAULT '0',
+  `bikelic` int(10) signed NOT NULL DEFAULT '0',
+  `trucklic` int(10) signed NOT NULL DEFAULT '0',
+  `helilic` int(10) signed NOT NULL DEFAULT '0',
+  `planelic` int(10) signed NOT NULL DEFAULT '0',
+  `boatlic` int(10) signed NOT NULL DEFAULT '0',
+  `fstyle` int(10) signed NOT NULL DEFAULT '4',
+  `prision_time` int(10) signed NOT NULL DEFAULT '0',
+  `login_expire` int(11) unsigned NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- Copiando dados para a tabela pc-rpg.players: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;

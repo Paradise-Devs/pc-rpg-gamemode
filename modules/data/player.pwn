@@ -155,7 +155,7 @@ LoadPlayerAccount(playerid)
 {
     new query[57 + MAX_PLAYER_NAME + 1], playerName[MAX_PLAYER_NAME + 1];
     GetPlayerName(playerid, playerName, sizeof(playerName));
-    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `players` WHERE `username` = '%e' LIMIT 1", playerName);
+    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `players` WHERE `user_id` = %d LIMIT 1", gPlayerAccountData[playerid][e_player_database_id]);
     mysql_tquery(mysql, query, "OnAccountLoad", "i", playerid);
 }
 
@@ -784,7 +784,7 @@ SavePlayerAccount(playerid)
     `agenda`=%d, `gps`=%d, `lighter`=%d, `cigaretts`=%d, `walkietalkie`=%d, \
     `carlic`=%d, `bikelic`=%d, `trucklic`=%d, `helilic`=%d, `planelic`=%d, `boatlic`=%d, \
     `fstyle`=%d, `prision_time`=%d \
-    WHERE `id`=%d",
+    WHERE `user_id`=%d",
     x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSpawnPosition(playerid),
     GetPlayerRank(playerid), rankname, gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
     gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid), gPlayerCharacterData[playerid][e_player_bank], gPlayerCharacterData[playerid][e_player_baccount],
@@ -835,6 +835,10 @@ public OnAccountRegister(playerid)
     SetPlayerVirtualWorld(playerid, START_VW);
     SetSpawnInfo(playerid, 255, START_SKIN, START_X, START_Y, START_Z, START_A, 0, 0, 0, 0, 0, 0);
     ShowTutorialForPlayer(playerid);
+
+    new query[250];
+    mysql_format(mysql, query, sizeof(query), "INSERT INTO players (user_id, x, y, z, a) VALUES (%d, %.2f, %.2f, %.2f, %.2f)", gPlayerAccountData[playerid][e_player_database_id], START_X, START_Y, START_Z, START_A);
+    mysql_tquery(mysql, query);
 
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, sizeof(playerName));
@@ -1051,22 +1055,15 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 PlayErrorSound(playerid);
             else
             {
-                SendClientMessage(playerid, COLOR_SUCCESS, "* Registrado com sucesso!");
                 PlayConfirmSound(playerid);
                 SetPlayerLogged(playerid, true);
+                SendClientMessage(playerid, COLOR_SUCCESS, "* Registrado com sucesso!");
 
-                new playerIP[16], playerName[MAX_PLAYER_NAME];
+                new playerName[MAX_PLAYER_NAME];
                 GetPlayerName(playerid, playerName, sizeof(playerName));
-                GetPlayerIp(playerid, playerIP, sizeof(playerIP));
-
-                new Float:playerPos[4];
-                GetPlayerPos(playerid, playerPos[0], playerPos[1], playerPos[2]);
-                GetPlayerFacingAngle(playerid, playerPos[3]);
-                new playerInt = GetPlayerInterior(playerid);
-                new playerVW = GetPlayerVirtualWorld(playerid);
 
                 new query[250];
-                mysql_format(mysql, query, sizeof(query), "INSERT INTO `players` (`username`, `password`, `ip`, `regdate`, `x`, `y`, `z`, `a`, `interior`, `virtual_world`) VALUES ('%e', '%e', '%s', %d, %.2f, %.2f, %.2f, %.2f, %d, %d)", playerName, inputtext, playerIP, gettime(), playerPos[0], playerPos[1], playerPos[2], playerPos[3], playerInt, playerVW);
+                mysql_format(mysql, query, sizeof(query), "INSERT INTO `users` (`username`, `password`, `created_at`) VALUES ('%e', '%e', now())", playerName, inputtext);
             	mysql_tquery(mysql, query, "OnAccountRegister", "i", playerid);
             }
             return -2;
@@ -1111,7 +1108,7 @@ public OnAccountCheck(playerid)
 	if(rows > 0)
 	{
         cache_get_field_content(0, "password", gPlayerAccountData[playerid][e_player_password], mysql, MAX_PLAYER_PASSWORD);
-        gPlayerAccountData[playerid][e_player_database_id]          = cache_get_field_content_int(0, "ID", mysql);
+        gPlayerAccountData[playerid][e_player_database_id]          = cache_get_field_content_int(0, "user_id", mysql);
         gPlayerAccountData[playerid][e_player_login_expire]         = cache_get_field_content_int(0, "login_expire", mysql);
 
         gPlayerCharacterData[playerid][e_player_skin]               = cache_get_field_content_int(0, "skin", mysql);
@@ -1166,9 +1163,9 @@ hook OnPlayerRequestClass(playerid, classid)
         return 1;
 
     // Checks if the player account is registered
-    new query[57 + MAX_PLAYER_NAME + 1], playerName[MAX_PLAYER_NAME + 1];
+    new query[100 + MAX_PLAYER_NAME], playerName[MAX_PLAYER_NAME + 1];
     GetPlayerName(playerid, playerName, sizeof(playerName));
-    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `players` WHERE `username` = '%e' LIMIT 1", playerName);
+    mysql_format(mysql, query, sizeof(query),"SELECT * FROM users LEFT JOIN players ON users.id=players.user_id WHERE `username` = '%e' LIMIT 1", playerName);
     mysql_tquery(mysql, query, "OnAccountCheck", "i", playerid);
     return 1;
 }

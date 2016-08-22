@@ -28,10 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `players` (
   `ID` int(11) unsigned NOT NULL,
-  `username` varchar(25) DEFAULT '0',
-  `password` varchar(32) DEFAULT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   `ip` varchar(16) DEFAULT NULL,
-  `email` varchar(128) DEFAULT NULL,
   `x` float DEFAULT '0',
   `y` float DEFAULT '0',
   `z` float DEFAULT '0',
