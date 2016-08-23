@@ -1212,7 +1212,7 @@ hook OnPlayerConnect(playerid)
     mysql_format(mysql, query, sizeof(query),"SELECT * FROM `bans` WHERE `username` = '%e' LIMIT 1", GetPlayerNamef(playerid));
     mysql_tquery(mysql, query, "OnBanCheck", "i", playerid);
 
-    if(!IsAValidName(GetPlayerNamef(playerid))) {
+    if(IsAValidName(GetPlayerNamef(playerid, false)) != 1) {
         SendClientMessage(playerid, COLOR_ERROR, "* Seu nome está de maneira incorreta, utilize padrão Nome_Sobrenome");
         return SetTimerEx("KickPlayer", 800, false, "i", playerid);
     }
