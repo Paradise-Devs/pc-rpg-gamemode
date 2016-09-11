@@ -554,6 +554,11 @@ GetPlayerCarLicense(playerid)
     return gPlayerLicenseData[playerid][e_player_car_license];
 }
 
+SetPlayerCarLicense(playerid, value)
+{
+    gPlayerLicenseData[playerid][e_player_car_license] = value;
+}
+
 GetPlayerBikeLicense(playerid)
 {
     return gPlayerLicenseData[playerid][e_player_bike_license];

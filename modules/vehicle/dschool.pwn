@@ -115,9 +115,19 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
     if(newkeys & KEY_HANDBRAKE)
     {
-        PlayerPlaySound(playerid, 1184, 0.0, 0.0, 0.0);
         HidePlayerCertification(playerid);
-        ShowPlayerSchoolTV(playerid);
+        PlayerPlaySound(playerid, 1184, 0.0, 0.0, 0.0);
+        SendClientMessage(playerid, COLOR_SUCCESS, "* Você concluiu o teste com sucesso e recebeu sua carta de habilitação.");
+        // ShowPlayerSchoolTV(playerid);
+
+        SetPlayerPos(playerid, -2029.8218, -119.1891, 1035.1719);
+        SetPlayerFacingAngle(playerid, 0.0);
+        SetPlayerInterior(playerid, 3);
+        SetPlayerVirtualWorld(playerid, 0);
+        SetCameraBehindPlayer(playerid);
+        DisablePlayerRaceCheckpoint(playerid);
+
+        DestroyAutoSchoolObject(playerid);
         DestroyVehicle(gPlayerVehicleID[playerid]);
         gPlayerVehicleID[playerid] = INVALID_VEHICLE_ID;
         gPlayerCPPart[playerid] = 0;
@@ -136,6 +146,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
     {
         case PLAYER_STATE_DRIVER:
         {
+            HidePlayerCertification(playerid);
             SendClientMessage(playerid, COLOR_ERROR, "* Você falhou no teste por abandonar o veículo.");
 
             SetPlayerPos(playerid, -2029.8218, -119.1891, 1035.1719);
@@ -170,6 +181,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             ShowPlayerCertification(playerid);
             DisablePlayerRaceCheckpoint(playerid);
             PlayerPlaySound(playerid, 1183, 0.0, 0.0, 0.0);
+            SetPlayerCarLicense(playerid, gettime() + (86400 * 60));
             return -2;
         }
         else if(i == sizeof(CHECKPOINT_SPAWN[])-1)
@@ -187,7 +199,17 @@ hook OnPlayerEnterRaceCPT(playerid)
 hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
 {
     if(checkpointid == gCheckpointid)
-        ShowPlayerSchoolTV(playerid);
+    {
+        if(GetPlayerCarLicense(playerid) < gettime())
+        {
+            ShowPlayerSchoolTV(playerid);
+        }
+        else
+        {
+            PlayErrorSound(playerid);
+            SendClientMessage(playerid, COLOR_ERROR, "* Você já possui esta licença e ela não está vencida.");
+        }
+    }
     return 1;
 }
 

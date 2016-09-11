@@ -263,7 +263,7 @@ VSL_ShowPlayerTextdraw(playerid)
     PlayerTextDrawSetShadow(playerid, gptLogin[playerid][17], 0);
     PlayerTextDrawSetPreviewModel(playerid, gptLogin[playerid][17], 405);
     PlayerTextDrawSetPreviewRot(playerid, gptLogin[playerid][17], 0.000000, 0.000000, -90.000000, 1.000000);
-    PlayerTextDrawSetPreviewVehCol(playerid, gptLogin[playerid][17], (carlic) ? 3 : 1, (carlic) ? 3 : 1);
+    PlayerTextDrawSetPreviewVehCol(playerid, gptLogin[playerid][17], (carlic > gettime()) ? 3 : 1, (carlic > gettime()) ? 3 : 1);
 
 	new bikelic = GetPlayerBikeLicense(playerid);
     gptLogin[playerid][18] = CreatePlayerTextDraw(playerid, 27.100028, 376.592895, "");
