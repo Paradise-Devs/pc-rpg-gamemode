@@ -449,7 +449,7 @@ stock GetPlayerNamef(playerid, bool:_removeDot = true)
 {
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, sizeof(playerName));
-    if(_removeUnderline == true) {
+    if(_removeDot == true) {
         for(new i = 0; i < MAX_PLAYER_NAME; i++) {
             if(playerName[i] == '.') playerName[i] = ' ';
         }
