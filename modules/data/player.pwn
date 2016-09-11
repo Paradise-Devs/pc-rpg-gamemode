@@ -143,11 +143,12 @@ static E_PLAYER_STATE:gPlayerStates[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
+forward OnBanCheck(playerid);
 forward OnWeaponsLoad(playerid);
 forward OnAccountLoad(playerid);
 forward OnAccountCheck(playerid);
-forward OnBanCheck(playerid);
 forward OnAccountRegister(playerid);
+forward OnChangeNameRequest(playerid, name[]);
 
 //------------------------------------------------------------------------------
 
@@ -1068,6 +1069,53 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             }
             return -2;
         }
+        case DIALOG_CHANGE_NAME:
+        {
+            if(!response)
+            {
+                Kick(playerid);
+            }
+            else if(strlen(inputtext) < 5)
+            {
+                PlayErrorSound(playerid);
+                ShowPlayerDialog(playerid, DIALOG_CHANGE_NAME, DIALOG_STYLE_INPUT, "Nome de usuário inválido!", "{ff0000}Nome muito curto!\n{ffffff}Seu nome de usuário está incoreto!\nVocê deve utilizar o padrão Nome.Sobrenome, digite no campo abaixo seu nome desejado:", "Alterar", "Sair");
+            }
+            else if(strlen(inputtext) > 24)
+            {
+                PlayErrorSound(playerid);
+                ShowPlayerDialog(playerid, DIALOG_CHANGE_NAME, DIALOG_STYLE_INPUT, "Nome de usuário inválido!", "{ff0000}Nome muito longo!\n{ffffff}Seu nome de usuário está incoreto!\nVocê deve utilizar o padrão Nome.Sobrenome, digite no campo abaixo seu nome desejado:", "Alterar", "Sair");
+            }
+            else if(IsAValidName(inputtext) != 1)
+            {
+                PlayErrorSound(playerid);
+                ShowPlayerDialog(playerid, DIALOG_CHANGE_NAME, DIALOG_STYLE_INPUT, "Nome de usuário inválido!", "{ff0000}Seu nome de usuário está incoreto!\n{ffffff}Você deve utilizar o padrão Nome.Sobrenome, digite no campo abaixo seu nome desejado:", "Alterar", "Sair");
+            }
+            else
+            {
+                new username[MAX_PLAYER_NAME], bool:found = false;
+                foreach(new i: Player)
+                {
+                    GetPlayerName(i, username, sizeof(username));
+                    if(!strcmp(username, inputtext))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if(found)
+                {
+                    PlayErrorSound(playerid);
+                    ShowPlayerDialog(playerid, DIALOG_CHANGE_NAME, DIALOG_STYLE_INPUT, "Nome de usuário inválido!", "{ff0000}Este nome já está em uso!\n{ffffff}Você deve utilizar o padrão Nome.Sobrenome, digite no campo abaixo seu nome desejado:", "Alterar", "Sair");
+                }
+                else
+                {
+                    new query[67];
+                    mysql_format(mysql, query, sizeof(query), "SELECT id FROM users WHERE username = '%e'", inputtext);
+                    mysql_tquery(mysql, query, "OnChangeNameRequest", "is", playerid, inputtext);
+                }
+            }
+        }
     }
     return 1;
 }
@@ -1100,6 +1148,8 @@ public OnBanCheck(playerid)
     }
     return 1;
 }
+
+//------------------------------------------------------------------------------
 
 public OnAccountCheck(playerid)
 {
@@ -1157,16 +1207,47 @@ public OnAccountCheck(playerid)
 
 //------------------------------------------------------------------------------
 
+public OnChangeNameRequest(playerid, name[])
+{
+	new rows, fields;
+	cache_get_data(rows, fields, mysql);
+	if(rows > 0)
+	{
+        PlayErrorSound(playerid);
+        ShowPlayerDialog(playerid, DIALOG_CHANGE_NAME, DIALOG_STYLE_INPUT, "Nome de usuário inválido!", "{ff0000}Este nome já está cadastrado!\nVocê deve utilizar o padrão Nome.Sobrenome, digite no campo abaixo seu nome desejado:", "Alterar", "Sair");
+	}
+    else
+    {
+        new tempname[24];
+        format(tempname, sizeof(tempname), "pc%s", gettime());
+        SetPlayerName(playerid, tempname);
+        SetPlayerName(playerid, name);
+
+        // Checks if the player account is registered
+        new query[100 + MAX_PLAYER_NAME], playerName[MAX_PLAYER_NAME + 1];
+        GetPlayerName(playerid, playerName, sizeof(playerName));
+        mysql_format(mysql, query, sizeof(query),"SELECT * FROM users LEFT JOIN players ON users.id=players.user_id WHERE `username` = '%e' LIMIT 1", playerName);
+        mysql_tquery(mysql, query, "OnAccountCheck", "i", playerid);
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 hook OnPlayerRequestClass(playerid, classid)
 {
     if(IsPlayerNPC(playerid))
         return 1;
 
-    // Checks if the player account is registered
-    new query[100 + MAX_PLAYER_NAME], playerName[MAX_PLAYER_NAME + 1];
-    GetPlayerName(playerid, playerName, sizeof(playerName));
-    mysql_format(mysql, query, sizeof(query),"SELECT * FROM users LEFT JOIN players ON users.id=players.user_id WHERE `username` = '%e' LIMIT 1", playerName);
-    mysql_tquery(mysql, query, "OnAccountCheck", "i", playerid);
+    TogglePlayerSpectating(playerid, true);
+    if(IsAValidName(GetPlayerNamef(playerid, false)) == 1)
+    {
+        // Checks if the player account is registered
+        new query[100 + MAX_PLAYER_NAME], playerName[MAX_PLAYER_NAME + 1];
+        GetPlayerName(playerid, playerName, sizeof(playerName));
+        mysql_format(mysql, query, sizeof(query),"SELECT * FROM users LEFT JOIN players ON users.id=players.user_id WHERE `username` = '%e' LIMIT 1", playerName);
+        mysql_tquery(mysql, query, "OnAccountCheck", "i", playerid);
+    }
     return 1;
 }
 
@@ -1207,20 +1288,23 @@ hook OnPlayerConnect(playerid)
     if(IsPlayerNPC(playerid))
         return 1;
 
-    // Checks if the player account is banned
-    new query[57 + MAX_PLAYER_NAME + 1];
-    mysql_format(mysql, query, sizeof(query),"SELECT * FROM `bans` WHERE `username` = '%e' LIMIT 1", GetPlayerNamef(playerid));
-    mysql_tquery(mysql, query, "OnBanCheck", "i", playerid);
-
-    if(IsAValidName(GetPlayerNamef(playerid, false)) != 1) {
-        SendClientMessage(playerid, COLOR_ERROR, "* Seu nome está de maneira incorreta, utilize padrão Nome_Sobrenome");
-        return SetTimerEx("KickPlayer", 800, false, "i", playerid);
-    }
-
-    SetPlayerColor(playerid, 0xacacacff);
-    ClearPlayerScreen(playerid);
-    SendClientMessage(playerid, COLOR_INFO, "Conectando ao banco de dados, por favor aguarde...");
+    // Reseting player data
     ResetPlayerData(playerid);
+    ClearPlayerScreen(playerid);
+    SetPlayerColor(playerid, 0xacacacff);
+    SendClientMessage(playerid, COLOR_INFO, "Conectando ao banco de dados, por favor aguarde...");
+
+    // Checks if the player account is invalid, if not if is banned
+    if(IsAValidName(GetPlayerNamef(playerid, false)) != 1)
+    {
+        ShowPlayerDialog(playerid, DIALOG_CHANGE_NAME, DIALOG_STYLE_INPUT, "Nome de usuário inválido!", "{ffffff}Seu nome de usuário está incoreto!\nVocê deve utilizar o padrão Nome.Sobrenome, digite no campo abaixo seu nome desejado:", "Alterar", "Sair");
+    }
+    else
+    {
+        new query[57 + MAX_PLAYER_NAME + 1];
+        mysql_format(mysql, query, sizeof(query),"SELECT * FROM `bans` WHERE `username` = '%e' LIMIT 1", GetPlayerNamef(playerid));
+        mysql_tquery(mysql, query, "OnBanCheck", "i", playerid);
+    }
     return 1;
 }
 

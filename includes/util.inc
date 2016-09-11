@@ -327,29 +327,29 @@ enum
 *			name[]: Player's name
 *
 *  Returns:
-*			0 if player's name has not underline (_)
+*			0 if player's name has not dot (.)
 *			1 if player's name is okay
 *			2 if player's name has numbers
 *			3 if player's name has not the first letter capitalized
 *			4 if player's name has not the first surname letter capitalized
 *			5 if player's name has capitalized letters
-*			6 if player's name has more than one underline
+*			6 if player's name has more than one dot
 * *************************************************************************** */
 stock IsAValidName(const name[])
 {
 	// bypassing custom names
-	if((!strcmp(name, "Los", true)) || (!strcmp(name, "Larceny", true)) || (!strcmp(name, "Eduardo", true)) || (!strcmp(name, "SyNC", true)) || (!strcmp(name, "ReDKiiL", true)))
+	if((!strcmp(name, "Los", true)) || (!strcmp(name, "Larceny", true)) || (!strcmp(name, "Eduardo", true)) || (!strcmp(name, "Nominal", true)) || (!strcmp(name, "ReDKiiL", true)))
 		return 1;
 
 	new
 		ch = name[0],
 		sur_ch,
-		underlines
+		dots
 	;
 
 
-	// checking if name has underline
-	if(strfind(name, "_") == -1)
+	// checking if name has dot
+	if(strfind(name, ".") == -1)
 		return 0;
 
 	// checking if first letter is capitalized
@@ -362,11 +362,11 @@ stock IsAValidName(const name[])
 		if(name[i] >= '0' && name[i] <= '9')
 			return 2;
 
-		// looking for more underlines
-		if(name[i] == '_')
-			underlines++;
+		// looking for more dots
+		if(name[i] == '.')
+			dots++;
 
-		if(!strfind(name[i], "_"))
+		if(!strfind(name[i], "."))
 		{
 			name[++i];
 			sur_ch = i;
@@ -384,7 +384,7 @@ stock IsAValidName(const name[])
 	}
 
 	// if name has more than one underline
-	if(underlines > 1)
+	if(dots > 1)
 		return 6;
 	return 1;
 }
@@ -445,13 +445,13 @@ stock ConvertToGameText(in[])
 
 //------------------------------------------------------------------------------
 
-stock GetPlayerNamef(playerid, bool:_removeUnderline = true)
+stock GetPlayerNamef(playerid, bool:_removeDot = true)
 {
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, sizeof(playerName));
     if(_removeUnderline == true) {
         for(new i = 0; i < MAX_PLAYER_NAME; i++) {
-            if(playerName[i] == '_') playerName[i] = ' ';
+            if(playerName[i] == '.') playerName[i] = ' ';
         }
     }
     if(isnull(playerName)) {
