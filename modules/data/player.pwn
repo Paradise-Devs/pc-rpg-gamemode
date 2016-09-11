@@ -973,7 +973,7 @@ public OnAccountLoad(playerid)
     	gPlayerWeaponData[playerid][e_player_weapon_skill][10]     = cache_get_field_content_int(0, "WeaponSkillSniper");
 
         SetSpawnInfo(playerid, 255, gPlayerCharacterData[playerid][e_player_skin], gPlayerPositionData[playerid][e_player_x], gPlayerPositionData[playerid][e_player_y], gPlayerPositionData[playerid][e_player_z], gPlayerPositionData[playerid][e_player_a], 0, 0, 0, 0, 0, 0);
-        SpawnPlayer(playerid);
+        TogglePlayerSpectating(playerid, false);
 
         SetPlayerInterior(playerid,     gPlayerPositionData[playerid][e_player_int]);
         SetPlayerVirtualWorld(playerid, gPlayerPositionData[playerid][e_player_vw]);
