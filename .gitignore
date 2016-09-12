@@ -10,6 +10,7 @@
 *server_log.txt
 *log.txt
 *.log
+*mysql.cfg
 *libmysql.dll
 *msvcp100.dll
 *msvcr100.dll

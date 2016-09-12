@@ -1,0 +1,5 @@
+MYSQL_DEBUG=true
+MySQL_HOST=127.0.0.1
+MySQL_USER=root
+MySQL_PASS=
+MySQL_DB=pcrpg
