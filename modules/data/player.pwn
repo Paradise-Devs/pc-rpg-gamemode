@@ -1079,26 +1079,20 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     gPlayerEmail[playerid][i] = tolower(gPlayerEmail[playerid][i]);
                 }
                 SendClientMessagef(playerid, COLOR_SUCCESS, "* E-mail cadastrado: %s", gPlayerEmail[playerid]);
-                ShowPlayerDialog(playerid, DIALOG_REGISTER_NAME, DIALOG_STYLE_INPUT, "Registrando Conta->Nome", "{ffffff}Insira seu nome e sobrenome no formato Nome Sobrenome para exibição no painel de usuário:", "Confirmar", "Sair");
+                ShowPlayerDialog(playerid, DIALOG_REGISTER_NAME, DIALOG_STYLE_INPUT, "Registrando Conta->Nome", "{ffffff}Insira seu nome ou como gostaria de ser chamado para a exibição no painel de usuário:", "Confirmar", "Sair");
             }
             return -2;
         }
         case DIALOG_REGISTER_NAME:
         {
-            new name[32], surname[32];
             if(!response)
             {
                 Kick(playerid);
             }
-            else if(sscanf(inputtext, "s[32]s[32]", name, surname))
-            {
-                PlayErrorSound(playerid);
-                ShowPlayerDialog(playerid, DIALOG_REGISTER_NAME, DIALOG_STYLE_INPUT, "Registrando Conta->Nome", "{ff0000}Formato de nome inválido!\n\n{ffffff}Insira seu nome e sobrenome no formato Nome Sobrenome para exibição no painel de usuário:\nTente novamente:", "Confirmar", "Sair");
-            }
             else
             {
                 PlayConfirmSound(playerid);
-                format(gPlayerName[playerid], 64, "%s %s", name, surname);
+                format(gPlayerName[playerid], 64, inputtext);
                 SendClientMessagef(playerid, COLOR_SUCCESS, "* Nome cadastrado: %s", gPlayerName[playerid]);
                 ShowPlayerDialog(playerid, DIALOG_REGISTER_AGE, DIALOG_STYLE_INPUT, "Registrando Conta->Idade", "{ffffff}Insira sua data de nascimento no formato dd/mm/aaaa:", "Confirmar", "Sair");
             }
