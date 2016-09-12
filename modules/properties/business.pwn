@@ -2089,7 +2089,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 								}
 							}
 							new listitems[168];
-							format(listitems, sizeof(listitems), "1.\tGPS\t\t\t$%i\n2.\tWalkie Talkie\t\t$%i\n3.\tCigarros\t\t$%i\n4.\tIsqueiro\t\t$%i\n5.\tSpray de Pimenta\t$%i\n6.\tAgenda Telefonica\t$%i", ITEM_GPS_PRICE, ITEM_WALKIE_TALKIE_PRICE, ITEM_CIGARETTS_PRICE, ITEM_LIGHTER_PRICE, ITEM_SPRAY_PRICE, ITEM_AGENDA_PRICE);
+							format(listitems, sizeof(listitems), "1.\tGPS\t\t\t$%i\n2.\tWalkie Talkie\t\t$%i\n3.\tCigarros\t\t\t$%i\n4.\tIsqueiro\t\t\t$%i\n5.\tSpray de Pimenta\t\t$%i\n6.\tAgenda Telefonica\t\t$%i", ITEM_GPS_PRICE, ITEM_WALKIE_TALKIE_PRICE, ITEM_CIGARETTS_PRICE, ITEM_LIGHTER_PRICE, ITEM_SPRAY_PRICE, ITEM_AGENDA_PRICE);
 							ShowPlayerDialog(playerid, DIALOG_STORE, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 						}
 						else
@@ -3777,7 +3777,7 @@ YCMD:comprar(playerid, params[], help)
 				{
 
 					new listitems[256];
-					format(listitems, sizeof listitems, "1.\tGPS\t\t$%i\n2.\tWalkie Talkie\t$%i", ITEM_GPS_PRICE, ITEM_WALKIE_TALKIE_PRICE);
+					format(listitems, sizeof listitems, "1.\tGPS\t\t\t$%i\n2.\tWalkie Talkie\t\t$%i\n3.\tCigarros\t\t\t$%i\n4.\tIsqueiro\t\t\t$%i\n5.\tSpray de Pimenta\t\t$%i\n6.\tAgenda Telefonica\t\t$%i", ITEM_GPS_PRICE, ITEM_WALKIE_TALKIE_PRICE, ITEM_CIGARETTS_PRICE, ITEM_LIGHTER_PRICE, ITEM_SPRAY_PRICE, ITEM_AGENDA_PRICE);
 					ShowPlayerDialog(playerid, DIALOG_STORE, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 					return 1;
 				}
