@@ -16,7 +16,7 @@
 #define MySQL_HOST		"127.0.0.1"
 #define MySQL_USER		"root"
 #define MySQL_DB		"pcrpg"
-#define MySQL_PASS		"pcrpg@221"
+#define MySQL_PASS		""
 new mysql;
 
 //------------------------------------------------------------------------------

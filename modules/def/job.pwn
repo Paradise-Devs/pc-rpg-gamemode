@@ -22,34 +22,39 @@ enum Job (+=1)
     PARAMEDIC_JOB_ID,
     GARBAGE_JOB_ID,
     FISHER_JOB_ID,
-    TECHNICAL_JOB_ID
+    TECHNICAL_JOB_ID,
+    PIZZA_JOB_ID
 }
 
 //------------------------------------------------------------------------------
 
 GetJobName(Job:id, bool:capitalize = false)
 {
-  new jobName[32];
-  switch(id)
-  {
-    case PILOT_JOB_ID:
-      jobName = "piloto";
-    case TRUCKER_JOB_ID:
-      jobName = "caminhoneiro";
-    case LUMBERJACK_JOB_ID:
-      jobName = "lenhador";
-    case NAVIGATOR_JOB_ID:
-      jobName = "navegador";
-    case PARAMEDIC_JOB_ID:
-      jobName = "paramedico";
-    case GARBAGE_JOB_ID:
-        jobName= "lixeiro";
-    case FISHER_JOB_ID:
-        jobName= "pescador";
-    default:
-      jobName = "desempregado";
-  }
-  if(capitalize)
-    jobName[0] = toupper(jobName[0]);
-  return jobName;
+    new jobName[32];
+    switch(id)
+    {
+        case PILOT_JOB_ID:
+            jobName = "piloto";
+        case TRUCKER_JOB_ID:
+            jobName = "caminhoneiro";
+        case LUMBERJACK_JOB_ID:
+            jobName = "lenhador";
+        case NAVIGATOR_JOB_ID:
+            jobName = "navegador";
+        case PARAMEDIC_JOB_ID:
+            jobName = "paramedico";
+        case GARBAGE_JOB_ID:
+            jobName = "lixeiro";
+        case FISHER_JOB_ID:
+            jobName = "pescador";
+        case TECHNICAL_JOB_ID:
+            jobName = "tecnico";
+        case PIZZA_JOB_ID:
+            jobName = "pizza-boy";
+        default:
+          jobName = "desempregado";
+    }
+    if(capitalize)
+        jobName[0] = toupper(jobName[0]);
+    return jobName;
 }

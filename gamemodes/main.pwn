@@ -283,6 +283,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/job/fisher.pwn"
 #include "../modules/job/taxi.pwn"
 #include "../modules/job/technical.pwn"
+#include "../modules/job/pizzaboy.pwn"
 
 /* Missions */
 #include "../modules/missions/gta.pwn"

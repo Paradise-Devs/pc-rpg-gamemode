@@ -66,6 +66,37 @@ ptask UpdatePlayerData[1000](playerid)
 			OpenPoliceGarageDoor();
 	}
 
+	// Pizza-boy job
+	if(GetPlayerPizzaTime(playerid) > 0)
+	{
+		if(GetPlayerPizzaOnfootTime(playerid) > 1)
+		{
+			SetPlayerPizzaOnfootTime(playerid, GetPlayerPizzaOnfootTime(playerid) - 1);
+		}
+		else if(GetPlayerPizzaOnfootTime(playerid) == 1)
+		{
+			SendClientMessage(playerid, COLOR_ERROR, "* Você perdeu a encomenda por abandonar o veículo da empresa.");
+			DisablePlayerRaceCheckpoint(playerid);
+			SetPlayerPizzaTime(playerid, 0);
+			SetPlayerPizzaOnfootTime(playerid, 0);
+			DestroyServiceVehicle(playerid);
+		}
+		else
+		{
+			SetPlayerPizzaTime(playerid, GetPlayerPizzaTime(playerid) - 1);
+
+			new sTimeText[90];
+			format(sTimeText, sizeof sTimeText, "~n~~n~~n~~n~~n~                                           ~y~~h~%i", GetPlayerPizzaTime(playerid));
+			GameTextForPlayer(playerid, sTimeText, 2500, 3);
+			if(GetPlayerPizzaTime(playerid) == 0)
+			{
+				SendClientMessage(playerid, COLOR_ERROR, "* A pizza esfriou e você não conseguiu entrega-la.");
+				SetPlayerCPID(playerid, CHECKPOINT_NONE);
+				DisablePlayerRaceCheckpoint(playerid);
+			}
+		}
+	}
+
 	SetPlayerPlayedTime(playerid, GetPlayerPlayedTime(playerid) + 1);
 	UpdatePlayerGPS(playerid);
     return 1;

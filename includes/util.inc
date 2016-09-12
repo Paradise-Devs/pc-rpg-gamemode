@@ -279,6 +279,8 @@ static female_skins[] =
 	298,	306,	307,	308,	309
 };
 
+stock minrand(min, max) return random(max - min) + min;
+
 stock GetPlayerSkinGender(playerid)
 {
 	for(new i = 0; i < sizeof(male_skins); i++)
