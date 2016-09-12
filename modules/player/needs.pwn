@@ -165,28 +165,28 @@ ptask OnClientUpdate[1000](playerid)
 	// Dont spam messages if the player is away
 	if(!IsPlayerPaused(playerid))
 	{
-	    if(gPlayerWarningMessage[playerid][WARNING_SLEEP] < tickcount() && GetPlayerSleep(playerid) < 7.5)
+	    if(gPlayerWarningMessage[playerid][WARNING_SLEEP] < GetTickCount() && GetPlayerSleep(playerid) < 7.5)
 		{
 	        SendClientActionMessage(playerid, 20.0, "bocejou.");
-	    	gPlayerWarningMessage[playerid][WARNING_SLEEP] = tickcount() + INTERVAL_BETWEEN_WARNING;
+	    	gPlayerWarningMessage[playerid][WARNING_SLEEP] = GetTickCount() + INTERVAL_BETWEEN_WARNING;
 	    }
 
-	    else if(gPlayerWarningMessage[playerid][WARNING_HUNGER] < tickcount() && GetPlayerHunger(playerid) < 7.5)
+	    else if(gPlayerWarningMessage[playerid][WARNING_HUNGER] < GetTickCount() && GetPlayerHunger(playerid) < 7.5)
 		{
 			if(GetPlayerHunger(playerid) < 2.5)
 				SendClientMessage(playerid, COLOR_WARNING, "* Você está faminto.");
 	        SendActionMessage(playerid, 20.0, "Estômago roncando.");
-	        gPlayerWarningMessage[playerid][WARNING_HUNGER] = tickcount() + INTERVAL_BETWEEN_WARNING;
+	        gPlayerWarningMessage[playerid][WARNING_HUNGER] = GetTickCount() + INTERVAL_BETWEEN_WARNING;
 		}
 
-	    else if(gPlayerWarningMessage[playerid][WARNING_ADDICTION] < tickcount() && GetPlayerAddiction(playerid) < 2.5 && GetPlayerAddiction(playerid) > 0.0)
+	    else if(gPlayerWarningMessage[playerid][WARNING_ADDICTION] < GetTickCount() && GetPlayerAddiction(playerid) < 2.5 && GetPlayerAddiction(playerid) > 0.0)
 		{
 			SendClientMessage(playerid, COLOR_WARNING, "* Você está a muito tempo sem se drogar, sua HP começará a descer em breve.");
 	        SendClientActionMessage(playerid, 20.0, "começa a tremer.");
-	        gPlayerWarningMessage[playerid][WARNING_ADDICTION] = tickcount() + INTERVAL_BETWEEN_WARNING;
+	        gPlayerWarningMessage[playerid][WARNING_ADDICTION] = GetTickCount() + INTERVAL_BETWEEN_WARNING;
 		}
 
-		else if(gPlayerWarningMessage[playerid][WARNING_THIRST] < tickcount() && GetPlayerThirst(playerid) < 7.5)
+		else if(gPlayerWarningMessage[playerid][WARNING_THIRST] < GetTickCount() && GetPlayerThirst(playerid) < 7.5)
 		{
 			if(GetPlayerThirst(playerid) < 2.5)
 				SendClientMessage(playerid, COLOR_WARNING, "* Você está sedento.");
@@ -194,7 +194,7 @@ ptask OnClientUpdate[1000](playerid)
 	    		SendClientMessage(playerid, COLOR_WARNING, "* Você está com sede.");
 	        else
 	    		SendClientMessage(playerid, COLOR_WARNING, "* Você está ficando com sede.");
-	        gPlayerWarningMessage[playerid][WARNING_THIRST] = tickcount() + INTERVAL_BETWEEN_WARNING;
+	        gPlayerWarningMessage[playerid][WARNING_THIRST] = GetTickCount() + INTERVAL_BETWEEN_WARNING;
 		}
 	}
 

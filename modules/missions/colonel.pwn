@@ -118,7 +118,7 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
         PlaySelectSound(playerid);
         return -2;
     }
-    else if(checkpointid == gEnteringCP[playerid][0] && gEnteringCP[playerid][0] != 0 && gplCPtickcount[playerid] < tickcount())
+    else if(checkpointid == gEnteringCP[playerid][0] && gEnteringCP[playerid][0] != 0 && gplCPtickcount[playerid] < GetTickCount())
     {
         SetPlayerPos(playerid, 2807.6067, -1174.5070, 1025.5703);
         SetPlayerFacingAngle(playerid, 12.9679);
@@ -134,15 +134,15 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
             SetActorVirtualWorld(gColonelActorID[playerid], playerid);
         }
 
-        gplCPtickcount[playerid] = tickcount() + 1500;
+        gplCPtickcount[playerid] = GetTickCount() + 1500;
     }
-    else if(checkpointid == gEnteringCP[playerid][1] && gEnteringCP[playerid][1] != 0 && gplCPtickcount[playerid] < tickcount())
+    else if(checkpointid == gEnteringCP[playerid][1] && gEnteringCP[playerid][1] != 0 && gplCPtickcount[playerid] < GetTickCount())
     {
         SetPlayerPos(playerid, 2807.8914, -1176.0724, 25.3853);
         SetPlayerFacingAngle(playerid, 175.5660);
         SetPlayerInterior(playerid, 0);
         SetPlayerVirtualWorld(playerid, 0);
-        gplCPtickcount[playerid] = tickcount() + 1500;
+        gplCPtickcount[playerid] = GetTickCount() + 1500;
         HidePlayerColonelNoiseBar(playerid);
         gplNoise[playerid] = 0.0;
     }
@@ -153,7 +153,7 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
 
 timer OnColonelMissionUpdate[100](playerid)
 {
-    if(gplLastSnoringSound[playerid] < tickcount())
+    if(gplLastSnoringSound[playerid] < GetTickCount())
     {
         // Clock update
         new hour, minute;
@@ -165,7 +165,7 @@ timer OnColonelMissionUpdate[100](playerid)
 
         // Snoring sound
         PlayerPlaySound(playerid, random(4) + 19601, 2817.4827, -1169.0739, 1029.9033);
-        gplLastSnoringSound[playerid] = tickcount() + 5000;
+        gplLastSnoringSound[playerid] = GetTickCount() + 5000;
     }
 
     // Check if the player is inside
@@ -186,7 +186,7 @@ timer OnColonelMissionUpdate[100](playerid)
             gplNoise[playerid] = 0.0;
 
             new warnSound[] = {33621, 33622, 33624};
-            gplLastSnoringSound[playerid] = tickcount() + 5000;
+            gplLastSnoringSound[playerid] = GetTickCount() + 5000;
             PlayerPlaySound(playerid, warnSound[random(sizeof(warnSound))], 2817.4827, -1169.0739, 1029.9033);
         }
 

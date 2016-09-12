@@ -369,7 +369,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
     }
     else if(newkeys == KEY_YES)
     {
-        if(IsPlayerInAnyVehicle(playerid) || gplTickCount[playerid] > tickcount())
+        if(IsPlayerInAnyVehicle(playerid) || gplTickCount[playerid] > GetTickCount())
             return 1;
 
         new Float:x, Float:y, Float:z;
@@ -390,7 +390,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
                     SendClientMessagef(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~ Carga do caminhão de %s ~~~~~~~~~~~~~~~~~~", GetPlayerNamef(i));
                     SendClientMessagef(playerid, COLOR_SUB_TITLE, "* O caminhão está carregado com: %s.", GetTrailerCargo(i));
                 }
-                gplTickCount[playerid] = tickcount() + 2500;
+                gplTickCount[playerid] = GetTickCount() + 2500;
                 break;
             }
         }

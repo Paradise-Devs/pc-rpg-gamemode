@@ -21,11 +21,11 @@ static gPlayerTickCount[MAX_PLAYERS];
 
 hook OnPlayerUpdate(playerid)
 {
-    gPlayerTickCount[playerid] = tickcount();
+    gPlayerTickCount[playerid] = GetTickCount();
     return 1;
 }
 
 //------------------------------------------------------------------------------
 
 IsPlayerPaused(playerid)
-    return ((gPlayerTickCount[playerid] + 3000) < tickcount());
+    return ((gPlayerTickCount[playerid] + 3000) < GetTickCount());

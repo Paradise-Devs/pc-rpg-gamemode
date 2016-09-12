@@ -175,7 +175,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             else
             {
                 SetCameraBehindPlayer(playerid);
-                if(gplStartTime[playerid] > tickcount())
+                if(gplStartTime[playerid] > GetTickCount())
                 {
                     DestroyVehicle(gplBoat[playerid]);
                     DisablePlayerRaceCheckpoint(playerid);
@@ -258,7 +258,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
                 gplCurrentCP[playerid] = 0;
                 gplCurrentSC[playerid] = listitem;
-                gplStartTime[playerid] = tickcount() + MINIMUM_SERVICE_TIME;
+                gplStartTime[playerid] = GetTickCount() + MINIMUM_SERVICE_TIME;
 
                 SendClientMessage(playerid, COLOR_SPECIAL, "* Entregue a carga.");
                 PlaySelectSound(playerid);

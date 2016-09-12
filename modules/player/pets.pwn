@@ -122,7 +122,7 @@ Float:GetPlayerPetHunger(playerid)
 
 SendPetLocalMessage(playerid, message[])
 {
-	if(!gPPetData[playerid][E_PET_DBID_PLAYER] || gPPetData[playerid][E_PET_LAST_MESSAGE] > tickcount())
+	if(!gPPetData[playerid][E_PET_DBID_PLAYER] || gPPetData[playerid][E_PET_LAST_MESSAGE] > GetTickCount())
 		return 1;
 
 	new rev_message[128];
@@ -138,7 +138,7 @@ SendPetLocalMessage(playerid, message[])
 	foreach(new i: Player)
 		if(GetPlayerDistanceFromPoint(i, x, y, z) < 10.0)
 			SendClientMessage(i, 0xB6B6B6FF, output);
-	gPPetData[playerid][E_PET_LAST_MESSAGE] = tickcount() + PET_MESSAGE_INTERVAL;
+	gPPetData[playerid][E_PET_LAST_MESSAGE] = GetTickCount() + PET_MESSAGE_INTERVAL;
 	return 1;
 }
 
@@ -184,7 +184,7 @@ hook OnPlayerSpawn(playerid)
 {
     if(IsPlayerNPC(playerid))
         return 1;
-        
+
 	if(gPPetData[playerid][E_PET_DBID_PLAYER] != 0)
 	{
 		// Put the pet on player's shoulder
@@ -230,7 +230,7 @@ public OnPlayerPetUpdate(playerid)
     skip_pet_growth:
 
     // Send pet warning messages
-	if(gPlayerWarningMessagePet[playerid] < tickcount() && gPPetData[playerid][E_PET_HUNGER] < 10.0)
+	if(gPlayerWarningMessagePet[playerid] < GetTickCount() && gPPetData[playerid][E_PET_HUNGER] < 10.0)
 	{
 		if(gPPetData[playerid][E_PET_HUNGER] == 0.0)
 		{
@@ -258,7 +258,7 @@ public OnPlayerPetUpdate(playerid)
 			SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está com fome!");
 		else
 			SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está ficando com fome!");
-		gPlayerWarningMessagePet[playerid] = tickcount() + 120000;
+		gPlayerWarningMessagePet[playerid] = GetTickCount() + 120000;
 	}
     return 1;
 }

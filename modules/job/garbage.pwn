@@ -223,7 +223,7 @@ hook OnPlayerEnterRaceCPT(playerid)
         {
             SendClientMessage(playerid, COLOR_SPECIAL, "* Você terminou o serviço!");
 
-            if(gplStartTime[playerid] > tickcount())
+            if(gplStartTime[playerid] > GetTickCount())
             {
                 DestroyVehicle(gplTruck[playerid]);
                 DisablePlayerRaceCheckpoint(playerid);
@@ -349,7 +349,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 gplCurrentSC[playerid] = listitem;
 
                 if(listitem == 2)
-                    gplStartTime[playerid] = tickcount() + MINIMUM_SERVICE_TIME;
+                    gplStartTime[playerid] = GetTickCount() + MINIMUM_SERVICE_TIME;
 
                 SetPlayerRaceCheckpoint(playerid, 0, gGarbageCheckpoints[listitem][0][0], gGarbageCheckpoints[listitem][0][1], gGarbageCheckpoints[listitem][0][2], gGarbageCheckpoints[listitem][1][0], gGarbageCheckpoints[listitem][1][1], gGarbageCheckpoints[listitem][1][2], (listitem == 1) ? 1.0 : 2.5);
                 SetPlayerCPID(playerid, CHECKPOINT_GARBAGE);
