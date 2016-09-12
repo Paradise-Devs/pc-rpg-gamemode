@@ -229,6 +229,7 @@ CREATE TABLE IF NOT EXISTS `dealership` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Owner` varchar(25) DEFAULT NULL,
   `OwnerID` int(11) DEFAULT NULL,
+  FOREIGN KEY (OwnerID) REFERENCES users(id) ON DELETE CASCADE,
   `Model` int(11) DEFAULT NULL,
   `X` float DEFAULT NULL,
   `Y` float DEFAULT NULL,
@@ -450,6 +451,7 @@ CREATE TABLE IF NOT EXISTS `pets` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(25) DEFAULT NULL,
   `OwnerID` int(11) DEFAULT NULL,
+  FOREIGN KEY (OwnerID) REFERENCES users(id) ON DELETE CASCADE,
   `Model` int(11) DEFAULT NULL,
   `Size` int(11) DEFAULT NULL,
   `Hunger` float DEFAULT NULL,
@@ -548,6 +550,7 @@ CREATE TABLE IF NOT EXISTS `players` (
 -- Copiando estrutura para tabela pc-rpg.player_weapons
 CREATE TABLE IF NOT EXISTS `player_weapons` (
   `userid` int(10) unsigned NOT NULL,
+  FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE,
   `weaponid` int(10) unsigned NOT NULL,
   `ammo` int(10) unsigned NOT NULL,
   UNIQUE KEY `userid_2` (`userid`,`weaponid`),

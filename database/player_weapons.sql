@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 26, 2015 at 03:24 
+-- Generation Time: Jul 26, 2015 at 03:24
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `player_weapons` (
   `userid` int(10) unsigned NOT NULL,
+  FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE,
   `weaponid` int(10) unsigned NOT NULL,
   `ammo` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

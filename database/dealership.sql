@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `dealership` (
   `ID` int(11) NOT NULL,
   `Owner` varchar(25) DEFAULT NULL,
   `OwnerID` int(11) DEFAULT NULL,
+  FOREIGN KEY (OwnerID) REFERENCES users(id) ON DELETE CASCADE,
   `Model` int(11) DEFAULT NULL,
   `X` float DEFAULT NULL,
   `Y` float DEFAULT NULL,

@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `pets` (
   `ID` int(11) NOT NULL,
   `Name` varchar(25) DEFAULT NULL,
   `OwnerID` int(11) DEFAULT NULL,
+  FOREIGN KEY (OwnerID) REFERENCES users(id) ON DELETE CASCADE,
   `Model` int(11) DEFAULT NULL,
   `Size` int(11) DEFAULT NULL,
   `Hunger` float DEFAULT NULL,
