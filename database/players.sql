@@ -29,6 +29,8 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `players` (
   `ID` int(11) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
+  INDEX usr_ind (user_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   `ip` varchar(16) DEFAULT NULL,
   `x` float DEFAULT '0',
   `y` float DEFAULT '0',
