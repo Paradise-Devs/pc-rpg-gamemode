@@ -32,7 +32,7 @@
 
 //------------------------------------------------------------------------------
 
-#define MAX_PLAYER_PASSWORD								32
+#define MAX_PLAYER_PASSWORD								65
 #define MAX_BUILDINGS									32
 #define MAX_PICKUP_RANGE								40.0
 #define MAX_TEXT3D_RANGE								20.0

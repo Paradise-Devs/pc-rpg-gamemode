@@ -13,6 +13,7 @@ static PlayerText:textDistrict[MAX_PLAYERS];
 static PlayerText:textUnGPS[MAX_PLAYERS];
 static PlayerText:textBuy[MAX_PLAYERS];
 static PlayerText:textBGGPS[MAX_PLAYERS];
+static PlayerText:textFGGPS[MAX_PLAYERS];
 
 static isVisible[MAX_PLAYERS];
 static zone;
@@ -38,34 +39,50 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawFont(playerid, textDistrict[playerid], 0);
 	PlayerTextDrawSetProportional(playerid, textDistrict[playerid], 1);
 
-    textBGGPS[playerid] = CreatePlayerTextDraw(playerid, 29.333312, 328.948059, "ld_pool:ball");
-	PlayerTextDrawLetterSize(playerid, textBGGPS[playerid], 0.000000, 0.000000);
-	PlayerTextDrawTextSize(playerid, textBGGPS[playerid], 114.000045, 100.800025);
-	PlayerTextDrawAlignment(playerid, textBGGPS[playerid], 1);
-	PlayerTextDrawColor(playerid, textBGGPS[playerid], 255);
-	PlayerTextDrawSetShadow(playerid, textBGGPS[playerid], 0);
-	PlayerTextDrawSetOutline(playerid, textBGGPS[playerid], 0);
-	PlayerTextDrawFont(playerid, textBGGPS[playerid], 4);
+    textBGGPS[playerid] = CreatePlayerTextDraw(playerid,32.000000, 332.000000, "LD_POOL:ball");
+    PlayerTextDrawBackgroundColor(playerid,textBGGPS[playerid], 255);
+    PlayerTextDrawFont(playerid,textBGGPS[playerid], 4);
+    PlayerTextDrawLetterSize(playerid,textBGGPS[playerid], 0.500000, 1.000000);
+    PlayerTextDrawColor(playerid,textBGGPS[playerid], -1);
+    PlayerTextDrawSetOutline(playerid,textBGGPS[playerid], 0);
+    PlayerTextDrawSetProportional(playerid,textBGGPS[playerid], 1);
+    PlayerTextDrawSetShadow(playerid,textBGGPS[playerid], 1);
+    PlayerTextDrawUseBox(playerid,textBGGPS[playerid], 1);
+    PlayerTextDrawBoxColor(playerid,textBGGPS[playerid], 255);
+    PlayerTextDrawTextSize(playerid,textBGGPS[playerid], 112.000000, 100.000000);
+    PlayerTextDrawSetSelectable(playerid,textBGGPS[playerid], 0);
 
-	textUnGPS[playerid] = CreatePlayerTextDraw(playerid, 44.333354, 348.859252, "GPS INDISPONIVEL");
-	PlayerTextDrawLetterSize(playerid, textUnGPS[playerid], 0.228666, 1.948443);
-	PlayerTextDrawAlignment(playerid, textUnGPS[playerid], 1);
-	PlayerTextDrawColor(playerid, textUnGPS[playerid], -16776961);
-	PlayerTextDrawSetShadow(playerid, textUnGPS[playerid], 0);
-	PlayerTextDrawSetOutline(playerid, textUnGPS[playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, textUnGPS[playerid], 51);
-	PlayerTextDrawFont(playerid, textUnGPS[playerid], 2);
-	PlayerTextDrawSetProportional(playerid, textUnGPS[playerid], 1);
+    textFGGPS[playerid] = CreatePlayerTextDraw(playerid,35.000000, 335.000000, "LD_POOL:ball");
+    PlayerTextDrawBackgroundColor(playerid,textFGGPS[playerid], 255);
+    PlayerTextDrawFont(playerid,textFGGPS[playerid], 4);
+    PlayerTextDrawLetterSize(playerid,textFGGPS[playerid], 0.500000, 0.699998);
+    PlayerTextDrawColor(playerid,textFGGPS[playerid], 1684301055);
+    PlayerTextDrawSetOutline(playerid,textFGGPS[playerid], 0);
+    PlayerTextDrawSetProportional(playerid,textFGGPS[playerid], 1);
+    PlayerTextDrawSetShadow(playerid,textFGGPS[playerid], 1);
+    PlayerTextDrawUseBox(playerid,textFGGPS[playerid], 1);
+    PlayerTextDrawBoxColor(playerid,textFGGPS[playerid], 842150655);
+    PlayerTextDrawTextSize(playerid,textFGGPS[playerid], 106.000000, 94.000000);
+    PlayerTextDrawSetSelectable(playerid,textFGGPS[playerid], 0);
 
-	textBuy[playerid] = CreatePlayerTextDraw(playerid, 88.000015, 383.703704, "Adquira um na 24/7~n~mais proxima");
-	PlayerTextDrawLetterSize(playerid, textBuy[playerid], 0.176000, 1.591703);
-	PlayerTextDrawAlignment(playerid, textBuy[playerid], 2);
-	PlayerTextDrawColor(playerid, textBuy[playerid], -1);
-	PlayerTextDrawSetShadow(playerid, textBuy[playerid], 0);
-	PlayerTextDrawSetOutline(playerid, textBuy[playerid], 1);
-	PlayerTextDrawBackgroundColor(playerid, textBuy[playerid], 51);
-	PlayerTextDrawFont(playerid, textBuy[playerid], 2);
-	PlayerTextDrawSetProportional(playerid, textBuy[playerid], 1);
+    textUnGPS[playerid] = CreatePlayerTextDraw(playerid,46.000000, 372.000000, "GPS INDISPONIVEL");
+    PlayerTextDrawBackgroundColor(playerid,textUnGPS[playerid], 252645135);
+    PlayerTextDrawFont(playerid,textUnGPS[playerid], 1);
+    PlayerTextDrawLetterSize(playerid,textUnGPS[playerid], 0.270000, 1.000000);
+    PlayerTextDrawColor(playerid,textUnGPS[playerid], -2686721);
+    PlayerTextDrawSetOutline(playerid,textUnGPS[playerid], 1);
+    PlayerTextDrawSetProportional(playerid,textUnGPS[playerid], 1);
+    PlayerTextDrawSetSelectable(playerid,textUnGPS[playerid], 0);
+
+    textBuy[playerid] = CreatePlayerTextDraw(playerid,89.000000, 382.000000, "Adquira um na 24/7~n~mais proxima");
+    PlayerTextDrawAlignment(playerid,textBuy[playerid], 2);
+    PlayerTextDrawBackgroundColor(playerid,textBuy[playerid], 252645135);
+    PlayerTextDrawFont(playerid,textBuy[playerid], 1);
+    PlayerTextDrawLetterSize(playerid,textBuy[playerid], 0.209999, 1.000000);
+    PlayerTextDrawColor(playerid,textBuy[playerid], -1);
+    PlayerTextDrawSetOutline(playerid,textBuy[playerid], 1);
+    PlayerTextDrawSetProportional(playerid,textBuy[playerid], 1);
+    PlayerTextDrawSetSelectable(playerid,textBuy[playerid], 0);
     return 1;
 }
 
@@ -87,6 +104,7 @@ HidePlayerGPS(playerid)
 	PlayerTextDrawShow(playerid, textBGGPS[playerid]);
 	PlayerTextDrawShow(playerid, textBuy[playerid]);
 	PlayerTextDrawShow(playerid, textUnGPS[playerid]);
+    PlayerTextDrawShow(playerid, textFGGPS[playerid]);
 	GangZoneShowForPlayer(playerid, zone, 0x000000FF);
     return 1;
 }
@@ -99,6 +117,7 @@ ShowPlayerGPS(playerid, bool:partial = false)
 	PlayerTextDrawHide(playerid, textBGGPS[playerid]);
 	PlayerTextDrawHide(playerid, textUnGPS[playerid]);
 	PlayerTextDrawHide(playerid, textBuy[playerid]);
+    PlayerTextDrawHide(playerid, textFGGPS[playerid]);
 	GangZoneHideForPlayer(playerid, zone);
     return 1;
 }

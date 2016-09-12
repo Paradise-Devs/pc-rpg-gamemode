@@ -1042,7 +1042,10 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             if(!response)
                 return Kick(playerid);
 
-            if(!strcmp(gPlayerAccountData[playerid][e_player_password], inputtext) && !isnull(gPlayerAccountData[playerid][e_player_password]) && !isnull(inputtext))
+            new tmpstr[MAX_PLAYER_PASSWORD];
+            SHA256_PassHash(inputtext, "pcacc", tmpstr, MAX_PLAYER_PASSWORD);
+
+            if(!strcmp(gPlayerAccountData[playerid][e_player_password], tmpstr) && !isnull(gPlayerAccountData[playerid][e_player_password]) && !isnull(inputtext))
             {
                 ClearPlayerScreen(playerid);
                 SendClientMessage(playerid, COLOR_SUCCESS, "Conectado com sucesso!");
@@ -1147,8 +1150,9 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 new playerName[MAX_PLAYER_NAME];
                 GetPlayerName(playerid, playerName, sizeof(playerName));
 
-                new query[524];
-                mysql_format(mysql, query, sizeof(query), "INSERT INTO `users` (`name`, `username`, `password`, `email`, `birthdate`, `created_at`) VALUES ('%e', '%e', '%e', '%e', STR_TO_DATE('%e', '%%m/%%d/%%Y'), now())", gPlayerName[playerid], playerName, inputtext, gPlayerEmail[playerid], gPlayerAge[playerid]);
+                new query[524], hashstring[MAX_PLAYER_PASSWORD];
+                SHA256_PassHash(inputtext, "pcacc", hashstring, MAX_PLAYER_PASSWORD);
+                mysql_format(mysql, query, sizeof(query), "INSERT INTO `users` (`name`, `username`, `password`, `email`, `birthdate`, `created_at`) VALUES ('%e', '%e', '%e', '%e', STR_TO_DATE('%e', '%%m/%%d/%%Y'), now())", gPlayerName[playerid], playerName, hashstring, gPlayerEmail[playerid], gPlayerAge[playerid]);
             	mysql_tquery(mysql, query, "OnAccountRegister", "i", playerid);
             }
             return -2;
