@@ -1729,7 +1729,7 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
 				SetPlayerCameraLookAt(playerid, 449.5947, -82.4719, 999.8727, CAMERA_MOVE);
 			}
 			new listitems[128];
-			format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+			format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 			ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 			return 1;
 		}
@@ -2653,7 +2653,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 										SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
 
 										new listitems[128];
-										format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+										format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 										ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 										return 1;
 									}
@@ -2668,7 +2668,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 									GivePlayerCash(playerid, -ITEM_RESTAURANT_PRICE_1);
 
 									new listitems[128];
-									format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+									format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 									ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 
 									SetBusinessProducts(b, GetBusinessProducts(b) - 1);
@@ -2682,7 +2682,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 										SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
 
 										new listitems[128];
-										format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+										format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 										ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 										return 1;
 									}
@@ -2697,7 +2697,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 									GivePlayerCash(playerid, -ITEM_RESTAURANT_PRICE_2);
 
 									new listitems[128];
-									format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+									format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 									ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 
 									SetBusinessProducts(b, GetBusinessProducts(b) - 1);
@@ -2711,7 +2711,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 										SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
 
 										new listitems[128];
-										format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+										format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 										ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 										return 1;
 									}
@@ -2726,7 +2726,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 									GivePlayerCash(playerid, -ITEM_RESTAURANT_PRICE_3);
 
 									new listitems[128];
-									format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+									format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 									ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 
 									SetBusinessProducts(b, GetBusinessProducts(b) - 1);
@@ -2740,7 +2740,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 										SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
 
 										new listitems[128];
-										format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+										format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 										ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 										return 1;
 									}
@@ -2755,7 +2755,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 									GivePlayerCash(playerid, -ITEM_RESTAURANT_PRICE_4);
 
 									new listitems[128];
-									format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
+									format(listitems, sizeof listitems, "1.\tRefeição basica\t$%i\n2.\tRefeição pequena\t$%i\n3.\tRefeição média\t$%i\n4.\tRefeição completa\t$%i", ITEM_RESTAURANT_PRICE_1, ITEM_RESTAURANT_PRICE_2, ITEM_RESTAURANT_PRICE_3, ITEM_RESTAURANT_PRICE_4);
 									ShowPlayerDialog(playerid, DIALOG_RESTAURANT, DIALOG_STYLE_LIST, gBusinessData[b][E_BUSINESS_NAME], listitems, "Comprar", "Cancelar");
 
 									SetBusinessProducts(b, GetBusinessProducts(b) - 1);
