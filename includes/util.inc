@@ -338,7 +338,7 @@ enum
 stock IsAValidName(const name[])
 {
 	// bypassing custom names
-	if((!strcmp(name, "Los", true)) || (!strcmp(name, "Larceny", true)) || (!strcmp(name, "Eduardo", true)) || (!strcmp(name, "Nominal", true)) || (!strcmp(name, "ReDKiiL", true)))
+	if((!strcmp(name, "Los", true)) || (!strcmp(name, "Larceny", true)) || (!strcmp(name, "Eduardo", true)) || (!strcmp(name, "n0minal", true)) || (!strcmp(name, "ReDKiiL", true)))
 		return 1;
 
 	new
