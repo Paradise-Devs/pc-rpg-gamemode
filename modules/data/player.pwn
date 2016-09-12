@@ -152,6 +152,13 @@ forward OnChangeNameRequest(playerid, name[]);
 
 //------------------------------------------------------------------------------
 
+// Registering temporary vars
+static gPlayerAge[MAX_PLAYERS][11];
+static gPlayerName[MAX_PLAYERS][64];
+static gPlayerEmail[MAX_PLAYERS][128];
+
+//------------------------------------------------------------------------------
+
 LoadPlayerAccount(playerid)
 {
     new query[57 + MAX_PLAYER_NAME + 1], playerName[MAX_PLAYER_NAME + 1];
@@ -1049,15 +1056,87 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             }
             return -2;
         }
+        case DIALOG_REGISTER_EMAIL:
+        {
+            if(!response)
+            {
+                Kick(playerid);
+            }
+            else if(strlen(inputtext) < 6 || strlen(inputtext) > 128 || strfind(inputtext, "@") == -1 || strfind(inputtext, ".") == -1)
+            {
+                PlayErrorSound(playerid);
+                ShowPlayerDialog(playerid, DIALOG_REGISTER_EMAIL, DIALOG_STYLE_INPUT, "Registrando Conta->Email", "{ff0000}E-mail inválido!\n\n{ffffff}Insira seu endereço de e-mail.\nTente novamente:", "Confirmar", "Sair");
+            }
+            else
+            {
+                PlayConfirmSound(playerid);
+                format(gPlayerEmail[playerid], 128, inputtext);
+                for(new i = 0; i < strlen(gPlayerEmail[playerid]); i++)
+                {
+                    gPlayerEmail[playerid][i] = tolower(gPlayerEmail[playerid][i]);
+                }
+                SendClientMessagef(playerid, COLOR_SUCCESS, "* E-mail cadastrado: %s", gPlayerEmail[playerid]);
+                ShowPlayerDialog(playerid, DIALOG_REGISTER_NAME, DIALOG_STYLE_INPUT, "Registrando Conta->Nome", "{ffffff}Insira seu nome e sobrenome no formato Nome Sobrenome para exibição no painel de usuário:", "Confirmar", "Sair");
+            }
+            return -2;
+        }
+        case DIALOG_REGISTER_NAME:
+        {
+            new name[32], surname[32];
+            if(!response)
+            {
+                Kick(playerid);
+            }
+            else if(sscanf(inputtext, "s[32]s[32]", name, surname))
+            {
+                PlayErrorSound(playerid);
+                ShowPlayerDialog(playerid, DIALOG_REGISTER_NAME, DIALOG_STYLE_INPUT, "Registrando Conta->Nome", "{ff0000}Formato de nome inválido!\n\n{ffffff}Insira seu nome e sobrenome no formato Nome Sobrenome para exibição no painel de usuário:\nTente novamente:", "Confirmar", "Sair");
+            }
+            else
+            {
+                PlayConfirmSound(playerid);
+                format(gPlayerName[playerid], 64, "%s %s", name, surname);
+                SendClientMessagef(playerid, COLOR_SUCCESS, "* Nome cadastrado: %s", gPlayerName[playerid]);
+                ShowPlayerDialog(playerid, DIALOG_REGISTER_AGE, DIALOG_STYLE_INPUT, "Registrando Conta->Idade", "{ffffff}Insira sua data de nascimento no formato dd/mm/aaaa:", "Confirmar", "Sair");
+            }
+            return -2;
+        }
+        case DIALOG_REGISTER_AGE:
+        {
+            new dd, mm, yy, cyy;
+            getdate(cyy, mm, dd);
+            if(!response)
+            {
+                Kick(playerid);
+            }
+            else if(sscanf(inputtext, "p</>iii", dd, mm, yy))
+            {
+                PlayErrorSound(playerid);
+                ShowPlayerDialog(playerid, DIALOG_REGISTER_AGE, DIALOG_STYLE_INPUT, "Registrando Conta->Idade", "{ff0000}Data inválida!\n\n{ffffff}Insira sua data de nascimento no formato dd/mm/aaaa.\nTente novamente:", "Confirmar", "Sair");
+            }
+            else if(dd < 1 || dd > 31 || mm < 1 || mm > 12 || yy < 1900 || yy > cyy)
+            {
+                PlayErrorSound(playerid);
+                ShowPlayerDialog(playerid, DIALOG_REGISTER_AGE, DIALOG_STYLE_INPUT, "Registrando Conta->Idade", "{ff0000}Data inválida!\n\n{ffffff}Insira sua data de nascimento no formato dd/mm/aaaa.\nTente novamente:", "Confirmar", "Sair");
+            }
+            else
+            {
+                PlayConfirmSound(playerid);
+                format(gPlayerAge[playerid], 11, inputtext);
+                SendClientMessagef(playerid, COLOR_SUCCESS, "* Data de nasc. cadastrada: %s", gPlayerAge[playerid]);
+                ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Registrando Conta->Senha", "{ffffff}Insira sua senha:", "Cadastrar", "Sair");
+            }
+            return -2;
+        }
         case DIALOG_REGISTER:
         {
             if(!response)
                 Kick(playerid);
             else if(strlen(inputtext) < 6)
-                ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Conta Registrada->Senha muito curta", "Senha muito curta!\n\nSua senha precisa de pelo menos 6 characteres.\nTente novamente:", "Registrar", "Sair"),
+                ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Registrando Conta->Senha muito curta", "Senha muito curta!\n\nSua senha precisa de pelo menos 6 characteres.\nTente novamente:", "Registrar", "Sair"),
                 PlayErrorSound(playerid);
             else if(strlen(inputtext) > MAX_PLAYER_PASSWORD-1)
-                ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Conta Registrada->Senha muito longa", "Senha muito longa!\n\nSua senha pode no máximo ter 30 characteres.\nTente novamente:", "Registrar", "Sair"),
+                ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Registrando Conta->Senha muito longa", "Senha muito longa!\n\nSua senha pode no máximo ter 30 characteres.\nTente novamente:", "Registrar", "Sair"),
                 PlayErrorSound(playerid);
             else
             {
@@ -1068,8 +1147,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 new playerName[MAX_PLAYER_NAME];
                 GetPlayerName(playerid, playerName, sizeof(playerName));
 
-                new query[250];
-                mysql_format(mysql, query, sizeof(query), "INSERT INTO `users` (`username`, `password`, `created_at`) VALUES ('%e', '%e', now())", playerName, inputtext);
+                new query[524];
+                mysql_format(mysql, query, sizeof(query), "INSERT INTO `users` (`name`, `username`, `password`, `email`, `birthdate`, `created_at`) VALUES ('%e', '%e', '%e', '%e', STR_TO_DATE('%e', '%%m/%%d/%%Y'), now())", gPlayerName[playerid], playerName, inputtext, gPlayerEmail[playerid], gPlayerAge[playerid]);
             	mysql_tquery(mysql, query, "OnAccountRegister", "i", playerid);
             }
             return -2;

@@ -1921,7 +1921,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 		}
 		PlaySelectSound(playerid);
 		VSL_HidePlayerTextdraw(playerid);
-		ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "Registro", "Digite uma senha para registrar-se.", "Registrar", "Sair");
+		ShowPlayerDialog(playerid, DIALOG_REGISTER_EMAIL, DIALOG_STYLE_INPUT, "Registrando Conta->Email", "{ffffff}Insira seu endereço de e-mail:", "Confirmar", "Sair");
 	}
 	else if(gptLogin[playerid][67] == playertextid) // botao ajuda
 	{
