@@ -10,6 +10,9 @@
 *server_log.txt
 *log.txt
 *.log
+*libmysql.dll
+*msvcp100.dll
+*msvcr100.dll
 *pawncc.exe
 *pawnc.pdb
 *pawnc.dll
