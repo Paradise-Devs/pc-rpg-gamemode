@@ -14,10 +14,14 @@
 
 #include <YSI\y_hooks>
 
+static Timer:gSuicideTimer[MAX_PLAYERS] = {Timer:-1, ...};
+
 //------------------------------------------------------------------------------
 
 hook OnGameModeInit()
 {
+	Command_AddAltNamed("kill",			"suicidio");
+	Command_AddAltNamed("kill",			"morrer");
 	Command_AddAltNamed("janela",		"j");
 	Command_AddAltNamed("gritar",		"g");
 	Command_AddAltNamed("sussurrar",	"s");
@@ -26,6 +30,18 @@ hook OnGameModeInit()
 	Command_AddAltNamed("radio",		"r");
 	Command_AddAltNamed("departamento",	"d");
 	Command_AddAltNamed("stats",		"rg");
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+	if(gSuicideTimer[playerid] != Timer:-1)
+	{
+		stop gSuicideTimer[playerid];
+		gSuicideTimer[playerid] = Timer:-1;
+	}
 	return 1;
 }
 
@@ -87,7 +103,7 @@ YCMD:comandos(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(g)ritar - /(s)ussurar - /eu - /do - /b - /admins - /id - /(j)anela - /motor - /farol - /ajuda - /apertarmao - /oferecerboquete");
-	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /beijar - /fumar - /gps - /relatorio - /reportar - /ejetar - /mostrarlicenca - /abrirconta - /pagar - /desafiar");
+	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /beijar - /fumar - /gps - /relatorio - /reportar - /ejetar - /mostrarlicenca - /abrirconta - /pagar - /desafiar - /suicidio");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ajudapet - /ajudaveiculo - /ajudaapartamento - /ajudacasa - /ajudaempresa - /ajudawalkie - /ajudafaccao");
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
@@ -553,6 +569,42 @@ YCMD:stats(playerid, params[], help)
 	ShowPlayerDataHud(playerid);
 	return 1;
 }
+
+//------------------------------------------------------------------------------
+
+YCMD:kill(playerid, params[], help)
+{
+	ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.1, 0, 1, 1, 1, 0, 1);
+	SendClientActionMessage(playerid, 15.0, "está cometendo suicídio.");
+	GameTextForPlayer(playerid, "~r~suicidando-se", 125, 3);
+	gSuicideTimer[playerid] = repeat SuicideTimer(playerid);
+	return 1;
+}
+
+timer SuicideTimer[250](playerid)
+{
+	if(GetPlayerAnimationIndex(playerid) != 1537)
+	{
+		ClearAnimations(playerid);
+		ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.1, 0, 1, 1, 1, 0, 1);
+	}
+	
+	new Float:health;
+	GetPlayerHealth(playerid, health);
+	GameTextForPlayer(playerid, "~r~suicidando-se", 125, 3);
+	if((health - 1.0) > 1.0)
+	{
+		SetPlayerHealth(playerid, health - 1.0);
+	}
+	else
+	{
+		SetPlayerHealth(playerid, 0.0);
+		stop gSuicideTimer[playerid];
+		gSuicideTimer[playerid] = Timer:-1;
+	}
+}
+
+//------------------------------------------------------------------------------
 
 /*
         Error & Return type

@@ -41,6 +41,7 @@ hook OnPlayerSpawn(playerid)
 
     if(!gplAnimationsPreLoaded[playerid])
 	{
+   		PreloadAnimLib(playerid,"SWEET");
    		PreloadAnimLib(playerid,"SWAT");
    		PreloadAnimLib(playerid,"KNIFE");
    		PreloadAnimLib(playerid,"CRACK");
