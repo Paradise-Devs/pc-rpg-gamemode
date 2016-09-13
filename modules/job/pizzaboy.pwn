@@ -278,7 +278,7 @@ YCMD:entregarpizza(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está no pickup da {FFD700}The Well Stacked Pizza Co.");
 
 	else if(GetPlayerSkin(playerid) != 155)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está vestindo o uniforme. (/servico)");
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está vestindo o uniforme. (/uniforme)");
 
 	else if(GetPlayerPizzaTime(playerid) > 0)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você já está entregando uma pizza.");
@@ -301,7 +301,7 @@ YCMD:entregarpizza(playerid, params[], help)
     SetPlayerRaceCheckpoint(playerid, 1, hPos[0], hPos[1], hPos[2], 0.0, 0.0, 0.0, 1.0);
 
     if(gplBike[playerid] == INVALID_VEHICLE_ID)
-    {        
+    {
         new rand = random(sizeof(g_fBikePositions));
         gplBike[playerid] = CreateVehicle(448, g_fBikePositions[rand][0], g_fBikePositions[rand][1], g_fBikePositions[rand][2], g_fBikePositions[rand][3], 3, 6, -1);
         PutPlayerInVehicle(playerid, gplBike[playerid], 0);
@@ -339,4 +339,37 @@ YCMD:cancelarentrega(playerid, params[], help)
 
 	SendClientMessage(playerid, 0xFFFF00FF, "* Você {FFD700}cancelou{FFFF00} a {FFD700}entrega{FFFF00}.");
 	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:uniforme(playerid, params[], help)
+{
+    if(GetPlayerJobID(playerid) == INVALID_JOB_ID)
+    {
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um emprego.");
+        return 1;
+    }
+
+    switch (GetPlayerJobID(playerid))
+    {
+        case PIZZA_JOB_ID:
+        {
+			if(GetPlayerSavedSkin(playerid) == 155 && GetPlayerSkin(playerid) == 155)
+			{
+				SendClientMessage(playerid, COLOR_ERROR, "* Você não tem uma roupa salva.");
+			}
+            else if(GetPlayerSkin(playerid) == 155)
+            {
+                SendClientActionMessage(playerid, 15.0, "tirou o uniforme.");
+				SetPlayerSkin(playerid, GetPlayerSavedSkin(playerid));
+            }
+            else
+            {
+                SendClientActionMessage(playerid, 15.0, "vestiu o uniforme.");
+				SetPlayerSkin(playerid, 155);
+            }
+        }
+    }
+    return 1;
 }
