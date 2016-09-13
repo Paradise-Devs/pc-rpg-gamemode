@@ -369,7 +369,7 @@ GetPlayerFreeVehicleSlot(playerid)
 //--------------------------------------------------------------------
 
 /*
-	Send a query to load all player vehicles
+	Checks if a player is using the dealership
 		playerid - ID of the player
 */
 IsPlayerBrowsingDealership(playerid)

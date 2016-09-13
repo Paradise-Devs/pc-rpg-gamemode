@@ -836,7 +836,6 @@ SavePlayerAccount(playerid)
     GetPlayerFightingStyle(playerid), GetPlayerPrisionTime(playerid),
     gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_pquery(mysql, query);
-    printf("PLAYER QUERY LENGTH: %d", strlen(query));
 
     // Weapon saving
     new weaponid, ammo;
