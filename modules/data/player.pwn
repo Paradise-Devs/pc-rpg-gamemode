@@ -22,7 +22,6 @@
 #define         START_A         96.36
 #define         START_INT       0
 #define         START_VW        0
-#define         START_SKIN      0
 
 //------------------------------------------------------------------------------
 
@@ -847,7 +846,7 @@ public OnAccountRegister(playerid)
     SetPlayerColor(playerid, 0xFFFFFFFF);
     SetPlayerInterior(playerid, START_INT);
     SetPlayerVirtualWorld(playerid, START_VW);
-    SetSpawnInfo(playerid, 255, START_SKIN, START_X, START_Y, START_Z, START_A, 0, 0, 0, 0, 0, 0);
+    SetSpawnInfo(playerid, 255, (!gPlayerGender[playerid]) ? 299 : 298, START_X, START_Y, START_Z, START_A, 0, 0, 0, 0, 0, 0);
     ShowTutorialForPlayer(playerid);
 
     new query[250];
