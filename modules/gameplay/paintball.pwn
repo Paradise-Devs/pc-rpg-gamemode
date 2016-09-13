@@ -465,20 +465,20 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					case 0:
 					{
 						new info[158];
-						format(info, sizeof(info), "Modo de Jogo\tJogadores\tIniciado\nCapture a Bandeira\t%i\t%s\nTeam DeathMatch\t%i\t%s\nCada um por si\t%i\t%s",
-						gPaintBallPlayerPool[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_CAPTURE_FLAG],		(gPaintBallStarted[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_CAPTURE_FLAG]) ? "Sim" : "não",
-						gPaintBallPlayerPool[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_TEAMDEATHMATCH],	(gPaintBallStarted[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_TEAMDEATHMATCH]) ? "Sim" : "não",
-						gPaintBallPlayerPool[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_FREE_FOR_ALL],		(gPaintBallStarted[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_FREE_FOR_ALL]) ? "Sim" : "não");
-						ShowPlayerDialog(playerid, DIALOG_PAINTBALL_RC, DIALOG_STYLE_TABLIST_HEADERS, "Paintball -> RC Battlefield", info, "Entrar", "Voltar");
+                        format(info, sizeof(info), "Modo de Jogo\tJogadores\tIniciado\nCapture a Bandeira\t%i\t%s\nTeam DeathMatch\t%i\t%s\nCada um por si\t%i\t%s",
+						gPaintBallPlayerPool[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_CAPTURE_FLAG],		(gPaintBallStarted[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_CAPTURE_FLAG]) ? "Sim" : "Não",
+                        gPaintBallPlayerPool[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_TEAMDEATHMATCH],	(gPaintBallStarted[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_TEAMDEATHMATCH]) ? "Sim" : "Não",
+                        gPaintBallPlayerPool[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_FREE_FOR_ALL],		(gPaintBallStarted[PAINTBALL_RC_BATTLEFIELD][PAINTBALL_FREE_FOR_ALL]) ? "Sim" : "Não");
+                        ShowPlayerDialog(playerid, DIALOG_PAINTBALL_RC, DIALOG_STYLE_TABLIST_HEADERS, "Paintball -> RC Battlefield", info, "Entrar", "Voltar");
 						PlaySelectSound(playerid);
-					}
-					case 1:
+                    }
+                    case 1:
 					{
 						PlayCancelSound(playerid);
 						SendClientMessage(playerid, 0x9e2b00ff, "* Mapa em desenvolvimento.");
 						gIsDialogVisible[playerid] = false;
 					}
-				}
+                }
 			}
 			return -2;
 		}
@@ -511,7 +511,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 								if(IsPlayerInPaintball(i) && gPlayerPaintBallMap[i] == PAINTBALL_RC_BATTLEFIELD && gPlayerPaintBallMode[i] == PAINTBALL_CAPTURE_FLAG)
 								{
 									TogglePlayerControllable(i, true);
-									SendClientMessage(i, -1, "* A partida de paintball {d0ec25}come�ou{ffffff}!");
+									SendClientMessage(i, -1, "* A partida de paintball {d0ec25}começou{ffffff}!");
 								}
 							}
 						}
@@ -649,7 +649,7 @@ hook OnPlayerSpawn(playerid)
 {
 	if(IsPlayerNPC(playerid))
         return 1;
-	
+
 	if(IsPlayerInPaintball(playerid))
 	{
 		switch(gPlayerPaintBallMap[playerid])
@@ -706,9 +706,9 @@ timer OnPlayerPaintballUpdate[1000](playerid)
 YCMD:sairpaintball(playerid, params[], help)
 {
 	if(!IsPlayerInPaintball(playerid))
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está no paintball.");
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está no paintball.");
 
-	switch (gPlayerPaintBallMap[playerid])
+    switch (gPlayerPaintBallMap[playerid])
 	{
 		case PAINTBALL_RC_BATTLEFIELD:
 		{
@@ -760,8 +760,8 @@ YCMD:sairpaintball(playerid, params[], help)
 	ResetPlayerWeapons(playerid);
 	GivePlayerWeapons(playerid);
 
-	SendClientMessage(playerid, -1, "* Você {d0ec25}saiu{ffffff} do paintball.");
-	SetPlayerInterior(playerid, 0);
+    SendClientMessage(playerid, -1, "* Você {d0ec25}saiu{ffffff} do paintball.");
+    SetPlayerInterior(playerid, 0);
 	SetPlayerVirtualWorld(playerid, 0);
 	SetPlayerPos(playerid, 556.5995, -1506.6682, 14.5518);
 	SetPlayerFacingAngle(playerid, 93.8834);

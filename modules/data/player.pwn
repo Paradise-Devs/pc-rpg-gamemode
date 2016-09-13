@@ -769,6 +769,24 @@ SavePlayerAccount(playerid)
         z = 17.2482;
         a = 7.5971;
     }
+    else if(IsPlayerIn8Track(playerid) || IsPlayerInMotocross(playerid))
+    {
+        world = 0;
+        interior = 0;
+        x = 2692.3247;
+        y = -1703.2693;
+        z = 11.1649;
+        a = 38.1979;
+    }
+    else if(IsPlayerInPaintball(playerid))
+    {
+        world = 0;
+        interior = 0;
+        x = 557.2642;
+        y = -1506.5464;
+        z = 14.5510;
+        a = 88.4013;
+    }
     else if(!GetPlayerSpawnPosition(playerid))
     {
         world = GetPlayerVirtualWorld(playerid);
