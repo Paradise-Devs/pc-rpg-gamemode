@@ -10,9 +10,14 @@
 *       Copyright Paradise Devs 2015.  All rights reserved.
 */
 
+//limits
 #define MAX_FURNI_MODELS 20000
 #define MAX_FURNIS 32500
 #define MAX_FURNIS_ACTIONS 5
+
+//definitions
+#define FURNI_STATE_CLOSED 0
+#define FURNI_STATE_OPEN 1
 
 enum FurniActionsData
 {
@@ -49,7 +54,7 @@ enum FurniData
     Float:furni_pos_rx,
     Float:furni_pos_ry,
     Float:furni_pos_rz,
-    furni_actions_id[5]
+    furni_actions_id[MAX_FURNIS_ACTIONS]
 };
 new Furni[MAX_FURNIS][FurniData];
 
