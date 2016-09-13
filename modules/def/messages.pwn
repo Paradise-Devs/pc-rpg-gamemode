@@ -81,6 +81,22 @@ SendActionMessage(playerid, Float:radius, action[])
 
 //------------------------------------------------------------------------------
 
+SendCustomActionMessage(playerid, Float:radius, action[])
+{
+	new	Float:fDist[3], message[145];
+	GetPlayerPos(playerid, fDist[0], fDist[1], fDist[2]);
+	format(message, sizeof(message), "* %s", action);
+	foreach(new i: Player)
+	{
+		if(GetPlayerDistanceFromPoint(i, fDist[0], fDist[1], fDist[2]) <= radius && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid))
+		{
+			SendClientMessage(i, COLOR_ACTION, message);
+		}
+	}
+}
+
+//------------------------------------------------------------------------------
+
 SendClientLocalMessage(playerid, color, Float:radius, string[])
 {
 	new Float:fDist[3];

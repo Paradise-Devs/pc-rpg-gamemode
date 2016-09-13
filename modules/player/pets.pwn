@@ -232,7 +232,7 @@ public OnPlayerPetUpdate(playerid)
     // Send pet warning messages
 	if(gPlayerWarningMessagePet[playerid] < GetTickCount() && gPPetData[playerid][E_PET_HUNGER] < 10.0)
 	{
-		if(gPPetData[playerid][E_PET_HUNGER] == 0.0)
+		if(gPPetData[playerid][E_PET_HUNGER] <= 0.0)
 		{
 			SendClientMessage(playerid, 0xffffffff, "* Seu pet {18dbb2}morreu{ffffff} de fome!");
 			new	Float:fDist[3];
@@ -253,11 +253,26 @@ public OnPlayerPetUpdate(playerid)
 			DestroyPlayerPet(playerid);
 		}
 		else if(gPPetData[playerid][E_PET_HUNGER] < 2.5)
-			SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está faminto!");
+        {
+            new string[38];
+            format(string, sizeof(string), "Estômago roncando. (( %s ))", gPPetData[playerid][E_PET_NAME]);
+            SendCustomActionMessage(playerid, 15.0, string);
+            SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está faminto!");
+        }
 		else if(gPPetData[playerid][E_PET_HUNGER] < 5.0)
-			SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está com fome!");
+        {
+            new string[38];
+            format(string, sizeof(string), "Estômago roncando. (( %s ))", gPPetData[playerid][E_PET_NAME]);
+            SendCustomActionMessage(playerid, 15.0, string);
+            SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está com fome!");
+        }
 		else
-			SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está ficando com fome!");
+        {
+            new string[38];
+            format(string, sizeof(string), "Estômago roncando. (( %s ))", gPPetData[playerid][E_PET_NAME]);
+            SendCustomActionMessage(playerid, 15.0, string);
+            SendClientMessage(playerid, 0xFF4040FF, "* Seu pet está ficando com fome!");
+        }
 		gPlayerWarningMessagePet[playerid] = GetTickCount() + 120000;
 	}
     return 1;
