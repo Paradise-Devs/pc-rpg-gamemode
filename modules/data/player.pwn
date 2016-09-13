@@ -156,6 +156,7 @@ forward OnChangeNameRequest(playerid, name[]);
 static gPlayerAge[MAX_PLAYERS][11];
 static gPlayerName[MAX_PLAYERS][64];
 static gPlayerEmail[MAX_PLAYERS][128];
+static gPlayerGender[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
@@ -850,7 +851,7 @@ public OnAccountRegister(playerid)
     ShowTutorialForPlayer(playerid);
 
     new query[250];
-    mysql_format(mysql, query, sizeof(query), "INSERT INTO players (user_id, x, y, z, a) VALUES (%d, %.2f, %.2f, %.2f, %.2f)", gPlayerAccountData[playerid][e_player_database_id], START_X, START_Y, START_Z, START_A);
+    mysql_format(mysql, query, sizeof(query), "INSERT INTO players (user_id, x, y, z, a, gender) VALUES (%d, %.2f, %.2f, %.2f, %.2f, %d)", gPlayerAccountData[playerid][e_player_database_id], START_X, START_Y, START_Z, START_A, gPlayerGender[playerid]);
     mysql_tquery(mysql, query);
 
     new playerName[MAX_PLAYER_NAME];
@@ -1094,8 +1095,23 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 PlayConfirmSound(playerid);
                 format(gPlayerName[playerid], 64, inputtext);
                 SendClientMessagef(playerid, COLOR_SUCCESS, "* Nome cadastrado: %s", gPlayerName[playerid]);
-                ShowPlayerDialog(playerid, DIALOG_REGISTER_AGE, DIALOG_STYLE_INPUT, "Registrando Conta->Idade", "{ffffff}Insira sua data de nascimento no formato dd/mm/aaaa:", "Confirmar", "Sair");
+                ShowPlayerDialog(playerid, DIALOG_REGISTER_GENDER, DIALOG_STYLE_MSGBOX, "Registrando Conta->Sexo", "{ffffff}Informe seu sexo:", "Masculino", "Feminino");
             }
+            return -2;
+        }
+        case DIALOG_REGISTER_GENDER:
+        {
+            if(response)
+            {
+                gPlayerGender[playerid] = 0;
+                SendClientMessage(playerid, COLOR_SUCCESS, "* Sexo cadastrado: Masculino");
+            }
+            else
+            {
+                gPlayerGender[playerid] = 1;
+                SendClientMessage(playerid, COLOR_SUCCESS, "* Sexo cadastrado: Feminino");
+            }
+            ShowPlayerDialog(playerid, DIALOG_REGISTER_AGE, DIALOG_STYLE_INPUT, "Registrando Conta->Idade", "{ffffff}Insira sua data de nascimento no formato dd/mm/aaaa:", "Confirmar", "Sair");
             return -2;
         }
         case DIALOG_REGISTER_AGE:
