@@ -379,6 +379,7 @@ hook OnGameModeInit()
 	// Hospital Actor
 	gActorData[ACTOR_HOSPITAL][E_ID] = CreateActor(70, 346.53, 160.59, 1014.18, 118.44);// Doctor
 	ApplyActorAnimation(gActorData[ACTOR_HOSPITAL][E_ID], "BAR", "BARSERVE_LOOP", 4.0, 1, 0, 0, 0, 0);
+	SetActorVirtualWorld(gActorData[ACTOR_HOSPITAL][E_ID], 1);
 
 	// Airport Actor
 	gActorData[ACTOR_AIRPORT][E_ID] = CreateActor(71, 1955.82, -2181.60, 13.58, 271.18);// Airport Guard Boxes
