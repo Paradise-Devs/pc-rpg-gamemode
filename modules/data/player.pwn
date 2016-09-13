@@ -993,7 +993,7 @@ public OnAccountLoad(playerid)
         if(GetPlayerGPS(playerid) > gettime()) ShowPlayerGPS(playerid); else HidePlayerGPS(playerid);
         ShowPlayerLogo(playerid);
 
-        SetPlayerLevel(playerid,        cache_get_field_content_int(0, "xp", mysql));
+        SetPlayerLevel(playerid,        cache_get_field_content_int(0, "level", mysql));
         SetPlayerHealth(playerid,       gPlayerCharacterData[playerid][e_player_health]);
         SetPlayerArmour(playerid,       gPlayerCharacterData[playerid][e_player_armour]);
         SetPlayerCash(playerid,         gPlayerCharacterData[playerid][e_player_money]);
