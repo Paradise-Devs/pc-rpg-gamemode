@@ -283,6 +283,9 @@ YCMD:entregarpizza(playerid, params[], help)
 	else if(GetPlayerPizzaTime(playerid) > 0)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você já está entregando uma pizza.");
 
+	else if(IsPlayerInAnyVehicle(playerid) && GetPlayerVehicleID(playerid) != gplBike[playerid])
+		return SendClientMessage(playerid, COLOR_ERROR, "* Saia desde veículo para iniciar o serviço.");
+
 	research:
 	new houseid = Iter_Random(House);
 	new Float:hPos[3];
@@ -300,7 +303,12 @@ YCMD:entregarpizza(playerid, params[], help)
     SetPlayerCPID(playerid, CHECKPOINT_PIZZA);
     SetPlayerRaceCheckpoint(playerid, 1, hPos[0], hPos[1], hPos[2], 0.0, 0.0, 0.0, 1.0);
 
-    if(gplBike[playerid] == INVALID_VEHICLE_ID)
+    if(gplBike[playerid] != INVALID_VEHICLE_ID && !IsPlayerInVehicle(playerid, gplBike[playerid]))
+	{
+		DestroyServiceVehicle(playerid);
+	}
+
+    if(!IsPlayerInAnyVehicle(playerid))
     {
         new rand = random(sizeof(g_fBikePositions));
         gplBike[playerid] = CreateVehicle(448, g_fBikePositions[rand][0], g_fBikePositions[rand][1], g_fBikePositions[rand][2], g_fBikePositions[rand][3], 3, 6, -1);
@@ -329,13 +337,18 @@ YCMD:cancelarentrega(playerid, params[], help)
 	if(GetPlayerJobID(playerid) != PIZZA_JOB_ID)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não é um entregador de pizza.");
 
-	if(GetPlayerPizzaTime(playerid) == 0)
+	else if(GetPlayerPizzaTime(playerid) == 0)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está entregando uma pizza.");
 
 	SetPlayerPizzaTime(playerid, 0);
 	SetPlayerCPID(playerid, CHECKPOINT_NONE);
 	SetPlayerPizzaOnfootTime(playerid, 0);
 	DisablePlayerRaceCheckpoint(playerid);
+
+	if(!IsPlayerInVehicle(playerid, gplBike[playerid]))
+	{
+		DestroyServiceVehicle(playerid);
+	}
 
 	SendClientMessage(playerid, 0xFFFF00FF, "* Você {FFD700}cancelou{FFFF00} a {FFD700}entrega{FFFF00}.");
 	return 1;
