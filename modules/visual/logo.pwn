@@ -97,7 +97,7 @@ hook OnGameModeInit()
 	TextDrawFont(textLogo3, 0);
 	TextDrawSetProportional(textLogo3, 1);
 
-	textLogoWebsite = TextDrawCreate(552.333496, 422.281555, "www.pc-rpg.com.br");
+	textLogoWebsite = TextDrawCreate(552.333496, 422.281555, "www.pc-rpg.com");
 	TextDrawLetterSize(textLogoWebsite, 0.142333, 0.708148);
 	TextDrawAlignment(textLogoWebsite, 1);
 	TextDrawColor(textLogoWebsite, -1);

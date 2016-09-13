@@ -1386,7 +1386,7 @@ VSL_ShowPlayerTextdraw(playerid)
 	PlayerTextDrawSetProportional(playerid, gptLogin[playerid][95], 1);
 	PlayerTextDrawSetShadow(playerid, gptLogin[playerid][95], 0);
 
-	gptLogin[playerid][96] = CreatePlayerTextDraw(playerid, 448.300201, 341.730407, "pc-rpg.com.br~n~~n~forum.pc-rpg.com.br~n~~n~ts3.pc-rpg.com.br~n~~n~contato@pc-rpg.com.br~n~~n~facebook.com/paradisecityrpg");
+	gptLogin[playerid][96] = CreatePlayerTextDraw(playerid, 448.300201, 341.730407, "pc-rpg.com~n~~n~forum.pc-rpg.com~n~~n~ts3.pc-rpg.com~n~~n~contato@pc-rpg.com~n~~n~facebook.com/paradisecityrpg");
 	PlayerTextDrawLetterSize(playerid, gptLogin[playerid][96], 0.122000, 0.749629);
 	PlayerTextDrawAlignment(playerid, gptLogin[playerid][96], 3);
 	PlayerTextDrawColor(playerid, gptLogin[playerid][96], -1061109505);
@@ -1694,7 +1694,7 @@ VSL_ShowPlayerTextdraw(playerid)
 		PlayerTextDrawSetProportional(playerid, gptRegister[playerid][18], 1);
 		PlayerTextDrawSetShadow(playerid, gptRegister[playerid][18], 0);
 
-		gptRegister[playerid][19] = CreatePlayerTextDraw(playerid, 451.649963, 347.186798, "pc-rpg.com.br~n~~n~forum.pc-rpg.com.br~n~~n~ts3.pc-rpg.com.br~n~~n~facebook.com/paradisecityrpg~n~~n~p");
+		gptRegister[playerid][19] = CreatePlayerTextDraw(playerid, 451.649963, 347.186798, "pc-rpg.com~n~~n~forum.pc-rpg.com~n~~n~ts3.pc-rpg.com~n~~n~facebook.com/paradisecityrpg~n~~n~p");
 		PlayerTextDrawLetterSize(playerid, gptRegister[playerid][19], 0.166333, 0.629333);
 		PlayerTextDrawAlignment(playerid, gptRegister[playerid][19], 3);
 		PlayerTextDrawColor(playerid, gptRegister[playerid][19], -1061109505);
