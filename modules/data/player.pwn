@@ -759,13 +759,29 @@ SavePlayerAccount(playerid)
     if(!IsPlayerLogged(playerid))
         return 0;
 
-    new Float:x, Float:y, Float:z, Float:a;
-    if(!GetPlayerSpawnPosition(playerid))
+    new Float:x, Float:y, Float:z, Float:a, interior, world;
+    if(IsPlayerBrowsingDealership(playerid))
     {
+        world = 0;
+        interior = 0;
+        x = 559.9263;
+        y = -1289.6732;
+        z = 17.2482;
+        a = 7.5971;
+    }
+    else if(!GetPlayerSpawnPosition(playerid))
+    {
+        world = GetPlayerVirtualWorld(playerid);
+        interior = GetPlayerInterior(playerid);
         GetPlayerPos(playerid, x, y, z);
         GetPlayerFacingAngle(playerid, a);
     }
-    else GetApartmentEntrance(GetPlayerApartmentKey(playerid), x, y, z, a);
+    else
+    {
+        world = 0;
+        interior = 0;
+        GetApartmentEntrance(GetPlayerApartmentKey(playerid), x, y, z, a);
+    }
 
     new Float:health, Float:armour;
     GetPlayerHealth(playerid, health);
@@ -798,7 +814,7 @@ SavePlayerAccount(playerid)
     `carlic`=%d, `bikelic`=%d, `trucklic`=%d, `helilic`=%d, `planelic`=%d, `boatlic`=%d, \
     `fstyle`=%d, `prision_time`=%d \
     WHERE `user_id`=%d",
-    x, y, z, a, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid), GetPlayerSpawnPosition(playerid),
+    x, y, z, a, interior, world, GetPlayerSpawnPosition(playerid),
     GetPlayerRank(playerid), rankname, gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
     gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid), gPlayerCharacterData[playerid][e_player_bank], gPlayerCharacterData[playerid][e_player_baccount],
     GetPlayerHospitalTime(playerid), health, armour,

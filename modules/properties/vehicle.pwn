@@ -372,6 +372,17 @@ GetPlayerFreeVehicleSlot(playerid)
 	Send a query to load all player vehicles
 		playerid - ID of the player
 */
+IsPlayerBrowsingDealership(playerid)
+{
+	return (g_pDealershipVehicle[playerid][E_VEH_BROWSING_ID]);
+}
+
+//--------------------------------------------------------------------
+
+/*
+	Send a query to load all player vehicles
+		playerid - ID of the player
+*/
 
 LoadPlayerVehicles(playerid)
 {
@@ -1202,9 +1213,6 @@ hook OnPlayerDisconnect(playerid, reason)
 		g_pDealershipVehicle[playerid][E_VEH_BROWSING_CAMERA]	= 0;
 		g_pDealershipVehicle[playerid][E_VEH_BROWSING_CATEGORY]	= 0;
 		g_pDealershipVehicle[playerid][E_VEH_BROWSING_ANGLE]	= 0.0;
-
-		mysql_format(mysql, query, sizeof(query), "UPDATE `players` SET `virtual_world`=0, `x`=559.9263, `y`=-1289.6732, `z`=17.2482, `a`=7.5971 WHERE `ID`=%d", GetPlayerDatabaseID(playerid));
-		mysql_pquery(mysql, query);
 	}
 
     for(new i = 0; i < MAX_VEHICLES_PER_PLAYER; i++)
