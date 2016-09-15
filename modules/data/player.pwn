@@ -132,13 +132,8 @@ static gPlayerItemData[MAX_PLAYERS][e_player_idata];
 
 //------------------------------------------------------------------------------
 
-enum E_PLAYER_STATE (<<= 1)
-{
-    E_PLAYER_STATE_NONE,
-    E_PLAYER_STATE_LOGGED = 1,
-    E_PLAYER_STATE_REGISTERED
-}
-static E_PLAYER_STATE:gPlayerStates[MAX_PLAYERS];
+static bool:gIsPlayerLogged[MAX_PLAYERS];
+static bool:gIsPlayerRegistered[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
@@ -184,7 +179,8 @@ ResetPlayerData(playerid)
     new ct = gettime();
 
     // Reset all player status
-    gPlayerStates[playerid] = E_PLAYER_STATE_NONE;
+    gIsPlayerLogged[playerid] = false;
+    gIsPlayerRegistered[playerid] = false;
 
     gPlayerAccountData[playerid][e_player_database_id]  = 0;
     gPlayerAccountData[playerid][e_player_regdate]      = ct;
@@ -335,7 +331,7 @@ IsPlayerLogged(playerid)
     if(!IsPlayerConnected(playerid))
         return false;
 
-    if(gPlayerStates[playerid] & E_PLAYER_STATE_LOGGED)
+    if(gIsPlayerLogged[playerid])
         return true;
 
     return false;
@@ -346,7 +342,7 @@ IsPlayerRegistered(playerid)
     if(!IsPlayerConnected(playerid))
         return false;
 
-    if(gPlayerStates[playerid] & E_PLAYER_STATE_REGISTERED)
+    if(gIsPlayerRegistered[playerid])
         return true;
 
     return false;
@@ -356,10 +352,7 @@ IsPlayerRegistered(playerid)
 
 SetPlayerLogged(playerid, bool:set)
 {
-    if(set)
-        gPlayerStates[playerid] |= E_PLAYER_STATE_LOGGED;
-    else
-        gPlayerStates[playerid] &= ~E_PLAYER_STATE_LOGGED;
+    gIsPlayerLogged[playerid] = set;
 
     new query[56];
 	mysql_format(mysql, query, sizeof(query), "UPDATE `players` SET `isOnline`=%d WHERE `ID`=%d", set, GetPlayerDatabaseID(playerid));
@@ -368,10 +361,7 @@ SetPlayerLogged(playerid, bool:set)
 
 SetPlayerRegistered(playerid, bool:set)
 {
-    if(set)
-        gPlayerStates[playerid] |= E_PLAYER_STATE_REGISTERED;
-    else
-        gPlayerStates[playerid] &= ~E_PLAYER_STATE_REGISTERED;
+    gIsPlayerRegistered[playerid] = set;
 }
 
 //------------------------------------------------------------------------------
