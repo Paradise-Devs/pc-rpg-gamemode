@@ -297,6 +297,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/objects/player.pwn" // a.k.a attachments
 #include "../modules/objects/lspd.pwn"
 #include "../modules/objects/bank.pwn"
+#include "../modules/objects/petshop.pwn"
 
 /* Core */
 #include "../modules/core/timers.pwn"

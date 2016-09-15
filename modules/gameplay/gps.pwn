@@ -59,6 +59,9 @@ Float:GetVehicleZSize(vehicleid)
 
 YCMD:gps(playerid, params[], help)
 {
+	if(PlayerGPSInfo[playerid][isActive])
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você já possui uma rota no GPS, utilize /cancelargps para selecionar um novo destino.");
+
 	if(!GetPlayerGPS(playerid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um GPS.");
 
@@ -68,6 +71,18 @@ YCMD:gps(playerid, params[], help)
 	PlaySelectSound(playerid);
 	ShowPlayerDialog(playerid, DIALOG_GPS, DIALOG_STYLE_LIST, "GPS", "1.\tPontos de Interesse\n2.\tEmpresas\n3.\tCasas\n4.\tEmpregos", "Confirmar", "Sair");
 	return true;
+}
+
+YCMD:cancelargps(playerid, params[], help)
+{
+	if(!PlayerGPSInfo[playerid][isActive])
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não selecionou nenhum destino no GPS até o momento.");
+
+	UnsetPlayerGPS(playerid, false);
+	PlaySelectSound(playerid);
+	DisablePlayerRaceCheckpoint(playerid);
+    SetPlayerCPID(playerid, CHECKPOINT_NONE);
+	return 1;
 }
 
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
@@ -86,7 +101,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			switch(listitem)
 			{
 				case 0:
-					ShowPlayerDialog(playerid, DIALOG_GPS_INTEREST, DIALOG_STYLE_LIST, "GPS -> Pontos de Interesse", "1.\tPrefeitura\n2.\tAuto Escola\n3.\tCaixa eletrônico\n4.\tLotérica\n5.\tBanco", "Marcar", "Voltar");
+					ShowPlayerDialog(playerid, DIALOG_GPS_INTEREST, DIALOG_STYLE_LIST, "GPS -> Pontos de Interesse", "1.\tPrefeitura\n2.\tAuto Escola\n3.\tCaixa eletrônico\n4.\tLotérica\n5.\tBanco\n6.\tPetshop", "Marcar", "Voltar");
 				case 1:
 					ShowPlayerDialog(playerid, DIALOG_GPS_BUSINESS, DIALOG_STYLE_LIST, "GPS -> Empresa", "1.\t24-7\n2.\tTelefone\n3.\tRestaurante\n4.\tAmmunation\n5.\tRoupas\n6.\tPosto de Gasolina\n7.\tAnuncios\n8.\tBar/Club\n9.\tBurger Shot\n10.\tCluckin' Bell\n11.\tPizzaria", "Marcar", "Voltar");
 				case 2:
@@ -218,6 +233,12 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					SetPlayerRaceCheckpoint(playerid, 2, 914.4920, -999.6552, 38.0790, 0.0, 0.0, 0.0, 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_GPS);
 					ShowPlayerLocationFromGPS(playerid, 914.4920, -999.6552, 38.0790);
+				}
+				case 5:
+				{
+					SetPlayerRaceCheckpoint(playerid, 2, 1378.0410, -1745.4410, 13.5469, 0.0, 0.0, 0.0, 1.0);
+                    SetPlayerCPID(playerid, CHECKPOINT_GPS);
+					ShowPlayerLocationFromGPS(playerid, 1378.0410, -1745.4410, 13.5469);
 				}
 			}
 		}
