@@ -6,6 +6,7 @@
 #define _nex_ac_included
 
 #include <a_samp>
+// #include <YSI\y_hooks>
 
 #if !defined GetConsoleVarAsInt
 	#error Please download SA-MP 0.3.7 R2 server package!
@@ -15,14 +16,14 @@
 
 //#define DEBUG
 
-#include <nex-ac_en.lang>	//Localization
+#include <nex-ac_pt.lang>	//Localization
 
 #define	NEX_AC_VERSION				"1.9.7"
 #define AC_SERVER_VERSION			"0.3.7-R2"
 
 #define AC_CONFIG_FILE				"nex-ac_settings.cfg"
 #define AC_MAX_CLASSES				320
-#define AC_DEFAULT_COLOR			-1
+#define AC_DEFAULT_COLOR			0xf14545ff
 
 #if !defined AC_USE_VENDING_MACHINES
 	#define AC_USE_VENDING_MACHINES		true

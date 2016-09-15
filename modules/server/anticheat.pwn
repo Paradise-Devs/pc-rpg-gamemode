@@ -83,17 +83,17 @@ public OnCheatDetected(playerid, ip_address[], type, code)
         new count = 0;
         foreach(new i: Player)
         {
-            if(GetPlayerAdminLevel(i) >= PLAYER_RANK_MODERATOR)
+            if(GetPlayerRank(i) >= PLAYER_RANK_MODERATOR)
             {
                 count++;
             }
         }
 
         if(count)
-            SendAdminMessage(PLAYER_RANK_RECRUIT, COLOR_LIGHT_RED, "[ANTICHEAT] O jogador %s foi acusado de suspeitas de %s.", GetPlayerNamef(playerid), g_anticheat_names[code]);
+            SendAdminMessage(PLAYER_RANK_MODERATOR, 0xf14545ff, "[ANTICHEAT] O jogador %s foi acusado de suspeitas de %s.", GetPlayerNamef(playerid), g_anticheat_names[code]);
         else
         {
-            SendClientMessageToAllf(COLOR_LIGHT_RED, "[ANTICHEAT] O jogador %s foi kickado do servidor. Motivo: Suspeitas de %s.", GetPlayerNamef(playerid), g_anticheat_names[code]);
+            SendClientMessageToAllf(0xf14545ff, "[ANTICHEAT] O jogador %s foi kickado do servidor. Motivo: Suspeitas de %s.", GetPlayerNamef(playerid), g_anticheat_names[code]);
             Kick(playerid);
         }
     }
