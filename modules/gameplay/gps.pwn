@@ -375,17 +375,30 @@ UnsetPlayerGPS(playerid, bool:target_reached)
 hook OnPlayerDeath(playerid, killerid, reason)
 {
 	if(IsPlayerInAnyVehicle(playerid) && PlayerGPSInfo[playerid][isActive]) UnsetPlayerGPS(playerid, false);
+	PlaySelectSound(playerid);
+	DisablePlayerRaceCheckpoint(playerid);
+    SetPlayerCPID(playerid, CHECKPOINT_NONE);
+	UnsetPlayerGPS(playerid, true);
 	return 1;
 }
 
 hook OnPlayerStateChange(playerid, newstate, oldstate)
 {
-	if(oldstate == PLAYER_STATE_DRIVER && newstate != PLAYER_STATE_DRIVER && PlayerGPSInfo[playerid][isActive]) UnsetPlayerGPS(playerid, false);
+	if(oldstate == PLAYER_STATE_DRIVER && newstate != PLAYER_STATE_DRIVER && PlayerGPSInfo[playerid][isActive]) 
+	{
+	    UnsetPlayerGPS(playerid, false);
+	    PlaySelectSound(playerid);
+    	DisablePlayerRaceCheckpoint(playerid);
+        SetPlayerCPID(playerid, CHECKPOINT_NONE);
+    	UnsetPlayerGPS(playerid, true);
+	}
 	return 1;
 }
 
 hook OnPlayerDisconnect(playerid, reason)
 {
+    DisablePlayerRaceCheckpoint(playerid);
+    SetPlayerCPID(playerid, CHECKPOINT_NONE);
 	format(PlayerGPSInfo[playerid][target_location], 64, "");
 	PlayerGPSInfo[playerid][isActive] = false;
 	PlayerGPSInfo[playerid][target_x] = 0.0;
