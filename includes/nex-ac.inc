@@ -1,4 +1,4 @@
-//Nex-AC by Nexius v1.9.7 (0.3.7-R2)
+//Nex-AC by Nexius v1.9.8 (0.3.7-R2)
 
 #if defined _nex_ac_included
 	#endinput
@@ -6,7 +6,6 @@
 #define _nex_ac_included
 
 #include <a_samp>
-// #include <YSI\y_hooks>
 
 #if !defined GetConsoleVarAsInt
 	#error Please download SA-MP 0.3.7 R2 server package!
@@ -18,12 +17,12 @@
 
 #include <nex-ac_pt.lang>	//Localization
 
-#define	NEX_AC_VERSION				"1.9.7"
+#define	NEX_AC_VERSION				"1.9.8"
 #define AC_SERVER_VERSION			"0.3.7-R2"
 
 #define AC_CONFIG_FILE				"nex-ac_settings.cfg"
 #define AC_MAX_CLASSES				320
-#define AC_DEFAULT_COLOR			0xf14545ff
+#define AC_DEFAULT_COLOR			-1
 
 #if !defined AC_USE_VENDING_MACHINES
 	#define AC_USE_VENDING_MACHINES		true
@@ -82,7 +81,7 @@
 #endif
 
 #if !defined AC_MAX_AIR_WARNINGS
-	#define AC_MAX_AIR_WARNINGS			2
+	#define AC_MAX_AIR_WARNINGS			3
 #endif
 
 #if !defined AC_MAX_AIR_VEH_WARNINGS
@@ -740,7 +739,7 @@ enum acInfo
 	acKicked,
 	acIp[16],
 	acSet[15],
-	acGtc[19],
+	acGtc[18],
 	acWeapon[13],
 	acAmmo[13],
 	acSetWeapon[13],
@@ -749,7 +748,7 @@ enum acInfo
 	acSpawnAmmo[3],
 	acGtcSetWeapon[13],
 	acGtcGiveAmmo[13],
-	acNOPCount[12],
+	acNOPCount[11],
 	acCheatCount[16],
 	acCall[sizeof ac_Mtfc],
 	acFloodCount[sizeof ac_Mtfc],
@@ -846,12 +845,16 @@ ac_fpublic ac_CreateVehicle(vehicleid, vehicletype)
 
 ac_fpublic ac_AddPlayerClass(classid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo)
 {
-	ac_Class[classid][0][0] = weapon1;
-	ac_Class[classid][0][1] = weapon1_ammo;
-	ac_Class[classid][1][0] = weapon2;
-	ac_Class[classid][1][1] = weapon2_ammo;
-	ac_Class[classid][2][0] = weapon3;
-	ac_Class[classid][2][1] = weapon3_ammo;
+	if(classid < AC_MAX_CLASSES)
+	{
+		ac_Class[classid][0][0] = weapon1;
+		ac_Class[classid][0][1] = weapon1_ammo;
+		ac_Class[classid][1][0] = weapon2;
+		ac_Class[classid][1][1] = weapon2_ammo;
+		ac_Class[classid][2][0] = weapon3;
+		ac_Class[classid][2][1] = weapon3_ammo;
+	}
+	#undef AC_MAX_CLASSES
 	return 1;
 }
 
@@ -1194,19 +1197,17 @@ ac_fpublic ac_ResetPlayerWeapons(playerid)
 
 ac_fpublic ac_GivePlayerMoney(playerid, money)
 {
-	ACInfo[playerid][acNOPCount][11] = 0;
 	ACInfo[playerid][acMoney] += money;
-	ACInfo[playerid][acGtc][18] = GetTickCount();
 	return 1;
 }
 
 ac_fpublic ac_ResetPlayerMoney(playerid)
 {
-	ACInfo[playerid][acNOPCount][11] = 0;
 	ACInfo[playerid][acMoney] = 0;
-	ACInfo[playerid][acGtc][18] = GetTickCount();
 	return 1;
 }
+
+static stock bad_GetPlayerMoney(playerid) return GetPlayerMoney(playerid);
 
 ac_fpublic ac_GetPlayerMoney(playerid) return ACInfo[playerid][acMoney];
 
@@ -1444,7 +1445,7 @@ ac_fpublic ac_EnableAntiCheat(acid, enable)
 
 ac_fpublic ac_EnableAntiCheatForPlayer(playerid, acid, enable)
 {
-	if(!IsPlayerConnected(playerid) || !(-1 < acid < sizeof ac_ACAllow)) return 0;
+	if(!(-1 < acid < sizeof ac_ACAllow)) return 0;
 	ACInfo[playerid][acACAllow][acid] = !!enable;
 	if(enable)
 	{
@@ -1470,16 +1471,71 @@ ac_fpublic ac_IsAntiCheatEnabled(acid)
 
 ac_fpublic ac_IsAntiCheatEnabledForPlayer(playerid, acid)
 {
-	if(!IsPlayerConnected(playerid) || !(-1 < acid < sizeof ac_ACAllow)) return 0;
+	if(!(-1 < acid < sizeof ac_ACAllow)) return 0;
 	return ACInfo[playerid][acACAllow][acid];
 }
+
+ac_fpublic ac_AntiCheatGetAnimationIndex(playerid) return ACInfo[playerid][acAnim];
+
+ac_fpublic ac_AntiCheatGetDialog(playerid) return ACInfo[playerid][acDialog];
+
+ac_fpublic ac_AntiCheatGetMoney(playerid) return ACInfo[playerid][acMoney];
+
+ac_fpublic ac_AntiCheatGetClass(playerid) return ACInfo[playerid][acClassid];
+
+ac_fpublic ac_AntiCheatGetEnterVehicle(playerid) return ACInfo[playerid][acEnterVeh];
+
+ac_fpublic ac_AntiCheatGetVehicleID(playerid) return ACInfo[playerid][acVeh];
+
+ac_fpublic ac_AntiCheatGetWeapon(playerid) return ACInfo[playerid][acLastWeapon];
+
+ac_fpublic ac_AntiCheatGetVehicleSeat(playerid) return ACInfo[playerid][acSeat];
+
+ac_fpublic ac_AntiCheatGetSpecialAction(playerid) return ACInfo[playerid][acSpecAct];
+
+ac_fpublic ac_AntiCheatGetLastSpecialActio(playerid) return ACInfo[playerid][acLastSpecAct];
+
+ac_fpublic ac_AntiCheatGetLastShotWeapon(playerid) return ACInfo[playerid][acLastShot];
+
+ac_fpublic ac_AntiCheatGetLastPickup(playerid) return ACInfo[playerid][acLastPickup];
+
+ac_fpublic ac_AntiCheatGetLastUpdateTime(playerid) return ACInfo[playerid][acLastUpdate];
+
+ac_fpublic ac_AntiCheatGetLastReloadTime(playerid) return ACInfo[playerid][acReload];
+
+ac_fpublic ac_AntiCheatGetLastEnteredVehTi(playerid) return ACInfo[playerid][acEnterVehTime];
+
+ac_fpublic ac_AntiCheatGetLastShotTime(playerid) return ACInfo[playerid][acShotTime];
+
+ac_fpublic ac_AntiCheatGetLastSpawnTime(playerid) return ACInfo[playerid][acSpawnTime];
+
+ac_fpublic ac_AntiCheatIntEnterExitsIsEnab(playerid) return ACInfo[playerid][acIntEnterExits];
+
+ac_fpublic ac_AntiCheatStuntBonusIsEnabled(playerid) return ACInfo[playerid][acStuntBonus];
+
+ac_fpublic ac_AntiCheatIsInModShop(playerid) return ACInfo[playerid][acModShop];
+
+ac_fpublic ac_AntiCheatIsFrozen(playerid) return ACInfo[playerid][acFreeze];
+
+ac_fpublic ac_AntiCheatIsDead(playerid) return ACInfo[playerid][acDead];
+
+ac_fpublic ac_AntiCheatIsConnected(playerid) return ACInfo[playerid][acOnline];
+
+ac_fpublic ac_AntiCheatGetNextDialog(playerid) return ACInfo[playerid][acNextDialog];
 
 #endif
 
 stock acc_AddStaticVehicle(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:z_angle, color1, color2)
 {
 	new ac_vehicleid = AddStaticVehicle(modelid, spawn_x, spawn_y, spawn_z, z_angle, color1, color2);
-	if(ac_vehicleid != 65535) CallRemoteFunction("ac_AddStaticVehicle", "i", ac_vehicleid);
+	if(ac_vehicleid != 65535)
+	{
+		#if defined FILTERSCRIPT
+			CallRemoteFunction("ac_AddStaticVehicle", "i", ac_vehicleid);
+		#else
+			ac_AddStaticVehicle(ac_vehicleid);
+		#endif
+	}
 	return ac_vehicleid;
 }
 
@@ -1493,7 +1549,14 @@ stock acc_AddStaticVehicle(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z,
 stock acc_AddStaticVehicleEx(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:z_angle, color1, color2, respawn_delay, addsiren = 0)
 {
 	new ac_vehicleid = AddStaticVehicleEx(modelid, spawn_x, spawn_y, spawn_z, z_angle, color1, color2, respawn_delay, addsiren);
-	if(ac_vehicleid != 65535) CallRemoteFunction("ac_AddStaticVehicle", "i", ac_vehicleid);
+	if(ac_vehicleid != 65535)
+	{
+		#if defined FILTERSCRIPT
+			CallRemoteFunction("ac_AddStaticVehicle", "i", ac_vehicleid);
+		#else
+			ac_AddStaticVehicle(ac_vehicleid);
+		#endif
+	}
 	return ac_vehicleid;
 }
 
@@ -1507,7 +1570,14 @@ stock acc_AddStaticVehicleEx(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_
 stock acc_CreateVehicle(vehicletype, Float:x, Float:y, Float:z, Float:rotation, color1, color2, respawn_delay, addsiren = 0)
 {
 	new ac_vehicleid = CreateVehicle(vehicletype, x, y, z, rotation, color1, color2, respawn_delay, addsiren);
-	if(ac_vehicleid != 65535) CallRemoteFunction("ac_CreateVehicle", "ii", ac_vehicleid, vehicletype);
+	if(ac_vehicleid != 65535)
+	{
+		#if defined FILTERSCRIPT
+			CallRemoteFunction("ac_CreateVehicle", "ii", ac_vehicleid, vehicletype);
+		#else
+			ac_CreateVehicle(ac_vehicleid, vehicletype);
+		#endif
+	}
 	return ac_vehicleid;
 }
 
@@ -1521,7 +1591,11 @@ stock acc_CreateVehicle(vehicletype, Float:x, Float:y, Float:z, Float:rotation, 
 stock acc_AddPlayerClass(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:z_angle, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo)
 {
 	new ac_classid = AddPlayerClass(modelid, spawn_x, spawn_y, spawn_z, z_angle, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
-	if(ac_classid < AC_MAX_CLASSES) CallRemoteFunction("ac_AddPlayerClass", "iiiiiii", ac_classid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
+	#if defined FILTERSCRIPT
+		CallRemoteFunction("ac_AddPlayerClass", "iiiiiii", ac_classid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
+	#else
+		ac_AddPlayerClass(ac_classid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
+	#endif
 	return ac_classid;
 }
 
@@ -1535,9 +1609,10 @@ stock acc_AddPlayerClass(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, F
 stock acc_AddPlayerClassEx(teamid, modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:z_angle, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo)
 {
 	new ac_classid = AddPlayerClassEx(teamid, modelid, spawn_x, spawn_y, spawn_z, z_angle, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
-	if(ac_classid < AC_MAX_CLASSES) CallRemoteFunction("ac_AddPlayerClass", "iiiiiii", ac_classid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
-	#if defined AC_MAX_CLASSES
-		#undef AC_MAX_CLASSES
+	#if defined FILTERSCRIPT
+		CallRemoteFunction("ac_AddPlayerClass", "iiiiiii", ac_classid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
+	#else
+		ac_AddPlayerClass(ac_classid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
 	#endif
 	return ac_classid;
 }
@@ -1552,7 +1627,11 @@ stock acc_AddPlayerClassEx(teamid, modelid, Float:spawn_x, Float:spawn_y, Float:
 stock acc_SetSpawnInfo(playerid, team, skin, Float:x, Float:y, Float:z, Float:rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo)
 {
 	if(!SetSpawnInfo(playerid, team, skin, x, y, z, rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo)) return 0;
-	return CallRemoteFunction("ac_SetSpawnInfo", "iiiiiii", playerid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_SetSpawnInfo", "iiiiiii", playerid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
+	#else
+		return ac_SetSpawnInfo(playerid, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
+	#endif
 }
 
 #if defined _ALS_SetSpawnInfo
@@ -1565,7 +1644,14 @@ stock acc_SetSpawnInfo(playerid, team, skin, Float:x, Float:y, Float:z, Float:ro
 stock acc_AddStaticPickup(model, type, Float:X, Float:Y, Float:Z, virtualworld = 0)
 {
 	new ac_pickupid = CreatePickup(model, type, X, Y, Z, virtualworld);
-	if(ac_pickupid != -1) return CallRemoteFunction("ac_AddStaticPickup", "iiifff", ac_pickupid, model, type, X, Y, Z);
+	if(ac_pickupid != -1)
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_AddStaticPickup", "iiifff", ac_pickupid, model, type, X, Y, Z);
+		#else
+			return ac_AddStaticPickup(ac_pickupid, model, type, X, Y, Z);
+		#endif
+	}
 	return 0;
 }
 
@@ -1579,7 +1665,14 @@ stock acc_AddStaticPickup(model, type, Float:X, Float:Y, Float:Z, virtualworld =
 stock acc_CreatePickup(model, type, Float:X, Float:Y, Float:Z, virtualworld = 0)
 {
 	new ac_pickupid = CreatePickup(model, type, X, Y, Z, virtualworld);
-	if(ac_pickupid != -1) CallRemoteFunction("ac_CreatePickup", "iiifff", ac_pickupid, model, type, X, Y, Z);
+	if(ac_pickupid != -1)
+	{
+		#if defined FILTERSCRIPT
+			CallRemoteFunction("ac_CreatePickup", "iiifff", ac_pickupid, model, type, X, Y, Z);
+		#else
+			ac_CreatePickup(ac_pickupid, model, type, X, Y, Z);
+		#endif
+	}
 	return ac_pickupid;
 }
 
@@ -1600,7 +1693,14 @@ stock acc_CreatePickup(model, type, Float:X, Float:Y, Float:Z, virtualworld = 0)
 		{
 			new ac_pickupid = CreateDynamicPickup(modelid, type, x, y, z, worldid, interiorid, playerid, streamdistance, areaid, priority);
 	#endif
-		if(_:ac_pickupid > 0) CallRemoteFunction("ac_CreateDynamicPickup", "iiifff", _:ac_pickupid, modelid, type, x, y, z);
+		if(_:ac_pickupid > 0)
+		{
+			#if defined FILTERSCRIPT
+				CallRemoteFunction("ac_CreateDynamicPickup", "iiifff", _:ac_pickupid, modelid, type, x, y, z);
+			#else
+				ac_CreateDynamicPickup(_:ac_pickupid, modelid, type, x, y, z);
+			#endif
+		}
 		return ac_pickupid;
 	}
 
@@ -1622,7 +1722,14 @@ stock acc_CreatePickup(model, type, Float:X, Float:Y, Float:Z, virtualworld = 0)
 		{
 			new ac_pickupid = CreateDynamicPickupEx(modelid, type, x, y, z, streamdistance, worlds, interiors, players, areas, priority, maxworlds, maxinteriors, maxplayers, maxareas);
 	#endif
-		if(_:ac_pickupid > 0) CallRemoteFunction("ac_CreateDynamicPickup", "iiifff", _:ac_pickupid, modelid, type, x, y, z);
+		if(_:ac_pickupid > 0)
+		{
+			#if defined FILTERSCRIPT
+				CallRemoteFunction("ac_CreateDynamicPickup", "iiifff", _:ac_pickupid, modelid, type, x, y, z);
+			#else
+				ac_CreateDynamicPickup(_:ac_pickupid, modelid, type, x, y, z);
+			#endif
+		}
 		return ac_pickupid;
 	}
 
@@ -1636,7 +1743,14 @@ stock acc_CreatePickup(model, type, Float:X, Float:Y, Float:Z, virtualworld = 0)
 
 stock acc_DestroyVehicle(vehicleid)
 {
-	if(DestroyVehicle(vehicleid)) return CallRemoteFunction("ac_DestroyVehicle", "i", vehicleid);
+	if(DestroyVehicle(vehicleid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_DestroyVehicle", "i", vehicleid);
+		#else
+			return ac_DestroyVehicle(vehicleid);
+		#endif
+	}
 	return 0;
 }
 
@@ -1649,7 +1763,14 @@ stock acc_DestroyVehicle(vehicleid)
 
 stock acc_DestroyPickup(pickup)
 {
-	if(DestroyPickup(pickup)) return CallRemoteFunction("ac_DestroyPickup", "i", pickup);
+	if(DestroyPickup(pickup))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_DestroyPickup", "i", pickup);
+		#else
+			return ac_DestroyPickup(pickup);
+		#endif
+	}
 	return 0;
 }
 
@@ -1667,7 +1788,14 @@ stock acc_DestroyPickup(pickup)
 		stock acc_DestroyDynamicPickup(pickupid)
 	#endif
 	{
-		if(DestroyDynamicPickup(pickupid)) return CallRemoteFunction("ac_DestroyDynamicPickup", "i", _:pickupid);
+		if(DestroyDynamicPickup(pickupid))
+		{
+			#if defined FILTERSCRIPT
+				return CallRemoteFunction("ac_DestroyDynamicPickup", "i", _:pickupid);
+			#else
+				return ac_DestroyDynamicPickup(_:pickupid);
+			#endif
+		}
 		return 0;
 	}
 
@@ -1682,7 +1810,14 @@ stock acc_DestroyPickup(pickup)
 #if defined DestroyAllDynamicPickups
 	stock acc_DestroyAllDynamicPickups()
 	{
-		if(DestroyAllDynamicPickups()) return CallRemoteFunction("ac_DestroyAllDynamicPickups", "");
+		if(DestroyAllDynamicPickups())
+		{
+			#if defined FILTERSCRIPT
+				return CallRemoteFunction("ac_DestroyAllDynamicPickups", "");
+			#else
+				return ac_DestroyAllDynamicPickups();
+			#endif
+		}
 		return 0;
 	}
 
@@ -1694,7 +1829,15 @@ stock acc_DestroyPickup(pickup)
 	#define DestroyAllDynamicPickups acc_DestroyAllDynamicPickups
 #endif
 
-stock acc_DisableInteriorEnterExits() return CallRemoteFunction("ac_DisableInteriorEnterExits", ""), DisableInteriorEnterExits();
+stock acc_DisableInteriorEnterExits()
+{
+	#if defined FILTERSCRIPT
+		CallRemoteFunction("ac_DisableInteriorEnterExits", "");
+	#else
+		ac_DisableInteriorEnterExits();
+	#endif
+	return DisableInteriorEnterExits();
+}
 
 #if defined _ALS_DisableInteriorEnterExits
 	#undef DisableInteriorEnterExits
@@ -1703,7 +1846,15 @@ stock acc_DisableInteriorEnterExits() return CallRemoteFunction("ac_DisableInter
 #endif
 #define DisableInteriorEnterExits acc_DisableInteriorEnterExits
 
-stock acc_UsePlayerPedAnims() return CallRemoteFunction("ac_UsePlayerPedAnims", ""), UsePlayerPedAnims();
+stock acc_UsePlayerPedAnims()
+{
+	#if defined FILTERSCRIPT
+		CallRemoteFunction("ac_UsePlayerPedAnims", "");
+	#else
+		ac_UsePlayerPedAnims();
+	#endif
+	return UsePlayerPedAnims();
+}
 
 #if defined _ALS_UsePlayerPedAnims
 	#undef UsePlayerPedAnims
@@ -1712,7 +1863,15 @@ stock acc_UsePlayerPedAnims() return CallRemoteFunction("ac_UsePlayerPedAnims", 
 #endif
 #define UsePlayerPedAnims acc_UsePlayerPedAnims
 
-stock acc_EnableVehicleFriendlyFire() return CallRemoteFunction("ac_EnableVehicleFriendlyFire", ""), EnableVehicleFriendlyFire();
+stock acc_EnableVehicleFriendlyFire()
+{
+	#if defined FILTERSCRIPT
+		CallRemoteFunction("ac_EnableVehicleFriendlyFire", "");
+	#else
+		ac_EnableVehicleFriendlyFire();
+	#endif
+	return EnableVehicleFriendlyFire();
+}
 
 #if defined _ALS_EnableVehicleFriendlyFire
 	#undef EnableVehicleFriendlyFire
@@ -1721,7 +1880,15 @@ stock acc_EnableVehicleFriendlyFire() return CallRemoteFunction("ac_EnableVehicl
 #endif
 #define EnableVehicleFriendlyFire acc_EnableVehicleFriendlyFire
 
-stock acc_EnableStuntBonusForAll(enable) return CallRemoteFunction("ac_EnableStuntBonusForAll", "i", enable), EnableStuntBonusForAll(enable);
+stock acc_EnableStuntBonusForAll(enable)
+{
+	#if defined FILTERSCRIPT
+		CallRemoteFunction("ac_EnableStuntBonusForAll", "i", enable);
+	#else
+		ac_EnableStuntBonusForAll(enable);
+	#endif
+	return EnableStuntBonusForAll(enable);
+}
 
 #if defined _ALS_EnableStuntBonusForAll
 	#undef EnableStuntBonusForAll
@@ -1732,7 +1899,14 @@ stock acc_EnableStuntBonusForAll(enable) return CallRemoteFunction("ac_EnableStu
 
 stock acc_EnableStuntBonusForPlayer(playerid, enable)
 {
-	if(EnableStuntBonusForPlayer(playerid, enable)) return CallRemoteFunction("ac_EnableStuntBonusForPlayer", "ii", playerid, enable);
+	if(EnableStuntBonusForPlayer(playerid, enable))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_EnableStuntBonusForPlayer", "ii", playerid, enable);
+		#else
+			return ac_EnableStuntBonusForPlayer(playerid, enable);
+		#endif
+	}
 	return 0;
 }
 
@@ -1751,7 +1925,7 @@ stock acc_EnableStuntBonusForPlayer(playerid, enable)
 			#if defined FILTERSCRIPT
 				CallRemoteFunction("ac_fs_ShowPlayerDialog", "id", playerid, dialog);
 			#else
-				CallRemoteFunction("ac_ShowPlayerDialog", "id", playerid, dialog);
+				ac_ShowPlayerDialog(playerid, dialog);
 			#endif
 		}
 		return Dialog_Show(playerid, style, title, caption, button1, button2, dialog);
@@ -1772,7 +1946,7 @@ stock acc_ShowPlayerDialog(playerid, dialogid, style, caption[], info[], button1
 		#if defined FILTERSCRIPT
 			return CallRemoteFunction("ac_fs_ShowPlayerDialog", "id", playerid, dialogid);
 		#else
-			return CallRemoteFunction("ac_ShowPlayerDialog", "id", playerid, dialogid);
+			return ac_ShowPlayerDialog(playerid, dialogid);
 		#endif
 	}
 	return 0;
@@ -1787,7 +1961,14 @@ stock acc_ShowPlayerDialog(playerid, dialogid, style, caption[], info[], button1
 
 stock acc_TogglePlayerControllable(playerid, toggle)
 {
-	if(TogglePlayerControllable(playerid, toggle)) return CallRemoteFunction("ac_TogglePlayerControllable", "ii", playerid, toggle);
+	if(TogglePlayerControllable(playerid, toggle))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_TogglePlayerControllable", "ii", playerid, toggle);
+		#else
+			return ac_TogglePlayerControllable(playerid, toggle);
+		#endif
+	}
 	return 0;
 }
 
@@ -1800,7 +1981,14 @@ stock acc_TogglePlayerControllable(playerid, toggle)
 
 stock acc_TogglePlayerSpectating(playerid, toggle)
 {
-	if(TogglePlayerSpectating(playerid, toggle)) return CallRemoteFunction("ac_TogglePlayerSpectating", "ii", playerid, toggle);
+	if(TogglePlayerSpectating(playerid, toggle))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_TogglePlayerSpectating", "ii", playerid, toggle);
+		#else
+			return ac_TogglePlayerSpectating(playerid, toggle);
+		#endif
+	}
 	return 0;
 }
 
@@ -1813,7 +2001,14 @@ stock acc_TogglePlayerSpectating(playerid, toggle)
 
 stock acc_SpawnPlayer(playerid)
 {
-	if(SpawnPlayer(playerid)) return CallRemoteFunction("ac_SpawnPlayer", "i", playerid);
+	if(SpawnPlayer(playerid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SpawnPlayer", "i", playerid);
+		#else
+			return ac_SpawnPlayer(playerid);
+		#endif
+	}
 	return 0;
 }
 
@@ -1827,7 +2022,14 @@ stock acc_SpawnPlayer(playerid)
 stock acc_SetPlayerHealth(playerid, Float:health)
 {
 	if(health > 16777250.0) health = 16777250.0;
-	if(SetPlayerHealth(playerid, health)) return CallRemoteFunction("ac_SetPlayerHealth", "if", playerid, health);
+	if(SetPlayerHealth(playerid, health))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerHealth", "if", playerid, health);
+		#else
+			return ac_SetPlayerHealth(playerid, health);
+		#endif
+	}
 	return 0;
 }
 
@@ -1841,7 +2043,14 @@ stock acc_SetPlayerHealth(playerid, Float:health)
 stock acc_SetPlayerArmour(playerid, Float:armour)
 {
 	if(armour > 16777250.0) armour = 16777250.0;
-	if(SetPlayerArmour(playerid, armour)) return CallRemoteFunction("ac_SetPlayerArmour", "if", playerid, armour);
+	if(SetPlayerArmour(playerid, armour))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerArmour", "if", playerid, armour);
+		#else
+			return ac_SetPlayerArmour(playerid, armour);
+		#endif
+	}
 	return 0;
 }
 
@@ -1854,7 +2063,14 @@ stock acc_SetPlayerArmour(playerid, Float:armour)
 
 stock acc_GivePlayerWeapon(playerid, weaponid, ammo)
 {
-	if(IsPlayerConnected(playerid)) return CallRemoteFunction("ac_GivePlayerWeapon", "iid", playerid, weaponid, ammo);
+	if(IsPlayerConnected(playerid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_GivePlayerWeapon", "iid", playerid, weaponid, ammo);
+		#else
+			return ac_GivePlayerWeapon(playerid, weaponid, ammo);
+		#endif
+	}
 	return 0;
 }
 
@@ -1867,7 +2083,14 @@ stock acc_GivePlayerWeapon(playerid, weaponid, ammo)
 
 stock acc_SetPlayerAmmo(playerid, weaponslot, ammo)
 {
-	if(IsPlayerConnected(playerid)) return CallRemoteFunction("ac_SetPlayerAmmo", "iid", playerid, weaponslot, ammo);
+	if(IsPlayerConnected(playerid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerAmmo", "iid", playerid, weaponslot, ammo);
+		#else
+			return ac_SetPlayerAmmo(playerid, weaponslot, ammo);
+		#endif
+	}
 	return 0;
 }
 
@@ -1880,7 +2103,14 @@ stock acc_SetPlayerAmmo(playerid, weaponslot, ammo)
 
 stock acc_SetPlayerArmedWeapon(playerid, weaponid)
 {
-	if(SetPlayerArmedWeapon(playerid, weaponid)) return CallRemoteFunction("ac_SetPlayerArmedWeapon", "ii", playerid, weaponid);
+	if(SetPlayerArmedWeapon(playerid, weaponid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerArmedWeapon", "ii", playerid, weaponid);
+		#else
+			return ac_SetPlayerArmedWeapon(playerid, weaponid);
+		#endif
+	}
 	return 0;
 }
 
@@ -1893,7 +2123,14 @@ stock acc_SetPlayerArmedWeapon(playerid, weaponid)
 
 stock acc_ResetPlayerWeapons(playerid)
 {
-	if(ResetPlayerWeapons(playerid)) return CallRemoteFunction("ac_ResetPlayerWeapons", "i", playerid);
+	if(ResetPlayerWeapons(playerid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_ResetPlayerWeapons", "i", playerid);
+		#else
+			return ac_ResetPlayerWeapons(playerid);
+		#endif
+	}
 	return 0;
 }
 
@@ -1906,7 +2143,14 @@ stock acc_ResetPlayerWeapons(playerid)
 
 stock acc_GivePlayerMoney(playerid, money)
 {
-	if(GivePlayerMoney(playerid, money)) return CallRemoteFunction("ac_GivePlayerMoney", "id", playerid, money);
+	if(GivePlayerMoney(playerid, money))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_GivePlayerMoney", "id", playerid, money);
+		#else
+			return ac_GivePlayerMoney(playerid, money);
+		#endif
+	}
 	return 0;
 }
 
@@ -1919,7 +2163,14 @@ stock acc_GivePlayerMoney(playerid, money)
 
 stock acc_ResetPlayerMoney(playerid)
 {
-	if(ResetPlayerMoney(playerid)) return CallRemoteFunction("ac_ResetPlayerMoney", "i", playerid);
+	if(ResetPlayerMoney(playerid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_ResetPlayerMoney", "i", playerid);
+		#else
+			return ac_ResetPlayerMoney(playerid);
+		#endif
+	}
 	return 0;
 }
 
@@ -1930,11 +2181,16 @@ stock acc_ResetPlayerMoney(playerid)
 #endif
 #define ResetPlayerMoney acc_ResetPlayerMoney
 
-static stock bad_GetPlayerMoney(playerid) return GetPlayerMoney(playerid);
-
 stock acc_GetPlayerMoney(playerid)
 {
-	if(IsPlayerConnected(playerid)) return CallRemoteFunction("ac_GetPlayerMoney", "i", playerid);
+	if(IsPlayerConnected(playerid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_GetPlayerMoney", "i", playerid);
+		#else
+			return ac_GetPlayerMoney(playerid);
+		#endif
+	}
 	return 0;
 }
 
@@ -1947,7 +2203,14 @@ stock acc_GetPlayerMoney(playerid)
 
 stock acc_SetPlayerSpecialAction(playerid, actionid)
 {
-	if(SetPlayerSpecialAction(playerid, actionid)) return CallRemoteFunction("ac_SetPlayerSpecialAction", "ii", playerid, actionid);
+	if(SetPlayerSpecialAction(playerid, actionid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerSpecialAction", "ii", playerid, actionid);
+		#else
+			return ac_SetPlayerSpecialAction(playerid, actionid);
+		#endif
+	}
 	return 0;
 }
 
@@ -1960,7 +2223,14 @@ stock acc_SetPlayerSpecialAction(playerid, actionid)
 
 stock acc_SetPlayerInterior(playerid, interiorid)
 {
-	if(SetPlayerInterior(playerid, interiorid)) return CallRemoteFunction("ac_SetPlayerInterior", "ii", playerid, interiorid);
+	if(SetPlayerInterior(playerid, interiorid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerInterior", "ii", playerid, interiorid);
+		#else
+			return ac_SetPlayerInterior(playerid, interiorid);
+		#endif
+	}
 	return 0;
 }
 
@@ -1973,7 +2243,14 @@ stock acc_SetPlayerInterior(playerid, interiorid)
 
 stock acc_SetPlayerPos(playerid, Float:x, Float:y, Float:z)
 {
-	if(SetPlayerPos(playerid, x, y, z)) return CallRemoteFunction("ac_SetPlayerPos", "ifff", playerid, x, y, z);
+	if(SetPlayerPos(playerid, x, y, z))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerPos", "ifff", playerid, x, y, z);
+		#else
+			return ac_SetPlayerPos(playerid, x, y, z);
+		#endif
+	}
 	return 0;
 }
 
@@ -1986,7 +2263,14 @@ stock acc_SetPlayerPos(playerid, Float:x, Float:y, Float:z)
 
 stock acc_SetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z)
 {
-	if(SetPlayerPosFindZ(playerid, x, y, z)) return CallRemoteFunction("ac_SetPlayerPosFindZ", "ifff", playerid, x, y, z);
+	if(SetPlayerPosFindZ(playerid, x, y, z))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerPosFindZ", "ifff", playerid, x, y, z);
+		#else
+			return ac_SetPlayerPosFindZ(playerid, x, y, z);
+		#endif
+	}
 	return 0;
 }
 
@@ -1999,7 +2283,14 @@ stock acc_SetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z)
 
 stock acc_SetPlayerVelocity(playerid, Float:X, Float:Y, Float:Z)
 {
-	if(SetPlayerVelocity(playerid, X, Y, Z)) return CallRemoteFunction("ac_SetPlayerVelocity", "ifff", playerid, X, Y, Z);
+	if(SetPlayerVelocity(playerid, X, Y, Z))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetPlayerVelocity", "ifff", playerid, X, Y, Z);
+		#else
+			return ac_SetPlayerVelocity(playerid, X, Y, Z);
+		#endif
+	}
 	return 0;
 }
 
@@ -2012,7 +2303,14 @@ stock acc_SetPlayerVelocity(playerid, Float:X, Float:Y, Float:Z)
 
 stock acc_PutPlayerInVehicle(playerid, vehicleid, seatid)
 {
-	if(PutPlayerInVehicle(playerid, vehicleid, seatid)) return CallRemoteFunction("ac_PutPlayerInVehicle", "iii", playerid, vehicleid, seatid);
+	if(PutPlayerInVehicle(playerid, vehicleid, seatid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_PutPlayerInVehicle", "iii", playerid, vehicleid, seatid);
+		#else
+			return ac_PutPlayerInVehicle(playerid, vehicleid, seatid);
+		#endif
+	}
 	return 0;
 }
 
@@ -2025,7 +2323,14 @@ stock acc_PutPlayerInVehicle(playerid, vehicleid, seatid)
 
 stock acc_RemovePlayerFromVehicle(playerid)
 {
-	if(RemovePlayerFromVehicle(playerid)) return CallRemoteFunction("ac_RemovePlayerFromVehicle", "i", playerid);
+	if(RemovePlayerFromVehicle(playerid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_RemovePlayerFromVehicle", "i", playerid);
+		#else
+			return ac_RemovePlayerFromVehicle(playerid);
+		#endif
+	}
 	return 0;
 }
 
@@ -2038,7 +2343,14 @@ stock acc_RemovePlayerFromVehicle(playerid)
 
 stock acc_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 {
-	if(SetVehiclePos(vehicleid, x, y, z)) return CallRemoteFunction("ac_SetVehiclePos", "ifff", vehicleid, x, y, z);
+	if(SetVehiclePos(vehicleid, x, y, z))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetVehiclePos", "ifff", vehicleid, x, y, z);
+		#else
+			return ac_SetVehiclePos(vehicleid, x, y, z);
+		#endif
+	}
 	return 0;
 }
 
@@ -2051,7 +2363,14 @@ stock acc_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 
 stock acc_SetVehicleVelocity(vehicleid, Float:X, Float:Y, Float:Z)
 {
-	if(SetVehicleVelocity(vehicleid, X, Y, Z)) return CallRemoteFunction("ac_SetVehicleVelocity", "ifff", vehicleid, X, Y, Z);
+	if(SetVehicleVelocity(vehicleid, X, Y, Z))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetVehicleVelocity", "ifff", vehicleid, X, Y, Z);
+		#else
+			return ac_SetVehicleVelocity(vehicleid, X, Y, Z);
+		#endif
+	}
 	return 0;
 }
 
@@ -2064,7 +2383,14 @@ stock acc_SetVehicleVelocity(vehicleid, Float:X, Float:Y, Float:Z)
 
 stock acc_SetVehicleAngularVelocity(vehicleid, Float:X, Float:Y, Float:Z)
 {
-	if(SetVehicleAngularVelocity(vehicleid, X, Y, Z)) return CallRemoteFunction("ac_SetVehicleAngularVelocity", "ifff", vehicleid, X, Y, Z);
+	if(SetVehicleAngularVelocity(vehicleid, X, Y, Z))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetVehicleAngularVelocity", "ifff", vehicleid, X, Y, Z);
+		#else
+			return ac_SetVehicleAngularVelocity(vehicleid, X, Y, Z);
+		#endif
+	}
 	return 0;
 }
 
@@ -2077,7 +2403,14 @@ stock acc_SetVehicleAngularVelocity(vehicleid, Float:X, Float:Y, Float:Z)
 
 stock acc_LinkVehicleToInterior(vehicleid, interiorid)
 {
-	if(LinkVehicleToInterior(vehicleid, interiorid)) return CallRemoteFunction("ac_LinkVehicleToInterior", "ii", vehicleid, interiorid);
+	if(LinkVehicleToInterior(vehicleid, interiorid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_LinkVehicleToInterior", "ii", vehicleid, interiorid);
+		#else
+			return ac_LinkVehicleToInterior(vehicleid, interiorid);
+		#endif
+	}
 	return 0;
 }
 
@@ -2090,7 +2423,14 @@ stock acc_LinkVehicleToInterior(vehicleid, interiorid)
 
 stock acc_ChangeVehiclePaintjob(vehicleid, paintjobid)
 {
-	if(ChangeVehiclePaintjob(vehicleid, paintjobid)) return CallRemoteFunction("ac_ChangeVehiclePaintjob", "ii", vehicleid, paintjobid);
+	if(ChangeVehiclePaintjob(vehicleid, paintjobid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_ChangeVehiclePaintjob", "ii", vehicleid, paintjobid);
+		#else
+			return ac_ChangeVehiclePaintjob(vehicleid, paintjobid);
+		#endif
+	}
 	return 0;
 }
 
@@ -2104,7 +2444,14 @@ stock acc_ChangeVehiclePaintjob(vehicleid, paintjobid)
 stock acc_SetVehicleHealth(vehicleid, Float:health)
 {
 	if(health < 0.0) health = 0.0;
-	if(SetVehicleHealth(vehicleid, health)) return CallRemoteFunction("ac_SetVehicleHealth", "if", vehicleid, health);
+	if(SetVehicleHealth(vehicleid, health))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_SetVehicleHealth", "if", vehicleid, health);
+		#else
+			return ac_SetVehicleHealth(vehicleid, health);
+		#endif
+	}
 	return 0;
 }
 
@@ -2117,7 +2464,14 @@ stock acc_SetVehicleHealth(vehicleid, Float:health)
 
 stock acc_RepairVehicle(vehicleid)
 {
-	if(RepairVehicle(vehicleid)) return CallRemoteFunction("ac_RepairVehicle", "i", vehicleid);
+	if(RepairVehicle(vehicleid))
+	{
+		#if defined FILTERSCRIPT
+			return CallRemoteFunction("ac_RepairVehicle", "i", vehicleid);
+		#else
+			return ac_RepairVehicle(vehicleid);
+		#endif
+	}
 	return 0;
 }
 
@@ -2130,7 +2484,14 @@ stock acc_RepairVehicle(vehicleid)
 
 stock acc_SetVehicleToRespawn(vehicleid)
 {
-	if(GetVehicleModel(vehicleid)) CallRemoteFunction("ac_SetVehicleToRespawn", "i", vehicleid);
+	if(GetVehicleModel(vehicleid))
+	{
+		#if defined FILTERSCRIPT
+			CallRemoteFunction("ac_SetVehicleToRespawn", "i", vehicleid);
+		#else
+			ac_SetVehicleToRespawn(vehicleid);
+		#endif
+	}
 	return SetVehicleToRespawn(vehicleid);
 }
 
@@ -2141,21 +2502,299 @@ stock acc_SetVehicleToRespawn(vehicleid)
 #endif
 #define SetVehicleToRespawn acc_SetVehicleToRespawn
 
-stock EnableAntiCheat(acid, enable) return CallRemoteFunction("ac_EnableAntiCheat", "ii", acid, enable);
+stock EnableAntiCheat(acid, enable)
+{
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_EnableAntiCheat", "ii", acid, enable);
+	#else
+		return ac_EnableAntiCheat(acid, enable);
+	#endif
+}
 
 stock EnableAntiCheatForPlayer(playerid, acid, enable)
-	return CallRemoteFunction("ac_EnableAntiCheatForPlayer", "iii", playerid, acid, enable);
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_EnableAntiCheatForPlayer", "iii", playerid, acid, enable);
+	#else
+		return ac_EnableAntiCheatForPlayer(playerid, acid, enable);
+	#endif
+}
 
-stock IsAntiCheatEnabled(acid) return CallRemoteFunction("ac_IsAntiCheatEnabled", "i", acid);
+stock IsAntiCheatEnabled(acid)
+{
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_IsAntiCheatEnabled", "i", acid);
+	#else
+		return ac_IsAntiCheatEnabled(acid);
+	#endif
+}
 
 stock IsAntiCheatEnabledForPlayer(playerid, acid)
-	return CallRemoteFunction("ac_IsAntiCheatEnabledForPlayer", "ii", playerid, acid);
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_IsAntiCheatEnabledForPlayer", "ii", playerid, acid);
+	#else
+		return ac_IsAntiCheatEnabledForPlayer(playerid, acid);
+	#endif
+}
+
+stock AntiCheatGetAnimationIndex(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetAnimationIndex", "i", playerid);
+	#else
+		return ac_AntiCheatGetAnimationIndex(playerid);
+	#endif
+}
+
+stock AntiCheatGetDialog(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetDialog", "i", playerid);
+	#else
+		return ac_AntiCheatGetDialog(playerid);
+	#endif
+}
+
+stock AntiCheatGetMoney(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetMoney", "i", playerid);
+	#else
+		return ac_AntiCheatGetMoney(playerid);
+	#endif
+}
+
+stock AntiCheatGetClass(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetClass", "i", playerid);
+	#else
+		return ac_AntiCheatGetClass(playerid);
+	#endif
+}
+
+stock AntiCheatGetEnterVehicle(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetEnterVehicle", "i", playerid);
+	#else
+		return ac_AntiCheatGetEnterVehicle(playerid);
+	#endif
+}
+
+stock AntiCheatGetVehicleID(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetVehicleID", "i", playerid);
+	#else
+		return ac_AntiCheatGetVehicleID(playerid);
+	#endif
+}
+
+stock AntiCheatGetWeapon(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetWeapon", "i", playerid);
+	#else
+		return ac_AntiCheatGetWeapon(playerid);
+	#endif
+}
+
+stock AntiCheatGetVehicleSeat(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetVehicleSeat", "i", playerid);
+	#else
+		return ac_AntiCheatGetVehicleSeat(playerid);
+	#endif
+}
+
+stock AntiCheatGetSpecialAction(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetSpecialAction", "i", playerid);
+	#else
+		return ac_AntiCheatGetSpecialAction(playerid);
+	#endif
+}
+
+stock AntiCheatGetLastSpecialAction(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetLastSpecialActio", "i", playerid);
+	#else
+		return ac_AntiCheatGetLastSpecialActio(playerid);
+	#endif
+}
+
+stock AntiCheatGetLastShotWeapon(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetLastShotWeapon", "i", playerid);
+	#else
+		return ac_AntiCheatGetLastShotWeapon(playerid);
+	#endif
+}
+
+stock AntiCheatGetLastPickup(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetLastPickup", "i", playerid);
+	#else
+		return ac_AntiCheatGetLastPickup(playerid);
+	#endif
+}
+
+stock AntiCheatGetLastUpdateTime(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetLastUpdateTime", "i", playerid);
+	#else
+		return ac_AntiCheatGetLastUpdateTime(playerid);
+	#endif
+}
+
+stock AntiCheatGetLastReloadTime(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetLastReloadTime", "i", playerid);
+	#else
+		return ac_AntiCheatGetLastReloadTime(playerid);
+	#endif
+}
+
+stock AntiCheatGetLastEnteredVehTime(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetLastEnteredVehTi", "i", playerid);
+	#else
+		return ac_AntiCheatGetLastEnteredVehTi(playerid);
+	#endif
+}
+
+stock AntiCheatGetLastShotTime(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetLastShotTime", "i", playerid);
+	#else
+		return ac_AntiCheatGetLastShotTime(playerid);
+	#endif
+}
+
+stock AntiCheatGetLastSpawnTime(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatGetLastSpawnTime", "i", playerid);
+	#else
+		return ac_AntiCheatGetLastSpawnTime(playerid);
+	#endif
+}
+
+stock AntiCheatIntEnterExitsIsEnabled(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatIntEnterExitsIsEnab", "i", playerid);
+	#else
+		return ac_AntiCheatIntEnterExitsIsEnab(playerid);
+	#endif
+}
+
+stock AntiCheatStuntBonusIsEnabled(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatStuntBonusIsEnabled", "i", playerid);
+	#else
+		return ac_AntiCheatStuntBonusIsEnabled(playerid);
+	#endif
+}
+
+stock AntiCheatIsInModShop(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatIsInModShop", "i", playerid);
+	#else
+		return ac_AntiCheatIsInModShop(playerid);
+	#endif
+}
+
+stock AntiCheatIsFrozen(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatIsFrozen", "i", playerid);
+	#else
+		return ac_AntiCheatIsFrozen(playerid);
+	#endif
+}
+
+stock AntiCheatIsDead(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatIsDead", "i", playerid);
+	#else
+		return ac_AntiCheatIsDead(playerid);
+	#endif
+}
+
+stock AntiCheatIsConnected(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	#if defined FILTERSCRIPT
+		return CallRemoteFunction("ac_AntiCheatIsConnected", "i", playerid);
+	#else
+		return ac_AntiCheatIsConnected(playerid);
+	#endif
+}
 
 #if defined _inc_y_hooks || defined _INC_y_hooks
 	DEFINE_HOOK_REPLACEMENT(SirenState, Siren);
 #endif
 
-#if !defined FILTERSCRIPT
+#if defined FILTERSCRIPT
+
+static stock fs_AntiCheatGetNextDialog(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	return CallRemoteFunction("ac_AntiCheatGetNextDialog", "i", playerid);
+}
+
+static stock fs_AntiCheatSetDialog(playerid, dialogid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	return CallRemoteFunction("ac_ShowPlayerDialog", "ii", playerid, dialogid);
+}
+
+static stock fs_AntiCheatSetNextDialog(playerid, dialogid)
+{
+	if(!IsPlayerConnected(playerid)) return 0;
+	return CallRemoteFunction("ac_fs_ShowPlayerDialog", "ii", playerid, dialogid);
+}
+
+#else
 
 #if defined _inc_y_hooks || defined _INC_y_hooks
 	hook OnGameModeInit()
@@ -2534,50 +3173,6 @@ stock IsAntiCheatEnabledForPlayer(playerid, acid)
 
 #endif
 
-static stock fs_AntiCheatGetDialog(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return CallRemoteFunction("ac_AntiCheatGetDialog", "i", playerid);
-}
-
-static stock fs_AntiCheatGetNextDialog(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return CallRemoteFunction("ac_AntiCheatGetNextDialog", "i", playerid);
-}
-
-static stock fs_AntiCheatSetDialog(playerid, dialogid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return CallRemoteFunction("ac_AntiCheatSetDialog", "ii", playerid, dialogid);
-}
-
-static stock fs_AntiCheatSetNextDialog(playerid, dialogid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return CallRemoteFunction("ac_AntiCheatSetNextDialog", "ii", playerid, dialogid);
-}
-
-#if !defined FILTERSCRIPT
-
-ac_fpublic ac_AntiCheatGetDialog(playerid) return ACInfo[playerid][acDialog];
-
-ac_fpublic ac_AntiCheatGetNextDialog(playerid) return ACInfo[playerid][acNextDialog];
-
-ac_fpublic ac_AntiCheatSetDialog(playerid, dialogid)
-{
-	ACInfo[playerid][acDialog] = dialogid;
-	return 1;
-}
-
-ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
-{
-	ACInfo[playerid][acNextDialog] = dialogid;
-	return 1;
-}
-
-#endif
-
 #if defined FILTERSCRIPT
 
 #if defined _inc_y_hooks || defined _INC_y_hooks
@@ -2587,7 +3182,7 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 #endif
 {
 	new ac_nd = fs_AntiCheatGetNextDialog(playerid);
-	if(dialogid != fs_AntiCheatGetDialog(playerid) && dialogid == ac_nd) fs_AntiCheatSetDialog(playerid, ac_nd);
+	if(dialogid != AntiCheatGetDialog(playerid) && dialogid == ac_nd) fs_AntiCheatSetDialog(playerid, ac_nd);
 	fs_AntiCheatSetNextDialog(playerid, -1);
 	#if !defined _inc_y_hooks && !defined _INC_y_hooks\
 		&& defined ac_fs_OnDialogResponse
@@ -2722,10 +3317,12 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 		{
 			if(ACInfo[playerid][acACAllow][3]) ac_KickWithCode(playerid, "", 0, 3, 1);
 		}
-		else if(ACInfo[playerid][acACAllow][2] && !ACInfo[playerid][acIntEnterExits] &&
-		newinteriorid != ACInfo[playerid][acSet][12]) ac_KickWithCode(playerid, "", 0, 2, 1);
-		GetPlayerPos(playerid, ACInfo[playerid][acPos][0], ACInfo[playerid][acPos][1], ACInfo[playerid][acPos][2]);
-		ACInfo[playerid][acGtc][11] = GetTickCount() + 1500;
+		else if(ACInfo[playerid][acIntEnterExits])
+		{
+			GetPlayerPos(playerid, ACInfo[playerid][acPos][0], ACInfo[playerid][acPos][1], ACInfo[playerid][acPos][2]);
+			ACInfo[playerid][acGtc][11] = GetTickCount() + 1500;
+		}
+		else if(ACInfo[playerid][acACAllow][2] && newinteriorid != ACInfo[playerid][acSet][12]) ac_KickWithCode(playerid, "", 0, 2, 1);
 	}
 	if(!ACInfo[playerid][acKicked] && ac_i) ACVehInfo[ac_i][acInt] = newinteriorid;
 	if(ACInfo[playerid][acSet][12] == -1) ACInfo[playerid][acSet][0] = -1;
@@ -2840,6 +3437,7 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 					ACInfo[playerid][acSetWeapon][ac_wSlot[ac_w]] = -1;
 					ACInfo[playerid][acWeapon][ac_wSlot[ac_w]] = ac_w;
 				}
+				else if(!ACInfo[playerid][acGiveAmmo][ac_wSlot[ACInfo[playerid][acSet][3]]]) ACInfo[playerid][acSet][3] = -1;
 				else if(ACInfo[playerid][acACAllow][52] &&
 				!(1 < ac_stateanim < 4) && ac_gtc > ACInfo[playerid][acGtc][2] + ac_gpp &&
 				++ACInfo[playerid][acNOPCount][0] > AC_MAX_NOP_WARNINGS)
@@ -2962,7 +3560,11 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 				{
 					while(ac_hp < ACInfo[playerid][acSet][1]) ac_hp += 256;
 				}
-				if(ACInfo[playerid][acSet][1] == ac_hp) ACInfo[playerid][acSet][1] = -1;
+				if(ACInfo[playerid][acSet][1] == ac_hp)
+				{
+					ACInfo[playerid][acSet][1] = -1;
+					ACInfo[playerid][acDmgRes] = 0;
+				}
 				else if(ACInfo[playerid][acACAllow][52] && ac_gtc > ACInfo[playerid][acGtc][3] + ac_gpp &&
 				++ACInfo[playerid][acNOPCount][3] > AC_MAX_NOP_WARNINGS)
 				{
@@ -3011,7 +3613,11 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 				{
 					while(ac_ar < ACInfo[playerid][acSet][2]) ac_ar += 256;
 				}
-				if(ACInfo[playerid][acSet][2] == ac_ar) ACInfo[playerid][acSet][2] = -1;
+				if(ACInfo[playerid][acSet][2] == ac_ar)
+				{
+					ACInfo[playerid][acSet][2] = -1;
+					ACInfo[playerid][acDmgRes] = 0;
+				}
 				else if(ACInfo[playerid][acACAllow][52] && ac_gtc > ACInfo[playerid][acGtc][5] + ac_gpp &&
 				++ACInfo[playerid][acNOPCount][5] > AC_MAX_NOP_WARNINGS)
 				{
@@ -3078,8 +3684,7 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 			static ac_vehid;
 			ac_a = bad_GetPlayerMoney(playerid);
 			ac_vehid = GetPlayerVehicleID(playerid);
-			if(ACInfo[playerid][acACAllow][14] && ac_a > ACInfo[playerid][acMoney] && ac_gtc > ACInfo[playerid][acGtc][18] + ac_gpp &&
-			++ACInfo[playerid][acNOPCount][11] > AC_MAX_NOP_WARNINGS && !(ACInfo[playerid][acStuntBonus] && ac_vehid))
+			if(ACInfo[playerid][acACAllow][14] && ac_a > ACInfo[playerid][acMoney] && !(ACInfo[playerid][acStuntBonus] && ac_vehid))
 			{
 				#if AC_USE_CASINOS
 					if(!ac_InCasino(playerid, ac_i))
@@ -3100,7 +3705,7 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 			if(ACInfo[playerid][acSet][10] != -1)
 			{
 				if(ac_a < ACInfo[playerid][acMoney] &&
-				ACInfo[playerid][acSet][10] == (ACInfo[playerid][acMoney] - ac_a)) ACInfo[playerid][acSet][10] = -1;
+				ACInfo[playerid][acSet][10] <= (ACInfo[playerid][acMoney] - ac_a)) ACInfo[playerid][acSet][10] = -1;
 				else if(ACInfo[playerid][acACAllow][15] && ac_gtc > ACInfo[playerid][acGtc][15] + ac_gpp &&
 				++ACInfo[playerid][acCheatCount][10] > AC_MAX_NOP_WARNINGS)
 				{
@@ -3114,7 +3719,7 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 			}
 			if(ACInfo[playerid][acSet][13] != -1)
 			{
-				if(ac_a < ACInfo[playerid][acMoney] && ACInfo[playerid][acSet][13] ==
+				if(ac_a < ACInfo[playerid][acMoney] && ACInfo[playerid][acSet][13] <=
 				(ACInfo[playerid][acMoney] - ac_a)) ACInfo[playerid][acSet][13] = -1;
 				else if(ACInfo[playerid][acACAllow][23] && ac_gtc > ACInfo[playerid][acGtc][17] + ac_gpp &&
 				++ACInfo[playerid][acCheatCount][12] > AC_MAX_NOP_WARNINGS)
@@ -3313,7 +3918,11 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 						GetVehicleHealth(ac_vehid, ac_vhealth);
 						if(ACInfo[playerid][acSetVehHealth] != -1)
 						{
-							if(ac_vhealth == ACInfo[playerid][acSetVehHealth]) ACInfo[playerid][acSetVehHealth] = -1;
+							if(ac_vhealth == ACInfo[playerid][acSetVehHealth])
+							{
+								ACInfo[playerid][acSetVehHealth] = -1;
+								ACInfo[playerid][acVehDmgRes] = false;
+							}
 							else if(ACInfo[playerid][acACAllow][52] && ac_gtc > ACInfo[playerid][acGtc][4] + ac_gpp &&
 							++ACInfo[playerid][acNOPCount][4] > AC_MAX_NOP_WARNINGS)
 							{
@@ -3648,7 +4257,7 @@ ac_fpublic ac_AntiCheatSetNextDialog(playerid, dialogid)
 								return ac_KickWithCode(playerid, "", 0, 9);
 							#endif
 						}
-						if(ac_vctsize > 0.8 && ac_gtc > ACInfo[playerid][acGtc][11] + ac_gpp)
+						if(ac_vctsize > 0.5 && ac_gtc > ACInfo[playerid][acGtc][11] + ac_gpp)
 						{
 							if(ac_vctsize > 30.0)
 							{
@@ -5672,8 +6281,8 @@ ac_fpublic ac_Timer(playerid)
 						ACInfo[playerid][acWeapon][ac_i] = ac_w;
 					}
 					else if(ACInfo[playerid][acACAllow][52] &&
-					ac_gtc > ACInfo[playerid][acGtcSetWeapon][ac_i] + ac_gpp &&
-					++ACInfo[playerid][acNOPCount][0] > AC_MAX_NOP_WARNINGS && ac_gtc < ACInfo[playerid][acLastUpdate] + 1500)
+					ACInfo[playerid][acGtcSetWeapon][ac_i] + ac_gpp < ac_gtc < ACInfo[playerid][acLastUpdate] + 1500 &&
+					++ACInfo[playerid][acNOPCount][0] > AC_MAX_NOP_WARNINGS)
 					{
 						#if defined DEBUG
 							printf(DEBUG_CODE_5, playerid, "GivePlayerWeapon");
@@ -5729,7 +6338,7 @@ ac_fpublic ac_Timer(playerid)
 							ACInfo[playerid][acAmmo][ac_i] = ac_a;
 						}
 						else if(ACInfo[playerid][acACAllow][52] &&
-						ac_gtc > ACInfo[playerid][acGtcGiveAmmo][ac_i] + ac_gpp && ac_gtc < ACInfo[playerid][acLastUpdate] + 1500)
+						ACInfo[playerid][acGtcGiveAmmo][ac_i] + ac_gpp < ac_gtc < ACInfo[playerid][acLastUpdate] + 1500)
 						{
 							if(++ACInfo[playerid][acNOPCount][1] > AC_MAX_NOP_WARNINGS)
 							{
@@ -5789,7 +6398,7 @@ ac_fpublic ac_Timer(playerid)
 					#endif
 					#undef ac_abs
 				}
-				else if(ACInfo[playerid][acAmmo][ac_i] && !ac_LagCompMode) ACInfo[playerid][acAmmo][ac_i] = ac_a;
+				else if(ACInfo[playerid][acAmmo][ac_i]) ACInfo[playerid][acAmmo][ac_i] = ac_a;
 			}
 		}
 	}
@@ -5893,144 +6502,6 @@ stock AntiCheatGetVehicleVelocity(vehicleid, &Float:x, &Float:y, &Float:z)
 	y = ACVehInfo[vehicleid][acVel][1];
 	z = ACVehInfo[vehicleid][acVel][2];
 	return 1;
-}
-
-stock AntiCheatGetAnimationIndex(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acAnim];
-}
-
-stock AntiCheatGetDialog(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acDialog];
-}
-
-stock AntiCheatGetMoney(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acMoney];
-}
-
-stock AntiCheatGetClass(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acClassid];
-}
-
-stock AntiCheatGetEnterVehicle(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acEnterVeh];
-}
-
-stock AntiCheatGetVehicleID(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acVeh];
-}
-
-stock AntiCheatGetWeapon(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acLastWeapon];
-}
-
-stock AntiCheatGetVehicleSeat(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acSeat];
-}
-
-stock AntiCheatGetSpecialAction(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acSpecAct];
-}
-
-stock AntiCheatGetLastSpecialAction(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acLastSpecAct];
-}
-
-stock AntiCheatGetLastShotWeapon(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acLastShot];
-}
-
-stock AntiCheatGetLastPickup(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acLastPickup];
-}
-
-stock AntiCheatGetLastUpdateTime(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acLastUpdate];
-}
-
-stock AntiCheatGetLastReloadTime(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acReload];
-}
-
-stock AntiCheatGetLastEnteredVehTime(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acEnterVehTime];
-}
-
-stock AntiCheatGetLastShotTime(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acShotTime];
-}
-
-stock AntiCheatGetLastSpawnTime(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acSpawnTime];
-}
-
-stock AntiCheatIntEnterExitsIsEnabled(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acIntEnterExits];
-}
-
-stock AntiCheatStuntBonusIsEnabled(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acStuntBonus];
-}
-
-stock AntiCheatIsInModShop(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acModShop];
-}
-
-stock AntiCheatIsFrozen(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acFreeze];
-}
-
-stock AntiCheatIsDead(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acDead];
-}
-
-stock AntiCheatIsConnected(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
-	return ACInfo[playerid][acOnline];
 }
 
 static stock ac_InRestaurant(playerid, interiorid)

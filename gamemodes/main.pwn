@@ -13,6 +13,7 @@
 
 // Required to be at the top
 #include <a_samp>
+#include <nex-ac>
 
 //------------------------------------------------------------------------------
 
@@ -93,7 +94,6 @@
 // Libraries
 #include <sscanf2>
 #include <a_mysql>
-#include <nex-ac>
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 #include <YSI\y_iterate>
