@@ -1199,7 +1199,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
                 new query[524], hashstring[MAX_PLAYER_PASSWORD];
                 SHA256_PassHash(inputtext, "pcacc", hashstring, MAX_PLAYER_PASSWORD);
-                mysql_format(mysql, query, sizeof(query), "INSERT INTO `users` (`name`, `username`, `password`, `email`, `birthdate`, `created_at`) VALUES ('%e', '%e', '%e', '%e', STR_TO_DATE('%e', '%%m/%%d/%%Y'), now())", gPlayerName[playerid], playerName, hashstring, gPlayerEmail[playerid], gPlayerAge[playerid]);
+                mysql_format(mysql, query, sizeof(query), "INSERT INTO `users` (`name`, `username`, `password`, `email`, `birthdate`, `created_at`) VALUES ('%e', '%e', '%e', '%e', STR_TO_DATE('%e', '%%d/%%m/%%Y'), now())", gPlayerName[playerid], playerName, hashstring, gPlayerEmail[playerid], gPlayerAge[playerid]);
             	mysql_tquery(mysql, query, "OnAccountRegister", "i", playerid);
             }
             return -2;
