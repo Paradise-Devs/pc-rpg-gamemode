@@ -469,12 +469,19 @@ YCMD:spec(playerid, params[], help)
 timer UpdateSpectator[1000](playerid)
 {
     new targetid = gPlayerSpecTarget[playerid];
-    if((GetPlayerState(targetid) == PLAYER_STATE_DRIVER || GetPlayerState(targetid) == PLAYER_STATE_PASSENGER) && gPlayerSpecState[playerid] != 1)
+
+    if(GetPlayerInterior(playerid) != GetPlayerInterior(targetid))
+        SetPlayerInterior(playerid, GetPlayerInterior(targetid));
+
+    if(GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(targetid))
+        SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
+
+    if(IsPlayerInAnyVehicle(targetid) && gPlayerSpecState[playerid] != 1)
     {
         gPlayerSpecState[playerid] = 1;
         PlayerSpectateVehicle(playerid, GetPlayerVehicleID(targetid));
     }
-    else
+    else if(!IsPlayerInAnyVehicle(targetid) && gPlayerSpecState[playerid] != 0)
     {
         gPlayerSpecState[playerid] = 0;
         PlayerSpectatePlayer(playerid, targetid);
