@@ -101,8 +101,8 @@ hook OnGameModeInit()
 	CreateDynamicPickup(1210, 1, 2101.5376, -1811.8586, 13.5547, 0, 0, -1, MAX_PICKUP_RANGE); // Icone emprego
 	CreateDynamicPickup(1239, 1, 2093.7966, -1792.2350, 13.3889, 0, 0, -1, MAX_PICKUP_RANGE); // Icone pegar pizza
 
-	CreateDynamic3DTextLabel("Entregador de Pizza\nPressione ENTER", 0xFFFFFFFF, 2101.5376, -1811.8586, 13.5547, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
-	CreateDynamic3DTextLabel("Entregador de Pizza\n/entregarpizza", 0xFFFFFFFF, 2093.7966, -1792.2350, 13.3889, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+	CreateDynamic3DTextLabel("Entregador de Pizza\nPressione {1add69}Y", 0xFFFFFFFF, 2101.5376, -1811.8586, 13.5547, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+	CreateDynamic3DTextLabel("Entregador de Pizza\nDigite {1add69}/entregarpizza", 0xFFFFFFFF, 2093.7966, -1792.2350, 13.3889, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
 	return 1;
 }
 
@@ -211,7 +211,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-	if((newkeys == KEY_SECONDARY_ATTACK) && IsPlayerInRangeOfPoint(playerid, 3.0, 2101.5376, -1811.8586, 13.5547))
+	if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 3.0, 2101.5376, -1811.8586, 13.5547))
 	{
 		if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
 		{
