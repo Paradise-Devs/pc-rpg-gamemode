@@ -79,7 +79,6 @@ public OnCheatDetected(playerid, ip_address[], type, code)
 {
     if(!type)
     {
-
         new count = 0;
         foreach(new i: Player)
         {

@@ -13,6 +13,7 @@
 
 // Required to be at the top
 #include <a_samp>
+#include <streamer>
 #include <nex-ac>
 
 //------------------------------------------------------------------------------
@@ -99,7 +100,6 @@
 #include <YSI\y_iterate>
 #include <YSI\y_commands>
 #include <YSI\y_va>
-#include <streamer>
 #include <progress2>
 #include <fnumb>
 #include <util>

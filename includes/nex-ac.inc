@@ -6,6 +6,7 @@
 #define _nex_ac_included
 
 #include <a_samp>
+#include <YSI\y_hooks>
 
 #if !defined GetConsoleVarAsInt
 	#error Please download SA-MP 0.3.7 R2 server package!
@@ -1689,9 +1690,9 @@ stock acc_CreatePickup(model, type, Float:X, Float:Y, Float:Z, virtualworld = 0)
 		{
 			new STREAMER_TAG_PICKUP ac_pickupid = CreateDynamicPickup(modelid, type, x, y, z, worldid, interiorid, playerid, streamdistance, areaid, priority);
 	#else
-		stock acc_CreateDynamicPickup(modelid, type, Float:x, Float:y, Float:z, worldid = -1, interiorid = -1, playerid = -1, Float:streamdistance = 200.0, areaid = -1, priority = 0)
+		stock acc_CreateDynamicPickup(modelid, type, Float:x, Float:y, Float:z, worldid = -1, interiorid = -1, playerid = -1, Float:streamdistance = 200.0)
 		{
-			new ac_pickupid = CreateDynamicPickup(modelid, type, x, y, z, worldid, interiorid, playerid, streamdistance, areaid, priority);
+			new ac_pickupid = CreateDynamicPickup(modelid, type, x, y, z, worldid, interiorid, playerid, streamdistance);
 	#endif
 		if(_:ac_pickupid > 0)
 		{
