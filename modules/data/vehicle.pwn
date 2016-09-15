@@ -243,7 +243,7 @@ YCMD:updateveh(playerid, params[], help)
         GetVehicleColor(vehicleid, col1, col2);
 
         new option[32];
-     	if(sscanf(params, "s", option))
+     	if(sscanf(params, "s[32]S[128]", option))
      	{
             SendClientMessage(playerid, COLOR_INFO, "* /updateveh [opção]");
             SendClientMessage(playerid, COLOR_SUB_TITLE, "* Opções: model, color, siren, pos, lock, faction, job.");

@@ -345,7 +345,7 @@ YCMD:updatefaction(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você precisa estar logado na RCON para isto.");
 
     new fid, option[12];
-	if(sscanf(params, "is[12]S", fid, option))
+	if(sscanf(params, "is[12]S[128]", fid, option))
 		SendClientMessage(playerid, COLOR_INFO, "* /updatefaction [id] [spawn - name - type - maxranks - custom - color - rankname - rankskin]");
     else if(fid < 0 || fid > MAX_FACTIONS-1)
         SendClientMessagef(playerid, COLOR_ERROR, "* Facção inválida, valores de 0 à %i.", MAX_FACTIONS);
