@@ -93,6 +93,7 @@
 // Libraries
 #include <sscanf2>
 #include <a_mysql>
+#include <nex-ac>
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 #include <YSI\y_iterate>
@@ -242,6 +243,7 @@ new	Iterator:Business<MAX_HOUSES>;
 
 /* Server */
 #include "../modules/server/rcon.pwn"
+#include "../modules/server/anticheat.pwn"
 
 /* Admin */
 #include "../modules/admin/funcs.pwn"
