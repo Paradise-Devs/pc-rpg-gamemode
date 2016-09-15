@@ -13,8 +13,14 @@
 
 //------------------------------------------------------------------------------
 
+#include <YSI\y_hooks>
+
 static gplMarkExt[MAX_PLAYERS][2];
 static Float:gplMarkPos[MAX_PLAYERS][3];
+
+static gPlayerSpecState[MAX_PLAYERS];
+static gPlayerSpecTarget[MAX_PLAYERS] = {INVALID_PLAYER_ID, ...};
+static Timer:gPlayerSpecTimer[MAX_PLAYERS] = {Timer:-1, ...};
 
 //------------------------------------------------------------------------------
 
@@ -28,7 +34,7 @@ YCMD:acmds(playerid, params[], help)
     {
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos - /fuelveh");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check - /aprision - /alibertar");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check - /aprision - /alibertar - /spec");
     }
 
 	if(GetPlayerRank(playerid) >= PLAYER_RANK_ADMIN)
@@ -40,6 +46,19 @@ YCMD:acmds(playerid, params[], help)
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+    if(gPlayerSpecTarget[playerid] != INVALID_PLAYER_ID)
+    {
+        gPlayerSpecState[playerid] = 0;
+        gPlayerSpecTarget[playerid] = INVALID_PLAYER_ID;
+        gPlayerSpecTimer[playerid] = Timer:-1;
+    }
+    return 1;
 }
 
 //------------------------------------------------------------------------------
@@ -399,6 +418,67 @@ YCMD:alibertar(playerid, params[], help)
 
     SetPlayerPrisionTime(targetid, 1);
     return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:spec(playerid, params[], help)
+{
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    if(gPlayerSpecTarget[playerid] == INVALID_PLAYER_ID)
+    {
+        new targetid;
+        if(sscanf(params, "u", targetid))
+            return SendClientMessage(playerid, COLOR_INFO, "* /spec [playerid]");
+
+        else if(!IsPlayerLogged(targetid))
+            return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+        else if(IsPlayerNPC(targetid))
+            return SendClientMessage(playerid, COLOR_ERROR, "* Jogador inválido.");
+
+        TogglePlayerSpectating(playerid, true);
+        SetPlayerInterior(playerid, GetPlayerInterior(targetid));
+        SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
+        if(IsPlayerInAnyVehicle(targetid))
+        {
+            gPlayerSpecState[playerid] = 1;
+            PlayerSpectateVehicle(playerid, GetPlayerVehicleID(targetid));
+        }
+        else
+        {
+            gPlayerSpecState[playerid] = 0;
+            PlayerSpectatePlayer(playerid, targetid);
+        }
+        gPlayerSpecTarget[playerid] = targetid;
+        gPlayerSpecTimer[playerid] = repeat UpdateSpectator(playerid);
+    }
+    else
+    {
+        gPlayerSpecState[playerid] = 0;
+        gPlayerSpecTarget[playerid] = INVALID_PLAYER_ID;
+        stop gPlayerSpecTimer[playerid];
+        gPlayerSpecTimer[playerid] = Timer:-1;
+        TogglePlayerSpectating(playerid, false);
+    }
+    return 1;
+}
+
+timer UpdateSpectator[1000](playerid)
+{
+    new targetid = gPlayerSpecTarget[playerid];
+    if((GetPlayerState(targetid) == PLAYER_STATE_DRIVER || GetPlayerState(targetid) == PLAYER_STATE_PASSENGER) && gPlayerSpecState[playerid] != 1)
+    {
+        gPlayerSpecState[playerid] = 1;
+        PlayerSpectateVehicle(playerid, GetPlayerVehicleID(targetid));
+    }
+    else
+    {
+        gPlayerSpecState[playerid] = 0;
+        PlayerSpectatePlayer(playerid, targetid);
+    }
 }
 
 //------------------------------------------------------------------------------
