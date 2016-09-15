@@ -133,6 +133,9 @@ YCMD:pagar(playerid, params[], help)
 	new message[38 + MAX_PLAYER_NAME];
 	format(message, sizeof(message), "deu uma quantia de dinheiro para %s.", GetPlayerNamef(targetid));
 	SendClientActionMessage(playerid, 20.0, message);
+
+	GivePlayerCash(playerid, -value);
+	GivePlayerCash(targetid, value);
 	return 1;
 }
 
