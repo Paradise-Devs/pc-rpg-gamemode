@@ -913,6 +913,9 @@ public OnWeaponsLoad(playerid)
 			continue;
 		}
 
+        if(ammo < 1)
+            continue;
+
 		GivePlayerWeapon(playerid, weaponid, ammo);
 	}
 	return;
