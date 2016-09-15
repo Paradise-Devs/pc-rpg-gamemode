@@ -78,7 +78,7 @@ StartCityHallSchoolCutscene(playerid)
 
 //------------------------------------------------------------------------------
 
-timer PlayCityHallSound[4000](playerid)
+timer PlayCityHallSound[4500](playerid)
 {
     switch(gPlayerSoundPart[playerid])
     {
@@ -156,16 +156,16 @@ hook OnPlayerEnterRaceCPT(playerid)
 				DisablePlayerRaceCheckpoint(playerid);
                 SetPlayerFirstTime(playerid, FIRST_TIME_CITY_HALL, true);
 
-				SendClientMessage(playerid, 0xB6B6B6FF, "Secretaria diz: Obrigada!.");
-				SendClientMessage(playerid, 0xB6B6B6FF, "Secretaria diz: Caso você esteja perdido, vá comprar um GPS em alguma 24/7.");
-				SendClientMessage(playerid, 0xB6B6B6FF, "Secretaria diz: Ouvi dizer que a pizzaria está contratando motoboys, arranje uma carta para motos e vá para lá.");
+				SendClientMessage(playerid, 0xB6B6B6FF, "Secretario diz: Obrigado!.");
+				SendClientMessage(playerid, 0xB6B6B6FF, "Secretario diz: Caso você esteja perdido, vá comprar um GPS em alguma 24/7.");
+				SendClientMessage(playerid, 0xB6B6B6FF, "Secretario diz: Ouvi dizer que a pizzaria está contratando motoboys, arranje uma carta para motos e vá para lá.");
 				GivePlayerCash(playerid, 800);
 				foreach(new i: Player)
 				{
 					if(IsPlayerInRangeOfPoint(i, 8.0, 361.8299, 173.5555, 1008.3828))
 					{
 						new message[54 + MAX_PLAYER_NAME];
-						format(message, sizeof(message), "* Secretaria entrega uma quantia de dinheiro para %s.", GetPlayerNamef(playerid));
+						format(message, sizeof(message), "* Secretario entrega uma quantia de dinheiro para %s.", GetPlayerNamef(playerid));
 						SendClientMessage(i, 0xDA70D6FF, message);
 					}
 				}
@@ -175,10 +175,19 @@ hook OnPlayerEnterRaceCPT(playerid)
 				g_pCheckpoint[playerid] = -1;
 				ApplyAnimation(playerid, "INT_SHOP", "SHOP_LOOP", 4.1, 0, 1, 1, 0, 0, 1);
                 SetPlayerRaceCheckpoint(playerid, 1, 361.8299, 173.5555, 1008.3828, 0.0, 0.0, 0.0, 1.0);
-				SendClientMessage(playerid, 0xFFFFFFFF, "* Volte para o {D1E28E}balcão{FFFFFF} para falar com a secretaria.");
+				SendClientMessage(playerid, 0xFFFFFFFF, "* Volte para o {D1E28E}balcão{FFFFFF} para falar com a secretario.");
 			}
         }
     }
+}
+
+//------------------------------------------------------------------------------
+
+IsPlayerInCityHallMission(playerid)
+{
+	if(GetPlayerCPID(playerid) == CHECKPOINT_CITYHALL || gIsPlayerTalkin[playerid] == true)
+		return true;
+	return false;
 }
 
 //------------------------------------------------------------------------------

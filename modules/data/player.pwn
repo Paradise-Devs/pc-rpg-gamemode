@@ -782,18 +782,27 @@ SavePlayerAccount(playerid)
         z = 14.5510;
         a = 88.4013;
     }
-    else if(!GetPlayerSpawnPosition(playerid))
+    else if(IsPlayerInCityHallMission(playerid))
+    {
+        world = 0;
+        interior = 0;
+        x = 1480.9612;
+        y = -1767.6107;
+        z = 18.7958;
+        a = 178.9622;
+    }
+    else if(GetPlayerSpawnPosition(playerid) == HOUSE_POSITION)
+    {
+        world = 0;
+        interior = 0;
+        GetApartmentEntrance(GetPlayerApartmentKey(playerid), x, y, z, a);
+    }
+    else
     {
         world = GetPlayerVirtualWorld(playerid);
         interior = GetPlayerInterior(playerid);
         GetPlayerPos(playerid, x, y, z);
         GetPlayerFacingAngle(playerid, a);
-    }
-    else
-    {
-        world = 0;
-        interior = 0;
-        GetApartmentEntrance(GetPlayerApartmentKey(playerid), x, y, z, a);
     }
 
     new Float:health, Float:armour;
