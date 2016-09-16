@@ -440,7 +440,7 @@ YCMD:updatefaction(playerid, params[], help)
     else if(!strcmp(option, "color"))
     {
         new color;
-        if(sscanf(params, "is[8]i", fid, option, color))
+        if(sscanf(params, "is[8]x", fid, option, color))
             SendClientMessagef(playerid, COLOR_INFO, "* /updatefaction %i %s [color]", fid, option);
         else
         {
