@@ -81,6 +81,25 @@ DestroyAdminCars(playerid)
 
 //------------------------------------------------------------------------------
 
+RemoveVehicleAdminCarsIndex(vehicleid)
+{
+	foreach(new i: Player)
+	{
+		for(new j = 0; j < MAX_CREATED_VEH_PER_ADMIN; j++)
+		{
+			if(gAdminCreatedCars[i][j] == vehicleid)
+			{
+				gAdminCreatedCars[i][j] = 0;
+				gAdminCCarsCount[i]--;
+			}
+		}
+		break;
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
 KickEx(playerid, admin, reason[]) {
 	new outputAll[144];
 	format(outputAll, sizeof(outputAll), "* %s foi kickado por %s. Motivo: %s", GetPlayerNamef(playerid), GetPlayerNamef(admin), reason);

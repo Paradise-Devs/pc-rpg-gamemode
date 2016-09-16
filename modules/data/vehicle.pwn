@@ -139,7 +139,7 @@ SaveVehicles()
         gVehicleData[i][e_vehicle_model], gVehicleData[i][e_vehicle_color_1], gVehicleData[i][e_vehicle_color_2], gVehicleData[i][e_vehicle_siren], gVehicleData[i][e_vehicle_x], gVehicleData[i][e_vehicle_y], gVehicleData[i][e_vehicle_z], gVehicleData[i][e_vehicle_a], gVehicleData[i][e_vehicle_fuel],
         gVehicleData[i][e_vehicle_health], gVehicleData[i][e_vehicle_factionid], gVehicleData[i][e_vehicle_jobid], gVehicleData[i][e_vehicle_locked],
         gVehicleData[i][e_vehicle_db]);
-        mysql_pquery(mysql, query);
+        mysql_tquery(mysql, query);
     }
     return 1;
 }
@@ -148,7 +148,7 @@ SaveVehicles()
 
 hook OnGameModeInit()
 {
-    mysql_pquery(mysql, "SELECT * FROM `vehicles`", "OnVehicleLoad");
+    mysql_tquery(mysql, "SELECT * FROM `vehicles`", "OnVehicleLoad");
     return 1;
 }
 
@@ -228,6 +228,7 @@ YCMD:insertveh(playerid, params[], help)
         GetVehiclePos(vehicleid, x, y, z);
         GetVehicleColor(vehicleid, col1, col2);
 
+        RemoveVehicleAdminCarsIndex(vehicleid);
         SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você inseriu um %s no banco de dados.", GetVehicleName(vehicleid));
 
         DestroyVehicle(vehicleid);
@@ -236,7 +237,7 @@ YCMD:insertveh(playerid, params[], help)
 
         new query[400];
         mysql_format(mysql, query, sizeof(query), "INSERT INTO `vehicles` (`vehicle_model`, `vehicle_col1`, `vehicle_col2`, `vehicle_x`, `vehicle_y`, `vehicle_z`, `vehicle_a`, `vehicle_fuel`, `vehicle_health`) VALUES (%d, %d, %d, %f, %f, %f, %f, %f, %f)", modelid, col1, col2, x, y, z, a, 100.0, 1000.0);
-        mysql_pquery(mysql, query, "OnInsertVehicle", "i", vehicleid);
+        mysql_tquery(mysql, query, "OnInsertVehicle", "i", vehicleid);
     }
     return 1;
 }
@@ -276,7 +277,7 @@ YCMD:updateveh(playerid, params[], help)
         else if(!strcmp(option, "model"))
         {
             new c_modelid;
-            if(sscanf(params, "si", option, c_modelid))
+            if(sscanf(params, "s[32]i", option, c_modelid))
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh model [400 - 611]");
             else if(modelid < 400 || modelid > 611)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Modelo inválido.");
@@ -290,30 +291,32 @@ YCMD:updateveh(playerid, params[], help)
 
                 new query[80];
                 mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_model`=%d WHERE `ID`=%d", c_modelid, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
-                mysql_pquery(mysql, query);
+                mysql_tquery(mysql, query);
             }
         }
         else if(!strcmp(option, "color"))
         {
             new c_col1, c_col2;
-            if(sscanf(params, "sii", option, c_col1, c_col2))
+            if(sscanf(params, "s[32]ii", option, c_col1, c_col2))
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh color [cor1] [cor2]");
             else if(c_col1 < -1 || c_col2 < -1)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Cor inválida.");
             else
             {
                 ChangeVehicleColor(vehicleid, c_col1, c_col2);
+                gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_color_1] = c_col1;
+                gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_color_2] = c_col2;
                 SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a cor do veículo %d de {%d, %d} para {%d, %d}.", vehicleid, col1, col2, c_col1, c_col2);
 
                 new query[100];
                 mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_col1`=%d, `vehicle_col2`=%d WHERE `ID`=%d", c_col1, c_col2, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
-                mysql_pquery(mysql, query);
+                mysql_tquery(mysql, query);
             }
         }
         else if(!strcmp(option, "siren"))
         {
             new c_siren;
-            if(sscanf(params, "si", option, c_siren))
+            if(sscanf(params, "s[32]i", option, c_siren))
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh siren [1-sim | 0-não]");
             else if(c_siren < 0 || c_siren > 1)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Sirene inválida.");
@@ -332,7 +335,7 @@ YCMD:updateveh(playerid, params[], help)
 
                 new query[80];
                 mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_siren`=%d WHERE `ID`=%d", c_siren, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
-                mysql_pquery(mysql, query);
+                mysql_tquery(mysql, query);
             }
         }
         else if(!strcmp(option, "pos"))
@@ -350,12 +353,12 @@ YCMD:updateveh(playerid, params[], help)
 
             new query[160];
             mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_x`=%f, `vehicle_y`=%f, `vehicle_z`=%f, `vehicle_a`=%f WHERE `ID`=%d", x, y, z, a, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
-            mysql_pquery(mysql, query);
+            mysql_tquery(mysql, query);
         }
         else if(!strcmp(option, "lock"))
         {
             new c_lock;
-            if(sscanf(params, "si", option, c_lock))
+            if(sscanf(params, "s[32]i", option, c_lock))
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh lock [1-trancado | 0-destrancado]");
             else if(c_lock < 0 || c_lock > 1)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Tranca inválida.");
@@ -374,13 +377,13 @@ YCMD:updateveh(playerid, params[], help)
 
                 new query[80];
                 mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_locked`=%d WHERE `ID`=%d", c_lock, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
-                mysql_pquery(mysql, query);
+                mysql_tquery(mysql, query);
             }
         }
         else if(!strcmp(option, "faction"))
         {
             new c_faction;
-            if(sscanf(params, "si", option, c_faction))
+            if(sscanf(params, "s[32]i", option, c_faction))
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh faction [id da facção]");
             else if(c_faction < 0)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Facção inválida.");
@@ -393,13 +396,13 @@ YCMD:updateveh(playerid, params[], help)
 
                 new query[80];
                 mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_faction`=%d WHERE `ID`=%d", c_faction, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
-                mysql_pquery(mysql, query);
+                mysql_tquery(mysql, query);
             }
         }
         else if(!strcmp(option, "job"))
         {
             new c_job;
-            if(sscanf(params, "si", option, c_job))
+            if(sscanf(params, "s[32]i", option, c_job))
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh job [id do emprego]");
             else if(c_job < 0)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Emprego inválido.");
@@ -412,7 +415,7 @@ YCMD:updateveh(playerid, params[], help)
 
                 new query[80];
                 mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_job`=%d WHERE `ID`=%d", c_job, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
-                mysql_pquery(mysql, query);
+                mysql_tquery(mysql, query);
             }
         }
         else
@@ -447,7 +450,7 @@ YCMD:deleteveh(playerid, params[], help)
 
         new query[60];
         mysql_format(mysql, query, sizeof(query), "DELETE FROM `vehicles` WHERE `ID`=%d", gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
-        mysql_pquery(mysql, query);
+        mysql_tquery(mysql, query);
 
         gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db] = 0;
     }
