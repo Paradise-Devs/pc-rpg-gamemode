@@ -180,6 +180,15 @@ public OnInsertPetOnDatabase(playerid)
 
 //------------------------------------------------------------------------------
 
+hook OnGameModeInit()
+{
+    CreateDynamicPickup(1210, 1, 1370.2031, -1746.1957, 13.5494, 0, 0, -1, MAX_PICKUP_RANGE);
+	CreateDynamic3DTextLabel("Pet Shop\nDigite {1add69}/ajudapet", 0xFFFFFFFF, 1370.2031, -1746.1957, 13.5494, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 hook OnPlayerSpawn(playerid)
 {
     if(IsPlayerNPC(playerid))
@@ -302,10 +311,13 @@ YCMD:ajudapet(playerid, params[], help)
 
 YCMD:comprarpet(playerid, params[], help)
 {
-    if(gPPetData[playerid][E_PET_DBID_PLAYER])
+    if(!IsPlayerInRangeOfPoint(playerid, 7.5, 1370.2031, -1746.1957, 13.5494))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está no petshop.");
+
+    else if(gPPetData[playerid][E_PET_DBID_PLAYER])
         return SendClientMessage(playerid, COLOR_ERROR, "* Você já tem um pet.");
 
-	if(GetPlayerCash(playerid) < PET_PRICE)
+	else if(GetPlayerCash(playerid) < PET_PRICE)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
 
     new petName[MAX_PET_NAME];
@@ -350,10 +362,10 @@ YCMD:alimentarpet(playerid, params[], help)
     if(!gPPetData[playerid][E_PET_DBID_PLAYER])
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem um pet.");
 
-	if(!gPPetData[playerid][E_PET_FOOD_PLAYER])
+	else if(!gPPetData[playerid][E_PET_FOOD_PLAYER])
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem ração para seu pet.");
 
-	if(gPPetData[playerid][E_PET_HUNGER] > 25.0)
+	else if(gPPetData[playerid][E_PET_HUNGER] > 25.0)
 	{
 		SendClientActionMessage(playerid, 15.0, "tenta alimentar seu pet mas ele recusa.");
 		return 1;
@@ -372,13 +384,16 @@ YCMD:alimentarpet(playerid, params[], help)
 
 YCMD:compraralimentopet(playerid, params[], help)
 {
-    if(!gPPetData[playerid][E_PET_DBID_PLAYER])
+    if(!IsPlayerInRangeOfPoint(playerid, 7.5, 1370.2031, -1746.1957, 13.5494))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está no petshop.");
+
+    else if(!gPPetData[playerid][E_PET_DBID_PLAYER])
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem um pet.");
 
-	if(gPPetData[playerid][E_PET_FOOD_PLAYER] > 2)
+	else if(gPPetData[playerid][E_PET_FOOD_PLAYER] > 2)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode carregar mais ração.");
 
-	if(GetPlayerCash(playerid) < PET_FOOD_PRICE)
+	else if(GetPlayerCash(playerid) < PET_FOOD_PRICE)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem dinheiro suficiente.");
 
 	SendClientMessage(playerid, 0xffffffff, "* Você comprou ração para pets.");
