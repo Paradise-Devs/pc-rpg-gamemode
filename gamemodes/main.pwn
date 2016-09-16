@@ -40,6 +40,9 @@
 #define MAX_TEXT3D_RANGE								20.0
 #define MAX_MAPICON_RANGE								150.0
 
+// Numbers of vehicles hardcoded
+#define PRELOADED_VEHICLES								1
+
 #define PICKUP_DELAY									2 // Seconds
 
 #define INVALID_APARTMENT_ID							-1

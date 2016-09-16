@@ -33,7 +33,7 @@ YCMD:acmds(playerid, params[], help)
 	if(GetPlayerRank(playerid) >= PLAYER_RANK_MODERATOR)
     {
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos - /fuelveh");
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /tpcar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check - /aprision - /alibertar - /spec");
     }
 
@@ -616,6 +616,33 @@ YCMD:ircar(playerid, params[], help)
         new Float:x, Float:y, Float:z;
         GetVehiclePos(vehicleid, x, y, z);
         SetPlayerPos(playerid, x, y, z);
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:tpcar(playerid, params[], help)
+{
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+	new vehicleid;
+	if(sscanf(params, "i", vehicleid))
+		SendClientMessage(playerid, COLOR_INFO, "* /tpcar [veículo id]");
+    else if(GetVehicleModel(vehicleid) == 0)
+		SendClientMessage(playerid, COLOR_ERROR, "* Veículo não existe.");
+	else
+    {
+        if(!IsVehicleOccupied(vehicleid))
+        {
+            PutPlayerInVehicle(playerid, vehicleid, 0);
+            SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você foi até o veículo %d.", vehicleid);
+        }
+        else
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Este veículo está ocupado.");
+        }
 	}
 	return 1;
 }

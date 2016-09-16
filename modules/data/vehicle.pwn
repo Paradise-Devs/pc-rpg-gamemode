@@ -55,23 +55,42 @@ static gCreatedVehicles;
 //------------------------------------------------------------------------------
 
 Float:GetVehicleFuel(vehicleid)
-    return gVehicleData[vehicleid][e_vehicle_fuel];
+{
+    if(vehicleid <= PRELOADED_VEHICLES)
+        return 100.0;
+    return gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_fuel];
+}
 
 SetVehicleFuel(vehicleid, Float:value)
-    gVehicleData[vehicleid][e_vehicle_fuel] = value;
+{
+    if(vehicleid <= PRELOADED_VEHICLES)
+        return 0;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_fuel] = value;
+    return 1;
+}
 
 //------------------------------------------------------------------------------
 
 Float:GetVehicleHealthf(vehicleid)
 {
-    GetVehicleHealth(vehicleid, gVehicleData[vehicleid][e_vehicle_health]);
-    return gVehicleData[vehicleid][e_vehicle_health];
+    if(vehicleid <= PRELOADED_VEHICLES)
+    {
+        new Float:health;
+        GetVehicleHealth(vehicleid, health);
+        return health;
+    }
+    GetVehicleHealth(vehicleid, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_health]);
+    return gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_health];
 }
 
 //------------------------------------------------------------------------------
 
 GetVehicleFactionID(vehicleid)
-    return gVehicleData[vehicleid][e_vehicle_factionid];
+{
+    if(vehicleid <= PRELOADED_VEHICLES)
+        return 0;
+    return gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_factionid];
+}
 
 //------------------------------------------------------------------------------
 
@@ -146,24 +165,24 @@ public OnInsertVehicle(vehicleid)
     GetVehiclePos(vehicleid, x, y, z);
     GetVehicleColor(vehicleid, col1, col2);
 
-    gVehicleData[vehicleid][e_vehicle_db] = index;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db] = index;
 
-    gVehicleData[vehicleid][e_vehicle_model]        = modelid;
-    gVehicleData[vehicleid][e_vehicle_color_1]      = col1;
-    gVehicleData[vehicleid][e_vehicle_color_2]      = col2;
-    gVehicleData[vehicleid][e_vehicle_siren]        = 0;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_model]        = modelid;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_color_1]      = col1;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_color_2]      = col2;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_siren]        = 0;
 
-    gVehicleData[vehicleid][e_vehicle_x]            = x;
-    gVehicleData[vehicleid][e_vehicle_y]            = y;
-    gVehicleData[vehicleid][e_vehicle_z]            = z;
-    gVehicleData[vehicleid][e_vehicle_a]            = a;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_x]            = x;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_y]            = y;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_z]            = z;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_a]            = a;
 
-    gVehicleData[vehicleid][e_vehicle_fuel]         = 100.0;
-    gVehicleData[vehicleid][e_vehicle_health]       = 1000.0;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_fuel]         = 100.0;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_health]       = 1000.0;
 
-    gVehicleData[vehicleid][e_vehicle_factionid]    = 0;
-    gVehicleData[vehicleid][e_vehicle_jobid]        = 0;
-    gVehicleData[vehicleid][e_vehicle_locked]       = 1;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_factionid]    = 0;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_jobid]        = 0;
+    gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_locked]       = 1;
 
     printf("[mysql] inserted vehicle %d on database.", index);
 }
@@ -194,7 +213,10 @@ YCMD:insertveh(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
 
     new vehicleid = GetPlayerVehicleID(playerid);
-    if(gVehicleData[vehicleid][e_vehicle_db] != 0)
+    if(vehicleid <= PRELOADED_VEHICLES)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo não pode ser adicionado ao banco de dados.");
+
+    else if(gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db] != 0)
         return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo já está no banco de dados, use /updateveh.");
 
     else
@@ -230,7 +252,10 @@ YCMD:updateveh(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
 
     new vehicleid = GetPlayerVehicleID(playerid);
-    if(gVehicleData[vehicleid][e_vehicle_db] == 0)
+    if(vehicleid <= PRELOADED_VEHICLES)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo não está no banco de dados.");
+
+    else if(gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db] == 0)
         return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo não está no banco de dados, use /insertveh.");
 
     else
@@ -258,13 +283,13 @@ YCMD:updateveh(playerid, params[], help)
             else
             {
                 DestroyVehicle(vehicleid);
-                vehicleid = CreateVehicle(c_modelid, x, y, z, a, col1, col2, -1, gVehicleData[vehicleid][e_vehicle_siren]);
+                vehicleid = CreateVehicle(c_modelid, x, y, z, a, col1, col2, -1, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_siren]);
                 PutPlayerInVehicle(playerid, vehicleid, 0);
 
                 SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o modelo do veículo %d de %s para %s.", vehicleid, GetVehicleNameFromModel(modelid), GetVehicleNameFromModel(c_modelid));
 
                 new query[80];
-                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_model`=%d WHERE `ID`=%d", c_modelid, gVehicleData[vehicleid][e_vehicle_db]);
+                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_model`=%d WHERE `ID`=%d", c_modelid, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
                 mysql_pquery(mysql, query);
             }
         }
@@ -281,7 +306,7 @@ YCMD:updateveh(playerid, params[], help)
                 SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a cor do veículo %d de {%d, %d} para {%d, %d}.", vehicleid, col1, col2, c_col1, c_col2);
 
                 new query[100];
-                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_col1`=%d, `vehicle_col2`=%d WHERE `ID`=%d", c_col1, c_col2, gVehicleData[vehicleid][e_vehicle_db]);
+                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_col1`=%d, `vehicle_col2`=%d WHERE `ID`=%d", c_col1, c_col2, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
                 mysql_pquery(mysql, query);
             }
         }
@@ -292,9 +317,9 @@ YCMD:updateveh(playerid, params[], help)
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh siren [1-sim | 0-não]");
             else if(c_siren < 0 || c_siren > 1)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Sirene inválida.");
-            else if(c_siren == 1 && c_siren == gVehicleData[vehicleid][e_vehicle_siren])
+            else if(c_siren == 1 && c_siren == gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_siren])
                 return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo já possui sirene.");
-            else if(c_siren == 0 && c_siren == gVehicleData[vehicleid][e_vehicle_siren])
+            else if(c_siren == 0 && c_siren == gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_siren])
                 return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo já está sem sirene.");
             else
             {
@@ -302,29 +327,29 @@ YCMD:updateveh(playerid, params[], help)
                 vehicleid = CreateVehicle(modelid, x, y, z, a, col1, col2, -1, c_siren);
                 PutPlayerInVehicle(playerid, vehicleid, 0);
 
-                SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a sirene do veículo %d de %d para %d.", vehicleid, gVehicleData[vehicleid][e_vehicle_siren], c_siren);
-                gVehicleData[vehicleid][e_vehicle_siren] = c_siren;
+                SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a sirene do veículo %d de %d para %d.", vehicleid, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_siren], c_siren);
+                gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_siren] = c_siren;
 
                 new query[80];
-                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_siren`=%d WHERE `ID`=%d", c_siren, gVehicleData[vehicleid][e_vehicle_db]);
+                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_siren`=%d WHERE `ID`=%d", c_siren, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
                 mysql_pquery(mysql, query);
             }
         }
         else if(!strcmp(option, "pos"))
         {
             DestroyVehicle(vehicleid);
-            vehicleid = CreateVehicle(modelid, x, y, z, a, col1, col2, -1, gVehicleData[vehicleid][e_vehicle_siren]);
+            vehicleid = CreateVehicle(modelid, x, y, z, a, col1, col2, -1, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_siren]);
             PutPlayerInVehicle(playerid, vehicleid, 0);
 
             SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a posição do veículo %d para a atual.", vehicleid);
 
-            gVehicleData[vehicleid][e_vehicle_x]            = x;
-            gVehicleData[vehicleid][e_vehicle_y]            = y;
-            gVehicleData[vehicleid][e_vehicle_z]            = z;
-            gVehicleData[vehicleid][e_vehicle_a]            = a;
+            gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_x]            = x;
+            gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_y]            = y;
+            gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_z]            = z;
+            gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_a]            = a;
 
             new query[160];
-            mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_x`=%f, `vehicle_y`=%f, `vehicle_z`=%f, `vehicle_a`=%f WHERE `ID`=%d", x, y, z, a, gVehicleData[vehicleid][e_vehicle_db]);
+            mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_x`=%f, `vehicle_y`=%f, `vehicle_z`=%f, `vehicle_a`=%f WHERE `ID`=%d", x, y, z, a, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
             mysql_pquery(mysql, query);
         }
         else if(!strcmp(option, "lock"))
@@ -334,21 +359,21 @@ YCMD:updateveh(playerid, params[], help)
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh lock [1-trancado | 0-destrancado]");
             else if(c_lock < 0 || c_lock > 1)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Tranca inválida.");
-            else if(c_lock == 1 && c_lock == gVehicleData[vehicleid][e_vehicle_locked])
+            else if(c_lock == 1 && c_lock == gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_locked])
                 return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo já está trancado.");
-            else if(c_lock == 0 && c_lock == gVehicleData[vehicleid][e_vehicle_locked])
+            else if(c_lock == 0 && c_lock == gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_locked])
                 return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo já está destrancado.");
             else
             {
-                SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a tranca do veículo %d de %d para %d.", vehicleid, gVehicleData[vehicleid][e_vehicle_locked], c_lock);
-                gVehicleData[vehicleid][e_vehicle_locked] = c_lock;
+                SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a tranca do veículo %d de %d para %d.", vehicleid, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_locked], c_lock);
+                gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_locked] = c_lock;
 
                 new engine, lights, alarm, doors, bonnet, boot, objective;
                 GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
                 SetVehicleParamsEx(vehicleid, engine, lights, alarm, c_lock, bonnet, boot, objective);
 
                 new query[80];
-                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_locked`=%d WHERE `ID`=%d", c_lock, gVehicleData[vehicleid][e_vehicle_db]);
+                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_locked`=%d WHERE `ID`=%d", c_lock, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
                 mysql_pquery(mysql, query);
             }
         }
@@ -359,15 +384,15 @@ YCMD:updateveh(playerid, params[], help)
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh faction [id da facção]");
             else if(c_faction < 0)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Facção inválida.");
-            else if(c_faction == gVehicleData[vehicleid][e_vehicle_factionid])
+            else if(c_faction == gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_factionid])
                 return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo já é desta facção.");
             else
             {
-                SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a facção do veículo %d de %d para %d.", vehicleid, gVehicleData[vehicleid][e_vehicle_factionid], c_faction);
-                gVehicleData[vehicleid][e_vehicle_factionid] = c_faction;
+                SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a facção do veículo %d de %d para %d.", vehicleid, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_factionid], c_faction);
+                gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_factionid] = c_faction;
 
                 new query[80];
-                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_faction`=%d WHERE `ID`=%d", c_faction, gVehicleData[vehicleid][e_vehicle_db]);
+                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_faction`=%d WHERE `ID`=%d", c_faction, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
                 mysql_pquery(mysql, query);
             }
         }
@@ -378,15 +403,15 @@ YCMD:updateveh(playerid, params[], help)
                 return SendClientMessage(playerid, COLOR_INFO, "* /updateveh job [id do emprego]");
             else if(c_job < 0)
                 return SendClientMessage(playerid, COLOR_ERROR, "* Emprego inválido.");
-            else if(c_job == gVehicleData[vehicleid][e_vehicle_jobid])
+            else if(c_job == gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_jobid])
                 return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo já é deste emprego.");
             else
             {
-                SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a facção do veículo %d de %d para %d.", vehicleid, gVehicleData[vehicleid][e_vehicle_jobid], c_job);
-                gVehicleData[vehicleid][e_vehicle_jobid] = c_job;
+                SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a facção do veículo %d de %d para %d.", vehicleid, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_jobid], c_job);
+                gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_jobid] = c_job;
 
                 new query[80];
-                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_job`=%d WHERE `ID`=%d", c_job, gVehicleData[vehicleid][e_vehicle_db]);
+                mysql_format(mysql, query, sizeof(query), "UPDATE `vehicles` SET `vehicle_job`=%d WHERE `ID`=%d", c_job, gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
                 mysql_pquery(mysql, query);
             }
         }
@@ -409,7 +434,10 @@ YCMD:deleteveh(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
 
     new vehicleid = GetPlayerVehicleID(playerid);
-    if(gVehicleData[vehicleid][e_vehicle_db] == 0)
+    if(vehicleid <= PRELOADED_VEHICLES)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo não está no banco de dados.");
+
+    else if(gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db] == 0)
         return SendClientMessage(playerid, COLOR_ERROR, "* Este veículo não está no banco de dados.");
 
     else
@@ -418,10 +446,10 @@ YCMD:deleteveh(playerid, params[], help)
         SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você deletou o veículo %d do banco de dados.", vehicleid);
 
         new query[60];
-        mysql_format(mysql, query, sizeof(query), "DELETE FROM `vehicles` WHERE `ID`=%d", gVehicleData[vehicleid][e_vehicle_db]);
+        mysql_format(mysql, query, sizeof(query), "DELETE FROM `vehicles` WHERE `ID`=%d", gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db]);
         mysql_pquery(mysql, query);
 
-        gVehicleData[vehicleid][e_vehicle_db] = 0;
+        gVehicleData[vehicleid - (PRELOADED_VEHICLES + 1)][e_vehicle_db] = 0;
     }
     return 1;
 }

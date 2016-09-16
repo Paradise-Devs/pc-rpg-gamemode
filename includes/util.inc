@@ -493,6 +493,20 @@ stock GetVehicleModelIDFromName(vname[])
 
 //------------------------------------------------------------------------------
 
+stock IsVehicleOccupied(vehicleid)
+{
+	for(new i = 0; i < MAX_PLAYERS; i++)
+	{
+		if(IsPlayerInVehicle(i, vehicleid))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+//------------------------------------------------------------------------------
+
 stock GetVehicleName(vehicleid)
 {
     new vehiclename[32] = "Nenhum";
