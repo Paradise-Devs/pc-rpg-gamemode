@@ -78,8 +78,8 @@ YCMD:cancelargps(playerid, params[], help)
 	if(!PlayerGPSInfo[playerid][isActive])
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não selecionou nenhum destino no GPS até o momento.");
 
-	UnsetPlayerGPS(playerid, false);
 	PlaySelectSound(playerid);
+	UnsetPlayerGPS(playerid, false);
 	DisablePlayerRaceCheckpoint(playerid);
     SetPlayerCPID(playerid, CHECKPOINT_NONE);
 	return 1;
@@ -317,9 +317,9 @@ hook OnPlayerEnterRaceCPT(playerid)
         return 1;
 
 	PlaySelectSound(playerid);
+	UnsetPlayerGPS(playerid, true);
 	DisablePlayerRaceCheckpoint(playerid);
     SetPlayerCPID(playerid, CHECKPOINT_NONE);
-	UnsetPlayerGPS(playerid, true);
     return 1;
 }
 
@@ -366,31 +366,32 @@ UnsetPlayerGPS(playerid, bool:target_reached)
 	PlayerGPSInfo[playerid][target_z] = 0.0;
 	DestroyDynamicObject(PlayerGPSInfo[playerid][gps_arrow]);
 	DeletePlayer3DTextLabel(playerid, PlayerGPSInfo[playerid][target_label]);
-	if(!target_reached) SendClientMessage(playerid, -1, "{FFFFFF}* Localização do destino no GPS: {FF0000}cancelada{FFFFFF}.");
-	else SendClientMessage(playerid, -1, "{FFFFFF}* Localização do destino no GPS: {00FF00}você chegou ao seu destino{FFFFFF}!");
+	if(!target_reached) SendClientMessage(playerid, -1, "{FFFFFF}* Localização do destino no GPS: {FF0000}Cancelada{FFFFFF}.");
+	else SendClientMessage(playerid, -1, "{FFFFFF}* Localização do destino no GPS: {00FF00}Você chegou ao seu destino{FFFFFF}!");
 	return 1;
 }
 
 
 hook OnPlayerDeath(playerid, killerid, reason)
 {
-	if(IsPlayerInAnyVehicle(playerid) && PlayerGPSInfo[playerid][isActive]) UnsetPlayerGPS(playerid, false);
-	PlaySelectSound(playerid);
-	DisablePlayerRaceCheckpoint(playerid);
-    SetPlayerCPID(playerid, CHECKPOINT_NONE);
-	UnsetPlayerGPS(playerid, true);
+	if(IsPlayerInAnyVehicle(playerid) && PlayerGPSInfo[playerid][isActive])
+	{
+		PlayCancelSound(playerid);
+		UnsetPlayerGPS(playerid, false);
+		DisablePlayerRaceCheckpoint(playerid);
+		SetPlayerCPID(playerid, CHECKPOINT_NONE);
+	}
 	return 1;
 }
 
 hook OnPlayerStateChange(playerid, newstate, oldstate)
 {
-	if(oldstate == PLAYER_STATE_DRIVER && newstate != PLAYER_STATE_DRIVER && PlayerGPSInfo[playerid][isActive]) 
+	if(oldstate == PLAYER_STATE_DRIVER && newstate != PLAYER_STATE_DRIVER && PlayerGPSInfo[playerid][isActive])
 	{
-	    UnsetPlayerGPS(playerid, false);
-	    PlaySelectSound(playerid);
+	    PlayCancelSound(playerid);
+		UnsetPlayerGPS(playerid, false);
     	DisablePlayerRaceCheckpoint(playerid);
         SetPlayerCPID(playerid, CHECKPOINT_NONE);
-    	UnsetPlayerGPS(playerid, true);
 	}
 	return 1;
 }
