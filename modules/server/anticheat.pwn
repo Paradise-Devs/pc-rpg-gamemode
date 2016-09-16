@@ -104,7 +104,10 @@ public OnCheatDetected(playerid, ip_address[], type, code)
 hook OnGameModeInit()
 {
     EnableAntiCheat(6, false);
+    EnableAntiCheat(11, false);
+    EnableAntiCheat(12, false);
     EnableAntiCheat(14, false);
+    EnableAntiCheat(15, false);
     EnableAntiCheat(16, false);
     EnableAntiCheat(17, false);
     EnableAntiCheat(21, false);
