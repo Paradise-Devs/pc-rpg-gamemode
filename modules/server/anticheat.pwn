@@ -114,6 +114,7 @@ hook OnGameModeInit()
     EnableAntiCheat(15, false);
     EnableAntiCheat(16, false);
     EnableAntiCheat(17, false);
+    EnableAntiCheat(18, false);
     EnableAntiCheat(21, false);
     EnableAntiCheat(36, false);
     EnableAntiCheat(37, false);

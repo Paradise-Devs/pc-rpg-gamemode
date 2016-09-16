@@ -20,6 +20,9 @@ task OnVehicleUpdate[1000]()
     new engine, lights, alarm, doors, bonnet, boot, objective;
     foreach(new i: Vehicle)
     {
+        if(GetVehicleCategory(i) == VEHICLE_CATEGORY_BICYCLE)
+            continue;
+
         GetVehicleParamsEx(i, engine, lights, alarm, doors, bonnet, boot, objective);
         if(engine == VEHICLE_PARAMS_ON)
             SetVehicleFuel(i, GetVehicleFuel(i) - 0.02);

@@ -307,7 +307,7 @@ YCMD:dormir(playerid, params[], help)
 	if(IsPlayerSleeping(playerid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você já está dormindo.");
 
-    if(GetPlayerSleep(playerid) > 10.0)
+    else if(GetPlayerSleep(playerid) > 10.0)
     	return SendClientMessage(playerid, COLOR_ERROR, "* Você não está com sono.");
 
 	ApplyAnimation(playerid, "CRACK", "crckidle2", 4.1, 1, 0, 0, 1, 0, 1);
@@ -324,6 +324,9 @@ YCMD:acordar(playerid, params[], help)
 	new targetid;
 	if(sscanf(params, "u", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /acordar [playerid]");
+
+	else if(!IsPlayerLogged(targetid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* Jogador não encontrado.");
 
 	else if(GetPlayerDistanceFromPlayer(playerid, targetid) > 3.0)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está próximo do jogador.");

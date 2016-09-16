@@ -439,6 +439,9 @@ YCMD:spec(playerid, params[], help)
         else if(IsPlayerNPC(targetid))
             return SendClientMessage(playerid, COLOR_ERROR, "* Jogador inválido.");
 
+        else if(targetid == playerid)
+            return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode dar spec em você mesmo.");
+
         TogglePlayerSpectating(playerid, true);
         SetPlayerInterior(playerid, GetPlayerInterior(targetid));
         SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));

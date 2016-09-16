@@ -27,6 +27,7 @@ new gTutorialMessages[][] =
     "~r~LSPD~n~~n~~w~A policia de Los Santos e responsavel por manter a cidade segura. caso voce~n~cometa algum crime eles serao acionados e irao tentar prende-lo.~n~~n~Dentro da prisao voce passara algum tempo para refletir sobre seus atos,~n~pense duas vezes antes de cometer um crime ou tres vezes em como fugir.",
     "~r~Concessionaria~n~~n~~w~Na concessionaria voce pode comprar veiculos pessoais e estaciona-los em~n~qualquer local.~n~~n~E possivel comprar multiplos veiculos.",
     "~r~Status~n~~w~Com o tempo seu personagem sentira fome e sede e precisara se alimentar para~n~continuar vivo.~n~~n~Caso voce nao se alimente sua vida ira descer com o tempo, se nesse periodo~n~voce nao se alimentar voce ira desmaiar e sera encaminhado para o hospital.~n~~n~Voce pode se alimentar em varias lanchonetes e restaurantes.~n~~n~Ele tambem sentira sono, caso voce nao durma ele ira desmair de sono.~n~Dormir no chao ira apenas recuperar uma porcentagem do status, dormir em cama~n~ira recuperar totalmente. Caso nao tenha casa voce pode dormir no ~r~jefferson~n~motel.~n~~n~Para visualizar o status de seu personagem segura a tecla ~r~N~w~.",
+    "~r~Banco~n~~w~Os bancos sao os locais perfeitos para voce proteger seu dinheiro.~n~~n~Caso voce morrer, seu cadaver continuara no chao enquanto voce se recupera~n~caso alguem encontre seu corpo, ele podera ser roubado.~n~~n~Quando alguem rouba seu dinheiro, eles levam ~r~TODO~w~ o seu dinheiro.~n~~n~Por isso e sempre importante deixa-lo guardado no banco.~n~Para utilizar o banco e necessario possuir uma conta bancaria.~n~Para criar uma conta utilize o comando ~r~/abrirconta ~w~dentro de um banco.~n~~n~Voce pode sacar e depositar seu dinheiro em qualquer caixa eletronico~n~espalhado pela cidade.",
     "~r~Finalizando~n~~n~~w~Existe ~r~muito ~w~mais para se fazer em Los Santos.~n~Nao perca tempo e comece a descobrir.~n~~n~Mal podemos esperar para encontra-lo por ai!"
 };
 
@@ -40,6 +41,7 @@ new Float:gTutorialCameras[][] =
     {1513.2186, -1731.4973, 12.6044, 1507.5874, -1596.2528, 23.4955, 1513.8774, -1730.7402, 12.7944, 1508.1594, -1597.0760, 23.4155},
     {489.0393, -1287.6118, 25.5172, 568.9899, -1258.9834, 21.4891, 489.9581, -1288.0050, 25.3824, 568.3211, -1259.7261, 21.3942},
     {827.1743, -1560.5813, 41.3742, 824.6799, -1633.9563, 17.0515, 826.7572, -1561.4894, 40.8943, 823.9068, -1633.3241, 17.1566},
+    {886.8247, -989.6058, 50.6125, 887.7502, -989.9946, 50.1775, 940.4764, -978.4624, 37.5953, 939.6923, -979.0891, 37.8753},
     {1139.2487, -2453.1433, 57.2415, 1440.9519, -2287.3855, 15.1798, 1140.0836, -2452.5967, 56.8816, 1441.9508, -2287.3733, 15.1399}
 };
 

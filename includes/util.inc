@@ -317,7 +317,8 @@ enum
 	VEHICLE_CATEGORY_HELICOPTER,
 	VEHICLE_CATEGORY_BOAT,
 	VEHICLE_CATEGORY_TAXI,
-	VEHICLE_CATEGORY_POLICE
+	VEHICLE_CATEGORY_POLICE,
+	VEHICLE_CATEGORY_BICYCLE
 }
 
 //------------------------------------------------------------------------------
@@ -703,19 +704,67 @@ stock Float:GetPlayerHealthf(playerid)
 
 stock GetVehicleCategory(vehicleid)
 {
-    switch(GetVehicleModel(vehicleid))
-    {
-        case 509, 510, 481, 461..463, 448, 581, 521..523, 586, 468, 471:
-            return VEHICLE_CATEGORY_BIKE;
-        case 417, 425, 447, 469, 487, 488, 497, 563, 548:
-            return VEHICLE_CATEGORY_HELICOPTER;
-        case 430, 446, 452, 453, 454, 472, 473, 484, 493, 595:
-            return VEHICLE_CATEGORY_BOAT;
-        case 420, 438:
-            return VEHICLE_CATEGORY_TAXI;
-        case 596, 597, 598, 599, 601:
-            return VEHICLE_CATEGORY_POLICE;
-    }
+	new bike_ids[] =
+	{
+		509, 510, 481, 461,
+		462, 463, 448, 581,
+		521, 522, 523, 586,
+		468, 471
+	};
+
+	for(new i = 0; i < sizeof(bike_ids); i++)
+		if(GetVehicleModel(vehicleid) == bike_ids[i])
+			return VEHICLE_CATEGORY_BIKE;
+
+	new heli_ids[] =
+	{
+		417, 425, 447, 469,
+		487, 488, 497, 563,
+		548
+	};
+
+	for(new i = 0; i < sizeof(heli_ids); i++)
+		if(GetVehicleModel(vehicleid) == heli_ids[i])
+			return VEHICLE_CATEGORY_HELICOPTER;
+
+	new boat_ids[] =
+	{
+		430, 446, 452, 453,
+		454, 472, 473, 484,
+		493, 595
+	};
+
+	for(new i = 0; i < sizeof(boat_ids); i++)
+		if(GetVehicleModel(vehicleid) == boat_ids[i])
+			return VEHICLE_CATEGORY_BOAT;
+
+	new taxi_ids[] =
+	{
+		420, 438
+	};
+
+	for(new i = 0; i < sizeof(taxi_ids); i++)
+		if(GetVehicleModel(vehicleid) == taxi_ids[i])
+			return VEHICLE_CATEGORY_TAXI;
+
+	new police_ids[] =
+	{
+		596, 597, 598, 599,
+		601
+	};
+
+	for(new i = 0; i < sizeof(police_ids); i++)
+		if(GetVehicleModel(vehicleid) == police_ids[i])
+			return VEHICLE_CATEGORY_POLICE;
+
+	new bicy_ids[] =
+	{
+		481, 509, 510
+	};
+
+	for(new i = 0; i < sizeof(bicy_ids); i++)
+		if(GetVehicleModel(vehicleid) == bicy_ids[i])
+			return VEHICLE_CATEGORY_BICYCLE;
     return VEHICLE_CATEGORY_INVALID;
 }
 

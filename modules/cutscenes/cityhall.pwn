@@ -156,7 +156,7 @@ hook OnPlayerEnterRaceCPT(playerid)
 				DisablePlayerRaceCheckpoint(playerid);
                 SetPlayerFirstTime(playerid, FIRST_TIME_CITY_HALL, true);
 
-				SendClientMessage(playerid, 0xB6B6B6FF, "Secretario diz: Obrigado!.");
+				SendClientMessage(playerid, 0xB6B6B6FF, "Secretario diz: Obrigado!");
 				SendClientMessage(playerid, 0xB6B6B6FF, "Secretario diz: Caso você esteja perdido, vá comprar um GPS em alguma 24/7.");
 				SendClientMessage(playerid, 0xB6B6B6FF, "Secretario diz: Ouvi dizer que a pizzaria está contratando motoboys, arranje uma carta para motos e vá para lá.");
 				GivePlayerCash(playerid, 800);
@@ -175,7 +175,7 @@ hook OnPlayerEnterRaceCPT(playerid)
 				g_pCheckpoint[playerid] = -1;
 				ApplyAnimation(playerid, "INT_SHOP", "SHOP_LOOP", 4.1, 0, 1, 1, 0, 0, 1);
                 SetPlayerRaceCheckpoint(playerid, 1, 361.8299, 173.5555, 1008.3828, 0.0, 0.0, 0.0, 1.0);
-				SendClientMessage(playerid, 0xFFFFFFFF, "* Volte para o {D1E28E}balcão{FFFFFF} para falar com a secretario.");
+				SendClientMessage(playerid, 0xFFFFFFFF, "* Volte para o {D1E28E}balcão{FFFFFF} para falar com o secretário.");
 			}
         }
     }

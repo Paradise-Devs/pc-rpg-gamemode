@@ -30,7 +30,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
             GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
             if(engine == VEHICLE_PARAMS_OFF || engine == VEHICLE_PARAMS_UNSET)
             {
-                if(GetVehicleModel(vehicleid) == 481 || GetVehicleModel(vehicleid) == 509 || GetVehicleModel(vehicleid) == 510)
+                if(GetVehicleCategory(vehicleid) == VEHICLE_CATEGORY_BICYCLE)
                 {
                     SetVehicleParamsEx(vehicleid, VEHICLE_PARAMS_ON, lights, alarm, doors, bonnet, boot, objective);
                 }
@@ -113,6 +113,8 @@ YCMD:janela(playerid, params[], help)
 {
     if(!IsPlayerInAnyVehicle(playerid))
         SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+    else if(GetVehicleCategory(GetPlayerVehicleID(playerid)) == VEHICLE_CATEGORY_BICYCLE)
+        SendClientMessage(playerid, COLOR_ERROR, "* Este veículo não possui janela.");
     else
     {
         new driver, passenger, backleft, backright;
@@ -188,6 +190,8 @@ YCMD:farol(playerid, params[], help)
 {
     if(!IsPlayerInAnyVehicle(playerid))
         SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+    else if(GetVehicleCategory(GetPlayerVehicleID(playerid)) == VEHICLE_CATEGORY_BICYCLE)
+        SendClientMessage(playerid, COLOR_ERROR, "* Este veículo não possui farol.");
     else if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
         SendClientMessage(playerid, COLOR_ERROR, "* Você não é o motorista.");
     else
@@ -216,6 +220,8 @@ YCMD:motor(playerid, params[], help)
 {
     if(!IsPlayerInAnyVehicle(playerid))
         SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+    else if(GetVehicleCategory(GetPlayerVehicleID(playerid)) == VEHICLE_CATEGORY_BICYCLE)
+        SendClientMessage(playerid, COLOR_ERROR, "* Este veículo não possui motor.");
     else if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
         SendClientMessage(playerid, COLOR_ERROR, "* Você não é o motorista.");
     else if(IsPlayerFuelingVehicle(playerid))
