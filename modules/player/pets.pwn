@@ -303,6 +303,7 @@ YCMD:ajudapet(playerid, params[], help)
 {
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos Pet ~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /comprarpet - /alimentarpet - /compraralimentopet - /abandonarpet");
+	SendClientMessagef(playerid, COLOR_SUB_TITLE, "* Pet: $%s - Ração: $%s", formatnumber(PET_PRICE), formatnumber(PET_FOOD_PRICE));
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Comandos Pet ~~~~~~~~~~~~~~~~~~~~");
 	return 1;
 }
