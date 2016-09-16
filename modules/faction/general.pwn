@@ -198,9 +198,9 @@ YCMD:ajudafaccao(playerid, params[], help)
 
     SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(r)adio - /membros - (/d)epartamento");
-    if(GetPlayerFactionID(playerid) == FACTION_TYPE_NEWS)
+    if(GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_NEWS)
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /(n)oticia");
-    else if(GetPlayerFactionID(playerid) == FACTION_TYPE_POLICE)
+    else if(GetFactionType(GetPlayerFactionID(playerid)) == FACTION_TYPE_POLICE)
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /servico - /megafone - /prender - /ajustarpena - /libertar - /algemar - /desalgemar");
 	if(GetPlayerFactionRankID(playerid) == 0)
 		SendClientMessage(playerid, COLOR_SUB_TITLE, "* /convidar - /promover - /rebaixar - /demitir");
