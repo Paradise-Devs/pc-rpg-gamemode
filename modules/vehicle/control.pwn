@@ -28,9 +28,17 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
             new engine, lights, alarm, doors, bonnet, boot, objective, vehicleid;
             vehicleid = GetPlayerVehicleID(playerid);
             GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
-
             if(engine == VEHICLE_PARAMS_OFF || engine == VEHICLE_PARAMS_UNSET)
-                SendClientMessage(playerid, COLOR_INFO, "* O motor deste veículo está desligado. Pressione {B9C9BF}~k~~VEHICLE_FIREWEAPON_ALT~{A9C4E4} ou digite {B9C9BF}/motor{A9C4E4}.");
+            {
+                if(GetVehicleModel(vehicleid) == 481 || GetVehicleModel(vehicleid) == 509 || GetVehicleModel(vehicleid) == 510)
+                {
+                    SetVehicleParamsEx(vehicleid, VEHICLE_PARAMS_ON, lights, alarm, doors, bonnet, boot, objective);
+                }
+                else
+                {
+                    SendClientMessage(playerid, COLOR_INFO, "* O motor deste veículo está desligado. Pressione {B9C9BF}~k~~VEHICLE_FIREWEAPON_ALT~{A9C4E4} ou digite {B9C9BF}/motor{A9C4E4}.");
+                }
+            }
         }
     }
     return 1;
