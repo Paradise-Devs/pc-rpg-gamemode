@@ -182,7 +182,7 @@ public OnInsertPetOnDatabase(playerid)
 
 hook OnGameModeInit()
 {
-    CreateDynamicPickup(1210, 1, 1370.2031, -1746.1957, 13.5494, 0, 0, -1, MAX_PICKUP_RANGE);
+    CreateDynamicPickup(1239, 1, 1370.2031, -1746.1957, 13.5494, 0, 0, -1, MAX_PICKUP_RANGE);
 	CreateDynamic3DTextLabel("Pet Shop\nDigite {1add69}/ajudapet", 0xFFFFFFFF, 1370.2031, -1746.1957, 13.5494, MAX_TEXT3D_RANGE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
     return 1;
 }
