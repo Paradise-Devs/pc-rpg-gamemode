@@ -836,8 +836,8 @@ YCMD:pm(playerid, params[], help)
    new output[144];
    format(output, sizeof(output), "* [MP] %s(ID: %d): %s", GetPlayerNamef(playerid), playerid, message);
    SendClientMessage(targetid, 0x26b4cdff, output);
-   format(output, sizeof(output), "* [MP] para %s(ID: %d): %s", GetPlayerNamef(targetid), targetid, message);
-   SendClientMessage(playerid, 0x26b4cdff, output);
+   format(output, sizeof(output), "* [MP] de %s para %s(ID: %d): %s", GetPlayerNamef(playerid), GetPlayerNamef(targetid), targetid, message);
+   SendAdminMessage(PLAYER_RANK_MODERATOR, 0x26b4cdff, output);
    return 1;
 }
 //------------------------------------------------------------------------------
