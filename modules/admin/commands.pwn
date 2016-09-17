@@ -18,6 +18,8 @@
 static gplMarkExt[MAX_PLAYERS][2];
 static Float:gplMarkPos[MAX_PLAYERS][3];
 
+static gPlayerSpecInt[MAX_PLAYERS];
+static gPlayerSpecWorld[MAX_PLAYERS];
 static gPlayerSpecState[MAX_PLAYERS];
 static gPlayerSpecTarget[MAX_PLAYERS] = {INVALID_PLAYER_ID, ...};
 static Timer:gPlayerSpecTimer[MAX_PLAYERS] = {Timer:-1, ...};
@@ -442,6 +444,13 @@ YCMD:spec(playerid, params[], help)
         else if(targetid == playerid)
             return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode dar spec em você mesmo.");
 
+        new Float:x, Float:y, Float:z, Float:a;
+        gPlayerSpecInt[playerid] = GetPlayerInterior(playerid);
+        gPlayerSpecWorld[playerid] = GetPlayerVirtualWorld(playerid);
+        GetPlayerPos(playerid, x, y, z);
+        GetPlayerFacingAngle(playerid, a);
+        SetSpawnInfo(playerid, 255, GetPlayerSkin(playerid), x, y, z, a, 0, 0, 0, 0, 0, 0);
+
         TogglePlayerSpectating(playerid, true);
         SetPlayerInterior(playerid, GetPlayerInterior(targetid));
         SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
@@ -465,6 +474,9 @@ YCMD:spec(playerid, params[], help)
         stop gPlayerSpecTimer[playerid];
         gPlayerSpecTimer[playerid] = Timer:-1;
         TogglePlayerSpectating(playerid, false);
+
+        SetPlayerInterior(playerid, gPlayerSpecInt[playerid]);
+        SetPlayerVirtualWorld(playerid, gPlayerSpecWorld[playerid]);
     }
     return 1;
 }
