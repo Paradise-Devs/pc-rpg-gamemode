@@ -447,10 +447,11 @@ hook OnPlayerEnterRaceCPT(playerid)
                 DisablePlayerRaceCheckpoint(playerid);
                 SetPlayerCPID(playerid, CHECKPOINT_NONE);
 
-                GameTextForPlayer(playerid, ConvertToGameText("missão completa!~n~~w~exp +"), 9000, 0);
+                GameTextForPlayer(playerid, ConvertToGameText("missão completa!~n~~w~exp +~n~~w~$ +"), 9000, 0);
                 PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/118147782/MissionPassed.mp3");
 
                 SetPlayerXP(playerid, GetPlayerXP(playerid) + (GetPlayerLevel(playerid) * 50));
+                GivePlayerCash(playerid, 750);
             }
             return -2;
         }

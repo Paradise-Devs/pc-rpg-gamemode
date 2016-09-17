@@ -21,7 +21,7 @@
 // Script versioning
 #define SCRIPT_VERSION_MAJOR							"0"
 #define SCRIPT_VERSION_MINOR							"2"
-#define SCRIPT_VERSION_PATCH							".10"
+#define SCRIPT_VERSION_PATCH							".11"
 #define SCRIPT_VERSION_NAME								"PC:RPG"
 
 //------------------------------------------------------------------------------
