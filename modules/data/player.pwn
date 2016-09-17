@@ -1456,6 +1456,14 @@ hook OnPlayerDisconnect(playerid, reason)
 
 //------------------------------------------------------------------------------
 
+ptask OnPlayerSaveAccount[600000](playerid)
+{
+    SavePlayerAccount(playerid);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 ptask CheckPlayerProgression[180000](playerid)
 {
     if(!IsPlayerLogged(playerid))
