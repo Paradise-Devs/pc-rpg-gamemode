@@ -30,6 +30,7 @@ hook OnGameModeInit()
 	Command_AddAltNamed("radio",		"r");
 	Command_AddAltNamed("departamento",	"d");
 	Command_AddAltNamed("stats",		"rg");
+	Command_AddAltNamed("ooc",			"o");
 	return 1;
 }
 
@@ -563,6 +564,19 @@ YCMD:gritar(playerid, params[], help)
 	new message[156];
 	format(message, sizeof(message), "%s grita: %s!!", GetPlayerNamef(playerid), params);
 	SendClientLocalMessage(playerid, COLOR_WHITE, 40.0, message);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:ooc(playerid, params[], help)
+{
+	if(isnull(params))
+		return SendClientMessage(playerid, COLOR_INFO, "* /(o)oc [mensagem]");
+
+	new message[156];
+	format(message, sizeof(message), "(( [OOC] %s diz: %s ))", GetPlayerNamef(playerid), params);
+	SendClientMessageToAll(0x87CEEBFF, message);
 	return 1;
 }
 
