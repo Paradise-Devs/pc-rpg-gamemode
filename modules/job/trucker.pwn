@@ -344,8 +344,15 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
     if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 1.5, JOB_POSITION[0], JOB_POSITION[1], JOB_POSITION[2]))
     {
-        PlaySelectSound(playerid);
-        ShowPlayerDialog(playerid, DIALOG_TRUCK_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Caminhoneiro", "Você deseja se tornar um caminhoneiro?", "Sim", "Não");
+        if(GetPlayerLevel(playerid) < 2)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ser nível 2.");
+        }
+        else
+        {
+            PlaySelectSound(playerid);
+            ShowPlayerDialog(playerid, DIALOG_TRUCK_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Caminhoneiro", "Você deseja se tornar um caminhoneiro?", "Sim", "Não");
+        }
         return 1;
     }
     else if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 1.5, LOAD_POSITION[0], LOAD_POSITION[1], LOAD_POSITION[2]))

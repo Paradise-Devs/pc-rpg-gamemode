@@ -141,7 +141,14 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 3.0, 2280.0159, -2417.9700, 3.0000))
 	{
-        ShowPlayerDialog(playerid, DIALOG_NAVIGATOR_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Navegador", "Você deseja ser um navegador?", "Sim", "Não");
+        if(GetPlayerLevel(playerid) < 2)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ser nível 2.");
+        }
+        else
+        {
+            ShowPlayerDialog(playerid, DIALOG_NAVIGATOR_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Navegador", "Você deseja ser um navegador?", "Sim", "Não");
+        }
 		return 1;
 	}
 	return 1;

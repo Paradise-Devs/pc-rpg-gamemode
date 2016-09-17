@@ -107,7 +107,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				case 2:
 					ShowPlayerDialog(playerid, DIALOG_GPS_HOUSES, DIALOG_STYLE_LIST, "GPS -> Casa", "1.\tA venda\n2.\tQualquer", "Marcar", "Voltar");
 				case 3:
-					ShowPlayerDialog(playerid, DIALOG_GPS_JOBS, DIALOG_STYLE_TABLIST_HEADERS, "GPS -> Empregos", "\tNº\tEmprego\tNível\n1.\tPizzaboy\t1\n2.\tMotorista\t1\n3.\tNavegador\t7\n4.\tPiloto\t10\n5.\tLimpador de rua\t2\n6.\tLixeiro\t4\n7.\tCaminhoneiro\t5\n8.\tParamedico\t6\n9.\tLenhador\t8\n10.\tPescador\t4", "Marcar", "Voltar");
+					ShowPlayerDialog(playerid, DIALOG_GPS_JOBS, DIALOG_STYLE_TABLIST_HEADERS, "GPS -> Empregos", "\tNº\tEmprego\tNível\n1.\tPizzaboy\t1\n2.\tMotorista\t1\n3.\tNavegador\t2\n4.\tPiloto\t2\n5.\tLimpador de rua\t1\n6.\tLixeiro\t1\n7.\tCaminhoneiro\t2\n8.\tParamedico\t3\n9.\tLenhador\t1\n10.\tPescador\t2", "Marcar", "Voltar");
 			}
 		}
 		case DIALOG_GPS_JOBS:

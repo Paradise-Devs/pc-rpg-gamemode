@@ -143,7 +143,14 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 3.0, 391.8892, -2050.9883, 7.8359))
 	{
-        ShowPlayerDialog(playerid, DIALOG_FISHER_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Pescador", "Você deseja ser um pescador?", "Sim", "Não");
+        if(GetPlayerLevel(playerid) < 2)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ser nível 2.");
+        }
+        else
+        {
+            ShowPlayerDialog(playerid, DIALOG_FISHER_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Pescador", "Você deseja ser um pescador?", "Sim", "Não");
+        }
 		return 1;
 	}
 	return 1;
