@@ -33,13 +33,19 @@ hook OnGameModeInit()
 
 public OnPlayerEnterRadar(playerid, radarid, Float:speed)
 {
-	if(GetPlayerVehicleID(playerid) == g_p_EnabledDealershipVehicleID[playerid]) {
+	if(GetVehicleCategory(GetPlayerVehicleID(playerid)) == VEHICLE_CATEGORY_BICYCLE)
+		return 1;
+
+	if(GetPlayerVehicleID(playerid) == g_p_EnabledDealershipVehicleID[playerid])
+	{
 		new i = g_p_EnabledDealershipVehicleKey[playerid];
 		SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Radar ~~~~~~~~~~~~~~~~~~~~");
 		SendClientMessage(playerid, -1, "* Uma {e65d06}multa{ffffff} por excesso de velocidade foi registrada ao seu veículo, vá pagar na prefeitura.");
 		SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Radar ~~~~~~~~~~~~~~~~~~~~");
 		g_pDealershipData[playerid][i][E_DEALERSHIP_VEHICLE_FINES] += 200;
-	} else if(GetVehicleCategory(GetPlayerVehicleID(playerid)) != VEHICLE_CATEGORY_POLICE && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
+	}
+	else if(GetVehicleCategory(GetPlayerVehicleID(playerid)) != VEHICLE_CATEGORY_POLICE && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+	{
 		SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Radar ~~~~~~~~~~~~~~~~~~~~");
 		SendClientMessage(playerid, -1, "* Você foi pego por um radar acima da velocidade! Uma {e65d06}multa{ffffff} foi registrada a este veículo.");
 		SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Radar ~~~~~~~~~~~~~~~~~~~~");
