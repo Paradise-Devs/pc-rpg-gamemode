@@ -30,11 +30,11 @@ new PlayerText:gpt_data_hud[32][MAX_PLAYERS];
 
 ShowPlayerDataHud(playerid, targetid = INVALID_PLAYER_ID)
 {
-	if(GetPVarInt(targetid, "isDataHudVisible"))
-		return false;
-
 	if(targetid == INVALID_PLAYER_ID)
 		targetid = playerid;
+
+	if(GetPVarInt(targetid, "isDataHudVisible"))
+		return false;
 
 	new stats_color[12] = "~b~~h~";
 	if(GetPlayerStatsColor(playerid) == PLAYER_STATS_COLOR_YELLOW)
