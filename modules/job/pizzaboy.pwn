@@ -136,7 +136,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 {
 	if(oldstate == PLAYER_STATE_ONFOOT)
 	{
-		if(newstate == PLAYER_STATE_DRIVER && GetPlayerPizzaOnfootTime(playerid) > 1)
+		if(newstate == PLAYER_STATE_DRIVER && GetPlayerPizzaOnfootTime(playerid) > 1 && gplBike[playerid] == GetPlayerVehicleID(playerid))
 		{
 			SetPlayerPizzaOnfootTime(playerid, 0);
 		}
@@ -146,8 +146,8 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 	{
 		if(gplBike[playerid] != INVALID_VEHICLE_ID && GetPlayerPizzaTime(playerid) > 0)
 		{
-			SetPlayerPizzaOnfootTime(playerid, 15);
-			SendClientMessage(playerid, 0xFFFF00FF, "* Você tem {FFD700}15{FFFF00} segundos para voltar para a moto ou {FFD700}sua entrega irá falhar{FFFF00}.");
+			SetPlayerPizzaOnfootTime(playerid, 10);
+			SendClientMessage(playerid, 0xFFFF00FF, "* Você tem {FFD700}10{FFFF00} segundos para voltar para a moto ou {FFD700}sua entrega irá falhar{FFFF00}.");
 		}
         else if(gplBike[playerid] != INVALID_VEHICLE_ID && GetPlayerPizzaTime(playerid) == 0)
         {
