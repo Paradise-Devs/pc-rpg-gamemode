@@ -704,6 +704,15 @@ stock Float:GetPlayerHealthf(playerid)
 
 stock GetVehicleCategory(vehicleid)
 {
+	new bicy_ids[] =
+	{
+		481, 509, 510
+	};
+
+	for(new i = 0; i < sizeof(bicy_ids); i++)
+		if(GetVehicleModel(vehicleid) == bicy_ids[i])
+			return VEHICLE_CATEGORY_BICYCLE;
+			
 	new bike_ids[] =
 	{
 		509, 510, 481, 461,
@@ -756,15 +765,6 @@ stock GetVehicleCategory(vehicleid)
 	for(new i = 0; i < sizeof(police_ids); i++)
 		if(GetVehicleModel(vehicleid) == police_ids[i])
 			return VEHICLE_CATEGORY_POLICE;
-
-	new bicy_ids[] =
-	{
-		481, 509, 510
-	};
-
-	for(new i = 0; i < sizeof(bicy_ids); i++)
-		if(GetVehicleModel(vehicleid) == bicy_ids[i])
-			return VEHICLE_CATEGORY_BICYCLE;
     return VEHICLE_CATEGORY_INVALID;
 }
 

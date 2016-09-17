@@ -21,7 +21,7 @@
 // Script versioning
 #define SCRIPT_VERSION_MAJOR							"0"
 #define SCRIPT_VERSION_MINOR							"2"
-#define SCRIPT_VERSION_PATCH							".7"
+#define SCRIPT_VERSION_PATCH							".8"
 #define SCRIPT_VERSION_NAME								"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -236,6 +236,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/gym.pwn"
 #include "../modules/gameplay/prision.pwn"
 #include "../modules/gameplay/rentbike.pwn"
+#include "../modules/gameplay/anims.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
