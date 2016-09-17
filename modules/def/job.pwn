@@ -23,7 +23,8 @@ enum Job (+=1)
     GARBAGE_JOB_ID,
     FISHER_JOB_ID,
     TECHNICAL_JOB_ID,
-    PIZZA_JOB_ID
+    PIZZA_JOB_ID,
+    BUSDRIVER_JOB_ID
 }
 
 //------------------------------------------------------------------------------
