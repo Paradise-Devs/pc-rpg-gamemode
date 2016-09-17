@@ -19,7 +19,7 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
     new vfactionid = GetVehicleFactionID(vehicleid);
     new pfactionid = GetPlayerFactionID(playerid);
-    if(vfactionid != 0 && pfactionid != vfactionid)
+    if(vfactionid != 0 && pfactionid != vfactionid && !ispassenger)
     {
         new output[58];
         format(output, sizeof(output), "* Você não pertence a %s.", GetFactionName(vfactionid));
