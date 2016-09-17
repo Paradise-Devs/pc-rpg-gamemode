@@ -754,6 +754,59 @@ YCMD:irmarca(playerid, params[], help)
     SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a HP de %s para %.2f.", GetPlayerNamef(targetid), health);
  	return 1;
  }
+
+//------------------------------------------------------------------------------
+
+ YCMD:setneeds(playerid, params[], help)
+ {
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+ 	new targetid, Float:value, option[6];
+ 	if(sscanf(params, "rs[6]f", targetid, option, value))
+    {
+        SendClientMessage(playerid, COLOR_INFO, "* /setneeds [playerid] [opção] [valor]");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* fome, sede, vicio, sono");
+    }
+
+ 	else if(!IsPlayerLogged(targetid))
+ 	{
+        SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+    }
+
+    else if(!strcmp(option, "fome"))
+    {
+        SetPlayerHunger(playerid, value);
+    }
+
+    else if(!strcmp(option, "sede"))
+    {
+        SetPlayerThirst(playerid, value);
+    }
+
+    else if(!strcmp(option, "vicio"))
+    {
+        SetPlayerAddiction(playerid, value);
+    }
+
+    else if(!strcmp(option, "sono"))
+    {
+        SetPlayerSleep(playerid, value);
+    }
+    else
+    {
+        SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
+        return 1;
+    }
+
+    if(playerid != targetid)
+    {
+        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua necessidade \"%s\" para %.2f.", GetPlayerNamef(playerid), option, value);
+    }
+    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a necessidade \"%s\" de %s para %.2f.", GetPlayerNamef(targetid), option, value);
+ 	return 1;
+ }
+
 //------------------------------------------------------------------------------
 
  YCMD:setarmour(playerid, params[], help)
