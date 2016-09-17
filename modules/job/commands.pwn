@@ -11,7 +11,7 @@
 *
 */
 
-YCMD:ajudaemprego(playerid, params[], help)
+/*YCMD:ajudaemprego(playerid, params[], help)
 {
     if(GetPlayerJobID(playerid) == INVALID_JOB_ID)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não possui um emprego.");
@@ -55,5 +55,19 @@ YCMD:servico(playerid, params[], help)
         return 1;
     }
 
+    return 1;
+}*/
+
+YCMD:sairdoemprego(playerid, params[], help)
+{
+    if(GetPlayerJobID(playerid) != INVALID_JOB_ID)
+    {
+        SetPlayerJobID(playerid, INVALID_JOB_ID);
+        SendClientMessage(playerid, COLOR_SUCCESS, "* Você abandonou seu emprego.");
+    }
+    else
+    {
+        SendClientMessage(playerid, COLOR_ERROR, "* Você não tem emprego.");
+    }
     return 1;
 }
