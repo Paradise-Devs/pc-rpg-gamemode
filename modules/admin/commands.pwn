@@ -817,11 +817,13 @@ YCMD:irmarca(playerid, params[], help)
     {
         SendClientMessage(playerid, COLOR_INFO, "* /setneeds [playerid] [opção] [valor]");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* fome, sede, vicio, sono");
+        return 1;
     }
 
  	else if(!IsPlayerLogged(targetid))
  	{
         SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+        return 1;
     }
 
     else if(!strcmp(option, "fome"))
@@ -843,6 +845,7 @@ YCMD:irmarca(playerid, params[], help)
     {
         SetPlayerSleep(playerid, value);
     }
+
     else
     {
         SendClientMessage(playerid, COLOR_ERROR, "* Opção inválida.");
@@ -851,9 +854,9 @@ YCMD:irmarca(playerid, params[], help)
 
     if(playerid != targetid)
     {
-        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua necessidade \"%s\" para %.2f.", GetPlayerNamef(playerid), option, value);
+        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou sua necessidade \"%s\" para %.2f.", option, GetPlayerNamef(playerid), value);
     }
-    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a necessidade \"%s\" de %s para %.2f.", GetPlayerNamef(targetid), option, value);
+    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou a necessidade \"%s\" de %s para %.2f.", option, GetPlayerNamef(targetid), value);
  	return 1;
  }
 
