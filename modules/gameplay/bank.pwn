@@ -724,7 +724,10 @@ HidePlayerBankTextDraw(playerid)
         return 1;
 
     for(new i = 0; i < sizeof(g_ptBank[]); i++)
+    {
         PlayerTextDrawDestroy(playerid, g_ptBank[playerid][i]);
+        g_ptBank[playerid][i] = PlayerText:INVALID_TEXT_DRAW;
+    }
     return 1;
 }
 
