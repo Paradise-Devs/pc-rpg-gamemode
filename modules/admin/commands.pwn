@@ -168,7 +168,7 @@ YCMD:check(playerid, params[], help)
 
 YCMD:kick(playerid, params[], help)
 {
-    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, reason[128];
@@ -196,7 +196,7 @@ YCMD:kick(playerid, params[], help)
 
 YCMD:aprision(playerid, params[], help)
 {
-    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, time, reason[128];
@@ -325,7 +325,7 @@ YCMD:fuelveh(playerid, params[], help)
 
 YCMD:pm(playerid, params[], help)
 {
-   if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+   if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, message[128];
