@@ -86,15 +86,20 @@ YCMD:b(playerid, params[], help)
 YCMD:id(playerid, params[], help)
 {
 	new targetid;
-	if(sscanf(params, "u", targetid))
-		return SendClientMessage(playerid, COLOR_INFO, "* /id [jogador]");
-
+	if(sscanf(params, "r", targetid))
+	{
+		SendClientMessage(playerid, COLOR_INFO, "* /id [jogador]");
+	}
 	else if(!IsPlayerLogged(targetid))
-		SendClientMessage(playerid, COLOR_ERROR, "* Jogador não conectado.");
-
-    new output[40];
-	format(output, sizeof(output), "* %s(ID: %i)", GetPlayerNamef(targetid), targetid);
-	SendClientMessage(playerid, COLOR_INFO, output);
+	{
+		SendClientMessagef(playerid, COLOR_ERROR, "* Jogador não conectado. (%i)", targetid);
+	}
+	else
+	{
+		new output[40];
+		format(output, sizeof(output), "* %s(ID: %i)", GetPlayerNamef(targetid), targetid);
+		SendClientMessage(playerid, COLOR_INFO, output);
+	}
 	return 1;
 }
 
