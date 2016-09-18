@@ -861,17 +861,20 @@ SavePlayerAccount(playerid)
     gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_pquery(mysql, query);
 
-    // Weapon saving
-    new weaponid, ammo;
-    for(new i; i < 13; i++)
+    if(!IsPlayerInPaintball(playerid))
     {
-    	GetPlayerWeaponData(playerid, i, weaponid, ammo);
+        // Weapon saving
+        new weaponid, ammo;
+        for(new i; i < 13; i++)
+        {
+        	GetPlayerWeaponData(playerid, i, weaponid, ammo);
 
-    	if(!weaponid)
-            continue;
+        	if(!weaponid)
+                continue;
 
-    	mysql_format(mysql, query, sizeof(query), "INSERT INTO player_weapons VALUES (%d, %d, %d) ON DUPLICATE KEY UPDATE ammo = %d;", gPlayerAccountData[playerid][e_player_database_id], weaponid, ammo, ammo);
-    	mysql_pquery(mysql, query);
+        	mysql_format(mysql, query, sizeof(query), "INSERT INTO player_weapons VALUES (%d, %d, %d) ON DUPLICATE KEY UPDATE ammo = %d;", gPlayerAccountData[playerid][e_player_database_id], weaponid, ammo, ammo);
+        	mysql_pquery(mysql, query);
+        }
     }
     return 1;
 }
