@@ -828,22 +828,22 @@ YCMD:irmarca(playerid, params[], help)
 
     else if(!strcmp(option, "fome"))
     {
-        SetPlayerHunger(playerid, value);
+        SetPlayerHunger(targetid, value);
     }
 
     else if(!strcmp(option, "sede"))
     {
-        SetPlayerThirst(playerid, value);
+        SetPlayerThirst(targetid, value);
     }
 
     else if(!strcmp(option, "vicio"))
     {
-        SetPlayerAddiction(playerid, value);
+        SetPlayerAddiction(targetid, value);
     }
 
     else if(!strcmp(option, "sono"))
     {
-        SetPlayerSleep(playerid, value);
+        SetPlayerSleep(targetid, value);
     }
 
     else
