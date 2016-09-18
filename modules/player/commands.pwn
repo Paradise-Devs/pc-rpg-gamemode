@@ -86,7 +86,7 @@ YCMD:b(playerid, params[], help)
 YCMD:id(playerid, params[], help)
 {
 	new targetid;
-	if(sscanf(params, "r", targetid))
+	if(sscanf(params, "k<u>", targetid))
 	{
 		SendClientMessage(playerid, COLOR_INFO, "* /id [jogador]");
 	}
@@ -121,7 +121,7 @@ YCMD:comandos(playerid, params[], help)
 YCMD:pagar(playerid, params[], help)
 {
 	new	targetid, value;
-	if(sscanf(params, "ui", targetid, value))
+	if(sscanf(params, "k<u>i", targetid, value))
 		return SendClientMessage(playerid, COLOR_INFO, "* /pagar [playerid] [valor]");
 
 	else if(!IsPlayerLogged(targetid))
@@ -172,7 +172,7 @@ YCMD:mostrarlicenca(playerid, params[], help)
 		item,
 		targetid;
 
-	if(sscanf(params, "ui", targetid, item))
+	if(sscanf(params, "k<u>i", targetid, item))
 	{
 		SendClientMessage(playerid, COLOR_INFO, "* /mostrarlicenca [playerid] [item]");
 		SendClientMessage(playerid, COLOR_INFO, "(1)Carro - (2)Moto - (3)Caminhão - (4)Helicoptero - (5)Aviao - (6)Barco");
@@ -312,7 +312,7 @@ YCMD:ejetar(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não é o motorista.");
 
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /ejetar [playerid]");
 
 	else if(!IsPlayerInVehicle(targetid, GetPlayerVehicleID(playerid)))
@@ -352,7 +352,7 @@ YCMD:relatorio(playerid, params[], help)
 YCMD:reportar(playerid, params[], help)
 {
 	new targetid, reason[128];
-	if(sscanf(params, "us", targetid, reason))
+	if(sscanf(params, "k<u>s", targetid, reason))
 		return SendClientMessage(playerid, COLOR_INFO, "* /reportar [playerid] [motivo]");
 
 	if(playerid == targetid)
@@ -526,7 +526,7 @@ YCMD:ajuda(playerid, params[], help)
 YCMD:sussurrar(playerid, params[], help)
 {
 	new targetid, message[128];
-	if(sscanf(params, "us[128]", targetid, message))
+	if(sscanf(params, "k<u>s[128]", targetid, message))
 		return SendClientMessage(playerid, COLOR_INFO, "* /(s)ussurrar [playerid] [mensagem]");
 
 	if(!IsPlayerLogged(targetid))

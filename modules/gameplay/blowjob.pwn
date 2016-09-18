@@ -347,7 +347,7 @@ YCMD:oferecerboquete(playerid, params[], help)
 		SendClientMessage(playerid, COLOR_ERROR, "* Você já ofereceu um boquete.");
 	else if(IsPlayerInAnyVehicle(playerid))
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não pode estar em um veículo.");
-	else if(sscanf(params, "u", targetid))
+	else if(sscanf(params, "k<u>", targetid))
 		SendClientMessage(playerid, COLOR_INFO, "* /oferecerboquete [playerid]");
 	else if(playerid == targetid)
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não pode fazer um boquete em você.");

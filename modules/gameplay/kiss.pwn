@@ -194,7 +194,7 @@ YCMD:beijar(playerid, params[], help)
 		SendClientMessage(playerid, COLOR_ERROR, "* Você precisa responder a oferta de beijo pendente primeiro.");
 	else if(IsPlayerInAnyVehicle(playerid))
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não pode estar em um veículo.");
-	else if(sscanf(params, "ui", targetid, style))
+	else if(sscanf(params, "k<u>i", targetid, style))
 		SendClientMessage(playerid, COLOR_INFO, "* /beijar [playerid] [estilo <1-3>]");
 	else if(style < 1 || style > 3)
 		SendClientMessage(playerid, COLOR_ERROR, "* Apenas estilos entre 1 e 3.");

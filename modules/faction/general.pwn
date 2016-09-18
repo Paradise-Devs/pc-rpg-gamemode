@@ -71,7 +71,7 @@ YCMD:promover(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 	  return SendClientMessage(playerid, COLOR_INFO, "* /promover [playerid]");
 
 	if(!IsPlayerLogged(targetid))
@@ -101,7 +101,7 @@ YCMD:rebaixar(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 	  return SendClientMessage(playerid, COLOR_INFO, "* /rebaixar [playerid]");
 
 	if(!IsPlayerLogged(targetid))
@@ -131,7 +131,7 @@ YCMD:demitir(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 	  return SendClientMessage(playerid, COLOR_INFO, "* /demitir [playerid]");
 
 	if(!IsPlayerLogged(targetid))
@@ -163,7 +163,7 @@ YCMD:convidar(playerid, params[], help)
 		targetid,
 		factionid = GetPlayerFactionID(playerid)
 	;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 	  return SendClientMessage(playerid, COLOR_INFO, "* /convidar [playerid]");
 
 	else if(!IsPlayerLogged(targetid))

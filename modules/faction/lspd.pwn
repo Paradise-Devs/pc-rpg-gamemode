@@ -98,7 +98,7 @@ YCMD:prender(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
 
 	new targetid, time;
-	if(sscanf(params, "ui", targetid, time))
+	if(sscanf(params, "k<u>i", targetid, time))
 		return SendClientMessage(playerid, COLOR_INFO, "* /prender [playerid] [tempo(minutos)]");
 
 	else if(!IsPlayerLogged(targetid))
@@ -135,7 +135,7 @@ YCMD:ajustarpena(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
 
 	new targetid, time;
-	if(sscanf(params, "ui", targetid, time))
+	if(sscanf(params, "k<u>i", targetid, time))
 		return SendClientMessage(playerid, COLOR_INFO, "* /ajustarpena [playerid] [tempo(minutos)]");
 
 	else if(!IsPlayerLogged(targetid))
@@ -175,7 +175,7 @@ YCMD:libertar(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
 
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /ajustarpena [playerid]");
 
 	else if(!IsPlayerLogged(targetid))
@@ -212,7 +212,7 @@ YCMD:algemar(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
 
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /algemar [playerid]");
 
 	else if(!IsPlayerLogged(targetid))
@@ -263,7 +263,7 @@ YCMD:desalgemar(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
 
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /desalgemar [playerid]");
 
 	else if(!IsPlayerLogged(targetid))

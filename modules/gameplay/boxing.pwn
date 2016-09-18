@@ -247,7 +247,7 @@ YCMD:desafiar(playerid, params[], help)
 			return SendClientMessage(playerid, COLOR_ERROR, "* Você precisa saber lutar boxe.");
 
 		new targetid;
-		if(sscanf(params, "u", targetid))
+		if(sscanf(params, "k<u>", targetid))
 			return SendClientMessage(playerid, COLOR_INFO, "* /desafiar [playerid]");
 
 		else if(!IsPlayerLogged(targetid))

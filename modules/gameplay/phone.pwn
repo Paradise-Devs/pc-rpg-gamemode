@@ -512,7 +512,7 @@ YCMD:telefone(playerid, params[], help)
 		return SendClientMessage(playerid, COLOR_ERROR, "* Sua agenda telefônica está desatualizada.");
 
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "/telefone [jogador]");
 
 	if(!IsPlayerLogged(targetid))

@@ -44,7 +44,7 @@ hook OnPlayerDisconnect(playerid, reason)
 YCMD:vendersorvete(playerid, params[], help)
 {
     new targetid, price;
-    if(sscanf(params, "ud", targetid, price))
+    if(sscanf(params, "k<u>d", targetid, price))
         return SendClientMessage(playerid, COLOR_INFO, "* /vendersorvete [playerid] [valor]");
 
     else if(GetVehicleModel(GetPlayerVehicleID(playerid)) != g_nVehicleModel)

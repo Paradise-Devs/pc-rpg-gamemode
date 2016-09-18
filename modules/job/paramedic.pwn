@@ -275,7 +275,7 @@ YCMD:curar(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não é um paramédico.");
 
     new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /curar [playerid]");
 
     if(gplTruck[playerid] == INVALID_VEHICLE_ID)

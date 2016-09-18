@@ -322,7 +322,7 @@ YCMD:dormir(playerid, params[], help)
 YCMD:acordar(playerid, params[], help)
 {
 	new targetid;
-	if(sscanf(params, "u", targetid))
+	if(sscanf(params, "k<u>", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "* /acordar [playerid]");
 
 	else if(!IsPlayerLogged(targetid))

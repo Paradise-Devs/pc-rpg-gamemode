@@ -220,7 +220,7 @@ YCMD:apertarmao(playerid, params[], help)
 		SendClientMessage(playerid, COLOR_ERROR, "* Você precisa responder o aperto de mão pendente primeiro.");
 	else if(IsPlayerInAnyVehicle(playerid))
 		SendClientMessage(playerid, COLOR_ERROR, "* Você não pode estar em um veículo.");
-	else if(sscanf(params, "ui", targetid, style))
+	else if(sscanf(params, "k<u>i", targetid, style))
 		SendClientMessage(playerid, COLOR_INFO, "* /apertarmao [playerid] [estilo <1-8>]");
 	else if(style < 1 || style > 8)
 		SendClientMessage(playerid, COLOR_ERROR, "* Apenas estilos entre 1 e 8.");

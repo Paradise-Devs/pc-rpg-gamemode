@@ -95,7 +95,7 @@ YCMD:say(playerid, params[], help)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid;
- 	if(sscanf(params, "u", targetid))
+ 	if(sscanf(params, "k<u>", targetid))
  		return SendClientMessage(playerid, COLOR_INFO, "* /ir [playerid]");
 
  	else if(!IsPlayerLogged(targetid))
@@ -134,7 +134,7 @@ YCMD:puxar(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid;
-    if(sscanf(params, "u", targetid))
+    if(sscanf(params, "k<u>", targetid))
         return SendClientMessage(playerid, COLOR_INFO, "* /puxar [playerid]");
 
     else if(!IsPlayerLogged(targetid))
@@ -173,7 +173,7 @@ YCMD:check(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid;
-   if(sscanf(params, "u", targetid))
+   if(sscanf(params, "k<u>", targetid))
        return SendClientMessage(playerid, COLOR_INFO, "* /check [playerid]");
 
    else if(!IsPlayerLogged(targetid))
@@ -192,7 +192,7 @@ YCMD:kick(playerid, params[], help)
 
     new targetid, reason[128];
 
-    if(sscanf(params, "us[128]", targetid, reason))
+    if(sscanf(params, "k<u>s[128]", targetid, reason))
         return SendClientMessage(playerid, COLOR_INFO, "* /kick [playerid] [motivo]");
 
     else if(!IsPlayerLogged(targetid))
@@ -219,7 +219,7 @@ YCMD:aprision(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, time, reason[128];
-    if(sscanf(params, "uis[128]", targetid, time, reason))
+    if(sscanf(params, "k<u>is[128]", targetid, time, reason))
         return SendClientMessage(playerid, COLOR_INFO, "* /aprision [playerid] [tempo(minutos)] [motivo]");
 
     else if(!IsPlayerLogged(targetid))
@@ -255,7 +255,7 @@ YCMD:spec(playerid, params[], help)
     if(gPlayerSpecTarget[playerid] == INVALID_PLAYER_ID)
     {
         new targetid;
-        if(sscanf(params, "u", targetid))
+        if(sscanf(params, "k<u>", targetid))
             return SendClientMessage(playerid, COLOR_INFO, "* /spec [playerid]");
 
         else if(!IsPlayerLogged(targetid))
@@ -348,7 +348,7 @@ YCMD:pm(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, message[128];
-   if(sscanf(params, "us[128]", targetid, message))
+   if(sscanf(params, "k<u>s[128]", targetid, message))
        return SendClientMessage(playerid, COLOR_INFO, "* /pm [playerid] [mensagem]");
 
    else if(!IsPlayerLogged(targetid))
@@ -521,7 +521,7 @@ YCMD:sairdohospital(playerid, params[], help)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid, skinid;
- 	if(sscanf(params, "ui", targetid, skinid))
+ 	if(sscanf(params, "k<u>i", targetid, skinid))
  		return SendClientMessage(playerid, COLOR_INFO, "* /setskin [playerid] [skin]");
 
  	else if(!IsPlayerLogged(targetid))
@@ -546,7 +546,7 @@ YCMD:alibertar(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid;
-    if(sscanf(params, "u", targetid))
+    if(sscanf(params, "k<u>", targetid))
         return SendClientMessage(playerid, COLOR_INFO, "* /alibertar [playerid]");
 
     else if(!IsPlayerLogged(targetid))
@@ -574,7 +574,7 @@ YCMD:permaban(playerid, params[], help)
     return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, reason[128];
-    if(sscanf(params, "us", targetid, reason))
+    if(sscanf(params, "k<u>s", targetid, reason))
         return SendClientMessage(playerid, COLOR_INFO, "* /permaban [playerid] [motivo]");
 
     else if(!IsPlayerLogged(targetid))
@@ -601,7 +601,7 @@ YCMD:tempban(playerid, params[], help)
     return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, reason[128], days;
-    if(sscanf(params, "usd", targetid, reason, days)) {
+    if(sscanf(params, "k<u>sd", targetid, reason, days)) {
         SendClientMessage(playerid, COLOR_INFO, "* /tempban [playerid] [dias] [motivo]");
         SendClientMessage(playerid, COLOR_INFO, "* DICA: Utilize prisão para punir por horas.");
         return 1;
@@ -745,7 +745,7 @@ YCMD:tdist(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid;
-    if(sscanf(params, "u", targetid))
+    if(sscanf(params, "k<u>", targetid))
         SendClientMessage(playerid, COLOR_INFO, "* /tdist [playerid]");
     else if(!IsPlayerLogged(targetid))
         SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
@@ -792,7 +792,7 @@ YCMD:irmarca(playerid, params[], help)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid, Float:health;
- 	if(sscanf(params, "uf", targetid, health))
+ 	if(sscanf(params, "k<u>f", targetid, health))
  		return SendClientMessage(playerid, COLOR_INFO, "* /sethp [playerid] [valor]");
 
  	else if(!IsPlayerLogged(targetid))
@@ -813,7 +813,7 @@ YCMD:irmarca(playerid, params[], help)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid, Float:value, option[6];
- 	if(sscanf(params, "rs[6]f", targetid, option, value))
+ 	if(sscanf(params, "k<u>s[6]f", targetid, option, value))
     {
         SendClientMessage(playerid, COLOR_INFO, "* /setneeds [playerid] [opção] [valor]");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* fome, sede, vicio, sono");
@@ -865,7 +865,7 @@ YCMD:irmarca(playerid, params[], help)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid, Float:armour;
- 	if(sscanf(params, "uf", targetid, armour))
+ 	if(sscanf(params, "k<u>f", targetid, armour))
  		return SendClientMessage(playerid, COLOR_INFO, "* /setarmour [playerid] [valor]");
 
  	else if(!IsPlayerLogged(targetid))
@@ -886,7 +886,7 @@ YCMD:dararma(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, weaponid, ammo;
-   if(sscanf(params, "uii", targetid, weaponid, ammo))
+   if(sscanf(params, "k<u>ii", targetid, weaponid, ammo))
        return SendClientMessage(playerid, COLOR_INFO, "* /dararma [playerid] [arma] [munição]");
 
    else if(!IsPlayerLogged(targetid))
@@ -915,7 +915,7 @@ YCMD:tirardohospital(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid;
-   if(sscanf(params, "u", targetid))
+   if(sscanf(params, "k<u>", targetid))
        return SendClientMessage(playerid, COLOR_INFO, "* /tirardohospital [playerid]");
 
    else if(!IsPlayerLogged(targetid))
@@ -984,7 +984,7 @@ YCMD:setmoney(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, value;
-   if(sscanf(params, "ui", targetid, value))
+   if(sscanf(params, "k<u>i", targetid, value))
        return SendClientMessage(playerid, COLOR_INFO, "* /setmoney [playerid] [dinheiro]");
 
    else if(!IsPlayerLogged(targetid))
@@ -1007,7 +1007,7 @@ YCMD:setjob(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, value;
-   if(sscanf(params, "ui", targetid, value))
+   if(sscanf(params, "k<u>i", targetid, value))
    {
        SendClientMessage(playerid, COLOR_INFO, "* /setjob [playerid] [emprego]");
        SendClientMessagef(playerid, COLOR_SUB_TITLE, "* (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s - (%i)%s",
@@ -1045,7 +1045,7 @@ YCMD:setjoblvl(playerid, params[], help)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
     new targetid, level;
-    if(sscanf(params, "ui", targetid, level))
+    if(sscanf(params, "k<u>i", targetid, level))
     {
         SendClientMessage(playerid, COLOR_INFO, "* /setjoblvl [playerid] [level]");
         return 1;
@@ -1072,7 +1072,7 @@ YCMD:setfaction(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, fid;
-   if(sscanf(params, "ui", targetid, fid))
+   if(sscanf(params, "k<u>i", targetid, fid))
    {
        SendClientMessage(playerid, COLOR_INFO, "* /setfaction [playerid] [fID]");
        return 1;
@@ -1102,7 +1102,7 @@ YCMD:setfrank(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, fid;
-   if(sscanf(params, "ui", targetid, fid))
+   if(sscanf(params, "k<u>i", targetid, fid))
    {
        SendClientMessage(playerid, COLOR_INFO, "* /setfaction [playerid] [frank]");
        return 1;
@@ -1145,7 +1145,7 @@ YCMD:fakeban(playerid, params[], help)
        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
    new targetid, reason[128];
-   if(sscanf(params, "us[128]", targetid, reason))
+   if(sscanf(params, "k<u>s[128]", targetid, reason))
        return SendClientMessage(playerid, COLOR_INFO, "* /fakeban [playerid] [motivo]");
 
    else if(!IsPlayerLogged(targetid))
@@ -1183,7 +1183,7 @@ YCMD:setrank(playerid, params[], help)
 	if(IsPlayerAdmin(playerid) || GetPlayerRank(playerid) >= PLAYER_RANK_DEVELOPER)
 	{
     	new	targetid, rank;
-    	if(sscanf(params, "ui", targetid, rank))
+    	if(sscanf(params, "k<u>i", targetid, rank))
         {
     		SendClientMessage(playerid, COLOR_INFO, "* /setrank [playerid] [rankid]");
             return 1;
