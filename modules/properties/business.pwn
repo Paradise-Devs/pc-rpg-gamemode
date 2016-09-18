@@ -2819,10 +2819,10 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 									ShowPlayerDialog(playerid, DIALOG_ADVERTISE, DIALOG_STYLE_INPUT, gBusinessData[b][E_BUSINESS_NAME], listitems, "Anunciar", "Cancelar");
 									return 1;
 								}
-								else if(strlen(inputtext) > 128)
+								else if(strlen(inputtext) > 80)
 								{
 									PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
-									SendClientMessage(playerid, COLOR_ERROR, "* Anuncio muito comprido. [Max: 128 characteres]");
+									SendClientMessage(playerid, COLOR_ERROR, "* Anuncio muito comprido. [Max: 80 characteres]");
 
 									new listitems[128];
 									format(listitems, sizeof listitems, "O que você deseja anunciar?\nPreço: $%i por letra.", ADVERTISE_PRICE_PER_LETTER);
@@ -2831,7 +2831,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 								}
 
 								PlayerPlaySound(playerid, 1083, 0.0, 0.0, 0.0);
-								new advertiseMessage[32 + 8 + MAX_PLAYER_NAME + 128];
+								new advertiseMessage[32 + 8 + MAX_PLAYER_NAME + 80];
 								format(advertiseMessage, sizeof advertiseMessage, "[Anuncio] %s: %s - Telefone: %i", GetPlayerNamef(playerid), inputtext, GetPlayerPhoneNumber(playerid));
 								SendClientMessageToAll(0x1fc91fFF, advertiseMessage);
 

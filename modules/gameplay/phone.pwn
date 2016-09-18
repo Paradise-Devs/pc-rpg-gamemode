@@ -482,7 +482,7 @@ YCMD:atender(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
-/*YCMD:infocelular(playerid, params[], help)
+YCMD:infocelular(playerid, params[], help)
 {
 	if(!GetPlayerPhoneNumber(playerid))
 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem um celular.");
@@ -490,16 +490,16 @@ YCMD:atender(playerid, params[], help)
 	new stateMessage[4];
 	stateMessage = (GetPlayerPhoneState(playerid)) ? "Sim" : "não";
 
-	SendClientMessage(playerid, 0xFAD669FF, "~~~~~~~~~~~~~~~~~~~~ Informações Celular ~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Informações Celular ~~~~~~~~~~~~~~~~~~~~");
 
 	new infoMessage[100];
-	format(infoMessage, sizeof(infoMessage), "* número: %i - Operadora: %s - Creditos: $%i", GetPlayerPhoneNumber(playerid), GetBusinessName(GetPlayerPhoneNetwork(playerid)), GetPlayerPhoneCredit(playerid));
-	SendClientMessage(playerid, -1, infoMessage);
-	SendClientMessagef(playerid, -1, "* Ligado: %s", stateMessage);
+	format(infoMessage, sizeof(infoMessage), "* Número: %i - Operadora: %s - Creditos: $%i", GetPlayerPhoneNumber(playerid), GetBusinessName(GetPlayerPhoneNetwork(playerid)), GetPlayerPhoneCredit(playerid));
+	SendClientMessage(playerid, COLOR_SUB_TITLE, infoMessage);
+	SendClientMessagef(playerid, COLOR_SUB_TITLE, "* Ligado: %s", stateMessage);
 
-	SendClientMessage(playerid, 0xFAD669FF, "~~~~~~~~~~~~~~~~~~~~ Informações Celular ~~~~~~~~~~~~~~~~~~~~");
+	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~ Informações Celular ~~~~~~~~~~~~~~~~~~~~");
 	return 1;
-}*/
+}
 
 //------------------------------------------------------------------------------
 
@@ -553,6 +553,18 @@ YCMD:anuncio(playerid, params[], help)
 						if(GetPlayerCash(playerid) < strlen(advertiseText) * 20)
 						{
 							SendClientMessagef(playerid, 0xB9C9BFFF, "* Você não possui dinheiro suficiente. {C8C8C8}[$%i]", strlen(advertiseText) * 20);
+							return 1;
+						}
+
+						else if(strlen(advertiseText) < 5)
+						{
+							SendClientMessage(playerid, 0xB9C9BFFF, "* Anúncio muito curto.");
+							return 1;
+						}
+
+						else if(strlen(advertiseText) > 80)
+						{
+							SendClientMessage(playerid, 0xB9C9BFFF, "* Anúncio muito longo. [Max: 80 characteres]");
 							return 1;
 						}
 
