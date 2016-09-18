@@ -487,7 +487,7 @@ YCMD:admins(playerid, params[], help)
 
 	foreach(new i: Player)
 	{
-		if(GetPlayerRank(i) >= PLAYER_RANK_MODERATOR)
+		if(GetPlayerRank(i) >= PLAYER_RANK_PARADISER)
 		{
 			format(string, sizeof string, "* {FFFFFF}[{%06x}%s{FFFFFF}] %s {A6A6A6}(ID: %i)", GetPlayerRankColor(i) >>> 8, GetPlayerRankName(i, true), GetPlayerNamef(i), i);
 			SendClientMessage(playerid, COLOR_INFO, string);

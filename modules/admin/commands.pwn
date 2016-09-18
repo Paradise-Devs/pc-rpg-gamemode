@@ -28,15 +28,20 @@ static Timer:gPlayerSpecTimer[MAX_PLAYERS] = {Timer:-1, ...};
 
 YCMD:acmds(playerid, params[], help)
 {
-    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+    if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	if(GetPlayerRank(playerid) >= PLAYER_RANK_PARADISER)
+    {
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /check - /kick - /fuelveh - /pm - /aprision - /spec");
+    }
+
 	if(GetPlayerRank(playerid) >= PLAYER_RANK_MODERATOR)
     {
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos - /fuelveh");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /ban - /irpos");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /tpcar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check - /aprision - /alibertar - /spec - /setneeds");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /say - /alibertar - /spec - /setneeds");
     }
 
 	if(GetPlayerRank(playerid) >= PLAYER_RANK_ADMIN)
@@ -65,38 +70,9 @@ hook OnPlayerDisconnect(playerid, reason)
 
 //------------------------------------------------------------------------------
 
-/***
- *
- *     #    #  ####  #####  ###### #####    ##   #####  ####  #####
- *     ##  ## #    # #    # #      #    #  #  #    #   #    # #    #
- *     # ## # #    # #    # #####  #    # #    #   #   #    # #    #
- *     #    # #    # #    # #      #####  ######   #   #    # #####
- *     #    # #    # #    # #      #   #  #    #   #   #    # #   #
- *     #    #  ####  #####  ###### #    # #    #   #    ####  #    #
- *
- */
-
- YCMD:check(playerid, params[], help)
- {
- 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
- 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
-
- 	new targetid;
- 	if(sscanf(params, "u", targetid))
- 		return SendClientMessage(playerid, COLOR_INFO, "* /check [playerid]");
-
- 	else if(!IsPlayerLogged(targetid))
- 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
-
-    ShowPlayerDataHud(targetid, playerid);
- 	return 1;
- }
-
-//------------------------------------------------------------------------------
-
  YCMD:ir(playerid, params[], help)
  {
- 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+ 	if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
  		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
  	new targetid;
@@ -131,24 +107,24 @@ hook OnPlayerDisconnect(playerid, reason)
  	return 1;
  }
 
-//------------------------------------------------------------------------------
+ //------------------------------------------------------------------------------
 
- YCMD:puxar(playerid, params[], help)
- {
- 	if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
- 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+YCMD:puxar(playerid, params[], help)
+{
+    if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
- 	new targetid;
- 	if(sscanf(params, "u", targetid))
- 		return SendClientMessage(playerid, COLOR_INFO, "* /puxar [playerid]");
+    new targetid;
+    if(sscanf(params, "u", targetid))
+        return SendClientMessage(playerid, COLOR_INFO, "* /puxar [playerid]");
 
- 	else if(!IsPlayerLogged(targetid))
- 		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+    else if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
 
- 	else if(targetid == playerid)
- 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode puxar você mesmo.");
+    else if(targetid == playerid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode puxar você mesmo.");
 
- 	new Float:x, Float:y, Float:z;
+    new Float:x, Float:y, Float:z;
     GetPlayerPos(playerid, x, y, z);
 
     SetPlayerInterior(targetid, GetPlayerInterior(playerid));
@@ -167,8 +143,219 @@ hook OnPlayerDisconnect(playerid, reason)
 
     DisablePlayerRaceCheckpoint(targetid);
     SetPlayerCPID(targetid, CHECKPOINT_NONE);
- 	return 1;
- }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:check(playerid, params[], help)
+{
+   if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+   new targetid;
+   if(sscanf(params, "u", targetid))
+       return SendClientMessage(playerid, COLOR_INFO, "* /check [playerid]");
+
+   else if(!IsPlayerLogged(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+   ShowPlayerDataHud(targetid, playerid);
+   return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:kick(playerid, params[], help)
+{
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    new targetid, reason[128];
+
+    if(sscanf(params, "us[128]", targetid, reason))
+        return SendClientMessage(playerid, COLOR_INFO, "* /kick [playerid] [motivo]");
+
+    else if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+    else if(playerid == targetid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar você mesmo.");
+
+    else if(IsPlayerNPC(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um NPC.");
+
+    else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um membro da administração.");
+
+    KickEx(targetid, playerid, reason);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:aprision(playerid, params[], help)
+{
+    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    new targetid, time, reason[128];
+    if(sscanf(params, "uis[128]", targetid, time, reason))
+        return SendClientMessage(playerid, COLOR_INFO, "* /aprision [playerid] [tempo(minutos)] [motivo]");
+
+    else if(!IsPlayerLogged(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+    else if(playerid == targetid)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender você mesmo.");
+
+    else if(IsPlayerNPC(targetid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender um NPC.");
+
+    else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender um membro da administração.");
+
+    else if(time < 5)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Tempo de prisão não pode ser inferior a 5 minutos.");
+
+    new output[144];
+    format(output, sizeof(output), "* %s foi preso por %s. Motivo: %s", GetPlayerNamef(targetid), GetPlayerNamef(playerid), reason);
+    SendClientMessageToAll(COLOR_SERVER_ANN, output);
+
+    PutPlayerInPrision(targetid, time * 60);
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:spec(playerid, params[], help)
+{
+    if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    if(gPlayerSpecTarget[playerid] == INVALID_PLAYER_ID)
+    {
+        new targetid;
+        if(sscanf(params, "u", targetid))
+            return SendClientMessage(playerid, COLOR_INFO, "* /spec [playerid]");
+
+        else if(!IsPlayerLogged(targetid))
+            return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+        else if(IsPlayerNPC(targetid))
+            return SendClientMessage(playerid, COLOR_ERROR, "* Jogador inválido.");
+
+        else if(targetid == playerid)
+            return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode dar spec em você mesmo.");
+
+        new Float:x, Float:y, Float:z, Float:a;
+        gPlayerSpecInt[playerid] = GetPlayerInterior(playerid);
+        gPlayerSpecWorld[playerid] = GetPlayerVirtualWorld(playerid);
+        GetPlayerPos(playerid, x, y, z);
+        GetPlayerFacingAngle(playerid, a);
+        SetSpawnInfo(playerid, 255, GetPlayerSkin(playerid), x, y, z, a, 0, 0, 0, 0, 0, 0);
+
+        TogglePlayerSpectating(playerid, true);
+        SetPlayerInterior(playerid, GetPlayerInterior(targetid));
+        SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
+        if(IsPlayerInAnyVehicle(targetid))
+        {
+            gPlayerSpecState[playerid] = 1;
+            PlayerSpectateVehicle(playerid, GetPlayerVehicleID(targetid));
+        }
+        else
+        {
+            gPlayerSpecState[playerid] = 0;
+            PlayerSpectatePlayer(playerid, targetid);
+        }
+        gPlayerSpecTarget[playerid] = targetid;
+        gPlayerSpecTimer[playerid] = repeat UpdateSpectator(playerid);
+    }
+    else
+    {
+        gPlayerSpecState[playerid] = 0;
+        gPlayerSpecTarget[playerid] = INVALID_PLAYER_ID;
+        stop gPlayerSpecTimer[playerid];
+        gPlayerSpecTimer[playerid] = Timer:-1;
+        TogglePlayerSpectating(playerid, false);
+
+        SetPlayerInterior(playerid, gPlayerSpecInt[playerid]);
+        SetPlayerVirtualWorld(playerid, gPlayerSpecWorld[playerid]);
+    }
+    return 1;
+}
+
+timer UpdateSpectator[1000](playerid)
+{
+    new targetid = gPlayerSpecTarget[playerid];
+
+    if(GetPlayerInterior(playerid) != GetPlayerInterior(targetid))
+        SetPlayerInterior(playerid, GetPlayerInterior(targetid));
+
+    if(GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(targetid))
+        SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
+
+    if(IsPlayerInAnyVehicle(targetid) && gPlayerSpecState[playerid] != 1)
+    {
+        gPlayerSpecState[playerid] = 1;
+        PlayerSpectateVehicle(playerid, GetPlayerVehicleID(targetid));
+    }
+    else if(!IsPlayerInAnyVehicle(targetid) && gPlayerSpecState[playerid] != 0)
+    {
+        gPlayerSpecState[playerid] = 0;
+        PlayerSpectatePlayer(playerid, targetid);
+    }
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:fuelveh(playerid, params[], help)
+{
+    if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    else if(!IsPlayerInAnyVehicle(playerid))
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
+
+	SetVehicleFuel(GetPlayerVehicleID(playerid), 100.0);
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:pm(playerid, params[], help)
+{
+   if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+   new targetid, message[128];
+   if(sscanf(params, "us[128]", targetid, message))
+       return SendClientMessage(playerid, COLOR_INFO, "* /pm [playerid] [mensagem]");
+
+   else if(!IsPlayerLogged(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+   else if(playerid == targetid)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode mandar mensagem privada para você mesmo.");
+
+   new output[144];
+   format(output, sizeof(output), "* [MP] %s(ID: %d): %s", GetPlayerNamef(playerid), playerid, message);
+   SendClientMessage(targetid, 0x26b4cdff, output);
+   format(output, sizeof(output), "* [MP] de %s para %s(ID: %d): %s", GetPlayerNamef(playerid), GetPlayerNamef(targetid), targetid, message);
+   SendAdminMessage(PLAYER_RANK_MODERATOR, 0x26b4cdff, output);
+   return 1;
+}
+
+/***
+ *
+ *     #    #  ####  #####  ###### #####    ##   #####  ####  #####
+ *     ##  ## #    # #    # #      #    #  #  #    #   #    # #    #
+ *     # ## # #    # #    # #####  #    # #    #   #   #    # #    #
+ *     #    # #    # #    # #      #####  ######   #   #    # #####
+ *     #    # #    # #    # #      #   #  #    #   #   #    # #   #
+ *     #    #  ####  #####  ###### #    # #    #   #    ####  #    #
+ *
+ */
 
 //------------------------------------------------------------------------------
 
@@ -334,68 +521,6 @@ YCMD:sairdohospital(playerid, params[], help)
 
 //------------------------------------------------------------------------------
 
-YCMD:kick(playerid, params[], help)
-{
-    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
-
-    new targetid, reason[128];
-
-    if(sscanf(params, "us[128]", targetid, reason))
-        return SendClientMessage(playerid, COLOR_INFO, "* /kick [playerid] [motivo]");
-
-    else if(!IsPlayerLogged(targetid))
-        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
-
-    else if(playerid == targetid)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar você mesmo.");
-
-    else if(IsPlayerNPC(targetid))
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um NPC.");
-
-    else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode kickar um membro da administração.");
-
-    KickEx(targetid, playerid, reason);
-    return 1;
-}
-
-//------------------------------------------------------------------------------
-
-YCMD:aprision(playerid, params[], help)
-{
-    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
-
-    new targetid, time, reason[128];
-    if(sscanf(params, "uis[128]", targetid, time, reason))
-        return SendClientMessage(playerid, COLOR_INFO, "* /aprision [playerid] [tempo(minutos)] [motivo]");
-
-    else if(!IsPlayerLogged(targetid))
-        return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
-
-    else if(playerid == targetid)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender você mesmo.");
-
-    else if(IsPlayerNPC(targetid))
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender um NPC.");
-
-    else if(GetPlayerRank(targetid) > PLAYER_RANK_PLAYER)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode prender um membro da administração.");
-
-    else if(time < 5)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Tempo de prisão não pode ser inferior a 5 minutos.");
-
-    new output[144];
-    format(output, sizeof(output), "* %s foi preso por %s. Motivo: %s", GetPlayerNamef(targetid), GetPlayerNamef(playerid), reason);
-    SendClientMessageToAll(COLOR_SERVER_ANN, output);
-
-    PutPlayerInPrision(targetid, time * 60);
-    return 1;
-}
-
-//------------------------------------------------------------------------------
-
 YCMD:alibertar(playerid, params[], help)
 {
     if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
@@ -420,87 +545,6 @@ YCMD:alibertar(playerid, params[], help)
 
     SetPlayerPrisionTime(targetid, 1);
     return 1;
-}
-
-//------------------------------------------------------------------------------
-
-YCMD:spec(playerid, params[], help)
-{
-    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
-
-    if(gPlayerSpecTarget[playerid] == INVALID_PLAYER_ID)
-    {
-        new targetid;
-        if(sscanf(params, "u", targetid))
-            return SendClientMessage(playerid, COLOR_INFO, "* /spec [playerid]");
-
-        else if(!IsPlayerLogged(targetid))
-            return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
-
-        else if(IsPlayerNPC(targetid))
-            return SendClientMessage(playerid, COLOR_ERROR, "* Jogador inválido.");
-
-        else if(targetid == playerid)
-            return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode dar spec em você mesmo.");
-
-        new Float:x, Float:y, Float:z, Float:a;
-        gPlayerSpecInt[playerid] = GetPlayerInterior(playerid);
-        gPlayerSpecWorld[playerid] = GetPlayerVirtualWorld(playerid);
-        GetPlayerPos(playerid, x, y, z);
-        GetPlayerFacingAngle(playerid, a);
-        SetSpawnInfo(playerid, 255, GetPlayerSkin(playerid), x, y, z, a, 0, 0, 0, 0, 0, 0);
-
-        TogglePlayerSpectating(playerid, true);
-        SetPlayerInterior(playerid, GetPlayerInterior(targetid));
-        SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
-        if(IsPlayerInAnyVehicle(targetid))
-        {
-            gPlayerSpecState[playerid] = 1;
-            PlayerSpectateVehicle(playerid, GetPlayerVehicleID(targetid));
-        }
-        else
-        {
-            gPlayerSpecState[playerid] = 0;
-            PlayerSpectatePlayer(playerid, targetid);
-        }
-        gPlayerSpecTarget[playerid] = targetid;
-        gPlayerSpecTimer[playerid] = repeat UpdateSpectator(playerid);
-    }
-    else
-    {
-        gPlayerSpecState[playerid] = 0;
-        gPlayerSpecTarget[playerid] = INVALID_PLAYER_ID;
-        stop gPlayerSpecTimer[playerid];
-        gPlayerSpecTimer[playerid] = Timer:-1;
-        TogglePlayerSpectating(playerid, false);
-
-        SetPlayerInterior(playerid, gPlayerSpecInt[playerid]);
-        SetPlayerVirtualWorld(playerid, gPlayerSpecWorld[playerid]);
-    }
-    return 1;
-}
-
-timer UpdateSpectator[1000](playerid)
-{
-    new targetid = gPlayerSpecTarget[playerid];
-
-    if(GetPlayerInterior(playerid) != GetPlayerInterior(targetid))
-        SetPlayerInterior(playerid, GetPlayerInterior(targetid));
-
-    if(GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(targetid))
-        SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
-
-    if(IsPlayerInAnyVehicle(targetid) && gPlayerSpecState[playerid] != 1)
-    {
-        gPlayerSpecState[playerid] = 1;
-        PlayerSpectateVehicle(playerid, GetPlayerVehicleID(targetid));
-    }
-    else if(!IsPlayerInAnyVehicle(targetid) && gPlayerSpecState[playerid] != 0)
-    {
-        gPlayerSpecState[playerid] = 0;
-        PlayerSpectatePlayer(playerid, targetid);
-    }
 }
 
 //------------------------------------------------------------------------------
@@ -585,19 +629,6 @@ YCMD:irpos(playerid, params[], help)
 	return 1;
 }
 
-//------------------------------------------------------------------------------
-
-YCMD:fuelveh(playerid, params[], help)
-{
-    if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
-
-    else if(!IsPlayerInAnyVehicle(playerid))
-        return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em um veículo.");
-
-	SetVehicleFuel(GetPlayerVehicleID(playerid), 100.0);
-	return 1;
-}
 //------------------------------------------------------------------------------
 
 YCMD:rtc(playerid, params[], help)
@@ -881,30 +912,6 @@ YCMD:tirardohospital(playerid, params[], help)
    return 1;
 }
 
-//------------------------------------------------------------------------------
-
-YCMD:pm(playerid, params[], help)
-{
-   if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
-
-   new targetid, message[128];
-   if(sscanf(params, "us[128]", targetid, message))
-       return SendClientMessage(playerid, COLOR_INFO, "* /pm [playerid] [mensagem]");
-
-   else if(!IsPlayerLogged(targetid))
-       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
-
-   else if(playerid == targetid)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode mandar mensagem privada para você mesmo.");
-
-   new output[144];
-   format(output, sizeof(output), "* [MP] %s(ID: %d): %s", GetPlayerNamef(playerid), playerid, message);
-   SendClientMessage(targetid, 0x26b4cdff, output);
-   format(output, sizeof(output), "* [MP] de %s para %s(ID: %d): %s", GetPlayerNamef(playerid), GetPlayerNamef(targetid), targetid, message);
-   SendAdminMessage(PLAYER_RANK_MODERATOR, 0x26b4cdff, output);
-   return 1;
-}
 //------------------------------------------------------------------------------
 
 YCMD:say(playerid, params[], help)
