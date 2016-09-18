@@ -24,6 +24,9 @@ static STREAMER_TAG_CP gCheckpointid;
 // Vehicle ID
 static g_pTargetVehicleID[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
 
+// Interval between missions
+static g_pLastDelivery[MAX_PLAYERS];
+
 //------------------------------------------------------------------------------
 
 static Float:g_fCarSpawnPosition[][] =
@@ -202,7 +205,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             new money;
 
             GetVehicleHealth(g_pTargetVehicleID[playerid], health);
-            money = ((floatround(health) * 3) / 2);
+            money = ((floatround(health) * 4) / 2);
 
             SendClientMessagef(playerid, COLOR_TITLE, "* Você entregou o %s.", GetVehicleName(g_pTargetVehicleID[playerid]));
             SendClientMessagef(playerid, COLOR_SUB_TITLE, "* Seu pagamento foi de $%s.", formatnumber(money));
@@ -212,7 +215,8 @@ hook OnPlayerEnterRaceCPT(playerid)
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
 			SetPlayerMission(playerid, INVALID_MISSION_ID);
 
-			SetPlayerXP(playerid, GetPlayerXP(playerid) + (GetPlayerLevel(playerid) * 50));
+			SetPlayerXP(playerid, GetPlayerXP(playerid) + (GetPlayerLevel(playerid) * 25));
+			g_pLastDelivery[playerid] = gettime() + 3600;
 
             DestroyVehicle(g_pTargetVehicleID[playerid]);
             g_pTargetVehicleID[playerid] = INVALID_VEHICLE_ID;
@@ -252,6 +256,7 @@ hook OnPlayerDisconnect(playerid, reason)
         DestroyVehicle(g_pTargetVehicleID[playerid]);
         g_pTargetVehicleID[playerid] = INVALID_VEHICLE_ID;
     }
+	g_pLastDelivery[playerid] = 0;
     return 1;
 }
 
@@ -280,6 +285,18 @@ hook OnVehicleStreamIn(vehicleid, forplayerid)
 
 //------------------------------------------------------------------------------
 
+SetPlayerCarTheftTimer(playerid, value)
+{
+	g_pLastDelivery[playerid] = value;
+}
+
+GetPlayerCarTheftTimer(playerid)
+{
+	return g_pLastDelivery[playerid];
+}
+
+//------------------------------------------------------------------------------
+
 hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
 {
     if(checkpointid == gCheckpointid)
@@ -290,10 +307,20 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
             return -1;
         }
 
-        new info[130];
-		format(info, sizeof(info), "Eaí %s,\n\nTô precisando de uns veículos aqui no meu desmanche.\nVocê estaria interessado em me ajudar?", GetPlayerNamef(playerid));
-		ShowPlayerDialog(playerid, DIALOG_GTA_MISSION, DIALOG_STYLE_MSGBOX, "Dwayne -> Missão", info, "Sim", "Não");
-        PlaySelectSound(playerid);
+		if(g_pLastDelivery[playerid] > gettime())
+		{
+			new info[150];
+			format(info, sizeof(info), "Eaí %s,\n\nValeu pelo ultimo serviço.\nNão tô precisando de ajuda agora não, volte em %d minutos que eu posso ter algo.", GetPlayerNamef(playerid), (g_pLastDelivery[playerid] - gettime()) / 60);
+			ShowPlayerDialog(playerid, DIALOG_MESSAGE, DIALOG_STYLE_MSGBOX, "Dwayne -> Missão", info, "Beleza", "");
+	        PlaySelectSound(playerid);
+		}
+		else
+		{
+			new info[130];
+			format(info, sizeof(info), "Eaí %s,\n\nTô precisando de uns veículos aqui no meu desmanche.\nVocê estaria interessado em me ajudar?", GetPlayerNamef(playerid));
+			ShowPlayerDialog(playerid, DIALOG_GTA_MISSION, DIALOG_STYLE_MSGBOX, "Dwayne -> Missão", info, "Sim", "Não");
+	        PlaySelectSound(playerid);
+		}
         return -2;
     }
     return 1;

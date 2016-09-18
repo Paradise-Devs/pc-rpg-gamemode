@@ -818,7 +818,7 @@ SavePlayerAccount(playerid)
         rankname = GetJobName(GetPlayerJobID(playerid), true);
 
     // Account saving
-    new query[1280];
+    new query[1310];
 	mysql_format(mysql, query, sizeof(query),
 	"UPDATE `players` SET \
     `x`=%.2f, `y`=%.2f, `z`=%.2f, `a`=%.2f, `interior`=%d, `virtual_world`=%d, `spawn`=%d, \
@@ -836,7 +836,7 @@ SavePlayerAccount(playerid)
     `WeaponSkillSpas12`=%d, `WeaponSkillUzi`=%d, `WeaponSkillMP5`=%d, `WeaponSkillAK47`=%d, `WeaponSkillM4`=%d, `WeaponSkillSniper`=%d, \
     `agenda`=%d, `gps`=%d, `lighter`=%d, `cigaretts`=%d, `walkietalkie`=%d, \
     `carlic`=%d, `bikelic`=%d, `trucklic`=%d, `helilic`=%d, `planelic`=%d, `boatlic`=%d, \
-    `fstyle`=%d, `prision_time`=%d \
+    `fstyle`=%d, `prision_time`=%d, `cartheft_time`=%d \
     WHERE `user_id`=%d",
     x, y, z, a, interior, world, GetPlayerSpawnPosition(playerid),
     GetPlayerRank(playerid), rankname, gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
@@ -857,7 +857,7 @@ SavePlayerAccount(playerid)
     gPlayerItemData[playerid][e_player_agenda], gPlayerItemData[playerid][e_player_gps], gPlayerItemData[playerid][e_player_cigaretts], gPlayerItemData[playerid][e_player_lighter], gPlayerItemData[playerid][e_player_walkietalkie],
     gPlayerLicenseData[playerid][e_player_car_license], gPlayerLicenseData[playerid][e_player_bike_license], gPlayerLicenseData[playerid][e_player_truck_license],
     gPlayerLicenseData[playerid][e_player_heli_license], gPlayerLicenseData[playerid][e_player_plane_license], gPlayerLicenseData[playerid][e_player_boat_license],
-    GetPlayerFightingStyle(playerid), GetPlayerPrisionTime(playerid),
+    GetPlayerFightingStyle(playerid), GetPlayerPrisionTime(playerid), GetPlayerCarTheftTimer(playerid),
     gPlayerAccountData[playerid][e_player_database_id]);
 	mysql_pquery(mysql, query);
 
@@ -1049,6 +1049,7 @@ public OnAccountLoad(playerid)
         SetPlayerRank(playerid,         cache_get_field_content_int(0, "rank", mysql));
         SetPlayerFirstTimeVar(playerid, cache_get_field_content_int(0, "ftime", mysql));
         SetPlayerPrisionTime(playerid,  cache_get_field_content_int(0, "prision_time", mysql));
+        SetPlayerCarTheftTimer(playerid, cache_get_field_content_int(0, "cartheft_time", mysql));
 
         SetPlayerSkillLevel(playerid, WEAPONSKILL_PISTOL,			gPlayerWeaponData[playerid][e_player_weapon_skill][0]);
     	SetPlayerSkillLevel(playerid, WEAPONSKILL_PISTOL_SILENCED,	gPlayerWeaponData[playerid][e_player_weapon_skill][1]);
