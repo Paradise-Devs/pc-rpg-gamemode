@@ -108,6 +108,45 @@ hook OnPlayerGiveDamageActor(playerid, damaged_actorid, Float:amount, weaponid, 
 
 //------------------------------------------------------------------------------
 
+hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
+{
+    if(!ispassenger)
+    {
+        foreach(new i: Player)
+        {
+            if(vehicleid == g_pVehicleID[i] && g_pVehicleID[i] != g_pVehicleID[playerid])
+            {
+                ClearAnimations(playerid);
+                SendClientMessage(playerid, COLOR_ERROR, "* Você não pode dirigir este veículo.");
+            }
+        }
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerStateChange(playerid, newstate, oldstate)
+{
+    switch (newstate)
+    {
+        case PLAYER_STATE_DRIVER:
+        {
+            foreach(new i: Player)
+            {
+                if(GetPlayerVehicleID(playerid) == g_pVehicleID[i] && g_pVehicleID[i] != g_pVehicleID[playerid])
+                {
+                    RemovePlayerFromVehicle(playerid);
+                    SendClientMessage(playerid, COLOR_ERROR, "* Você não pode dirigir este veículo.");
+                }
+            }
+        }
+    }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
 hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP checkpointid)
 {
     if(checkpointid == gCheckpointid)
