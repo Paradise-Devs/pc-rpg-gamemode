@@ -34,14 +34,13 @@ YCMD:acmds(playerid, params[], help)
 	SendClientMessage(playerid, COLOR_TITLE, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Comandos Administrativos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	if(GetPlayerRank(playerid) >= PLAYER_RANK_PARADISER)
     {
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /check - /kick - /fuelveh - /pm - /aprision - /spec");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /check - /kick - /fuelveh - /pm - /aprision - /spec - /say");
     }
 
 	if(GetPlayerRank(playerid) >= PLAYER_RANK_MODERATOR)
     {
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /ban - /irpos");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /ban - /irpos - /alibertar - /spec - /setneeds");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /tpcar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /say - /alibertar - /spec - /setneeds");
     }
 
 	if(GetPlayerRank(playerid) >= PLAYER_RANK_ADMIN)
@@ -65,6 +64,26 @@ hook OnPlayerDisconnect(playerid, reason)
         gPlayerSpecTarget[playerid] = INVALID_PLAYER_ID;
         gPlayerSpecTimer[playerid] = Timer:-1;
     }
+    return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:say(playerid, params[], help)
+{
+    if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
+        return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+    new message[128];
+    if(sscanf(params, "s[128]", message))
+        return SendClientMessage(playerid, COLOR_INFO, "* /say [mensagem]");
+
+    new output[144];
+    if(GetPlayerRank(playerid) == PLAYER_RANK_PARADISER)
+        format(output, sizeof(output), "* Paradiser %s: %s", GetPlayerNamef(playerid), message);
+    else
+        format(output, sizeof(output), "* Admin %s: %s", GetPlayerNamef(playerid), message);
+    SendClientMessageToAll(0x97e632ff, output);
     return 1;
 }
 
@@ -909,23 +928,6 @@ YCMD:tirardohospital(playerid, params[], help)
    if(playerid != targetid)
        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s tirou você do hospital.", GetPlayerNamef(playerid));
    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você tirou %s do hospital.", GetPlayerNamef(targetid));
-   return 1;
-}
-
-//------------------------------------------------------------------------------
-
-YCMD:say(playerid, params[], help)
-{
-   if(GetPlayerRank(playerid) < PLAYER_RANK_MODERATOR)
-       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
-
-   new message[128];
-   if(sscanf(params, "s[128]", message))
-       return SendClientMessage(playerid, COLOR_INFO, "* /say [mensagem]");
-
-   new output[144];
-   format(output, sizeof(output), "* Admin %s: %s", GetPlayerNamef(playerid), message);
-   SendClientMessageToAll(0x97e632ff, output);
    return 1;
 }
 
