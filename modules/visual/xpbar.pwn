@@ -17,7 +17,8 @@
 
 //------------------------------------------------------------------------------
 
-static PlayerText:xpBar[MAX_PLAYERS];
+static PlayerBar:xpBar[MAX_PLAYERS];
+static PlayerText:xp_bar_val[MAX_PLAYERS];
 
 //------------------------------------------------------------------------------
 
@@ -25,6 +26,15 @@ static PlayerText:xpBar[MAX_PLAYERS];
 hook OnPlayerConnect(playerid)
 {
 	xpBar[playerid] = CreatePlayerProgressBar(playerid, 0.00, 442.00, 644.00, 5.50, 16777215, 100.0, BAR_DIRECTION_RIGHT);
+
+    xp_bar_val[playerid] = CreatePlayerTextDraw(playerid, 317.000000, 441.650000, "1 / 150");
+	PlayerTextDrawBackgroundColor(playerid, xp_bar_val[playerid], 255);
+	PlayerTextDrawFont(playerid, xp_bar_val[playerid], 0);
+	PlayerTextDrawLetterSize(playerid, xp_bar_val[playerid], 0.250000, 0.599999);
+	PlayerTextDrawColor(playerid, xp_bar_val[playerid], -1);
+	PlayerTextDrawSetOutline(playerid, xp_bar_val[playerid], 1);
+	PlayerTextDrawSetProportional(playerid, xp_bar_val[playerid], 1);
+	PlayerTextDrawSetSelectable(playerid, xp_bar_val[playerid], 0);
     return 1;
 }
 
@@ -37,7 +47,7 @@ ShowPlayerXPBar(playerid)
 	PlayerTextDrawShow(playerid, xp_bar_val[playerid]);
 }
 
-HidePlayerXPBar(playerid)
+stock HidePlayerXPBar(playerid)
 {
 	HidePlayerProgressBar(playerid, xpBar[playerid]);
 	PlayerTextDrawHide(playerid, xp_bar_val[playerid]);
