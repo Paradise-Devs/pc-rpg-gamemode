@@ -36,7 +36,7 @@ YCMD:acmds(playerid, params[], help)
     {
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /ir - /puxar - /flip - /reparar - /ls - /sf - /lv - /sairdohospital - /setskin - /kick - /ban - /irpos - /fuelveh");
         SendClientMessage(playerid, COLOR_SUB_TITLE, "* /rtc - /ircar - /tpcar - /puxarcar - /tdist - /marcar - /irmarca - /sethp - /setarmour - /dararma - /tirardohospital");
-        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check - /aprision - /alibertar - /spec");
+        SendClientMessage(playerid, COLOR_SUB_TITLE, "* /pm - /say - /check - /aprision - /alibertar - /spec - /setneeds");
     }
 
 	if(GetPlayerRank(playerid) >= PLAYER_RANK_ADMIN)

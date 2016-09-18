@@ -123,6 +123,7 @@ hook OnGameModeInit()
     EnableAntiCheat(27, false);
     EnableAntiCheat(28, false);
     EnableAntiCheat(32, false);
+    EnableAntiCheat(34, false);
     EnableAntiCheat(36, false);
     EnableAntiCheat(37, false);
     EnableAntiCheat(38, false);
@@ -130,6 +131,7 @@ hook OnGameModeInit()
     EnableAntiCheat(40, false);
     EnableAntiCheat(41, false);
     EnableAntiCheat(44, false);
+    EnableAntiCheat(47, false);
     EnableAntiCheat(48, false);
     EnableAntiCheat(49, false);
     EnableAntiCheat(50, false);
