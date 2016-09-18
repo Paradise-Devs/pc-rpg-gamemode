@@ -10,6 +10,21 @@ hook OnPlayerConnect(playerid)
  	return 1;
 }
 
+stock SSFIX_SetPlayerName(playerid, name[])
+{
+    // Record the value however you like.
+	format(PlayerNames[playerid], MAX_PLAYER_NAME, name);
+    // Call the real SetPlayerName
+    return SetPlayerName(playerid, name);
+}
+
+#if defined _ALS_SetPlayerName
+    #undef SetPlayerName
+#else
+    #define _ALS_SetPlayerName
+#endif
+#define SetPlayerName SSFIX_SetPlayerName
+
 // Search for players name
 SSCANF:u(name[])
 {
