@@ -259,18 +259,21 @@ hook OnPlayerDisconnect(playerid, reason)
 
 hook OnVehicleStreamIn(vehicleid, forplayerid)
 {
-	foreach(new i: Player)
-	{
-		if(vehicleid == g_pTargetVehicleID[i] && vehicleid != g_pTargetVehicleID[forplayerid])
-		{
-			SetVehicleParamsForPlayer(g_pTargetVehicleID[forplayerid], i, 0, 1);
-		}
-	}
-
-    if(g_pTargetVehicleID[forplayerid] == vehicleid)
+	if(vehicleid == g_pTargetVehicleID[forplayerid])
     {
-		SetVehicleParamsForPlayer(g_pTargetVehicleID[forplayerid], forplayerid, 1, 0);
 		DisablePlayerRaceCheckpoint(forplayerid);
+		SetVehicleParamsForPlayer(vehicleid, forplayerid, 1, 0);
+	}
+	else
+	{
+		foreach(new i: Player)
+		{
+			if(vehicleid == g_pTargetVehicleID[i])
+			{
+				SetVehicleParamsForPlayer(vehicleid, forplayerid, 0, 1);
+				break;
+			}
+		}
 	}
     return 1;
 }
