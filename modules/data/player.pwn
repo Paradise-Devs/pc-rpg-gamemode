@@ -527,6 +527,7 @@ SetPlayerLevel(playerid, val)
 {
     SetPlayerScore(playerid, val);
     gPlayerCharacterData[playerid][e_player_level] = val;
+    UpdatePlayerBar(playerid);
 }
 
 GetPlayerXP(playerid)
@@ -537,6 +538,7 @@ GetPlayerXP(playerid)
 SetPlayerXP(playerid, val)
 {
     gPlayerCharacterData[playerid][e_player_xp] = val;
+    UpdatePlayerBar(playerid);
 }
 
 stock GetPlayerRequiredXP(playerid)
@@ -1062,6 +1064,8 @@ public OnAccountLoad(playerid)
         LoadPlayerWeapons(playerid);
         LoadPlayerPets(playerid);
         // LoadPlayerVehicles(playerid);
+
+        ShowPlayerXPBar(playerid);
 
         SetPlayerColor(playerid, 0xFFFFFFFF);
         SetPlayerLogged(playerid, true);

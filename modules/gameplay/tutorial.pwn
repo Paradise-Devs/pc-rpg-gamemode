@@ -81,6 +81,7 @@ OnPlayerClickTutorialButton(playerid, BUTTON:button)
         SendClientMessage(playerid, 0xFFFFFFFF, "Apenas jogadores próximo a você irão ouvir o que você diz.");
         HidePlayerGPS(playerid);
         ShowPlayerLogo(playerid);
+        ShowPlayerXPBar(playerid);
         return 1;
     }
 
