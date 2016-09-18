@@ -494,11 +494,15 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	if((newkeys & KEY_FIRE) && g_pLastCiggy[playerid] < GetTickCount() && (GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_SMOKE_CIGGY))
 	{
 		g_pLastCiggy[playerid] = GetTickCount() + 2350;
-
 		if(GetPlayerAddiction(playerid) == 0.0)
+		{
+			SetPlayerAddiction(playerid, GetPlayerAddiction(playerid) + 10.0);
 			SendClientMessage(playerid, COLOR_WARNING, "* Você agora está viciado, você precisará manter o uso constante deste item para não morrer.");
-
-		SetPlayerAddiction(playerid, GetPlayerAddiction(playerid) + 1.0);
+		}
+		else
+		{
+			SetPlayerAddiction(playerid, GetPlayerAddiction(playerid) + 1.0);
+		}
 	}
 	return 1;
 }
