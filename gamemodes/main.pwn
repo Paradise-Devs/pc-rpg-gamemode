@@ -113,6 +113,7 @@
 #include <vending>
 #include <cuffs>
 #include <sscanffix>
+#include <log>
 
 //------------------------------------------------------------------------------
 

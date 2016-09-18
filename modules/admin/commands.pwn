@@ -999,6 +999,37 @@ YCMD:setmoney(playerid, params[], help)
        SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s alterou seu dinheiro para $%s.", GetPlayerNamef(playerid), formatnumber(value));
 
    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o dinheiro de %s para $%s.", GetPlayerNamef(targetid), formatnumber(value));
+
+   new log[98];
+   format(log, sizeof(log), "%s has set %s's money to $%d.", GetPlayerNamef(playerid), GetPlayerNamef(targetid), formatnumber(value));
+   WriteLog("logs/money_log.txt", log);
+   return 1;
+}
+
+//------------------------------------------------------------------------------
+
+YCMD:givemoney(playerid, params[], help)
+{
+   if(GetPlayerRank(playerid) < PLAYER_RANK_ADMIN)
+       return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+   new targetid, value;
+   if(sscanf(params, "k<u>i", targetid, value))
+       return SendClientMessage(playerid, COLOR_INFO, "* /givemoney [playerid] [dinheiro]");
+
+   else if(!IsPlayerLogged(targetid))
+       return SendClientMessage(playerid, COLOR_ERROR, "* O jogador não está conectado.");
+
+   SetPlayerCash(targetid, value);
+
+   if(playerid != targetid)
+       SendClientMessagef(targetid, COLOR_ADMIN_ACTION, "* %s deu $%s para você.", GetPlayerNamef(playerid), formatnumber(value));
+
+   SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você deu $%s para %s.", formatnumber(value), GetPlayerNamef(targetid));
+
+   new log[98];
+   format(log, sizeof(log), "%s has gave $%s to %d.", GetPlayerNamef(playerid), formatnumber(value), GetPlayerNamef(targetid));
+   WriteLog("logs/money_log.txt", log);
    return 1;
 }
 
