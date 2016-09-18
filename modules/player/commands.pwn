@@ -144,7 +144,7 @@ YCMD:pagar(playerid, params[], help)
 	GivePlayerCash(targetid, value);
 
 	new log[80];
-	format(log, sizeof(log), "%s gave $%d to %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid), formatnumber(value));
+	format(log, sizeof(log), "%s gave $%s to %s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid), formatnumber(value));
 	WriteLog("logs/money_log.txt", log);
 	return 1;
 }

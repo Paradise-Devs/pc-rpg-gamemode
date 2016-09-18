@@ -1001,7 +1001,7 @@ YCMD:setmoney(playerid, params[], help)
    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você alterou o dinheiro de %s para $%s.", GetPlayerNamef(targetid), formatnumber(value));
 
    new log[98];
-   format(log, sizeof(log), "%s has set %s's money to $%d.", GetPlayerNamef(playerid), GetPlayerNamef(targetid), formatnumber(value));
+   format(log, sizeof(log), "%s has set %s's money to $%s.", GetPlayerNamef(playerid), GetPlayerNamef(targetid), formatnumber(value));
    WriteLog("logs/money_log.txt", log);
    return 1;
 }
@@ -1028,7 +1028,7 @@ YCMD:givemoney(playerid, params[], help)
    SendClientMessagef(playerid, COLOR_ADMIN_ACTION, "* Você deu $%s para %s.", formatnumber(value), GetPlayerNamef(targetid));
 
    new log[98];
-   format(log, sizeof(log), "%s has gave $%s to %d.", GetPlayerNamef(playerid), formatnumber(value), GetPlayerNamef(targetid));
+   format(log, sizeof(log), "%s has gave $%s to %s.", GetPlayerNamef(playerid), formatnumber(value), GetPlayerNamef(targetid));
    WriteLog("logs/money_log.txt", log);
    return 1;
 }
