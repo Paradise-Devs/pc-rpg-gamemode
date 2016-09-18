@@ -477,11 +477,23 @@ YCMD:fumar(playerid, params[], help)
 	SendClientActionMessage(playerid, 20.0, "acendeu um cigarro.");
 	SetPlayerSpecialAction(playerid, SPECIAL_ACTION_SMOKE_CIGGY);
 
-	SetPlayerCigaretts(playerid, GetPlayerCigaretts(playerid) - 1);
 	SetPlayerLighter(playerid, GetPlayerLighter(playerid) - 1);
+	SetPlayerCigaretts(playerid, GetPlayerCigaretts(playerid) - 1);
 	return 1;
 }
 
+//------------------------------------------------------------------------------
+
+static g_pLastCiggy[MAX_PLAYERS];
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+	if((newkeys & KEY_FIRE) && g_pLastCiggy[playerid] < GetTickCount() && (GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_SMOKE_CIGGY))
+	{
+		g_pLastCiggy[playerid] = GetTickCount() + 2350;
+		SetPlayerAddiction(playerid, GetPlayerAddiction(playerid) + 1.0);
+	}
+	return 1;
+}
 
 //------------------------------------------------------------------------------
 
