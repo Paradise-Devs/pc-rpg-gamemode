@@ -473,7 +473,7 @@ stock GetPlayerFirstName(playerid)
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, sizeof(playerName));
     for(new i = 0; i < MAX_PLAYER_NAME; i++)
-        if(playerName[i] == '_')
+        if(playerName[i] == '.')
             playerName[i] = '\0';
     if(isnull(playerName))
         playerName = "Desconhecido";
@@ -627,7 +627,7 @@ GetPlayerLastName(playerid)
 {
     new playerName[MAX_PLAYER_NAME + 1], splittedname[2][MAX_PLAYER_NAME + 1];
     GetPlayerName(playerid, playerName, sizeof(playerName));
-    split(playerName, splittedname, '_');
+    split(playerName, splittedname, '.');
     if(isnull(splittedname[1])) {
         splittedname[1] = "N/A";
     }
@@ -712,7 +712,7 @@ stock GetVehicleCategory(vehicleid)
 	for(new i = 0; i < sizeof(bicy_ids); i++)
 		if(GetVehicleModel(vehicleid) == bicy_ids[i])
 			return VEHICLE_CATEGORY_BICYCLE;
-			
+
 	new bike_ids[] =
 	{
 		509, 510, 481, 461,

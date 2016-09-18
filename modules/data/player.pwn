@@ -1070,7 +1070,7 @@ public OnAccountLoad(playerid)
         SetPlayerColor(playerid, 0xFFFFFFFF);
         SetPlayerLogged(playerid, true);
 
-        SendAdminMessage(PLAYER_RANK_MODERATOR, 0x3A9BF4FF, "%s{FFFFFF} conectou-se ao servidor.", GetPlayerFirstName(playerid));
+        SendAdminMessage(PLAYER_RANK_PARADISER, 0x3A9BF4FF, "%s{FFFFFF} conectou-se ao servidor.", GetPlayerFirstName(playerid));
     }
     return 1;
 }
