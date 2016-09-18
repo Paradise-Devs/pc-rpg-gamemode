@@ -13,6 +13,7 @@
 
 // Required to be at the top
 #include <a_samp>
+#include <sscanf2>
 #include <streamer>
 #include <nex-ac>
 
@@ -21,7 +22,7 @@
 // Script versioning
 #define SCRIPT_VERSION_MAJOR							"0"
 #define SCRIPT_VERSION_MINOR							"2"
-#define SCRIPT_VERSION_PATCH							".13"
+#define SCRIPT_VERSION_PATCH							".14"
 #define SCRIPT_VERSION_NAME								"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -96,7 +97,6 @@
 //------------------------------------------------------------------------------
 
 // Libraries
-#include <sscanf2>
 #include <a_mysql>
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
