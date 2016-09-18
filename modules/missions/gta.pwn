@@ -202,7 +202,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             new money;
 
             GetVehicleHealth(g_pTargetVehicleID[playerid], health);
-            money = ((floatround(health) * 5) / 2);
+            money = ((floatround(health) * 3) / 2);
 
             SendClientMessagef(playerid, COLOR_TITLE, "* Você entregou o %s.", GetVehicleName(g_pTargetVehicleID[playerid]));
             SendClientMessagef(playerid, COLOR_SUB_TITLE, "* Seu pagamento foi de $%s.", formatnumber(money));
@@ -263,7 +263,7 @@ hook OnVehicleStreamIn(vehicleid, forplayerid)
 	{
 		if(vehicleid == g_pTargetVehicleID[i] && vehicleid != g_pTargetVehicleID[forplayerid])
 		{
-			SetVehicleParamsForPlayer(g_pTargetVehicleID[forplayerid], forplayerid, 0, 1);
+			SetVehicleParamsForPlayer(g_pTargetVehicleID[forplayerid], i, 0, 1);
 		}
 	}
 
