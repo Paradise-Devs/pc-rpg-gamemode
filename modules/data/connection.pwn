@@ -73,7 +73,6 @@ hook OnGameModeInit()
 		mysql_log(LOG_ERROR | LOG_WARNING | LOG_DEBUG);
 	}
 
-	printf("%s %s %s %s %s", MYSQL_DEBUG, MYSQL_HOST, MYSQL_USER, MYSQL_DB, MYSQL_PASS);
 	// Connecting to database
 	mysql = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_DB, MYSQL_PASS);
 
