@@ -62,7 +62,7 @@ hook OnPlayerSpawn(playerid)
 {
 	if(IsPlayerNPC(playerid))
         return 1;
-	
+
     SetPlayerWeather(playerid, GetCurrentWeather());
 	return 1;
 }
@@ -127,7 +127,7 @@ task OnWeatherUpdate[3600000]()
 			{
 				SetWeather(e_WEATHER_RAINY);
 				g_nextWeather = e_WEATHER_CLOUDY_2;
-				g_timeToNextWeather = gettime() + 7200;
+				g_timeToNextWeather = gettime() + 5400;
 			}
 			case e_WEATHER_CLOUDY_2:
 			{
