@@ -359,9 +359,9 @@ YCMD:pm(playerid, params[], help)
 
    new output[144];
    format(output, sizeof(output), "* [MP] %s(ID: %d): %s", GetPlayerNamef(playerid), playerid, message);
-   SendClientMessage(targetid, 0x26b4cdff, output);
+   SendClientMessage(targetid, 0xfaff12ff, output);
    format(output, sizeof(output), "* [MP] de %s para %s(ID: %d): %s", GetPlayerNamef(playerid), GetPlayerNamef(targetid), targetid, message);
-   SendAdminMessage(PLAYER_RANK_PARADISER, 0x26b4cdff, output);
+   SendAdminMessage(PLAYER_RANK_PARADISER, 0xfaff12ff, output);
    return 1;
 }
 

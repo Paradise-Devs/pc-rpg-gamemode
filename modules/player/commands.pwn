@@ -344,7 +344,7 @@ YCMD:relatorio(playerid, params[], help)
 			continue;
 
 		new message[150 + MAX_PLAYER_NAME];
-		format(message, 150 + MAX_PLAYER_NAME, "* Relatório de %s: %s", GetPlayerNamef(playerid), params);
+		format(message, 150 + MAX_PLAYER_NAME, "* Relatório de %s(ID: %i): %s", GetPlayerNamef(playerid), playerid, params);
 		SendMultiMessage(i, 0xff8a00ff, message);
 	}
 	SendClientMessage(playerid, 0xff8a00ff, "* Relatório enviado com sucesso.");
