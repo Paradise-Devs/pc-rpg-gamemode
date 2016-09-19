@@ -355,7 +355,7 @@ SetPlayerLogged(playerid, bool:set)
     gIsPlayerLogged[playerid] = set;
 
     new query[56];
-	mysql_format(mysql, query, sizeof(query), "UPDATE `players` SET `isOnline`=%d WHERE `ID`=%d", set, GetPlayerDatabaseID(playerid));
+	mysql_format(mysql, query, sizeof(query), "UPDATE `players` SET `isOnline`=%d WHERE `user_id`=%d", set, GetPlayerDatabaseID(playerid));
 	mysql_tquery(mysql, query);
 }
 
