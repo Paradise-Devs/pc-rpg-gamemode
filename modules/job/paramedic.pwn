@@ -151,8 +151,14 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 3.0, 1183.1554, -1313.3402, 13.5681))
 	{
-        ShowPlayerDialog(playerid, DIALOG_PARAMEDIC_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Paramédico", "Você deseja ser um paramédico?", "Sim", "Não");
-		return 1;
+        if(GetPlayerLevel(playerid) < 2)
+        {
+            SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ser nível 2.");
+        }
+        else
+        {
+            ShowPlayerDialog(playerid, DIALOG_PARAMEDIC_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Paramédico", "Você deseja ser um paramédico?", "Sim", "Não");
+        }
 	}
 	return 1;
 }
