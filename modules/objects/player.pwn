@@ -243,10 +243,10 @@ DeletePlayerAttachment(playerid, slotid)
 	if(!gPlayerAttachmentData[playerid][slotid][e_attachment_db])
 		return 1;
 
-	ResetPlayerAttachment(playerid, slotid);
 
 	new query[50];
 	mysql_format(mysql, query, sizeof(query), "DELETE FROM `attachments` WHERE `ID` = %d", gPlayerAttachmentData[playerid][slotid][e_attachment_db]);
+	ResetPlayerAttachment(playerid, slotid);
 	mysql_tquery(mysql, query);
 	return 1;
 }
