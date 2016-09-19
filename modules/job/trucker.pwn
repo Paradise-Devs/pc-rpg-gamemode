@@ -40,14 +40,14 @@ static gplTickCount[MAX_PLAYERS];
 static gTruckerServices[][][] =
 {
     // Service        Payment Level isLegal
-    {"Roupas",          1000,   1,  1},
-    {"Drogas",          1250,   1,  0},
-    {"Comida",          2500,   2,  1},
-    {"Armas",           3000,   2,  0},
-    {"Materiais",       5000,   3,  1},
-    {"Animais",         6000,   3,  0},
-    {"Combutível",      10000,  4,  1},
-    {"Pessoas",         12000,  4,  0}
+    {"Roupas",          500,   1,  1},
+    {"Drogas",          750,   1,  0},
+    {"Comida",          1250,   2,  1},
+    {"Armas",           1500,   2,  0},
+    {"Materiais",       2500,   3,  1},
+    {"Animais",         3000,   3,  0},
+    {"Combutível",      5000,  4,  1},
+    {"Pessoas",         6000,  4,  0}
 };
 
 //------------------------------------------------------------------------------
