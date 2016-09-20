@@ -327,6 +327,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             DisablePlayerRaceCheckpoint(playerid);
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
 
+            SetPlayerXP(playerid, GetPlayerXP(playerid) + 2);
             SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + (GetPlayerJobLV(playerid) * XP_SCALE));
             if(GetPlayerJobXP(playerid) > (GetPlayerJobLV(playerid) * REQUIRED_XP))
             {

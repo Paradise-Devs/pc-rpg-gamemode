@@ -290,6 +290,7 @@ hook OnPlayerEnterRaceCPT(playerid)
                     return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em seu caminhão.");
 
                 SetPlayerCPID(playerid, CHECKPOINT_NONE);
+                SetPlayerXP(playerid, GetPlayerXP(playerid) + 2);
                 SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + (GetPlayerJobLV(playerid) * XP_SCALE));
                 if(GetPlayerJobXP(playerid) > (GetPlayerJobLV(playerid) * REQUIRED_XP))
                 {

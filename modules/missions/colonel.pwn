@@ -489,7 +489,7 @@ hook OnPlayerEnterRaceCPT(playerid)
                 GameTextForPlayer(playerid, ConvertToGameText("missão completa!~n~~w~exp +~n~~w~$ +"), 9000, 0);
                 PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/118147782/MissionPassed.mp3");
 
-                SetPlayerXP(playerid, GetPlayerXP(playerid) + (GetPlayerLevel(playerid) * 50));
+                SetPlayerXP(playerid, GetPlayerXP(playerid) + 50);
                 GivePlayerCash(playerid, 750);
             }
             return -2;

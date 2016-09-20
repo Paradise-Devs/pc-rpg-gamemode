@@ -537,8 +537,19 @@ GetPlayerXP(playerid)
 
 SetPlayerXP(playerid, val)
 {
-    gPlayerCharacterData[playerid][e_player_xp] = val;
-    UpdatePlayerBar(playerid);
+    if((gPlayerCharacterData[playerid][e_player_xp] + val) >= GetPlayerRequiredXP(playerid) && GetPlayerLevel(playerid) == MAX_LEVEL)
+    {
+        SetPlayerXP(playerid, GetPlayerRequiredXP(playerid));
+    }
+    else
+    {
+        gPlayerCharacterData[playerid][e_player_xp] = val;
+        if(GetPlayerXP(playerid) >= GetPlayerRequiredXP(playerid))
+        {
+            OnPlayerLevelUp(playerid, GetPlayerLevel(playerid), GetPlayerLevel(playerid) + 1);
+        }
+        UpdatePlayerBar(playerid);
+    }
 }
 
 stock GetPlayerRequiredXP(playerid)
@@ -740,12 +751,12 @@ Float:playerHealth(playerid)
 
 public OnPlayerLevelUp(playerid, oldlevel, newlevel)
 {
-	PlayerPlaySound(playerid, 5203, 0.0, 0.0, 0.0);
-	GameTextForPlayer(playerid, "Level up", 5000, 1);
-	SetPlayerXP(playerid, 0);
+    new extra_xp = GetPlayerXP(playerid) - GetPlayerRequiredXP(playerid);
+	SetPlayerXP(playerid, extra_xp);
     SetPlayerLevel(playerid, newlevel);
-
-    SendClientMessagef(playerid, COLOR_SUCCESS, "Você acabou de subir para o level %d.", newlevel);
+    PlayerPlaySound(playerid, 5203, 0.0, 0.0, 0.0);
+    GameTextForPlayer(playerid, "Level up", 5000, 1);
+    SendClientMessagef(playerid, COLOR_SUCCESS, "* Você acabou de subir para o level %d.", newlevel);
     return 1;
 }
 
@@ -1478,9 +1489,8 @@ ptask CheckPlayerProgression[180000](playerid)
     	return 1;
 
 	if(!IsPlayerPaused(playerid))
-	   SetPlayerXP(playerid, GetPlayerXP(playerid) + 1);
-
-	if(GetPlayerXP(playerid) >= GetPlayerRequiredXP(playerid))
-	   OnPlayerLevelUp(playerid, GetPlayerLevel(playerid), GetPlayerLevel(playerid) + 1);
+    {
+        SetPlayerXP(playerid, GetPlayerXP(playerid) + (GetPlayerLevel(playerid) + 1));
+    }
     return 1;
 }

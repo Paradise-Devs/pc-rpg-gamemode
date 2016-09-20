@@ -249,6 +249,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             gPlayerPlane[playerid] = INVALID_VEHICLE_ID;
 
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
+            SetPlayerXP(playerid, GetPlayerXP(playerid) + 2);
             SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + (GetPlayerJobLV(playerid) * XP_SCALE));
             if(GetPlayerJobXP(playerid) > (GetPlayerJobLV(playerid) * REQUIRED_XP))
             {
@@ -280,6 +281,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             gPlayerPlane[playerid] = INVALID_VEHICLE_ID;
 
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
+            SetPlayerXP(playerid, GetPlayerXP(playerid) + 2);
             SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + (GetPlayerJobLV(playerid) * XP_SCALE));
             if(GetPlayerJobXP(playerid) > (GetPlayerJobLV(playerid) * REQUIRED_XP))
             {

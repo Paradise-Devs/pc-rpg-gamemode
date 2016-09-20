@@ -22,7 +22,7 @@
 // Script versioning
 #define SCRIPT_VERSION_MAJOR							"0"
 #define SCRIPT_VERSION_MINOR							"2"
-#define SCRIPT_VERSION_PATCH							".38"
+#define SCRIPT_VERSION_PATCH							".39"
 #define SCRIPT_VERSION_NAME								"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -35,6 +35,7 @@
 
 //------------------------------------------------------------------------------
 
+#define MAX_LEVEL										15
 #define MAX_PLAYER_PASSWORD								65
 #define MAX_BUILDINGS									32
 #define MAX_PICKUP_RANGE								40.0

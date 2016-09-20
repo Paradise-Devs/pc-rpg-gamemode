@@ -311,6 +311,7 @@ hook OnPlayerEnterRaceCPT(playerid)
         gplCurrentSC[playerid] = 0;
 
         SetPlayerCPID(playerid, CHECKPOINT_NONE);
+        SetPlayerXP(playerid, GetPlayerXP(playerid) + 1);
         SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + (GetPlayerJobLV(playerid) * XP_SCALE));
         if(GetPlayerJobXP(playerid) > (GetPlayerJobLV(playerid) * REQUIRED_XP))
         {

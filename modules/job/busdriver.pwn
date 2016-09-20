@@ -282,6 +282,7 @@ hook OnPlayerEnterRaceCPT(playerid)
 
 					DisablePlayerRaceCheckpoint(playerid);
 					SetVehicleToRespawn(GetPlayerVehicleID(playerid));
+					SetPlayerXP(playerid, GetPlayerXP(playerid) + 1);
 					SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + 1);
 
 					DeletePVar(playerid, "job_cp_route");
@@ -309,6 +310,7 @@ hook OnPlayerEnterRaceCPT(playerid)
 
 					DisablePlayerRaceCheckpoint(playerid);
 					SetVehicleToRespawn(GetPlayerVehicleID(playerid));
+					SetPlayerXP(playerid, GetPlayerXP(playerid) + 1);
 					SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + 1);
 
 					DeletePVar(playerid, "job_cp_route");

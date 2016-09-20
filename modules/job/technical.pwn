@@ -244,6 +244,7 @@ hook OnPlayerEnterRaceCPT(playerid)
                 DestroyDynamicObject(gplOldObject[playerid]), gplOldObject[playerid] = INVALID_OBJECT_ID;
 
             SetPlayerCPID(playerid, CHECKPOINT_NONE);
+            SetPlayerXP(playerid, GetPlayerXP(playerid) + 1);
             SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + (GetPlayerJobLV(playerid) * XP_SCALE));
             if(GetPlayerJobXP(playerid) > (GetPlayerJobLV(playerid) * REQUIRED_XP))
             {

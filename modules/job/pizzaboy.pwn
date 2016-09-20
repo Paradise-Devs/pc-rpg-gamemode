@@ -171,6 +171,7 @@ hook OnPlayerEnterRaceCPT(playerid)
 		SendClientMessagef(playerid, 0xFFFF00FF, "* Você {FFD700}entregou{FFFF00} a pizza e recebeu {FFD700}$%i{FFFF00}.", GetPlayerPizzaTime(playerid) + gJobPayment);
 		GivePlayerCash(playerid, GetPlayerPizzaTime(playerid) + gJobPayment);
 
+		SetPlayerXP(playerid, GetPlayerXP(playerid) + 1);
 		SetPlayerJobXP(playerid, GetPlayerJobXP(playerid) + 1);
 		SetPlayerPizzaTime(playerid, 0);
 	}
