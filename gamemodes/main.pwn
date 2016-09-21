@@ -22,7 +22,7 @@
 // Script versioning
 #define SCRIPT_VERSION_MAJOR							"0"
 #define SCRIPT_VERSION_MINOR							"2"
-#define SCRIPT_VERSION_PATCH							".39"
+#define SCRIPT_VERSION_PATCH							".40"
 #define SCRIPT_VERSION_NAME								"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -45,7 +45,7 @@
 // Numbers of vehicles hardcoded
 #define PRELOADED_VEHICLES								1
 
-#define PICKUP_DELAY									2 // Seconds
+#define PICKUP_DELAY									4 // Seconds
 
 #define INVALID_APARTMENT_ID							-1
 #define INVALID_HOUSE_ID								-1

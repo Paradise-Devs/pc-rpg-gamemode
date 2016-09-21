@@ -23,7 +23,7 @@ forward OnPlayerExitBuilding(playerid, building);
 
 //------------------------------------------------------------------------------
 
-#define INTERVAL_BETWEEN_PICKUP_UPDATES 1500
+#define INTERVAL_BETWEEN_PICKUP_UPDATES 3000
 #define INVALID_BUILDING_ID             -1
 
 //------------------------------------------------------------------------------
