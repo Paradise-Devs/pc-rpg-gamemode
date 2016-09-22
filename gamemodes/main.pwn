@@ -13,9 +13,7 @@
 
 // Required to be at the top
 #include <a_samp>
-#include <sscanf2>
-#include <streamer>
-#include <nex-ac>
+
 
 //------------------------------------------------------------------------------
 
@@ -102,6 +100,8 @@
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 #include <YSI\y_iterate>
+#include <streamer>
+#include <nex-ac>
 #include <YSI\y_commands>
 #include <YSI\y_va>
 #include <progress2>
@@ -113,6 +113,7 @@
 #include <radars>
 #include <vending>
 #include <cuffs>
+#include <sscanf2>
 #include <sscanffix>
 #include <log>
 

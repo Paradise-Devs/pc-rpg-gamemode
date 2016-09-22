@@ -65,10 +65,10 @@ hook OnGameModeInit()
 {
     mysql_tquery(mysql, "SELECT * FROM `clock`", "OnLoadClock");
 
-    gClockTD = TextDrawCreate(545.000000, 20.000000, "05:00");
+    gClockTD = TextDrawCreate(552.000000, 26.000000, "05:00");
     TextDrawBackgroundColor(gClockTD, 255);
     TextDrawFont(gClockTD, 3);
-    TextDrawLetterSize(gClockTD, 0.6, 2.0);
+    TextDrawLetterSize(gClockTD, 0.4, 1.0);
     TextDrawColor(gClockTD, 0xc3c3c3ff);
     TextDrawBoxColor(gClockTD, 0x000000ff);
     TextDrawSetOutline(gClockTD, 2);
