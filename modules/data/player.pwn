@@ -757,6 +757,11 @@ public OnPlayerLevelUp(playerid, oldlevel, newlevel)
     PlayerPlaySound(playerid, 5203, 0.0, 0.0, 0.0);
     GameTextForPlayer(playerid, "Level up", 5000, 1);
     SendClientMessagef(playerid, COLOR_SUCCESS, "* Você acabou de subir para o level %d.", newlevel);
+
+    if(newlevel == MAX_LEVEL)
+    {
+        SendClientMessage(playerid, 0xCCFF00FF, "* Parabéns! Você atingiu o nível máxima atual do servidor.");
+    }
     return 1;
 }
 
