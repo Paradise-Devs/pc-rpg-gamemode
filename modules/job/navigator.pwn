@@ -16,7 +16,7 @@
 //------------------------------------------------------------------------------
 
 // Minimum serivce time in ms
-static const MINIMUM_SERVICE_TIME = 450000;
+static const MINIMUM_SERVICE_TIME = 300000;
 
 // Checkpointid
 static STREAMER_TAG_CP gCheckpointid;
