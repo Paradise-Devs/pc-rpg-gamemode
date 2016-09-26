@@ -160,7 +160,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
                 if(GetPlayerBankAccount(i) == account)
                 {
                     SetPlayerBankCash(i, GetPlayerBankCash(i) + cash);
-                    SetPlayerBankCash(playerid, GetPlayerBankCash(i) - cash);
+                    SetPlayerBankCash(playerid, GetPlayerBankCash(playerid) - cash);
 
                     SendClientMessagef(playerid, 0xe48d37ff, "* Você transferiu $%s para %s.", formatnumber(cash), GetPlayerNamef(i));
                     SendClientMessagef(i, 0xe48d37ff, "* %s transferiu $%s para você.", GetPlayerNamef(playerid), formatnumber(cash));

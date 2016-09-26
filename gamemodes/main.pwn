@@ -13,16 +13,14 @@
 
 // Required to be at the top
 #include <a_samp>
-#include <sscanf2>
-#include <streamer>
-#include <nex-ac>
+
 
 //------------------------------------------------------------------------------
 
 // Script versioning
 #define SCRIPT_VERSION_MAJOR							"0"
 #define SCRIPT_VERSION_MINOR							"2"
-#define SCRIPT_VERSION_PATCH							".40"
+#define SCRIPT_VERSION_PATCH							".41"
 #define SCRIPT_VERSION_NAME								"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -102,6 +100,8 @@
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 #include <YSI\y_iterate>
+#include <streamer>
+#include <nex-ac>
 #include <YSI\y_commands>
 #include <YSI\y_va>
 #include <progress2>
@@ -113,6 +113,7 @@
 #include <radars>
 #include <vending>
 #include <cuffs>
+#include <sscanf2>
 #include <sscanffix>
 #include <log>
 
