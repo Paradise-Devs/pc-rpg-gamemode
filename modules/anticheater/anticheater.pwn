@@ -16,8 +16,8 @@ public OnPlayerCheat(playerid, cheatid)
 {
     switch(cheatid)
     {
-        case CHEAT_NPCSPOOF: SetPlayerCheatPunishment(playerid, -1, "kick", "", "NPC Spoof");
-        case CHEAT_PLAYERSPOOF: SetPlayerCheatPunishment(playerid, -1, "kick", "", "Connection Spoof");
+        case CHEAT_NPCSPOOF: SetPlayerCheatPunishment(playerid, -1, "kick", 0, "NPC Spoof");
+        case CHEAT_PLAYERSPOOF: SetPlayerCheatPunishment(playerid, -1, "kick", 0, "Connection Spoof");
     }
     return 1;
 }
