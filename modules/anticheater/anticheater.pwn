@@ -17,6 +17,7 @@
 #include "../modules/anticheater/patches/npcspoof.pwn"
 #include "../modules/anticheater/patches/connectionspoof.pwn"
 #include "../modules/anticheater/patches/autobullet.pwn"
+#include "../modules/anticheater/patches/lagtroll.pwn"
 
 public OnPlayerCheat(playerid, cheatid, const format[], {Float,_}:...)
 {
@@ -25,6 +26,7 @@ public OnPlayerCheat(playerid, cheatid, const format[], {Float,_}:...)
         case CHEAT_NPCSPOOF: SetPlayerCheatPunishment(playerid, -1, "kick", 0, "NPC Spoof");
         case CHEAT_PLAYERSPOOF: SetPlayerCheatPunishment(playerid, -1, "kick", 0, "Connection Spoof");
         case CHEAT_AUTOBULLET: SetPlayerCheatPunishment(playerid, -1, "ban", -1, "Auto-bullet");
+        case CHEAT_LAGTROLL: SetPlayerCheatPunishment(playerid, -1, "kick", 0, "LagTroll.cs");
     }
     return 1;
 }
