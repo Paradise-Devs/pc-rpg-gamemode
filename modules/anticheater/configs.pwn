@@ -10,11 +10,28 @@
 *       Copyright Paradise Devs 2016.  All rights reserved.
 *
 */
+//functions
+forward OnPlayerCheat(playerid, cheatid, const format[], {Float,_}:...);
 
-forward OnPlayerCheat(playerid, cheatid);
+//colors
+#define AC_TITLE_COLOR 0x0f84d9
 
-#define AC_TITLE_COLOR 0f84d9
+//limits
+#define             MAX_AUTOBULLET_INFRACTIONS          3
+#define             AUTOBULLET_RESET_DELAY              30
 
-#define CHEAT_NONE 0
-#define CHEAT_NPCSPOOF 1
-#define CHEAT_PLAYERSPOOF 2
+//tags
+enum
+{
+    CHEAT_NONE = 0,
+    CHEAT_NPCSPOOF = 1,
+    CHEAT_PLAYERSPOOF = 2,
+    CHEAT_AUTOBULLET = 3
+};
+
+enum PCheatData
+{
+    AutoBullet_Infractions,
+    AutoBullet_LastInfractionTime
+};
+new PlayerCheatInfo[MAX_PLAYERS][PCheatData];

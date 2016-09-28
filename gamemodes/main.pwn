@@ -101,7 +101,6 @@
 #include <YSI\y_timers>
 #include <YSI\y_iterate>
 #include <streamer>
-#include <nex-ac>
 #include <YSI\y_commands>
 #include <YSI\y_va>
 #include <progress2>
@@ -250,10 +249,6 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/player/needs.pwn"
 #include "../modules/player/pets.pwn"
 
-/* Server */
-#include "../modules/server/rcon.pwn"
-#include "../modules/server/anticheat.pwn"
-
 /* Admin */
 #include "../modules/admin/funcs.pwn"
 #include "../modules/admin/commands.pwn"
@@ -313,6 +308,10 @@ new	Iterator:Business<MAX_HOUSES>;
 
 /* Core */
 #include "../modules/core/timers.pwn"
+
+/* Server */
+#include "../modules/server/rcon.pwn"
+#include "../modules/anticheater/anticheater.pwn"
 
 //------------------------------------------------------------------------------
 

@@ -19,7 +19,7 @@
 
 hook OnPlayerConnect(playerid)
 {
-  if(IsPlayerNPC(playerid))
+    if(IsPlayerNPC(playerid))
 	{
 		new ip[16];
 		GetPlayerIp(playerid, ip, sizeof(ip));
@@ -32,4 +32,5 @@ hook OnPlayerConnect(playerid)
 			return 1;
 		}
 	}
+    return 1;
 }

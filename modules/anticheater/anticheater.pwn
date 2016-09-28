@@ -11,8 +11,13 @@
 *
 */
 
+#include "../modules/anticheater/configs.pwn"
 
-public OnPlayerCheat(playerid, cheatid)
+//patches
+#include "../modules/anticheater/patches/npcspoof.pwn"
+#include "../modules/anticheater/patches/autobullet.pwn"
+
+public OnPlayerCheat(playerid, cheatid, const format[], {Float,_}:...)
 {
     switch(cheatid)
     {
@@ -31,11 +36,11 @@ SetPlayerCheatPunishment(playerid, issuerid, punishment[], punishment_time, reas
         GetPlayerName(playerid, pname, 24);
         format(str, sizeof(str), "{%s}Anti-cheater{FFFFFF}: o usuário {FF0000}%s{FFFFFF} foi kickado por suspeita de {FF0000}%s{FFFFFF}!", AC_TITLE_COLOR, pname, reason);
         SendClientMessageToAll(-1, str);
-        return kick(playerid);
+        return Kick(playerid);
     }
     if(!strcmp(punishment, "ban"))
     {
-        new query[128], str[128], pname[24], admname[24, cmd[32], playerip[16];
+        new query[128], str[128], pname[24], admname[24], cmd[32], playerip[16];
         GetPlayerName(playerid, pname, 24);
         if(issuerid != -1) GetPlayerName(issuerid, admname, 24);
         else format(admname, 24, "Paradise Anti-cheater");
@@ -52,7 +57,7 @@ SetPlayerCheatPunishment(playerid, issuerid, punishment[], punishment_time, reas
     }
     if(!strcmp(punishment, "advert"))
     {
-        foreach(new i : playerid)
+        foreach(new i : Player)
         {
             if(GetPlayerRank(i) >= PLAYER_RANK_PARADISER)
             {
