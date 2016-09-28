@@ -11,6 +11,7 @@
 *
 */
 
+#include <YSI\y_hooks>
 
 hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ)
 {

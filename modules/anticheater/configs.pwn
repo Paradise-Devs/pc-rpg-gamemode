@@ -31,6 +31,8 @@ enum
 
 enum PCheatData
 {
+    bool:PlayerSpoof_IsConnected,
+    PlayerSpoof_PlayerName[24],
     AutoBullet_Infractions,
     AutoBullet_LastInfractionTime
 };

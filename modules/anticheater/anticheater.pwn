@@ -15,6 +15,7 @@
 
 //patches
 #include "../modules/anticheater/patches/npcspoof.pwn"
+#include "../modules/anticheater/patches/connectionspoof.pwn"
 #include "../modules/anticheater/patches/autobullet.pwn"
 
 public OnPlayerCheat(playerid, cheatid, const format[], {Float,_}:...)
@@ -23,6 +24,7 @@ public OnPlayerCheat(playerid, cheatid, const format[], {Float,_}:...)
     {
         case CHEAT_NPCSPOOF: SetPlayerCheatPunishment(playerid, -1, "kick", 0, "NPC Spoof");
         case CHEAT_PLAYERSPOOF: SetPlayerCheatPunishment(playerid, -1, "kick", 0, "Connection Spoof");
+        case CHEAT_AUTOBULLET: SetPlayerCheatPunishment(playerid, -1, "ban", -1, "Auto-bullet");
     }
     return 1;
 }
