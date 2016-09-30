@@ -190,8 +190,12 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/def/statscol.pwn"
 #include "../modules/def/licenses.pwn"
 
-/* Data */
+/* Server - Required to be at the top*/
 #include "../modules/data/connection.pwn"
+#include "../modules/anticheater/anticheater.pwn"
+
+/* Data */
+
 #include "../modules/data/building.pwn"
 #include "../modules/data/vehicle.pwn"
 #include "../modules/data/faction.pwn"
@@ -311,7 +315,7 @@ new	Iterator:Business<MAX_HOUSES>;
 
 /* Server */
 #include "../modules/server/rcon.pwn"
-#include "../modules/anticheater/anticheater.pwn"
+
 
 //------------------------------------------------------------------------------
 
