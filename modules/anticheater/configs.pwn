@@ -29,7 +29,8 @@ enum
     CHEAT_NPCSPOOF = 1,
     CHEAT_PLAYERSPOOF = 2,
     CHEAT_AUTOBULLET = 3,
-    CHEAT_LAGTROLL = 4
+    CHEAT_LAGTROLL = 4,
+    CHEAT_MONEY = 5
 };
 
 enum PCheatData
@@ -40,6 +41,7 @@ enum PCheatData
     AutoBullet_LastInfractionTime,
     LagTroll_LastVehicleID,
     LagTroll_VehicleIDChanges,
-    LagTroll_VehicleIDChangeTime
+    LagTroll_VehicleIDChangeTime,
+    MoneyAmmount
 };
 new PlayerCheatInfo[MAX_PLAYERS][PCheatData];
