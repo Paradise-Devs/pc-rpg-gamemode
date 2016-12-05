@@ -74,7 +74,7 @@ hook OnGameModeInit()
 	}
 
 	// Connecting to database
-	mysql = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_DB, MYSQL_PASS);
+	mysql = mysql_connect("127.0.0.1", "root", "pcrpg", "pcdev");
 
 	// If mysql information is wrong
 	if(mysql_errno(mysql) != 0)

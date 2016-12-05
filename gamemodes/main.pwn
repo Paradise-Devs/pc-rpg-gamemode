@@ -274,6 +274,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/visual/boxing.pwn"
 #include "../modules/visual/licenses.pwn"
 #include "../modules/visual/xpbar.pwn"
+#include "../modules/visual/gang.pwn"
 
 /* NPCs */
 #include "../modules/npcs/actors.pwn"
@@ -297,6 +298,11 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/job/pizzaboy.pwn"
 #include "../modules/job/busdriver.pwn"
 #include "../modules/job/commands.pwn"
+
+/* Gangs */
+#include "../modules/gangs/gangs.pwn"
+#include "../modules/gangs/gangcommands.pwn"
+
 
 /* Missions */
 #include "../modules/missions/gta.pwn"

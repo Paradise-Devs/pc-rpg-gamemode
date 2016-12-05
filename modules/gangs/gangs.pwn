@@ -1,4 +1,12 @@
+
+#include <YSI\y_hooks>
+
 #define MAX_GANGS 5000
+#define INVALID_GANG_ID -1
+
+
+forward OnGangMenuResponse(playerid, gangname[], gangid, gangmembers[], bool:response);
+forward OnSetPlayerGang(playerid, gang, chargerank);
 
 enum GangData
 {
@@ -6,9 +14,9 @@ enum GangData
     description[256],
     founder_id,
     leader_id,
-    color,
+    gang_color,
     filliation,
-    patrimony,
+    gang_patrimony,
     level,
     symbol[64],
     symbol_color,
@@ -27,6 +35,17 @@ enum PlayerGangData
 }
 static PlayerGangInfo[MAX_PLAYERS][PlayerGangData];
 
+//usado para criar gangs
+enum GangMenuData
+{
+    bool:in_gang_menu,
+    current_selection,
+    gang_name[24],
+    members[3]
+}
+new PlayerGangMenuInfo[MAX_PLAYERS][GangMenuData];
+
+
 enum
 {
     GANG_GROVE = 0,
@@ -39,55 +58,78 @@ enum
     GANG_RUSSIAN_MAFIA = 7,
     GANG_ITALIAN_MAFIA = 8,
     GANG_BIKERS = 9
+}
+
+new GangSkins[] =
+{
+    //grove street
+    { 105, 106, 107},
+    //ballas
+    { 102, 103, 104},
+    //aztecas
+    { 114, 115, 116},
+    //vagos
+    { 108, 109, 110},
+    //rifa
+    { 173, 174, 175},
+    //triads
+    { 117, 118, 120},
+    //da nang
+    { 121, 122, 123},
+    //russians
+    { 111, 112, 113},
+    //italians
+    { 124, 125, 126},
+    //bikers
+    { 247, 248, 254}
 };
 
-stock CreateGangForPlayer(playerid, gang_name[24], filliation_id, member_1, member_2)
+stock CreateGangForPlayer(playerid, gname[24], filliation_id, member_1, member_2)
 {
     if(GangInfo[MAX_GANGS-1][founder_id] != 0) return 0;
 
     mysql_format(mysql, query, sizeof(query), "INSERT INTO `gangs` VALUES('NULL', '%s', 'Sem descrição', '%d', '%d', '%d', '1000', '1', 'no symbol', '255', '%d', '0');",
-    gang_name, playerid, playerid, filliation_id, gettime());
+    gname, playerid, playerid, filliation_id, gettime());
     mysql_tquery(mysql, query, "OnCreateGangForPlayer", "iii", playerid, member_1, member_2);
 
-    format(query, sizeof(query), "Parabéns, você criou a gangue {%x}%s{FFFFFF}com sucesso!", GetGangRawColor(filliation_id), gang_name);
+    format(query, sizeof(query), "Parabéns, você criou a gangue {%x}%s{FFFFFF}com sucesso!", GetGangRawColor(filliation_id), gname);
     SendClientMessage(playerid, -1, query);
     return 1;
 }
 
-forward OnCreateGangForPlayer(playerid, member_1, member_2);
-public OnCreateGangForPlayer(playerid, member_1, member_2)
+forward OnCreateGangForPlayer(playerid, member1, member2);
+public OnCreateGangForPlayer(playerid, member1, member2)
 {
-    SetPlayerGang(playerid, gang_id, 0);
-    SetPlayerGang(member_1, gang_id, 1);
-    SetPlayerGang(member_2, gang_id, 1);
+    new gangid = cache_insert_id();
+    SetPlayerGang(playerid, gangid, 0);
+    SetPlayerGang(member1, gangid, 1);
+    SetPlayerGang(member2, gangid, 1);
     return 1;
 }
 
-stock SetPlayerGang(playeid, gang, rank)
+stock SetPlayerGang(playerid, gang, chargerank)
 {
     static query[128];
     mysql_format(mysql, query, sizeof(query), "DELETE FROM `gangs_members` WHERE `user_id` = '%d';", GetPlayerDatabaseID(playerid));
     mysql_tquery(mysql, query, "", "");
 
-    mysql_format(mysql, query, sizeof(query), "INSERT INTO `gangs_members` VALUES('%d', '%d', '%d', '0', '0', '%d');", playerid, gang, rank, gettime());
-    mysql_tquery(mysql, query, "OnSetPlayerGang", "iii", playerid, gang, rank);
+    mysql_format(mysql, query, sizeof(query), "INSERT INTO `gangs_members` VALUES('%d', '%d', '%d', '0', '0', '%d');", playerid, gang, chargerank, gettime());
+    mysql_tquery(mysql, query, "OnSetPlayerGang", "iii", playerid, gang, chargerank);
     return 1;
 }
 
-forward OnSetPlayerGang(playerid gang, rank);
-public OnSetPlayerGang(playerid, gang, rank)
+public OnSetPlayerGang(playerid, gang, chargerank)
 {
     static string[64];
-    format(string, sizeof(string), "Parabéns, você entrou para a gangue {%x}%s{FFFFFF}!", GetGangRawColor(GetGangFilliation(gangid)), GetGangName(gangid));
-    SendClientMesage(playerid, -1, string);
-    format(string, sizeof(string), "[{%x}Gangue{FFFFFF}] Seu cargo na gangue agora é: {%x}%s{FFFFFF}!",
-    GetGangRawColor(GetGangFilliation(gangid)),  GetGangRawColor(GetGangFilliation(gangid)), GetGangRankName(rank));
+    format(string, sizeof(string), "Parabéns, você entrou para a gangue {%x}%s{FFFFFF}!", GetGangRawColor(GetGangFilliation(gang)), GetGangName(gang));
+    SendClientMessage(playerid, -1, string);
+    format(string, sizeof(string), "[{%x}Gangue{FFFFFF}] Seu cargo na gangue agora é: {%x}%s{FFFFFF}!", GetGangRawColor(GetGangFilliation(gang)),  GetGangRawColor(GetGangFilliation(gang)), GetGangRankName(chargerank));
     return 1;
 }
 
-stock bool:IsPlayerInAnyGang(playerid)
+bool:IsPlayerInAnyGang(playerid)
 {
-    if(PlayerGangInfo[playerid][gangid] != INVALID_GANG_ID) return true;
+    if(PlayerGangInfo[playerid][gang_id] != 0) return true;
     return false;
 }
 
@@ -101,19 +143,20 @@ stock GetGangName(gangid)
     return GangInfo[gangid][name];
 }
 
-stock GetGangRankName(rank)
+stock GetGangRankName(chargerank)
 {
-    switch (rank)
+    new str[32];
+    switch (chargerank)
     {
-        case 5: return "novato";
-        case 4: return "membro";
-        case 3: return "veterano";
-        case 2: return "orgnizador";
-        case 1: return "administrador";
-        case 0: return "fundador";
-        default: return "desconhecido";
+        case 5: format(str, 32, "novato");
+        case 4: format(str, 32,"membro");
+        case 3: format(str, 32,"veterano");
+        case 2: format(str, 32, "orgnizador");
+        case 1: format(str, 32,"administrador");
+        case 0: format(str, 32,"fundador");
+        default: format(str, 32,"desconhecido");
     }
-    return 0;
+    return str;
 }
 
 stock GetGangRawColor(gangtype)
@@ -127,10 +170,38 @@ stock GetGangRawColor(gangtype)
         case GANG_RIFA: return 0x0afcee;
         case GANG_TRIADS: return 0xb50510;
         case GANG_DA_NANG: return 0xb1ab59;
-        case GANG_RUSSIAN_MAFIA: 0x6a686b;
+        case GANG_RUSSIAN_MAFIA: return 0x6a686b;
         case GANG_ITALIAN_MAFIA: return 0x40863a;
         case GANG_BIKERS: return 0x080990;
         default: return 0x0;
     }
     return 0;
+}
+
+stock GetGangSkins(gangid, &skin, &skin1, &skin2)
+{
+    if(0 > gangid > 9) return 0;
+    skin = GangSkins[gangid][0];
+    skin1 = GangSkins[gangid][1];
+    skin2 = GangSkins[gangid][2];
+    return 1;
+}
+
+public OnGangMenuResponse(playerid, gangname[], gangid, gangmembers[], bool:response)
+{
+    if(!response) return HidePlayerGangMenu(playerid);
+    return 1;
+}
+
+SetPlayerGangMenuState(playerid, bool:toggled = false)
+{
+    if(toggled) PlayerGangMenuInfo[playerid][in_gang_menu] = true;
+    else PlayerGangMenuInfo[playerid][in_gang_menu] = false;
+    return 1;
+}
+
+SetPlayerGangMenuName(playerid, gname[])
+{
+    format(PlayerGangMenuInfo[playerid][gang_name], 24, "%s", gname);
+    return 1;
 }
