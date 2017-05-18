@@ -190,6 +190,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/def/missions.pwn"
 #include "../modules/def/statscol.pwn"
 #include "../modules/def/licenses.pwn"
+#include "../modules/def/gang.pwn"
 
 /* Server - Required to be at the top*/
 #include "../modules/data/connection.pwn"

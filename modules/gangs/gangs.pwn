@@ -7,7 +7,7 @@
 
 forward OnGangMenuResponse(playerid, gangname[], gangid, gangmembers[], bool:response);
 forward OnSetPlayerGang(playerid, gang, chargerank);
-forward OnCreateGangForPlayer(playerid, member1, member2);
+forward OnCreateGangForPlayer(playerid, member1, member2, member3);
 
 enum GangData
 {
@@ -105,7 +105,7 @@ public OnSetPlayerGang(playerid, gang, chargerank)
     return 1;
 }
 
-bool:IsPlayerInAnyGang(playerid)
+IsPlayerInAnyGang(playerid)
 {
     if(PlayerGangInfo[playerid][gang_id] != 0) return true;
     return false;
