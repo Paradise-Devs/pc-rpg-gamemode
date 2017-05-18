@@ -21,7 +21,6 @@ static Timer:gSuicideTimer[MAX_PLAYERS] = {Timer:-1, ...};
 hook OnGameModeInit()
 {
 	Command_AddAltNamed("kill",			"suicidio");
-	Command_AddAltNamed("kill",			"morrer");
 	Command_AddAltNamed("janela",		"j");
 	Command_AddAltNamed("gritar",		"g");
 	Command_AddAltNamed("sussurrar",	"s");
@@ -624,10 +623,16 @@ YCMD:kill(playerid, params[], help)
 	ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.1, 0, 1, 1, 1, 0, 1);
 	SendClientActionMessage(playerid, 15.0, "está cometendo suicídio.");
 	GameTextForPlayer(playerid, "~r~suicidando-se", 125, 3);
-	gSuicideTimer[playerid] = repeat SuicideTimer(playerid);
+//gSuicideTimer[playerid] = repeat SuicideTimer(playerid); <- infinite loop bug
+	SetPlayerHealth(playerid, 0.0);
 	return 1;
 }
 
+YCMD:ncomandos(playerid, params[], help)
+{
+	
+}
+/*
 timer SuicideTimer[250](playerid)
 {
 	if(GetPlayerAnimationIndex(playerid) != 1537)
@@ -649,7 +654,7 @@ timer SuicideTimer[250](playerid)
 		stop gSuicideTimer[playerid];
 		gSuicideTimer[playerid] = Timer:-1;
 	}
-}
+}*/
 
 //------------------------------------------------------------------------------
 

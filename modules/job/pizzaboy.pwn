@@ -246,14 +246,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		strcat(sDialogText, "{ADBEE6}Para trabalhar neste emprego Você precisa possuir habilitação para motos.\n");
 		strcat(sDialogText, "{ADBEE6}Caso Você não entregar a pizza antes dela esfriar Você perderá a entrega.\n");
 		strcat(sDialogText, "{ADBEE6}O uso do uniforme é obrigatório para trabalhar.\n\n");
-
-		strcat(sDialogText, "{FF1A1A}Contrato:\n");
-
-		if(IsPlayerDonator(playerid))
-			strcat(sDialogText, "{ADBEE6}Você terá de cumprir um contrato de 2 horas antes de poder sair do emprego.");
-		else
-			strcat(sDialogText, "{ADBEE6}Você terá de cumprir um contrato de 5 horas antes de poder sair do emprego.");
-
+		
 		ShowPlayerDialog(playerid, DIALOG_PIZZA_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Entregador de Pizza", sDialogText, "Aceitar", "Recusar");
 		return 1;
 	}

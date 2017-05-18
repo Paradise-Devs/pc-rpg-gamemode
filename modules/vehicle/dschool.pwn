@@ -23,7 +23,6 @@ static STREAMER_TAG_CP gCheckpointid;
 static gPlayerVehicleID[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
 static gPlayerCPPart[MAX_PLAYERS];
 static gPlayerCTest[MAX_PLAYERS];
-
 //------------------------------------------------------------------------------
 
 static const Float:VEHICLE_SPAWN[][] =
@@ -130,6 +129,7 @@ hook OnPlayerDisconnect(playerid, reason)
         gPlayerSchoolCheckpoint[playerid] = 0;
     }
     gPlayerCPPart[playerid] = 0;
+
     return 1;
 }
 
@@ -142,7 +142,6 @@ hook OnPlayerDeath(playerid, killerid, reason)
         DestroyVehicle(gPlayerVehicleID[playerid]);
         gPlayerVehicleID[playerid] = INVALID_VEHICLE_ID;
         gPlayerCPPart[playerid] = 0;
-
         SendClientMessage(playerid, COLOR_ERROR, "* Você falhou no teste.");
     }
     if(gPlayerSchoolVehicle[playerid] != INVALID_VEHICLE_ID)
@@ -150,7 +149,6 @@ hook OnPlayerDeath(playerid, killerid, reason)
         DestroyVehicle(gPlayerSchoolVehicle[playerid]);
         gPlayerSchoolVehicle[playerid] = INVALID_VEHICLE_ID;
         gPlayerSchoolCheckpoint[playerid] = 0;
-
         SendClientMessage(playerid, COLOR_ERROR, "* Você falhou no teste.");
     }
     return 1;
@@ -184,7 +182,6 @@ OnPlayerSelectSchoolTest(playerid, test)
     }
     return 1;
 }
-
 //------------------------------------------------------------------------------
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
@@ -408,4 +405,10 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         }
     }
     return 1;
+}
+
+IsPlayerInDriveSchool(playerid)
+{
+    if(gPlayerVehicleID[playerid] != INVALID_VEHICLE_ID) return true;
+    return false;
 }

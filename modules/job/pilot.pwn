@@ -401,7 +401,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
     		new sDialogText[900];
     		strcat(sDialogText, "{FFEE00}Informação:\n");
     		strcat(sDialogText, "{ADBEE6}Este emprego é usado para transportar pessoas e mercadorias de um local a outro.\n");
-    		strcat(sDialogText, "{ADBEE6}Este emprego requer nível 8 de jogo para adquiri-lo.\n");
+    		strcat(sDialogText, "{ADBEE6}Este emprego requer nível 2 de jogo para adquiri-lo.\n");
     		strcat(sDialogText, "{ADBEE6}Este emprego é legal e você não será preso por trabalhar nele.\n\n");
 
     		strcat(sDialogText, "{FFEE00}Comandos:\n");
@@ -414,9 +414,6 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
     		strcat(sDialogText, "{ADBEE6}Conforme você vai cumprindo serviços você irá subindo de cargo, liberando novos aviões e mais recompensa pelos serviços.\n");
     		strcat(sDialogText, "{ADBEE6}Para trabalhar neste emprego você precisa possuir habilitação para aviões.\n\n");
 
-    		strcat(sDialogText, "{FF1A1A}Contrato:\n");
-    		if(IsPlayerDonator(playerid)) strcat(sDialogText, "{ADBEE6}Você terá de cumprir um contrato de 10 minutos antes de poder sair do emprego.");
-    		else strcat(sDialogText, "{ADBEE6}Você terá de cumprir um contrato de 1 hora antes de poder sair do emprego.");
             ShowPlayerDialog(playerid, DIALOG_PILOT_JOB, DIALOG_STYLE_MSGBOX, "Emprego: Piloto", sDialogText, "Aceitar", "Recusar");
         }
 		return 1;

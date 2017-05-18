@@ -73,8 +73,8 @@ hook OnGameModeInit()
 		mysql_log(LOG_ERROR | LOG_WARNING | LOG_DEBUG);
 	}
 
-	// Connecting to database
-	mysql = mysql_connect("127.0.0.1", "root", "pcrpg", "pcdev");
+	// Connecting to database (mysql.cfg usage not working for a while)
+	mysql = mysql_connect("127.0.0.1", "root", "pcrpg", "mgtabocvxz");
 
 	// If mysql information is wrong
 	if(mysql_errno(mysql) != 0)

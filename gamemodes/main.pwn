@@ -20,7 +20,7 @@
 // Script versioning
 #define SCRIPT_VERSION_MAJOR							"0"
 #define SCRIPT_VERSION_MINOR							"2"
-#define SCRIPT_VERSION_PATCH							".41"
+#define SCRIPT_VERSION_PATCH							".42"
 #define SCRIPT_VERSION_NAME								"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -96,6 +96,7 @@
 //------------------------------------------------------------------------------
 
 // Libraries
+#include <crashdetect>
 #include <a_mysql>
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
@@ -192,7 +193,7 @@ new	Iterator:Business<MAX_HOUSES>;
 
 /* Server - Required to be at the top*/
 #include "../modules/data/connection.pwn"
-#include "../modules/anticheater/anticheater.pwn"
+//#include "../modules/anticheater/anticheater.pwn"
 
 /* Data */
 
@@ -301,7 +302,8 @@ new	Iterator:Business<MAX_HOUSES>;
 
 /* Gangs */
 #include "../modules/gangs/gangs.pwn"
-#include "../modules/gangs/gangcommands.pwn"
+#include "../modules/gangs/data.pwn"
+#include "../modules/gangs/commands.pwn"
 
 
 /* Missions */
@@ -321,7 +323,7 @@ new	Iterator:Business<MAX_HOUSES>;
 
 /* Server */
 #include "../modules/server/rcon.pwn"
-
+//#include <nex-ac>
 
 //------------------------------------------------------------------------------
 

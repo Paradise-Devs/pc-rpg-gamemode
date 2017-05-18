@@ -151,9 +151,9 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if((newkeys == KEY_YES) && IsPlayerInRangeOfPoint(playerid, 3.0, 1183.1554, -1313.3402, 13.5681))
 	{
-        if(GetPlayerLevel(playerid) < 2)
+        if(GetPlayerLevel(playerid) < 3)
         {
-            SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ser nível 2.");
+            SendClientMessage(playerid, COLOR_ERROR, "* Você precisa ser nível 3.");
         }
         else
         {

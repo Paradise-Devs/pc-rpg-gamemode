@@ -194,7 +194,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             {
                 if(listitem == 0)
                 {
-                    SendClientMessage(playerid, COLOR_SPECIAL, "* Siga os checkpoints e concerte os caixas eletrônicos.");
+                    SendClientMessage(playerid, COLOR_SPECIAL, "* Siga os checkpoints e conserte os caixas eletrônicos.");
                     new rand = random(sizeof(g_fCarSpawns));
                     gplCar[playerid] = CreateVehicle(g_nCarModel, g_fCarSpawns[rand][0], g_fCarSpawns[rand][1], g_fCarSpawns[rand][2], g_fCarSpawns[rand][3], 1, 3, -1);
                     PutPlayerInVehicle(playerid, gplCar[playerid], 0);
@@ -236,6 +236,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             DestroyVehicle(gplCar[playerid]);
             gplCar[playerid] = INVALID_VEHICLE_ID;
             gplCurrentSC[playerid] = 0;
+            g_isOnDuty[playerid] = false;
 
             if(gplObject[playerid] != INVALID_OBJECT_ID)
                 DestroyDynamicObject(gplObject[playerid]), gplObject[playerid] = INVALID_OBJECT_ID;
@@ -263,8 +264,8 @@ hook OnPlayerEnterRaceCPT(playerid)
             {
                 SetPlayerRaceCheckpoint(playerid, 2, g_fAtmCheckpoints[i][0], g_fAtmCheckpoints[i][1], g_fAtmCheckpoints[i][2], 0.0, 0.0, 0.0, 1.0);
                 ApplyAnimation(playerid, "INT_SHOP", "SHOP_LOOP", 4.1, 1, 1, 1, 0, 0, 1);
-                GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~g~concertando...", 5000, 3);
-                SendClientMessage(playerid, COLOR_TITLE, "* Volte para a empresa para receber.");
+                GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~b~Realizando reparos...", 5000, 3);
+                if(g_fAtmCheckpoints[i][0] == 0.0 && g_fAtmCheckpoints[i][1] == 0.0) SendClientMessage(playerid, COLOR_TITLE, "* Você concluiu o trabalho, volte para a empresa para receber.");
                 defer Fix(playerid, i);
             }
         }
@@ -274,7 +275,7 @@ hook OnPlayerEnterRaceCPT(playerid)
             {
                 SetPlayerRaceCheckpoint(playerid, 2, g_fAtmCheckpoints[i][0], g_fAtmCheckpoints[i][1], g_fAtmCheckpoints[i][2], 0.0, 0.0, 0.0, 1.0);
                 ApplyAnimation(playerid, "INT_SHOP", "SHOP_LOOP", 4.1, 1, 1, 1, 0, 0, 1);
-                GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~g~concertando...", 5000, 3);
+                GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~b~Realizando reparos...", 5000, 3);
 
                 defer Fix(playerid, i);
             }

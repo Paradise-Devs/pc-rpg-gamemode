@@ -107,7 +107,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				case 2:
 					ShowPlayerDialog(playerid, DIALOG_GPS_HOUSES, DIALOG_STYLE_LIST, "GPS -> Casa", "1.\tA venda\n2.\tQualquer", "Marcar", "Voltar");
 				case 3:
-					ShowPlayerDialog(playerid, DIALOG_GPS_JOBS, DIALOG_STYLE_TABLIST_HEADERS, "GPS -> Empregos", "\tNº\tEmprego\tNível\n1.\tPizzaboy\t1\n2.\tMotorista\t1\n3.\tNavegador\t2\n4.\tPiloto\t2\n5.\tLimpador de rua\t1\n6.\tLixeiro\t1\n7.\tCaminhoneiro\t2\n8.\tParamedico\t3\n9.\tLenhador\t1\n10.\tPescador\t2", "Marcar", "Voltar");
+					ShowPlayerDialog(playerid, DIALOG_GPS_JOBS, DIALOG_STYLE_TABLIST_HEADERS, "GPS -> Empregos", "\tNº\tEmprego\tNível\n1.\tPizzaboy\t1\n2.\tMotorista\t1\n3.\tNavegador\t2\n4.\tPiloto\t2\n5.\tLixeiro\t1\n6.\tCaminhoneiro\t2\n7.\tParamedico\t3\n8.\tLenhador\t1\n9.\tPescador\t2\n10.\tTécnico\t1", "Marcar", "Voltar");
 			}
 		}
 		case DIALOG_GPS_JOBS:
@@ -147,40 +147,40 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 }
 				case 4:
                 {
-					SetPlayerRaceCheckpoint(playerid, 2, 1628.6396, -1885.5317, 13.5535, 0.0, 0.0, 0.0, 1.0);
-                    SetPlayerCPID(playerid, CHECKPOINT_GPS);
-					ShowPlayerLocationFromGPS(playerid, 1628.6396, -1885.5317, 13.5535);
-                }
-				case 5:
-                {
 					SetPlayerRaceCheckpoint(playerid, 2, 2195.4722, -1973.8459, 13.5590, 0.0, 0.0, 0.0, 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_GPS);
 					ShowPlayerLocationFromGPS(playerid, 2195.4722, -1973.8459, 13.5590);
                 }
-				case 6:
+				case 5:
                 {
 					SetPlayerRaceCheckpoint(playerid, 2, 2442.5039, -2110.0667, 13.5530, 0.0, 0.0, 0.0, 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_GPS);
 					ShowPlayerLocationFromGPS(playerid, 2442.5039, -2110.0667, 13.5530);
                 }
-				case 7:
+				case 6:
                 {
 					SetPlayerRaceCheckpoint(playerid, 2, 1183.1554, -1313.3402, 13.5681, 0.0, 0.0, 0.0, 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_GPS);
 					ShowPlayerLocationFromGPS(playerid, 1183.1554, -1313.3402, 13.5681);
                 }
-				case 8:
+				case 7:
                 {
 					SetPlayerRaceCheckpoint(playerid, 2, -77.3012, -1136.5502, 1.0781, 0.0, 0.0, 0.0, 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_GPS);
 					ShowPlayerLocationFromGPS(playerid, -77.3012, -1136.5502, 1.0781);
                 }
-				case 9:
+				case 8:
                 {
 					SetPlayerRaceCheckpoint(playerid, 2, 391.8892, -2050.9883, 7.8359, 0.0, 0.0, 0.0, 1.0);
                     SetPlayerCPID(playerid, CHECKPOINT_GPS);
 					ShowPlayerLocationFromGPS(playerid, 391.8892, -2050.9883, 7.8359);
                 }
+				case 9:
+				{
+					SetPlayerRaceCheckpoint(playerid, 2, 2700.3381, -1964.1322, 13.5469, 0.0, 0.0, 0.0, 1.0);
+                    SetPlayerCPID(playerid, CHECKPOINT_GPS);
+					ShowPlayerLocationFromGPS(playerid, 2700.3381, -1964.1322, 13.5469);
+				}
 			}
 		}
 		case DIALOG_GPS_INTEREST:

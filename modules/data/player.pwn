@@ -129,7 +129,6 @@ enum e_player_idata
     e_player_walkietalkie
 }
 static gPlayerItemData[MAX_PLAYERS][e_player_idata];
-
 //------------------------------------------------------------------------------
 
 static bool:gIsPlayerLogged[MAX_PLAYERS];
@@ -773,6 +772,15 @@ SavePlayerAccount(playerid)
         return 0;
 
     new Float:x, Float:y, Float:z, Float:a, interior, world;
+    if(IsPlayerInDriveSchool(playerid))
+    {
+        x = -2029.8218;
+        y = -119.1891;
+        z = 1035.1719;
+        a = 0.0;
+        world = 0;
+        interior = 3;
+    }
     if(IsPlayerBrowsingDealership(playerid))
     {
         world = 0;
@@ -856,7 +864,7 @@ SavePlayerAccount(playerid)
     WHERE `user_id`=%d",
     x, y, z, a, interior, world, GetPlayerSpawnPosition(playerid),
     GetPlayerRank(playerid), rankname, gPlayerCharacterData[playerid][e_player_skin], gPlayerCharacterData[playerid][e_player_faction], gPlayerCharacterData[playerid][e_player_frank],
-    gPlayerCharacterData[playerid][e_player_gender], GetPlayerCash(playerid), gPlayerCharacterData[playerid][e_player_bank], gPlayerCharacterData[playerid][e_player_baccount],
+    GetPlayerGender(playerid), GetPlayerCash(playerid), gPlayerCharacterData[playerid][e_player_bank], gPlayerCharacterData[playerid][e_player_baccount],
     GetPlayerHospitalTime(playerid), health, armour,
     GetPlayerIPf(playerid), gettime(), gPlayerAccountData[playerid][e_player_playedtime],
     GetPlayerAchievements(playerid), gPlayerCharacterData[playerid][e_player_ticket],
@@ -906,9 +914,10 @@ public OnAccountRegister(playerid)
     SetPlayerVirtualWorld(playerid, START_VW);
     SetSpawnInfo(playerid, 255, (!gPlayerGender[playerid]) ? 299 : 298, START_X, START_Y, START_Z, START_A, 0, 0, 0, 0, 0, 0);
     ShowTutorialForPlayer(playerid);
+    gPlayerCharacterData[playerid][e_player_gender] = gPlayerGender[playerid];
 
     new query[250];
-    mysql_format(mysql, query, sizeof(query), "INSERT INTO players (user_id, x, y, z, a, gender) VALUES (%d, %.2f, %.2f, %.2f, %.2f, %d)", gPlayerAccountData[playerid][e_player_database_id], START_X, START_Y, START_Z, START_A, gPlayerGender[playerid]);
+    mysql_format(mysql, query, sizeof(query), "INSERT INTO players (user_id, x, y, z, a, gender, skin) VALUES (%d, %.2f, %.2f, %.2f, %.2f, %d, %d)", gPlayerAccountData[playerid][e_player_database_id], START_X, START_Y, START_Z, START_A, (!gPlayerCharacterData[playerid][e_player_gender]) ? 299 : 298, gPlayerCharacterData[playerid][e_player_gender]);
     mysql_tquery(mysql, query);
 
     new playerName[MAX_PLAYER_NAME];

@@ -5,7 +5,6 @@
 *
 *           Copyright Paradise Devs 2015.  All rights reserved.
 * *************************************************************************** */
-#define DIALOG_CHOOSE_GANGNAME 6052
 
 new Text:GangMenuText[74];
 new PlayerText:GangMenuPlayerText[MAX_PLAYERS][14];
@@ -1267,7 +1266,7 @@ stock HidePlayerGangMenu(playerid)
 
 hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
-    if(playertextid == GangMenuPlayerText[playerid][0]) return ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGNAME, DIALOG_STYLE_INPUT, "{FFCC00}Qual será o nome de sua gangue?", "Insira um nome válido para sua gangue.\nCaracteres Permitidos:\n *Alfanumericos: A-Z, a-z e 0-9\n *Minimo de 6 caracteres\n  *Máximo de 24 caracteres\n *No máximo 2 underlines", "Pronto", "Voltar");
+    if(playertextid == GangMenuPlayerText[playerid][0]) return ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGNAME, DIALOG_STYLE_INPUT, "{FFCC00}Qual será o nome de sua gangue?", "Insira um nome válido para sua gangue.\nCaracteres Permitidos:\n *Alfanumericos: A-Z, a-z e 0-9\n *Minimo de 6 caracteres\n  *Máximo de 18 caracteres\n *No máximo 2 underlines", "Pronto", "Voltar");
 
     for(new i = 1; i <= 10; i++)
     {
@@ -1295,6 +1294,21 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
 
     if(clickedid == GangMenuText[73]) return OnGangMenuResponse(playerid, "", -1, "", false);
+
+    if(clickedid == GangMenuPlayerText[playerid][11])
+    {
+        new strPlayers[512];
+        foreach(new p: Player)
+        {
+            if(GetPlayerGang(p) == INVALID_GANG_ID)
+            {
+                new strname[24];
+                GetPlayerName(p, strname, 24);
+                strcat(strPlayers, strname)
+            }
+        }
+        ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGMEMBER1, DIALOG_STYLE_LIST, "{FFCC00}Escolha um membro", info[], "Convidar", "Cancelar");
+    }
     return 1;
 }
 
@@ -1304,7 +1318,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     {
         if(response)
         {
-            if(!OnlyAlphaNumericCharacters(inputtext)) return ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGNAME, DIALOG_STYLE_INPUT, "{FFCC00}Qual será o nome de sua gangue?", "Insira um nome válido para sua gangue.\nCaracteres Permitidos:\n {FF0000}*Alfanumericos: A-Z, a-z e 0-9\n *Minimo de 6 caracteres\n  *Máximo de 24 caracteres\n *No máximo 2 underlines", "Pronto", "Voltar");
+            if(!OnlyAlphaNumericCharacters(inputtext)) return ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGNAME, DIALOG_STYLE_INPUT, "{FFCC00}Qual será o nome de sua gangue?", "Insira um nome válido para sua gangue.\nCaracteres Permitidos:\n {FF0000}*Alfanumericos: A-Z, a-z e 0-9\n *Minimo de 6 caracteres\n  *Máximo de 18 caracteres\n *No máximo 2 underlines", "Pronto", "Voltar");
             PlayerTextDrawSetString(playerid, GangMenuPlayerText[playerid][0], inputtext);
             SetPlayerGangMenuName(playerid, inputtext);
         }

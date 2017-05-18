@@ -378,7 +378,7 @@ VSL_ShowPlayerTextdraw(playerid)
     PlayerTextDrawSetShadow(playerid, gptLogin[playerid][25], 0);
 
     new gps = GetPlayerGPS(playerid);
-    gptLogin[playerid][26] = CreatePlayerTextDraw(playerid, 160.199981, 285.240417, (gps) ? "Sim" : "Nao");
+    gptLogin[playerid][26] = CreatePlayerTextDraw(playerid, 160.199981, 285.240417, gps != 0 ? "Sim" : "Nao");
     PlayerTextDrawLetterSize(playerid, gptLogin[playerid][26], 0.139666, 0.687407);
     PlayerTextDrawAlignment(playerid, gptLogin[playerid][26], 3);
     PlayerTextDrawColor(playerid, gptLogin[playerid][26], (gps) ? 16711935 : 0xf62a2aff);
