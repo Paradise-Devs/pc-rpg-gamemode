@@ -17,8 +17,14 @@
 *pawncc.exe
 *pawnc.pdb
 *pawnc.dll
+*pawnc.lib
 *pawncc.pdb
 *pawndisasm.pdb
 *samp03svr
 *samp-npc
 *announce
+
+# Folders #
+###################
+compiler
+*.vscode

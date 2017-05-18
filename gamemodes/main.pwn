@@ -246,6 +246,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/gameplay/prision.pwn"
 #include "../modules/gameplay/rentbike.pwn"
 #include "../modules/gameplay/anims.pwn"
+#include "../modules/gameplay/pursuit.pwn"
 
 /* Player */
 #include "../modules/player/achievement.pwn"
@@ -277,6 +278,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/visual/licenses.pwn"
 #include "../modules/visual/xpbar.pwn"
 #include "../modules/visual/gang.pwn"
+#include "../modules/visual/pursuit.pwn"
 
 /* NPCs */
 #include "../modules/npcs/actors.pwn"
