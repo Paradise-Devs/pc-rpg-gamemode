@@ -33,6 +33,8 @@ enum e_WORLD_ZONE
 }
 static g_WorldZoneId[e_WORLD_ZONE];
 
+static Timer:g_pPursuitTimer[MAX_PLAYERS] = {Timer:-1, ...};
+
 //------------------------------------------------------------------------------
 
 /***
@@ -65,7 +67,8 @@ stock IsPlayerInPursuit(playerid)
 stock GetPlayerPursuitTimef(playerid)
 {
 	new sPursuitTime[32];
-	format(sPursuitTime, 32, "%02d:%02d", GetPVarInt(playerid, "PursuitTime") / 60, GetPVarInt(playerid, "PursuitTime") % 60);
+	new time = GetPVarInt(playerid, "PursuitTime") / 10;
+	format(sPursuitTime, 32, "%02d:%02d", time / 60, time % 60);
 	return sPursuitTime;
 }
 
@@ -173,12 +176,7 @@ stock Float:GetPlayerPursuitValue(playerid)
 
 //------------------------------------------------------------------------------
 
-/*
-	Called every second
-*/
-
-forward OnPlayerPursuitUpdate(playerid);
-public OnPlayerPursuitUpdate(playerid)
+timer OnPlayerPursuitUpdate[100](playerid)
 {
 	// If player is not in a pursuit, do nothing
 	if(!IsPlayerInPursuit(playerid))
@@ -193,41 +191,41 @@ public OnPlayerPursuitUpdate(playerid)
 		if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) < 11.0 && GetPlayerPursuitValue(playerid) > 50)
 			SetPlayerPursuitValue(playerid, 50.0);
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) < 15.0 && GetPlayerPursuitValue(playerid) <= 50)
-			SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 3.0));
+			SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 0.9));
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) < 20.0 && GetPlayerPursuitValue(playerid) <= 50)
-			SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 2.0));
+			SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 0.6));
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) <= 25.0 && GetPlayerPursuitValue(playerid) <= 50)
-			SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 1.0));
+			SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 0.3));
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) <= 25.0 && GetPlayerPursuitValue(playerid) >= 50)
 		{
-			if(floatsub(GetPlayerPursuitValue(playerid), 8.0) < 50.0)
+			if(floatsub(GetPlayerPursuitValue(playerid), 1.0) < 50.0)
 				SetPlayerPursuitValue(playerid, 50.0);
 			else
-				SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 8.0));
+				SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 1.0));
 		}
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) > 25.0 && GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) < 35.0)
 		{
 			if(GetPlayerPursuitValue(playerid) > 50)
-				SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 5.0));
+				SetPlayerPursuitValue(playerid, floatsub(GetPlayerPursuitValue(playerid), 1.0));
 			else if(GetPlayerPursuitValue(playerid) < 50)
-				SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 5.0));
+				SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 0.3));
 			else if(GetPlayerPursuitValue(playerid) == 50)
-				SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 1.0));
+				SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 0.1));
 		}
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) > 250.0 && GetPlayerPursuitValue(playerid) < 100)
-			SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 100));
-		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) >= 35.0 && GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) < 45.0 && GetPlayerPursuitValue(playerid) >= 50)
 			SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 1.0));
+		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) >= 35.0 && GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) < 45.0 && GetPlayerPursuitValue(playerid) >= 50)
+			SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 0.1));
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) >= 45.0 && GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) < 55.0 && GetPlayerPursuitValue(playerid) >= 50)
-			SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 2.0));
+			SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 0.2));
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) >= 55.0 && GetPlayerPursuitValue(playerid) >= 50)
-			SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 3.0));
+			SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 0.3));
 		else if(GetPlayerDistanceFromPlayer(playerid, GetPlayerPursuitChaser(playerid)) >= 35.0 && GetPlayerPursuitValue(playerid) < 50)
 		{
-			if(floatadd(GetPlayerPursuitValue(playerid), 8.0) > 50.0)
+			if(floatadd(GetPlayerPursuitValue(playerid), 0.8) > 50.0)
 				SetPlayerPursuitValue(playerid, 50.0);
 			else
-				SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 8.0));
+				SetPlayerPursuitValue(playerid, floatadd(GetPlayerPursuitValue(playerid), 0.8));
 		}
 		SetPlayerPursuitBar(playerid, GetPlayerPursuitValue(playerid));
 		SetPlayerPursuitTimeHUD(playerid, GetPlayerPursuitTimef(playerid));
@@ -277,7 +275,9 @@ public OnPlayerEscapePursuit(playerid)
 	{
 		if(GetPlayerPursuitTarget(i) == playerid)
 		{
-			SendClientMessage(i, 0x14cfbbff, "(!) O fugitivo escapou da perseguição!");
+			stop g_pPursuitTimer[i];
+			g_pPursuitTimer[i] = Timer:-1;
+			SendClientMessage(i, 0x14cfbbff, "* O fugitivo escapou da perseguição!");
 			HidePlayerPursuitHUD(i);
 			StopAudioStreamForPlayer(i);
 			GangZoneHideForPlayer(i, g_WorldZoneId[e_WORLD_ZONE_PURSUIT]);
@@ -289,7 +289,10 @@ public OnPlayerEscapePursuit(playerid)
 		}
 	}
 
-	SendClientMessage(playerid, 0x14cfbbff, "(!) Você escapou da perseguição!");
+	stop g_pPursuitTimer[playerid];
+	g_pPursuitTimer[playerid] = Timer:-1;
+
+	SendClientMessage(playerid, 0x14cfbbff, "* Você escapou da perseguição!");
 	HidePlayerPursuitHUD(playerid);
 	GangZoneHideForPlayer(playerid, g_WorldZoneId[e_WORLD_ZONE_PURSUIT]);
 	StopAudioStreamForPlayer(playerid);
@@ -321,11 +324,13 @@ public OnPlayerArrestedPursuit(playerid)
 	{
 		if(GetPlayerPursuitTarget(i) == playerid)
 		{
-			SendClientMessage(i, 0x14cfbbff, "(!) O fugitivo foi capturado!");
+			SendClientMessage(i, 0x14cfbbff, "* O fugitivo foi capturado!");
 
 			if(GetPlayerDistanceFromPlayer(playerid, i) < dist && GetPlayerState(i) == PLAYER_STATE_DRIVER) 
 				nearest = i;
 
+			stop g_pPursuitTimer[i];
+			g_pPursuitTimer[i] = Timer:-1;
 			HidePlayerPursuitHUD(i);
 			GangZoneHideForPlayer(i, g_WorldZoneId[e_WORLD_ZONE_PURSUIT]);
 			StopAudioStreamForPlayer(i);
@@ -337,7 +342,10 @@ public OnPlayerArrestedPursuit(playerid)
 		}
 	}
 
-	SendClientMessage(playerid, 0x14cfbbff, "(!) Você foi capturado pela policia!");
+	stop g_pPursuitTimer[playerid];
+	g_pPursuitTimer[playerid] = Timer:-1;
+
+	SendClientMessage(playerid, 0x14cfbbff, "* Você foi capturado pela policia!");
 
 	HidePlayerPursuitHUD(playerid);
 	StopAudioStreamForPlayer(playerid);
@@ -364,6 +372,36 @@ hook OnGameModeInit()
 
 //------------------------------------------------------------------------------
 
+hook OnPlayerDisconnect(playerid, reason)
+{
+	if(g_pPursuitTimer[playerid] != Timer:-1)
+	{
+		stop g_pPursuitTimer[playerid];
+		g_pPursuitTimer[playerid] = Timer:-1;
+
+		foreach(new i: Player)
+		{
+			if(GetPlayerPursuitTarget(i) == playerid)
+			{
+				stop g_pPursuitTimer[i];
+				g_pPursuitTimer[i] = Timer:-1;
+				
+				SendClientMessage(i, 0x14cfbbff, "* O fugitivo escapou da perseguição!");
+				HidePlayerPursuitHUD(i);
+				StopAudioStreamForPlayer(i);
+				GangZoneHideForPlayer(i, g_WorldZoneId[e_WORLD_ZONE_PURSUIT]);
+				DeletePVar(i, "PursuitValue");
+				DeletePVar(i, "PursuitTarget");
+				DeletePVar(i, "PursuitTime");
+				DeletePVar(i, "IsChased");
+				DeletePVar(i, "IsPInP");
+			}
+		}
+	}
+}
+
+//------------------------------------------------------------------------------
+
 /***
  *     ######   #######  ##     ## ##     ##    ###    ##    ## ########   ######  
  *    ##    ## ##     ## ###   ### ###   ###   ## ##   ###   ## ##     ## ##    ## 
@@ -382,9 +420,24 @@ hook OnGameModeInit()
 
 YCMD:perseguir(playerid, params[], help)
 {
+	if(GetFactionType(GetPlayerFactionID(playerid)) != FACTION_TYPE_POLICE)
+	 	return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+
+	else if(!IsPlayerOnDuty(playerid))
+	 	return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
+	
 	new targetid;
 	if(sscanf(params, "u", targetid))
 		return SendClientMessage(playerid, COLOR_INFO, "/perseguir [playerid]");
+	
+	else if(playerid == targetid)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode perseguir você mesmo.");
+	
+	else if(IsPlayerInVehicle(targetid, GetPlayerVehicleID(playerid)) && IsPlayerInAnyVehicle(playerid))
+		return SendClientMessage(playerid, COLOR_ERROR, "* O jogador já está em seu veículo.");
+	
+	else if(GetPlayerDistanceFromPlayer(playerid, targetid) > 350.0)
+		return SendClientMessage(playerid, COLOR_ERROR, "* Você está muito longe do jogador.");		
 
 	DeletePVar(targetid, "PursuitTarget");
 	DeletePVar(playerid, "IsChased");
@@ -412,25 +465,28 @@ YCMD:perseguir(playerid, params[], help)
 
 	switch(rand)
 	{
-		// case 0: {
-		// 	PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase.mp3");
-		// 	PlayAudioStreamForPlayer(targetid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase.mp3");
-		// }
-		// case 1: {
-		// 	PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase2.mp3");
-		// 	PlayAudioStreamForPlayer(targetid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase2.mp3");
-		// }
-		// case 2: {
-		// 	PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase3.mp3");
-		// 	PlayAudioStreamForPlayer(targetid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase3.mp3");
-		// }
-		// case 3: {
-		// 	PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase4.mp3");
-		// 	PlayAudioStreamForPlayer(targetid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase4.mp3");
-		// }
+		case 0: {
+			PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase.mp3");
+			PlayAudioStreamForPlayer(targetid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase.mp3");
+		}
+		case 1: {
+			PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase2.mp3");
+			PlayAudioStreamForPlayer(targetid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase2.mp3");
+		}
+		case 2: {
+			PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase3.mp3");
+			PlayAudioStreamForPlayer(targetid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase3.mp3");
+		}
+		case 3: {
+			PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase4.mp3");
+			PlayAudioStreamForPlayer(targetid, "https://dl.dropboxusercontent.com/u/70544925/pc/chase/chase4.mp3");
+		}
 	}
 
-	SendClientMessagef(playerid, COLOR_INFO, "* Você iniciou uma perseguição contra %s.", GetPlayerNamef(targetid));
-	SendClientMessagef(targetid, COLOR_INFO, "* O policial %s começou a perseguir você.", GetPlayerNamef(playerid));
+	SendClientMessagef(playerid, COLOR_YELLOW, "* Você iniciou uma perseguição contra %s.", GetPlayerNamef(targetid));
+	SendClientMessagef(targetid, COLOR_YELLOW, "* O policial %s começou a perseguir você.", GetPlayerNamef(playerid));
+
+	g_pPursuitTimer[playerid] = repeat OnPlayerPursuitUpdate(playerid);
+	g_pPursuitTimer[targetid] = repeat OnPlayerPursuitUpdate(targetid);
 	return 1;
 }

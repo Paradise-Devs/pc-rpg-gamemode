@@ -98,7 +98,6 @@ ptask UpdatePlayerData[1000](playerid)
 	}
 
 	SetPlayerPlayedTime(playerid, GetPlayerPlayedTime(playerid) + 1);
-	OnPlayerPursuitUpdate(playerid);
 	UpdatePlayerGPS(playerid);
     return 1;
 }
