@@ -320,6 +320,97 @@ hook OnPlayerConnect(playerid)
 
 //------------------------------------------------------------------------------
 
+hook OnPlayerDeath(playerid, killerid, reason)
+{
+	if(IsPlayerGivingBlowJob(playerid))
+	{
+		new targetid = GetPlayerBlowJobReceiverID(playerid);
+
+		// ApplyAnimation(playerid, "BLOWJOBZ", "BJ_STAND_END_W", 4.1, 0, 1, 1, 0, 0, 1);
+		ApplyAnimation(targetid, "BLOWJOBZ", "BJ_STAND_END_P", 4.1, 0, 1, 1, 0, 0, 1);
+
+		ResetPlayerBlowJobData(playerid);
+		ResetPlayerBlowJobData(targetid);
+
+		if(!GetPlayerAchievement(playerid, ACHIEVEMENT_BLOWJOB))
+			SetPlayerAchievement(playerid, ACHIEVEMENT_BLOWJOB, true);
+
+		if(g_p_blowjob_counter[playerid] > 9)
+		{
+			PlayerPlaySound(playerid, 31401, 0.0, 0.0, 0.0);
+			PlayerPlaySound(targetid, 31401, 0.0, 0.0, 0.0);
+		}
+		g_p_blowjob_counter[playerid] = 0;
+	}
+	else if(IsPlayerGettingBlowJob(playerid))
+	{
+		new targetid = GetPlayerBlowJobOffererID(playerid);
+
+		// ApplyAnimation(playerid, "BLOWJOBZ", "BJ_STAND_END_P", 4.1, 0, 1, 1, 0, 0, 1);
+		ApplyAnimation(targetid, "BLOWJOBZ", "BJ_STAND_END_W", 4.1, 0, 1, 1, 0, 0, 1);
+
+		if(!GetPlayerAchievement(targetid, ACHIEVEMENT_BLOWJOB))
+			SetPlayerAchievement(targetid, ACHIEVEMENT_BLOWJOB, true);
+
+		ResetPlayerBlowJobData(playerid);
+		ResetPlayerBlowJobData(targetid);
+
+		if(g_p_blowjob_counter[targetid] > 9)
+		{
+			PlayerPlaySound(playerid, 31401, 0.0, 0.0, 0.0);
+			PlayerPlaySound(targetid, 31401, 0.0, 0.0, 0.0);
+		}
+		g_p_blowjob_counter[targetid] = 0;
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+	if(IsPlayerGivingBlowJob(playerid))
+	{
+		new targetid = GetPlayerBlowJobReceiverID(playerid);
+
+		ApplyAnimation(playerid, "BLOWJOBZ", "BJ_STAND_END_W", 4.1, 0, 1, 1, 0, 0, 1);
+		ApplyAnimation(targetid, "BLOWJOBZ", "BJ_STAND_END_P", 4.1, 0, 1, 1, 0, 0, 1);
+
+		ResetPlayerBlowJobData(playerid);
+		ResetPlayerBlowJobData(targetid);
+
+		if(g_p_blowjob_counter[playerid] > 9)
+		{
+			PlayerPlaySound(playerid, 31401, 0.0, 0.0, 0.0);
+			PlayerPlaySound(targetid, 31401, 0.0, 0.0, 0.0);
+		}
+		g_p_blowjob_counter[playerid] = 0;
+	}
+	else if(IsPlayerGettingBlowJob(playerid))
+	{
+		new targetid = GetPlayerBlowJobOffererID(playerid);
+
+		ApplyAnimation(playerid, "BLOWJOBZ", "BJ_STAND_END_P", 4.1, 0, 1, 1, 0, 0, 1);
+		ApplyAnimation(targetid, "BLOWJOBZ", "BJ_STAND_END_W", 4.1, 0, 1, 1, 0, 0, 1);
+
+		if(!GetPlayerAchievement(targetid, ACHIEVEMENT_BLOWJOB))
+			SetPlayerAchievement(targetid, ACHIEVEMENT_BLOWJOB, true);
+
+		ResetPlayerBlowJobData(playerid);
+		ResetPlayerBlowJobData(targetid);
+
+		if(g_p_blowjob_counter[targetid] > 9)
+		{
+			PlayerPlaySound(playerid, 31401, 0.0, 0.0, 0.0);
+			PlayerPlaySound(targetid, 31401, 0.0, 0.0, 0.0);
+		}
+		g_p_blowjob_counter[targetid] = 0;
+	}
+	return 1;
+}
+
+//------------------------------------------------------------------------------
+
 /*
 	Called when a the blowjob starts
 		playerid - ID of the player
