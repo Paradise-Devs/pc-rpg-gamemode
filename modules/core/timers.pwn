@@ -98,6 +98,7 @@ ptask UpdatePlayerData[1000](playerid)
 	}
 
 	SetPlayerPlayedTime(playerid, GetPlayerPlayedTime(playerid) + 1);
+	OnPlayerPursuitUpdate(playerid);
 	UpdatePlayerGPS(playerid);
     return 1;
 }
@@ -105,4 +106,11 @@ ptask UpdatePlayerData[1000](playerid)
 task OnServerUpdate[30000]()
 {
 	mysql_tquery(mysql, "UPDATE players SET login_expire = login_expire-1 WHERE login_expire > 0");
+}
+
+//------------------------------------------------------------------------------
+
+timer FadeInTimer[5000](playerid)
+{
+	FadeIn(playerid, 255);
 }
