@@ -256,11 +256,14 @@ YCMD:algemar(playerid, params[], help)
 
 YCMD:desalgemar(playerid, params[], help)
 {
-	if(GetFactionType(GetPlayerFactionID(playerid)) != FACTION_TYPE_POLICE)
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
+	if(GetPlayerRank(playerid) < PLAYER_RANK_PARADISER)
+	{
+		if(GetFactionType(GetPlayerFactionID(playerid)) != FACTION_TYPE_POLICE)
+			return SendClientMessage(playerid, COLOR_ERROR, "* Você não tem permissão.");
 
-	else if(!IsPlayerOnDuty(playerid))
-		return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
+		else if(!IsPlayerOnDuty(playerid))
+			return SendClientMessage(playerid, COLOR_ERROR, "* Você não está em serviço.");
+	}	
 
 	new targetid;
 	if(sscanf(params, "k<u>", targetid))
