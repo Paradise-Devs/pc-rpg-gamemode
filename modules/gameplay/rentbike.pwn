@@ -50,6 +50,7 @@ hook OnPlayerDisconnect(playerid, reason)
 
 hook OnPlayerDeath(playerid, killerid, reason)
 {
+    if(IsPlayerInPaintball(playerid)) return 1;
     if(g_PlayerBikeID[playerid] != INVALID_VEHICLE_ID)
     {
         new rand = random(sizeof(g_HospitalBikeSpawns));
