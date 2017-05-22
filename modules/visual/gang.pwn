@@ -1061,7 +1061,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][1], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][1], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][1], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][1], 221.000000,1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][1], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][1], 1);
 
     GangMenuPlayerText[playerid][2] = CreatePlayerTextDraw(playerid,280.000000, 240.000000, "_");
@@ -1075,7 +1075,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][2], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][2], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][2], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][2], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][2], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][2], 1);
 
     GangMenuPlayerText[playerid][3] = CreatePlayerTextDraw(playerid,350.000000, 240.000000, "_");
@@ -1089,7 +1089,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][3], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][3], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][3], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][3], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][3], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][3], 1);
 
     GangMenuPlayerText[playerid][4] = CreatePlayerTextDraw(playerid,421.000000, 240.000000, "_");
@@ -1103,7 +1103,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][4], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][4], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][4], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][4], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][4], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][4], 1);
 
     GangMenuPlayerText[playerid][5] = CreatePlayerTextDraw(playerid,491.000000, 240.000000, "_");
@@ -1117,7 +1117,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][5], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][5], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][5], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][5], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][5], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][5], 1);
 
     GangMenuPlayerText[playerid][6] = CreatePlayerTextDraw(playerid,210.000000, 303.000000, "_");
@@ -1131,7 +1131,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][6], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][6], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][6], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][6], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][6], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][6], 1);
 
     GangMenuPlayerText[playerid][7] = CreatePlayerTextDraw(playerid,280.000000, 303.000000, "_");
@@ -1145,7 +1145,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][7], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][7], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][7], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][7], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][7], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][7], 1);
 
     GangMenuPlayerText[playerid][8] = CreatePlayerTextDraw(playerid,350.000000, 303.000000, "_");
@@ -1159,7 +1159,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][8], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][8], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][8], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][8], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][8], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][8], 1);
 
     GangMenuPlayerText[playerid][9] = CreatePlayerTextDraw(playerid,421.000000, 303.000000, "_");
@@ -1173,7 +1173,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][9], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][9], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][9], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][9], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][9], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][9], 1);
 
     GangMenuPlayerText[playerid][10] = CreatePlayerTextDraw(playerid,491.000000, 303.000000, "_");
@@ -1187,10 +1187,10 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetShadow(playerid,GangMenuPlayerText[playerid][10], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][10], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][10], 842150655);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][10], 221.000000, 1.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][10], 221.000000, 7.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][10], 1);
 
-    GangMenuPlayerText[playerid][11] = CreatePlayerTextDraw(playerid,225.000000, 353.000000, "Nenhum Player Selecionado (ID: -1)");
+    GangMenuPlayerText[playerid][11] = CreatePlayerTextDraw(playerid,225.000000, 353.000000, "Clique para selecionar um  player...");
     PlayerTextDrawAlignment(playerid,GangMenuPlayerText[playerid][11], 2);
     PlayerTextDrawBackgroundColor(playerid,GangMenuPlayerText[playerid][11], 0);
     PlayerTextDrawFont(playerid,GangMenuPlayerText[playerid][11], 1);
@@ -1200,10 +1200,10 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetProportional(playerid,GangMenuPlayerText[playerid][11], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][11], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][11], 50);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][11], 1.000000, 150.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][11], 13.000000, 150.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][11], 1);
 
-    GangMenuPlayerText[playerid][12] = CreatePlayerTextDraw(playerid,226.000000, 370.000000, "Nenhum Player Selecionado");
+    GangMenuPlayerText[playerid][12] = CreatePlayerTextDraw(playerid,226.000000, 370.000000, "Clique para selecionar um  player...");
     PlayerTextDrawAlignment(playerid,GangMenuPlayerText[playerid][12], 2);
     PlayerTextDrawBackgroundColor(playerid,GangMenuPlayerText[playerid][12], 0);
     PlayerTextDrawFont(playerid,GangMenuPlayerText[playerid][12], 1);
@@ -1213,10 +1213,10 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetProportional(playerid,GangMenuPlayerText[playerid][12], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][12], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][12], 50);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][12], 1.000000, 150.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][12], 13.000000, 150.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][12], 1);
 
-    GangMenuPlayerText[playerid][13] = CreatePlayerTextDraw(playerid,227.000000, 386.000000, "Nenhum Player Selecionado");
+    GangMenuPlayerText[playerid][13] = CreatePlayerTextDraw(playerid,227.000000, 386.000000, "Clique para selecionar um player...");
     PlayerTextDrawAlignment(playerid,GangMenuPlayerText[playerid][13], 2);
     PlayerTextDrawBackgroundColor(playerid,GangMenuPlayerText[playerid][13], 0);
     PlayerTextDrawFont(playerid,GangMenuPlayerText[playerid][13], 1);
@@ -1226,7 +1226,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetProportional(playerid,GangMenuPlayerText[playerid][13], 1);
     PlayerTextDrawUseBox(playerid,GangMenuPlayerText[playerid][13], 1);
     PlayerTextDrawBoxColor(playerid,GangMenuPlayerText[playerid][13], 50);
-    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][13], 1.000000, 150.000000);
+    PlayerTextDrawTextSize(playerid,GangMenuPlayerText[playerid][13], 13.000000, 150.000000);
     PlayerTextDrawSetSelectable(playerid,GangMenuPlayerText[playerid][13], 1);
     return 1;
 }
@@ -1268,11 +1268,6 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
     if(playertextid == GangMenuPlayerText[playerid][0]) return ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGNAME, DIALOG_STYLE_INPUT, "{FFCC00}Qual será o nome de sua gangue?", "Insira um nome válido para sua gangue.\nCaracteres Permitidos:\n *Alfanumericos: A-Z, a-z e 0-9\n *Minimo de 6 caracteres\n  *Máximo de 18 caracteres\n *No máximo 2 underlines", "Pronto", "Voltar");
 
-    else if(playertextid == GangMenuPlayerText[playerid][11] || playertextid == GangMenuPlayerText[playerid][12] || playertextid == GangMenuPlayerText[playerid][13])
-    {
-        ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGMEMBER1, DIALOG_STYLE_LIST, "{FFCC00}Escolha um membro", "Teste", "Convidar", "Cancelar");
-        SendClientMessage(playerid, -1, "Playertext Debug");
-    }
     for(new i = 1; i < 10; i++)
     {
         if(playertextid == GangMenuPlayerText[playerid][i])
@@ -1291,7 +1286,100 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             break;
         }
     }
+    if(playertextid == GangMenuPlayerText[playerid][11])
+    {
+        ResetGangUsersList(playerid);
+        //clear list data
+        new strlist[512];
+        strlist = "\0";
 
+        foreach(new p : Player)
+        {
+            //skip himself and members of other gangs
+            if(p == playerid || GetPlayerGang(p) != INVALID) continue;
+
+            //extract player data
+            new usrName[24];
+            GetPlayerName(p, usrName, 24);
+            strcat(strlist, usrName);
+            strcat(strlist,  "\n");
+
+            //insert id into list
+            for(new x; x < 100; x++)
+            {
+                if(PlayerGangInvitationInfo[playerid][users_list][x] == INVALID)
+                {
+                    PlayerGangInvitationInfo[playerid][users_list][x] = p;
+                    x = 101;//stop loop
+                }
+            }
+        }
+
+        ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGMEMBER_1, DIALOG_STYLE_LIST, "{FFCC00}Escolha um membro", strlist, "Convidar", "Cancelar");
+
+    }
+    else if(playertextid == GangMenuPlayerText[playerid][12])
+    {
+        ResetGangUsersList(playerid);
+        //clear list data
+        new strlist[512];
+        strlist = "\0";
+
+        foreach(new p : Player)
+        {
+            //skip himself and members of other gangs
+            if(p == playerid || GetPlayerGang(p) != INVALID) continue;
+
+            //extract player data
+            new usrName[24];
+            GetPlayerName(p, usrName, 24);
+            strcat(strlist, usrName);
+            strcat(strlist,  "\n");
+
+            //insert id into list
+            for(new x; x < 100; x++)
+            {
+                if(PlayerGangInvitationInfo[playerid][users_list][x] == INVALID)
+                {
+                    PlayerGangInvitationInfo[playerid][users_list][x] = p;
+                    x = 101;//stop loop
+                }
+            }
+        }
+
+        ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGMEMBER_2, DIALOG_STYLE_LIST, "{FFCC00}Escolha um membro", strlist, "Convidar", "Cancelar");
+    }
+    else if(playertextid == GangMenuPlayerText[playerid][13])
+    {
+        ResetGangUsersList(playerid);
+        //clear list data
+        new strlist[512];
+        strlist = "\0";
+
+        foreach(new p : Player)
+        {
+            //skip himself and members of other gangs
+            if(p == playerid || GetPlayerGang(p) != INVALID) continue;
+
+            //extract player data
+            new usrName[24];
+            GetPlayerName(p, usrName, 24);
+            strcat(strlist, usrName);
+            strcat(strlist,  "\n");
+
+            //insert id into list
+            for(new x; x < 100; x++)
+            {
+                if(PlayerGangInvitationInfo[playerid][users_list][x] == INVALID)
+                {
+                    PlayerGangInvitationInfo[playerid][users_list][x] = p;
+                    x = 101;//stop loop
+                }
+            }
+        }
+
+        ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGMEMBER_3, DIALOG_STYLE_LIST, "{FFCC00}Escolha um membro", strlist, "Convidar", "Cancelar");
+    }
     return 1;
 }
 
@@ -1304,33 +1392,10 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
     return 1;
 }
 
-hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
+stock UpdatePlayerGangMenuName(playerid, ugname[])
 {
-    if(dialogid == DIALOG_CHOOSE_GANGNAME)
-    {
-        if(response)
-        {
-            if(!OnlyAlphaNumericCharacters(inputtext)) return ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGNAME, DIALOG_STYLE_INPUT, "{FFCC00}Qual será o nome de sua gangue?", "Insira um nome válido para sua gangue.\nCaracteres Permitidos:\n {FF0000}*Alfanumericos: A-Z, a-z e 0-9\n *Minimo de 6 caracteres\n  *Máximo de 18 caracteres\n *No máximo 2 underlines", "Pronto", "Voltar");
-            PlayerTextDrawSetString(playerid, GangMenuPlayerText[playerid][0], inputtext);
-            SetPlayerGangMenuName(playerid, inputtext);
-        }
-    }
+    PlayerTextDrawSetString(playerid, GangMenuPlayerText[playerid][0], ugname);
+    PlayerTextDrawSetSelectable(playerid, GangMenuPlayerText[playerid][0], true);
+    PlayerTextDrawShow(playerid, GangMenuPlayerText[playerid][0]);
     return 1;
-}
-
-stock OnlyAlphaNumericCharacters(const string[])
-{
-	new z = 0;
-    new c = 0;
-	for(new x, y = strlen(string); x != y; x++)
-	{
-	    if((string[x] >= 48 && string[x] <= 57) || (string[x] >= 65 && string[x] <= 90) || (string[x] >= 97 && string[x] <= 122) || (string[x] == 95))
-	    {
-			z++;
-            if(string[x] == 95) c++;
-
-		}
-	}
-	if(z == strlen(string) && c <= 2) return true;
-	else return false;
 }

@@ -19,8 +19,8 @@
 
 // Script versioning
 #define SCRIPT_VERSION_MAJOR							"0"
-#define SCRIPT_VERSION_MINOR							"2"
-#define SCRIPT_VERSION_PATCH							".45"
+#define SCRIPT_VERSION_MINOR							"3"
+#define SCRIPT_VERSION_PATCH							".0"
 #define SCRIPT_VERSION_NAME								"PC:RPG"
 
 //------------------------------------------------------------------------------
@@ -202,6 +202,7 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/data/vehicle.pwn"
 #include "../modules/data/faction.pwn"
 #include "../modules/data/player.pwn"
+#include "../modules/data/gang.pwn"
 
 /* Properties */
 #include "../modules/properties/vehicle.pwn"
@@ -306,7 +307,6 @@ new	Iterator:Business<MAX_HOUSES>;
 
 /* Gangs */
 #include "../modules/gangs/gangs.pwn"
-#include "../modules/gangs/data.pwn"
 #include "../modules/gangs/commands.pwn"
 
 

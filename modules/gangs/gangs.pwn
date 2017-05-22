@@ -1,167 +1,33 @@
 
 #include <YSI\y_hooks>
 
-#define MAX_GANGS 5000
-#define INVALID_GANG_ID -1
-
-
 forward OnGangMenuResponse(playerid, gangname[], gangid, gangmembers[], bool:response);
-forward OnSetPlayerGang(playerid, gang, chargerank);
-forward OnCreateGangForPlayer(playerid, member1, member2, member3);
 
-enum GangData
+hook OnGameModeInit()
 {
-    name[24],
-    description[256],
-    founder_id,
-    leader_id,
-    gang_color,
-    filliation,
-    gang_patrimony,
-    level,
-    symbol[64],
-    symbol_color,
-    created_at,
-    updated_at
-}
-static GangInfo[MAX_GANGS][GangData];
-
-enum PlayerGangData
-{
-    gang_id,
-    rank,
-    contribution,
-    reputation,
-    joined_at
-}
-static PlayerGangInfo[MAX_PLAYERS][PlayerGangData];
-
-//usado para criar gangs
-enum GangMenuData
-{
-    bool:in_gang_menu,
-    current_selection,
-    gang_name[24],
-    members[3]
-}
-new PlayerGangMenuInfo[MAX_PLAYERS][GangMenuData];
-
-
-enum
-{
-    GANG_GROVE = 0,
-    GANG_BALLAS = 1,
-    GANG_AZTECAS = 2,
-    GANG_VAGOS = 3,
-    GANG_RIFA = 4,
-    GANG_TRIADS = 5,
-    GANG_DA_NANG = 6,
-    GANG_RUSSIAN_MAFIA = 7,
-    GANG_ITALIAN_MAFIA = 8,
-    GANG_BIKERS = 9
-}
-
-new GangSkins[] =
-{
-    //grove street
-    { 105, 106, 107},
-    //ballas
-    { 102, 103, 104},
-    //aztecas
-    { 114, 115, 116},
-    //vagos
-    { 108, 109, 110},
-    //rifa
-    { 173, 174, 175},
-    //triads
-    { 117, 118, 120},
-    //da nang
-    { 121, 122, 123},
-    //russians
-    { 111, 112, 113},
-    //italians
-    { 124, 125, 126},
-    //bikers
-    { 247, 248, 254}
-};
-
-stock SetPlayerGang(playerid, gang, chargerank)
-{
-    static query[128];
-    mysql_format(mysql, query, sizeof(query), "DELETE FROM `gangs_members` WHERE `user_id` = '%d';", GetPlayerDatabaseID(playerid));
-    mysql_tquery(mysql, query, "", "");
-
-    mysql_format(mysql, query, sizeof(query), "INSERT INTO `gangs_members` VALUES('%d', '%d', '%d', '0', '0', '%d');", playerid, gang, chargerank, gettime());
-    mysql_tquery(mysql, query, "OnSetPlayerGang", "iii", playerid, gang, chargerank);
+    LoadGangs();
     return 1;
 }
 
-public OnSetPlayerGang(playerid, gang, chargerank)
+hook OnGameModeExit()
 {
-    static string[64];
-    format(string, sizeof(string), "Parabéns, você entrou para a gangue {%x}%s{FFFFFF}!", GetGangRawColor(GetGangFilliation(gang)), GetGangName(gang));
-    SendClientMessage(playerid, -1, string);
-    format(string, sizeof(string), "[{%x}Gangue{FFFFFF}] Seu cargo na gangue agora é: {%x}%s{FFFFFF}!", GetGangRawColor(GetGangFilliation(gang)),  GetGangRawColor(GetGangFilliation(gang)), GetGangRankName(chargerank));
+    SaveGangs();
     return 1;
 }
 
-IsPlayerInAnyGang(playerid)
+hook OnPlayerConnect(playerid)
 {
-    if(PlayerGangInfo[playerid][gang_id] != 0) return true;
-    return false;
+    ResetPlayerGangData(playerid);
+    ResetPlayerGangMenuData(playerid);
+    LoadPlayerGangData(playerid);
+    return 1;
 }
 
-stock GetGangFilliation(gangid)
+hook OnPlayerDisconnect(playerid, reason)
 {
-    return GangInfo[gangid][filliation];
-}
-
-stock GetGangName(gangid)
-{
-    return GangInfo[gangid][name];
-}
-
-stock GetGangRankName(chargerank)
-{
-    new str[32];
-    switch (chargerank)
-    {
-        case 5: format(str, 32, "novato");
-        case 4: format(str, 32,"membro");
-        case 3: format(str, 32,"veterano");
-        case 2: format(str, 32, "orgnizador");
-        case 1: format(str, 32,"administrador");
-        case 0: format(str, 32,"fundador");
-        default: format(str, 32,"desconhecido");
-    }
-    return str;
-}
-
-stock GetGangRawColor(gangtype)
-{
-    switch (gangtype)
-    {
-        case GANG_GROVE: return 0x079358;
-        case GANG_BALLAS: return 0x900493;
-        case GANG_AZTECAS: return 0xf4f909;
-        case GANG_VAGOS: return 0x06b3f4;
-        case GANG_RIFA: return 0x0afcee;
-        case GANG_TRIADS: return 0xb50510;
-        case GANG_DA_NANG: return 0xb1ab59;
-        case GANG_RUSSIAN_MAFIA: return 0x6a686b;
-        case GANG_ITALIAN_MAFIA: return 0x40863a;
-        case GANG_BIKERS: return 0x080990;
-        default: return 0x0;
-    }
-    return 0;
-}
-
-stock GetGangSkins(gangid, &skin, &skin1, &skin2)
-{
-    if(0 > gangid > 9) return 0;
-    skin = GangSkins[gangid][0];
-    skin1 = GangSkins[gangid][1];
-    skin2 = GangSkins[gangid][2];
+    SavePlayerGangData(playerid);
+    ResetPlayerGangData(playerid);
+    ResetPlayerGangMenuData(playerid);
     return 1;
 }
 
@@ -171,15 +37,127 @@ public OnGangMenuResponse(playerid, gangname[], gangid, gangmembers[], bool:resp
     return 1;
 }
 
-SetPlayerGangMenuState(playerid, bool:toggled = false)
+
+hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
-    if(toggled) PlayerGangMenuInfo[playerid][in_gang_menu] = true;
-    else PlayerGangMenuInfo[playerid][in_gang_menu] = false;
+    if(dialogid == DIALOG_CHOOSE_GANGNAME)
+    {
+        if(response)
+        {
+            if(!CheckGangName(inputtext)) return ShowPlayerDialog(playerid, DIALOG_CHOOSE_GANGNAME, DIALOG_STYLE_INPUT, "{FFCC00}Qual será o nome de sua gangue?", "Insira um nome válido para sua gangue.\nCaracteres Permitidos:\n {FF0000}*Alfanumericos: A-Z, a-z e 0-9\n *Minimo de 6 caracteres\n  *Máximo de 18 caracteres\n *No máximo 2 underlines", "Pronto", "Voltar");
+            SetPlayerGangMenuName(playerid, inputtext);
+        }
+    }
+    else if(dialogid == DIALOG_CHOOSE_GANGMEMBER_1)
+    {
+        new receiverid = PlayerGangInvitationInfo[playerid][users_list][listitem];
+        if(IsPlayerConnected(receiverid))
+        {
+            if(GetPlayerGang(receiverid) == INVALID)
+            {
+                SendGangInvite(playerid, receiverid, 0);
+            }
+            else
+            {
+                SendClientMessage(playerid, 0xFF0000FF, "* Este player já está em uma gangue!");
+            }
+        }
+        else
+        {
+            SendClientMessage(playerid, 0xFF0000FF, "* Este player não está conectado!");
+        }
+
+    }
+    else if(dialogid == DIALOG_CHOOSE_GANGMEMBER_2)
+    {
+        new receiverid = PlayerGangInvitationInfo[playerid][users_list][listitem];
+        if(IsPlayerConnected(receiverid))
+        {
+            if(GetPlayerGang(receiverid) == INVALID)
+            {
+                SendGangInvite(playerid, receiverid, 1);
+            }
+            else
+            {
+                SendClientMessage(playerid, 0xFF0000FF, "* Este player já está em uma gangue!");
+
+            }
+        }
+        else
+        {
+            SendClientMessage(playerid, 0xFF0000FF, "* Este player não está conectado!");
+        }
+    }
+    else if(dialogid == DIALOG_CHOOSE_GANGMEMBER_3)
+    {
+        new receiverid = PlayerGangInvitationInfo[playerid][users_list][listitem];
+        if(IsPlayerConnected(receiverid))
+        {
+            if(GetPlayerGang(receiverid) == INVALID)
+            {
+                SendGangInvite(playerid, receiverid, 2);
+            }
+            else
+            {
+                SendClientMessage(playerid, 0xFF0000FF, "* Este player já está em uma gangue!");
+            }
+        }
+        else
+        {
+            SendClientMessage(playerid, 0xFF0000FF, "* Este player não está conectado!");
+        }
+    }
     return 1;
 }
 
-SetPlayerGangMenuName(playerid, gname[])
+stock CheckGangName(const string[])
 {
-    format(PlayerGangMenuInfo[playerid][gang_name], 24, "%s", gname);
+	new z = 0;
+    new c = 0;
+	for(new x, y = strlen(string); x != y; x++)
+	{
+	    if((string[x] >= 48 && string[x] <= 57) || (string[x] >= 65 && string[x] <= 90) || (string[x] >= 97 && string[x] <= 122) || (string[x] == 95))
+	    {
+			z++;
+            if(string[x] == 95) c++;
+
+		}
+	}
+	if(z == strlen(string) && c <= 2) return true;
+	else return false;
+}
+
+
+
+
+/////// functions
+
+
+stock SendGangInvite(senderid, receiverid, slot)
+{
+    new sendername[24], invitemsg[256];
+    GetPlayerName(senderid, sendername, 24);
+
+    format(invitemsg, sizeof(invitemsg), "{ffcc00}[Convite]\n\n\nO usuário {FF0000}%s{FFFFFF} convidou você para participar da gangue {FF0000}%s!\n\n\nVocê aceita o convite? \
+    (Este convite expira em 1 minuto)", sendername, PlayerGangMenuInfo[senderid][g_name]);
+    //setup receiver vars
+    PlayerGangInvitationInfo[receiverid][sender_id] = senderid;
+    ShowPlayerDialog(receiverid, DIALOG_GANG_INVITE, DIALOG_STYLE_LIST, "Convite para juntar-se à gangue!", invitemsg, "Aceitar", "Recusar");
+
+    //setup sender vars
+    PlayerGangInvitationInfo[senderid][receiver_id][slot] = receiverid;
+    PlayerGangInvitationInfo[senderid][active_token][slot] = true;
+    PlayerGangInvitationInfo[senderid][invite_timer][slot] = SetTimerEx("ExpireGangInvite", 60000, false, "iii", senderid, receiverid, slot);
+    return 1;
+}
+
+stock ExpireGangInvite(senderid, receiverid, slot)
+{
+    new strinvite[128];
+    format(strinvite, sizeof(strinvite), "* O usuário não respondeu ao convite dentro do periodo estabelecido (slot %d), portanto o convite foi recusado automaticamente!", slot);
+    SendClientMessage(senderid, 0xFF0000FF, strinvite);
+    SendClientMessage(receiverid, 0xFF0000FF, "* Você não respondeu ao convite em 1 minuto, portanto ele expirou!");
+
+    ResetPlayerGangInvitationData(senderid, receiverid, slot);
     return 1;
 }
