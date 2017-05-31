@@ -124,6 +124,10 @@ YCMD:roubar(playerid, params[], help)
             targetid = i;
 
     // If no bodies was found
+
+    if(GetPlayerRank(targetid) > PLAYER_RANK_PARADISER)
+ 		return SendClientMessage(playerid, COLOR_ERROR, "* Você não pode saquear administradores.");
+
     if(targetid == INVALID_PLAYER_ID)
         return SendClientMessage(playerid, COLOR_ERROR, "* Você não está perto de nenhum cadaver.");
 

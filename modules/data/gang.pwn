@@ -37,11 +37,13 @@ enum PlayerGangData
 static PlayerGangInfo[MAX_PLAYERS][PlayerGangData];
 
 enum PlayerGangInvitationData{
-    invite_timer[3],
-    bool:active_token[3],
-    receiver_id[3],
+    invite_timer[4],
+    bool:active_token[4],
+    receiver_id[4],
     sender_id,
-    users_list[100]
+    users_list[100],
+    bool:accepted[4],
+    menu_slot
 }
 new PlayerGangInvitationInfo[MAX_PLAYERS][PlayerGangInvitationData];
 
@@ -52,7 +54,8 @@ enum GangMenuData
     bool:in_gang_menu,
     current_selection,
     g_name[24],
-    members[3]
+    members[3],
+    g_matrix
 }
 new PlayerGangMenuInfo[MAX_PLAYERS][GangMenuData];
 
@@ -99,7 +102,7 @@ static GangSkins[] =
 stock LoadPlayerGangData(playerid)
 {
     new query[128];
-    mysql_format(mysql, query, sizeof(query), "SELECT * FROM `gangs_members` WHERE `user_id` = '%d';", GetPlayerDatabaseID(playerid));
+    mysql_format(mysql, query, sizeof(query), "SELECT * FROM `gangs_members` WHERE `player_id` = '%d';", GetPlayerDatabaseID(playerid));
     mysql_tquery(mysql, query, "OnLoadPlayerGangData", "i", playerid);
     return 1;
 }
@@ -191,7 +194,9 @@ public OnGangLoad(gangid)
 public OnCreateGangForPlayer(playerid, member_1, member_2, member_3)
 {
     new gangid = cache_insert_id();
+
     LoadGang(gangid);
+
     SetPlayerGang(playerid, gangid, 0);
     SetPlayerGang(member_1, gangid, 5);
     SetPlayerGang(member_2, gangid, 5);
@@ -230,22 +235,22 @@ stock SetPlayerGangMenuSelection(playerid, selected_slot)
 
 stock SetPlayerGang(playerid, gang, charge)
 {
-    static query[128];
-    mysql_format(mysql, query, sizeof(query), "DELETE FROM `gangs_members` WHERE `user_id` = '%d';", GetPlayerDatabaseID(playerid));
+    static query[256];
+    mysql_format(mysql, query, sizeof(query), "DELETE FROM `gangs_members` WHERE `player_id` = '%d';", GetPlayerDatabaseID(playerid));
     mysql_tquery(mysql, query, "", "");
 
-    mysql_format(mysql, query, sizeof(query), "INSERT INTO `gangs_members` VALUES('%d', '%d', '%d', '0', '0', '%d');", GetPlayerDatabaseID(playerid), gang, charge, gettime());
+    mysql_format(mysql, query, sizeof(query), "INSERT INTO `gangs_members` (`player_id`, `gang_id`, `rank`, `contribution`, `reputation`, `joined_at`) VALUES('%d', '%d', '%d', '0', '0', '%d');", GetPlayerDatabaseID(playerid), gang, charge, gettime());
     mysql_tquery(mysql, query, "OnSetPlayerGang", "iii", playerid, gang, charge);
     return 1;
 }
 
 stock CreateGangForPlayer(playerid, gangname[], matrix, member[3])
 {
-    static query[128];
+    static query[512];
     mysql_format(mysql, query, sizeof(query), "INSERT INTO `gangs` (`name`, `description`, `founder_id`, `leader_id`, \
     `gang_color`, `filliation`, `gang_patrimony`, `level`, `symbol`, `symbol_color`, `created_at`, `updated_at`) \
-    VALUES('%s', 'Sem descrição', '%d', '-1', '%d', '%d', '5000', '1', 'defaut.png', '-1', '%d', '%d')", gangname,
-    GetPlayerDatabaseID(playerid), GetGangRawColor(matrix), matrix, gettime(), gettime());
+    VALUES('%s', 'Sem descrição', '%d', '%d', '%d', '%d', '5000', '1', 'defaut.png', '-1', '%d', '%d');", gangname,
+    GetPlayerDatabaseID(playerid), GetPlayerDatabaseID(member[0]), GetGangRawColor(matrix), matrix, gettime(), gettime());
     mysql_tquery(mysql, query, "OnCreateGangForPlayer", "iiii", playerid, member[0], member[1], member[2]);
 }
 
@@ -264,6 +269,8 @@ stock ResetPlayerGangInvitationData(senderid, receiverid, slot)
     //clean senderid slot
     KillTimer(PlayerGangInvitationInfo[senderid][invite_timer][slot]);
     PlayerGangInvitationInfo[senderid][active_token][slot] = false;
+    PlayerGangInvitationInfo[senderid][accepted][slot] = false;
+    PlayerGangInvitationInfo[receiverid][menu_slot] = 3;
 
     //clean receiverid
     PlayerGangInvitationInfo[receiverid][sender_id] = INVALID;
@@ -275,9 +282,17 @@ stock ResetPlayerGangInvitationData(senderid, receiverid, slot)
 stock ResetPlayerGangMenuData(playerid)
 {
     PlayerGangMenuInfo[playerid][in_gang_menu] = false;
+    PlayerGangMenuInfo[playerid][g_matrix] = INVALID;
     PlayerGangMenuInfo[playerid][current_selection] = INVALID;
     format(PlayerGangMenuInfo[playerid][g_name], 24, "");
     for(new x; x < 3; x++) PlayerGangMenuInfo[playerid][members][x] = INVALID;
+    return 1;
+}
+
+stock SetPlayerGangMenuMatrix(playerid, mtxid)
+{
+    if(0 > mtxid > 9) return SendClientMessage(playerid, -1, "* Filiação de gangue inválida, contate um administrador!");
+    PlayerGangMenuInfo[playerid][g_matrix] = mtxid;
     return 1;
 }
 
@@ -305,7 +320,7 @@ stock ResetGangData(gangid)
 }
 
 //Get Methods
-GetGangSkins(gangid, &skin, &skin1, &skin2)
+stock GetGangSkins(gangid, &skin, &skin1, &skin2)
 {
     if(0 > gangid > 9) return 0;
     skin = GangSkins[gangid][0];
@@ -367,5 +382,13 @@ GetPlayerGang(playerid)
 ResetGangUsersList(playerid)
 {
     for(new x; x < 100; x++) PlayerGangInvitationInfo[playerid][users_list][x] = INVALID;
+    return 1;
+}
+
+SetPlayerInGangMenu(senderid, receiverid, slot)
+{
+    if(slot > 2) return 0;
+    PlayerGangInvitationInfo[senderid][receiver_id][slot] = receiverid;
+    PlayerGangInvitationInfo[senderid][accepted][slot] = true;
     return 1;
 }
