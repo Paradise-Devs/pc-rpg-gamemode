@@ -1096,7 +1096,9 @@ public OnAccountLoad(playerid)
 
         ShowPlayerXPBar(playerid);
 
-        SetPlayerColor(playerid, 0xFFFFFFFF);
+
+        TogglePlayerGangColor(playerid, true);
+
         SetPlayerLogged(playerid, true);
 
         SendAdminMessage(PLAYER_RANK_PARADISER, 0x3A9BF4FF, "%s{FFFFFF} conectou-se ao servidor.", GetPlayerFirstName(playerid));

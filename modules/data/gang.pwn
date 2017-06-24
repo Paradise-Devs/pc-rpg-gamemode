@@ -114,6 +114,19 @@ stock LoadGangs()
     return 1;
 }
 
+TogglePlayerGangColor(playerid, bool:toggle)
+{
+    if(PlayerGangInfo[playerid][gang_id] == INVALID) return SetPlayerColor(playerid, 0xFFFFFFFF);
+    if(!toggle) return SetPlayerColor(playerid, 0xFFFFFFFF);
+    else
+    {
+        if(PlayerGangInfo[playerid][gang_id] != INVALID)
+        {
+            return SetPlayerColor(playerid, (GetGangRawColor(GetGangFilliation(PlayerGangInfo[playerid][gang_id])) << 8) | 0xFF);
+        }
+    }
+    return 0;
+}
 stock LoadGang(gangid)
 {
     new query[128];
@@ -124,8 +137,9 @@ stock LoadGang(gangid)
 
 stock SavePlayerGangData(playerid)
 {
-    new query[256];
-    mysql_format(mysql, query, sizeof(query), "UPDATE `gangs_members` SET `gang_id` = '%d', `rank` = '%d', `contribution` = '%d' \
+    if(PlayerGangInfo[playerid][gang_id] == INVALID) return 0;
+    new query[512];
+    mysql_format(mysql, query, sizeof(query), "UPDATE `gangs_members` SET `gang_id` = '%d', `rank` = '%d', `contribution` = '%d', \
     `reputation` = '%d', `joined_at` = '%d' WHERE `player_id` = '%d';", PlayerGangInfo[playerid][gang_id], PlayerGangInfo[playerid][gang_rank], PlayerGangInfo[playerid][contribution], PlayerGangInfo[playerid][reputation], PlayerGangInfo[playerid][joined_at], GetPlayerDatabaseID(playerid));
     mysql_tquery(mysql, query, "", "");
     return 1;
@@ -143,7 +157,7 @@ stock SaveGangs()
 
 stock SaveGang(gangid)
 {
-    new query[256];
+    new query[512];
     mysql_format(mysql, query, sizeof(query), "UPDATE `gangs` SET `name` = '%s', `description` = '%s', `founder_id` = '%d' \
     `leader_id` = '%d', `gang_color` = '%d', `filliation` = '%d', `gang_patrimony` = '%d', `g_level` = '%d', `symbol` = '%s' \
     `symbol_color` = '%d', `updated_at` = '%d' WHERE `id` = '%d';", GangInfo[gangid][gang_name], GangInfo[gangid][gang_description], GangInfo[gangid][founder_id], GangInfo[gangid][leader_id], GangInfo[gangid][gang_color], GangInfo[gangid][filliation], GangInfo[gangid][gang_patrimony], GangInfo[gangid][g_level], GangInfo[gangid][symbol], GangInfo[gangid][symbol_color], gettime(), gangid);
@@ -164,6 +178,14 @@ public OnLoadPlayerGangData(playerid)
         PlayerGangInfo[playerid][contribution] = cache_get_field_content_int(0, "contribution");
         PlayerGangInfo[playerid][reputation] = cache_get_field_content_int(0, "reputation");
         PlayerGangInfo[playerid][joined_at] = cache_get_field_content_int(0, "joined_at");
+    }
+    else
+    {
+        PlayerGangInfo[playerid][gang_id] = INVALID;
+        PlayerGangInfo[playerid][gang_rank] = INVALID;
+        PlayerGangInfo[playerid][contribution] = 0;
+        PlayerGangInfo[playerid][reputation] = 0;
+        PlayerGangInfo[playerid][joined_at] = 0;
     }
     return 1;
 }
@@ -198,18 +220,29 @@ public OnCreateGangForPlayer(playerid, member_1, member_2, member_3)
     LoadGang(gangid);
 
     SetPlayerGang(playerid, gangid, 0);
-    SetPlayerGang(member_1, gangid, 5);
-    SetPlayerGang(member_2, gangid, 5);
-    SetPlayerGang(member_3, gangid, 5);
+    SetPlayerGang(member_1, gangid, 1);
+    SetPlayerGang(member_2, gangid, 2);
+    SetPlayerGang(member_3, gangid, 3);
+    GivePlayerCash(playerid, -200000);
+
+    ResetPlayerGangInvitationData(playerid, member_1, 0);
+    ResetPlayerGangInvitationData(playerid, member_2, 1);
+    ResetPlayerGangInvitationData(playerid, member_3, 2);
+
+    ResetPlayerGangMenuData(playerid);
     return 1;
 }
 
 public OnSetPlayerGang(playerid, gang, charge)
 {
-    static string[64];
-    format(string, sizeof(string), "Parabéns, você entrou para a gangue {%x}%s{FFFFFF}!", GetGangRawColor(GetGangFilliation(gang)), GetGangName(gang));
+    static string[128];
+    format(string, sizeof(string), "Parabéns, você entrou para a gangue {FF0000}%s{FFFFFF}!", GetGangName(gang));
     SendClientMessage(playerid, -1, string);
-    format(string, sizeof(string), "[{%x}Gangue{FFFFFF}] Seu cargo na gangue agora é: {%x}%s{FFFFFF}!", GetGangRawColor(GetGangFilliation(gang)),  GetGangRawColor(GetGangFilliation(gang)), GetGangRankName(charge));
+
+    format(string, sizeof(string), "* Seu cargo na gangue agora é: {FF0000}%s{FFFFFF}!", GetGangRawColor(GetGangFilliation(gang)),  GetGangRankName(charge));
+    SendClientMessage(playerid, -1, string);
+
+    SetPlayerColor(playerid, (GetGangRawColor(GetGangFilliation(PlayerGangInfo[playerid][gang_id])) << 8) | 0xFF);
     return 1;
 }
 
@@ -278,14 +311,20 @@ stock ResetPlayerGangInvitationData(senderid, receiverid, slot)
     return 1;
 }
 
-
+stock ResetGangInvitationData(playerid)
+{
+    PlayerGangInvitationInfo[playerid][sender_id] = INVALID;
+    PlayerGangInvitationInfo[playerid][menu_slot] = 3;
+    return 1;
+}
 stock ResetPlayerGangMenuData(playerid)
 {
     PlayerGangMenuInfo[playerid][in_gang_menu] = false;
     PlayerGangMenuInfo[playerid][g_matrix] = INVALID;
     PlayerGangMenuInfo[playerid][current_selection] = INVALID;
     format(PlayerGangMenuInfo[playerid][g_name], 24, "");
-    for(new x; x < 3; x++) PlayerGangMenuInfo[playerid][members][x] = INVALID;
+    for(new x; x < 3; x++)
+        PlayerGangMenuInfo[playerid][members][x] = INVALID;
     return 1;
 }
 

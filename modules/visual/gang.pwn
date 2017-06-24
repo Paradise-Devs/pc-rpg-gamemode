@@ -1433,7 +1433,10 @@ stock UpdatePlayerGangMenuName(playerid, ugname[])
 
 stock LockInviteSlot(playerid, slot)
 {
-    SendClientMessage(playerid, -1, "* O slot foi bloqueado para novos convites até que se obtenha uma resposta do convidado!");
+    new strmsg[128];
+    format(strmsg, sizeof(strmsg), "* O slot {FF0000}%d{FFFFFF} do menu de criação de gangues foi {FF0000}bloqueado{FFFFFF} até que o convite seja respondido!");
+    SendClientMessage(playerid, -1, strmsg);
+
     PlayerTextDrawSetSelectable(playerid, GangMenuPlayerText[playerid][11 + slot], false);
     PlayerTextDrawShow(playerid, GangMenuPlayerText[playerid][11+slot]);
     return 1;
@@ -1441,7 +1444,10 @@ stock LockInviteSlot(playerid, slot)
 
 stock UnlockInviteSlot(playerid, slot)
 {
-    SendClientMessage(playerid, -1, "* O slot foi liberado para o envio de um novo convite");
+    new strmsg[128];
+    format(strmsg, sizeof(strmsg), "* O slot {00FF00}%d{FFFFFF} do menu de criação de gangues foi {00FF00}liberado{FFFFFF} para um novo convite!");
+    SendClientMessage(playerid, -1, strmsg);
+
     PlayerTextDrawSetSelectable(playerid, GangMenuPlayerText[playerid][11 + slot], true);
     PlayerTextDrawShow(playerid, GangMenuPlayerText[playerid][11+slot]);
     return 1;

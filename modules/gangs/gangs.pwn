@@ -9,6 +9,7 @@ forward ExpireGangInvite(senderid, receiverid, slot);
 ▒█░░░ █▄▄█ █░░ █░░ █▀▀▄ █▄▄█ █░░ █▀▄ ▀▀█
 ▒█▄▄█ ▀░░▀ ▀▀▀ ▀▀▀ ▀▀▀░ ▀░░▀ ▀▀▀ ▀░▀ ▀▀▀
 */
+
 hook OnGameModeInit()
 {
     LoadGangs();
@@ -25,11 +26,11 @@ hook OnPlayerConnect(playerid)
 {
     ResetPlayerGangData(playerid);
     ResetPlayerGangMenuData(playerid);
+    ResetGangInvitationData(playerid);
     LoadPlayerGangData(playerid);
+
     return 1;
 }
-
-
 
 hook OnPlayerDisconnect(playerid, reason)
 {
@@ -37,10 +38,10 @@ hook OnPlayerDisconnect(playerid, reason)
     ResetPlayerGangData(playerid);
     ResetPlayerGangMenuData(playerid);
 
-    if(PlayerGangInvitationInfo[playerid][sender_id] != INVALID)
-    {
-        new senderid = PlayerGangInvitationInfo[playerid][sender_id];
+    new senderid = PlayerGangInvitationInfo[playerid][sender_id];
 
+    if(senderid != INVALID)
+    {
         for(new x; x < 3; x++)
         {
             if(PlayerGangInvitationInfo[senderid][receiver_id][x] == playerid)
@@ -58,7 +59,7 @@ hook OnPlayerDisconnect(playerid, reason)
         if(receiverid != INVALID)
         {
             ResetPlayerGangInvitationData(playerid, receiverid, x);
-            SendClientMessage(receiverid, -1, "* Processo de criação de gangue cancelado pois o criador se desconectou!");
+            SendClientMessage(receiverid, COLOR_ERROR, "* Processo de criação de gangue cancelado pois o criador se desconectou!");
         }
     }
     return 1;
@@ -267,7 +268,7 @@ AcceptGangInvite(senderid, receiverid, slot)
 
     SetPlayerInGangMenu(senderid, receiverid, slot);
     SetPlayerInGangMenuLabel(senderid, receiverid, slot);
-    LockInviteSlot(senderid, slot);
+
     KillTimer(PlayerGangInvitationInfo[senderid][invite_timer][slot]);
     return 1;
 }
