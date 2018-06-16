@@ -5,7 +5,7 @@ Paradise City RPG é um gamemode para [San Andreas Multiplayer](http://sa-mp.com
 ## Configurando
 
 * Copie os arquivos do SA-MP server para a raiz do projeto.
-* Compile o arquivo [main.pwn](https://github.com/Wuzi/pc-rpg-gamemode/blob/master/gamemodes/main.pwn)¹²
+* Compile o arquivo [main.pwn](https://github.com/Wuzi/pc-rpg-gamemode/blob/master/gamemodes/main.pwn)¹², os [filterscripts](https://github.com/Wuzi/pc-rpg-gamemode/tree/master/filterscripts) e os [npcmodes](https://github.com/Wuzi/pc-rpg-gamemode/tree/master/npcmodes).
 * Edite as credenciais do arquivo [connection.pwn](https://github.com/Wuzi/pc-rpg-gamemode/blob/master/modules/data/connection.pwn).
 * Importe o arquivo [pcrpg.sql](https://github.com/Wuzi/pc-rpg-gamemode/blob/master/database/pcrpg.sql) no banco de dados.
 * Inicie o servidor.
