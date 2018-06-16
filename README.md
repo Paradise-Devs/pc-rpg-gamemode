@@ -1,17 +1,15 @@
 # Paradise City RPG (SA-MP)
 
-Paradise City RPG is a sa-mp server that gives the players an environment to interact with other people and create situations that could happen in real life to role play.
+Paradise City RPG é um gamemode para [San Andreas Multiplayer](http://sa-mp.com/) com o propósito de criar um ambiente onde jogadores possam interagir entre si e criar situações parecidas com a da vida real.
 
-Paradise City tries to innovate the style always giving the players   something to do in the game.
+## Configurando
 
-## Setting up
+* Copie os arquivos do SA-MP server para a raiz do projeto.
+* Compile o arquivo [main.pwn](https://github.com/Wuzi/pc-rpg-gamemode/blob/master/gamemodes/main.pwn)¹²
+* Edite as credenciais do arquivo [connection.pwn](https://github.com/Wuzi/pc-rpg-gamemode/blob/master/modules/data/connection.pwn).
+* Importe o arquivo [pcrpg.sql](https://github.com/Wuzi/pc-rpg-gamemode/blob/master/database/pcrpg.sql) no banco de dados.
+* Inicie o servidor.
 
-In order to start the server you need a configured mysql database.
+¹ Você precisará direcionar o compilador para utilizar a pasta includes ou apenas copie a pasta includes para a pasta de seu compilador.
 
-Import the pcrpg.sql database  in mysql server.
-
-Create a file called mysql.cfg in scriptfiles and type your credentials(follow the example found there).
-
-Then you are all set!
-
-Start sampserver.
+² É necessário utilizar [este compilador](https://github.com/pawn-lang/compiler) para compilar o gamemode.
