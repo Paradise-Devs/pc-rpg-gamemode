@@ -190,7 +190,6 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/def/missions.pwn"
 #include "../modules/def/statscol.pwn"
 #include "../modules/def/licenses.pwn"
-#include "../modules/def/gang.pwn"
 
 /* Server - Required to be at the top*/
 #include "../modules/data/connection.pwn"
@@ -278,7 +277,6 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/visual/boxing.pwn"
 #include "../modules/visual/licenses.pwn"
 #include "../modules/visual/xpbar.pwn"
-#include "../modules/visual/gang.pwn"
 #include "../modules/visual/pursuit.pwn"
 
 /* NPCs */
@@ -303,12 +301,6 @@ new	Iterator:Business<MAX_HOUSES>;
 #include "../modules/job/pizzaboy.pwn"
 #include "../modules/job/busdriver.pwn"
 #include "../modules/job/commands.pwn"
-
-/* Gangs */
-#include "../modules/gangs/gangs.pwn"
-#include "../modules/gangs/data.pwn"
-#include "../modules/gangs/commands.pwn"
-
 
 /* Missions */
 #include "../modules/missions/gta.pwn"
